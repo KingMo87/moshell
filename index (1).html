@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mukenge Linux Platform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #080c10;
+  --bg2:      #0d1117;
+  --bg3:      #111820;
+  --surface:  #141c24;
+  --surface2: #1a2433;
+  --border:   #1e2d3d;
+  --border2:  #253444;
+  --green:    #39d353;
+  --green2:   #2ea043;
+  --green-bg: #0a1f10;
+  --cyan:     #58c8e3;
+  --cyan-bg:  #071e26;
+  --amber:    #f0a84a;
+  --amber-bg: #1f1508;
+  --red:      #ff6b6b;
+  --red-bg:   #200a0a;
+  --purple:   #bc8cff;
+  --purple-bg:#160d23;
+  --blue:     #4da3ff;
+  --blue-bg:  #071428;
+  --text:     #e2e8f0;
+  --text2:    #8b9ab0;
+  --text3:    #4a5568;
+  --mono:     'IBM Plex Mono', monospace;
+  --sans:     'Space Grotesk', sans-serif;
+  --r:        8px;
+  --rl:       14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:14px;line-height:1.7;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--mono)}
+
+/* ═══ GRID BG ═══ */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(57,211,83,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(57,211,83,.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;z-index:0
+}
+
+/* ═══ NAV ═══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:58px;
+  background:rgba(8,12,16,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;
+  gap:1rem;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:.95rem;color:var(--text)}
+.nav-logo-icon{width:32px;height:32px;background:var(--green-bg);border:1px solid var(--green2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.nav-logo span{color:var(--green)}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{font-size:.72rem;letter-spacing:.07em;color:var(--text2);transition:color .2s}
+.nav-links a:hover{color:var(--green)}
+.nav-badge{background:var(--green-bg);color:var(--green);border:1px solid var(--green2);padding:5px 14px;border-radius:var(--r);font-size:.7rem;font-weight:700;letter-spacing:.06em;transition:background .2s}
+.nav-badge:hover{background:#0f2e18}
+@media(max-width:700px){.nav-links{display:none}}
+
+/* ═══ HERO ═══ */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:7rem 2rem 3rem;
+  max-width:1100px;margin:0 auto;position:relative;z-index:1;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green-bg);border:1px solid var(--green2);
+  color:var(--green);font-size:.68rem;letter-spacing:.14em;
+  padding:5px 14px;border-radius:100px;margin-bottom:1.75rem;
+}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-layout{display:grid;grid-template-columns:1fr 480px;gap:4rem;align-items:center}
+.hero h1{
+  font-family:var(--sans);font-size:clamp(2.2rem,4.5vw,3.8rem);
+  font-weight:700;line-height:1.08;letter-spacing:-.02em;
+  color:var(--text);margin-bottom:1.25rem;
+}
+.hero h1 .accent{color:var(--green)}
+.hero h1 .dim{color:var(--text2);font-weight:300}
+.hero-sub{
+  font-family:var(--sans);font-size:1rem;color:var(--text2);
+  max-width:440px;margin-bottom:2rem;line-height:1.65;font-weight:400;
+}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.pill{font-size:.65rem;padding:4px 10px;border-radius:4px;letter-spacing:.05em;font-weight:500}
+.pill-g{background:var(--green-bg);color:var(--green);border:1px solid #1a4a2044}
+.pill-c{background:var(--cyan-bg);color:var(--cyan);border:1px solid #1a3a4a44}
+.pill-a{background:var(--amber-bg);color:var(--amber);border:1px solid #3a2a0a44}
+.pill-p{background:var(--purple-bg);color:var(--purple);border:1px solid #2a1a4a44}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.78rem;font-weight:700;padding:11px 22px;border-radius:var(--r);transition:.15s;border:none;text-decoration:none}
+.btn-g{background:var(--green);color:#000}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(57,211,83,.3)}
+.btn-o{background:transparent;color:var(--text2);border:1px solid var(--border2)}
+.btn-o:hover{border-color:var(--text2);color:var(--text)}
+
+/* ═══ HERO TERMINAL ═══ */
+.hero-terminal{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--rl);
+  overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,.6),0 0 0 1px rgba(57,211,83,.05);
+  position:relative;
+}
+.tbar{
+  background:var(--bg3);
+  padding:10px 16px;
+  display:flex;align-items:center;gap:7px;
+  border-bottom:1px solid var(--border);
+}
+.dot{width:12px;height:12px;border-radius:50%}
+.dr{background:#ff5f57}.dy{background:#ffbd2e}.dg{background:#28c840}
+.tbar-title{margin-left:6px;font-size:.68rem;color:var(--text3);letter-spacing:.07em}
+.tbody{padding:1.1rem 1.4rem;font-size:.76rem;line-height:2}
+.p{color:var(--green)} .c{color:var(--text)} .o{color:var(--text2)}
+.fl{color:var(--amber)} .pa{color:var(--cyan)} .hi{color:var(--purple)}
+.cmt{color:var(--text3)}
+.blink{display:inline-block;width:7px;height:13px;background:var(--green);vertical-align:middle;margin-left:1px;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.typed-line{overflow:hidden;white-space:nowrap;border-right:2px solid var(--green)}
+
+@media(max-width:900px){.hero-layout{grid-template-columns:1fr}.hero-terminal{display:none}}
+
+/* ═══ STATS ═══ */
+.stats{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:var(--bg2);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  position:relative;z-index:1;
+}
+.stat{
+  padding:1.75rem 2rem;
+  border-right:1px solid var(--border);
+  text-align:center;
+  transition:background .2s;
+}
+.stat:last-child{border-right:none}
+.stat:hover{background:var(--bg3)}
+.stat-n{font-family:var(--sans);font-size:2.4rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.stat-l{font-size:.65rem;letter-spacing:.12em;color:var(--text3);text-transform:uppercase}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}.stat:nth-child(3){border-right:1px solid var(--border)}}
+
+/* ═══ PROGRESS ═══ */
+#progress-bar{
+  position:fixed;top:58px;left:0;right:0;height:2px;
+  background:var(--border);z-index:199;
+}
+#progress-fill{height:100%;width:0%;background:var(--green);transition:width .1s}
+
+/* ═══ SECTIONS ═══ */
+.section{max-width:1100px;margin:0 auto;padding:5rem 2rem;position:relative;z-index:1}
+.stag{font-size:.65rem;letter-spacing:.18em;color:var(--green);text-transform:uppercase;margin-bottom:.6rem;display:flex;align-items:center;gap:8px}
+.stag::before{content:'';width:20px;height:1px;background:var(--green);display:inline-block}
+.stitle{font-family:var(--sans);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:.6rem}
+.ssub{font-family:var(--sans);font-size:.95rem;color:var(--text2);max-width:520px;font-weight:400;line-height:1.6}
+.sh{margin-bottom:2.5rem}
+hr.div{border:none;border-top:1px solid var(--border);margin:0}
+
+/* ═══ LESSON TRACK ═══ */
+.track-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+.filter-btn{
+  font-size:.68rem;padding:6px 14px;border-radius:var(--r);
+  border:1px solid var(--border2);background:transparent;
+  color:var(--text2);letter-spacing:.05em;
+  transition:.2s;
+}
+.filter-btn.active,.filter-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+
+.lesson-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  padding:1.4rem;
+  cursor:pointer;
+  transition:.2s;
+  position:relative;
+  overflow:hidden;
+  display:flex;flex-direction:column;gap:.75rem;
+}
+.lesson-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.lesson-card.done{border-left:3px solid var(--green)}
+.lesson-card.active-lesson{border-color:var(--green);box-shadow:0 0 0 1px var(--green-bg) inset}
+
+.lcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.lnum{font-size:.62rem;color:var(--text3);letter-spacing:.1em}
+.ldiff{font-size:.6rem;padding:2px 8px;border-radius:4px;font-weight:500}
+.d-b{background:var(--green-bg);color:var(--green);border:1px solid #1a4a2033}
+.d-i{background:var(--amber-bg);color:var(--amber);border:1px solid #3a2a0a33}
+.d-a{background:var(--red-bg);color:var(--red);border:1px solid #3a0a0a33}
+.ltitle{font-family:var(--sans);font-size:.95rem;font-weight:700;color:var(--text)}
+.ldesc{font-size:.73rem;color:var(--text2);line-height:1.6}
+.ltags{display:flex;gap:5px;flex-wrap:wrap}
+.ltag{font-size:.6rem;padding:2px 7px;border-radius:3px}
+.tg{background:var(--green-bg);color:var(--green)}
+.tc{background:var(--cyan-bg);color:var(--cyan)}
+.ta{background:var(--amber-bg);color:var(--amber)}
+.tp{background:var(--purple-bg);color:var(--purple)}
+.tr{background:var(--red-bg);color:var(--red)}
+
+.lcard-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.lprog-wrap{flex:1;height:3px;background:var(--border);border-radius:2px;margin-right:10px}
+.lprog-fill{height:100%;border-radius:2px;background:var(--green);transition:width .4s}
+.lcheck{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;transition:.2s;color:transparent}
+.lesson-card.done .lcheck{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.l-open-btn{font-size:.65rem;color:var(--cyan);opacity:0;transition:.2s}
+.lesson-card:hover .l-open-btn{opacity:1}
+
+/* ═══ LESSON MODAL ═══ */
+#lesson-modal{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(8,12,16,.95);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;justify-content:center;
+  padding:1rem;
+}
+#lesson-modal.open{display:flex}
+.modal-box{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--rl);
+  width:100%;max-width:800px;
+  max-height:88vh;
+  overflow-y:auto;
+  position:relative;
+}
+.modal-header{
+  position:sticky;top:0;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:10;
+}
+.modal-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--text)}
+.modal-close{
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text2);width:32px;height:32px;border-radius:6px;
+  font-size:1rem;display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+}
+.modal-close:hover{color:var(--text);border-color:var(--text2)}
+.modal-body{padding:1.5rem}
+.modal-body h3{font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--green);margin:1.5rem 0 .75rem;display:flex;align-items:center;gap:8px}
+.modal-body h3::before{content:'#';color:var(--text3)}
+.modal-body p{font-size:.8rem;color:var(--text2);line-height:1.75;margin-bottom:.75rem}
+.modal-body ul{list-style:none;margin-bottom:1rem}
+.modal-body ul li{font-size:.78rem;color:var(--text2);padding:4px 0;padding-left:1rem;position:relative;line-height:1.6}
+.modal-body ul li::before{content:'›';position:absolute;left:0;color:var(--green)}
+.modal-code{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--r);
+  margin:1rem 0;overflow:hidden;
+}
+.modal-code-bar{
+  background:var(--bg3);padding:8px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-code-label{font-size:.65rem;color:var(--text3);letter-spacing:.07em}
+.copy-btn{
+  font-size:.62rem;color:var(--cyan);background:none;border:none;
+  padding:2px 8px;border-radius:4px;transition:.2s;letter-spacing:.05em;
+}
+.copy-btn:hover{background:var(--cyan-bg)}
+.modal-code pre{padding:1rem 1.25rem;font-size:.77rem;line-height:1.8;overflow-x:auto;color:var(--text)}
+.modal-code pre .kw{color:var(--amber)} .modal-code pre .st{color:var(--green)}
+.modal-code pre .cm{color:var(--text3)} .modal-code pre .cmd{color:var(--cyan)}
+.modal-footer{
+  padding:1.25rem 1.5rem;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.mark-btn{
+  background:var(--green-bg);border:1px solid var(--green2);
+  color:var(--green);font-family:var(--mono);font-size:.73rem;
+  padding:9px 20px;border-radius:var(--r);transition:.2s;font-weight:700;
+}
+.mark-btn:hover{background:#0f2e18}
+.mark-btn.marked{background:var(--green);color:#000}
+.nav-lesson-btns{display:flex;gap:8px}
+.nl-btn{
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text2);font-family:var(--mono);font-size:.7rem;
+  padding:8px 16px;border-radius:var(--r);transition:.2s;
+}
+.nl-btn:hover{border-color:var(--text2);color:var(--text)}
+
+/* ═══ CHEATSHEET ═══ */
+.cheat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+.ctabs{display:flex;overflow-x:auto;background:var(--bg3);border-bottom:1px solid var(--border)}
+.ctab{
+  padding:11px 18px;font-size:.7rem;letter-spacing:.06em;
+  color:var(--text3);border:none;background:none;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  border-right:1px solid var(--border);transition:.2s;
+}
+.ctab.on{color:var(--green);border-bottom-color:var(--green);background:var(--surface)}
+.ctab:hover:not(.on){color:var(--text2)}
+.cpanel{display:none;padding:1.25rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.cpanel.on{display:grid}
+.cgroup-title{font-size:.62rem;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;margin-bottom:.6rem;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.crow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);gap:10px}
+.crow:last-child{border-bottom:none}
+.ccmd{font-size:.73rem;color:var(--green);flex-shrink:0;cursor:pointer;transition:.2s}
+.ccmd:hover{color:var(--cyan)}
+.cdesc{font-size:.67rem;color:var(--text2);text-align:right}
+.cheat-tip{font-size:.65rem;color:var(--text3);padding:.75rem 1.25rem;border-top:1px solid var(--border);font-style:italic}
+
+/* ═══ SANDBOX ═══ */
+#sandbox-wrap{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--rl);
+  overflow:hidden;
+  box-shadow:0 16px 48px rgba(0,0,0,.4);
+}
+#term-out{
+  padding:1.1rem 1.4rem;
+  font-size:.76rem;line-height:2;
+  min-height:260px;max-height:420px;
+  overflow-y:auto;
+}
+.irow{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 1.4rem;
+  border-top:1px solid var(--border);
+  background:var(--bg3);
+}
+.irow .ip{color:var(--green);font-size:.76rem;white-space:nowrap}
+#ti{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text);font-family:var(--mono);font-size:.76rem;
+  caret-color:var(--green);
+}
+.hist-nav{font-size:.62rem;color:var(--text3);padding:0 4px}
+
+.sandbox-quickbtns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.qbtn{
+  font-size:.65rem;padding:5px 12px;border-radius:var(--r);
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text2);transition:.2s;
+}
+.qbtn:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+
+/* ═══ VM SETUP ═══ */
+.setup-steps{border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+.vstep{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border);background:var(--surface);transition:.2s}
+.vstep:last-child{border-bottom:none}
+.vstep:hover{background:var(--surface2)}
+.vnum{
+  background:var(--bg3);border-right:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);font-size:1.4rem;font-weight:700;color:var(--green);
+}
+.vcontent{padding:1.2rem 1.4rem}
+.vtitle{font-family:var(--sans);font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.vbody{font-size:.75rem;color:var(--text2);line-height:1.7}
+.vbody code{color:var(--green);background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:.73rem}
+.vbody a{color:var(--cyan)}
+.vbody a:hover{text-decoration:underline}
+
+/* ═══ SHARE SECTION ═══ */
+.share-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  padding:2rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
+}
+@media(max-width:700px){.share-box{grid-template-columns:1fr}}
+.share-url-box{
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:var(--r);
+  padding:.75rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin:1rem 0;
+}
+.share-url{font-size:.72rem;color:var(--cyan);word-break:break-all}
+.copy-url-btn{
+  background:var(--cyan-bg);border:1px solid var(--cyan);
+  color:var(--cyan);font-family:var(--mono);font-size:.65rem;
+  padding:5px 12px;border-radius:5px;flex-shrink:0;transition:.2s;
+}
+.copy-url-btn:hover{background:#0a2a36}
+.share-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:.75rem}
+.share-step-num{
+  min-width:22px;height:22px;border-radius:50%;
+  background:var(--green-bg);border:1px solid var(--green2);
+  color:var(--green);font-size:.62rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
+}
+.share-step p{font-size:.75rem;color:var(--text2);line-height:1.6}
+.share-step code{color:var(--green);font-size:.72rem}
+.gh-deploy-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green);color:#000;
+  font-family:var(--mono);font-size:.75rem;font-weight:700;
+  padding:10px 20px;border-radius:var(--r);border:none;
+  transition:.15s;text-decoration:none;margin-top:.75rem;
+}
+.gh-deploy-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(57,211,83,.3)}
+
+/* ═══ ABOUT ═══ */
+.about-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  padding:2rem;
+  display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start;
+}
+@media(max-width:600px){.about-card{grid-template-columns:1fr}}
+.avatar{
+  width:120px;height:120px;border-radius:var(--rl);
+  background:var(--bg3);border:1px solid var(--border2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;font-size:2.8rem;position:relative;overflow:hidden;
+}
+.avatar::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(57,211,83,.12) 0%,transparent 70%);
+}
+.avatar-tag{font-size:.58rem;color:var(--green);letter-spacing:.1em;z-index:1}
+.aname{font-family:var(--sans);font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.arole{font-size:.7rem;color:var(--green);letter-spacing:.1em;margin-bottom:1rem}
+.abio{font-size:.78rem;color:var(--text2);line-height:1.8;margin-bottom:.75rem}
+.askills{display:flex;gap:6px;flex-wrap:wrap;margin-top:1rem}
+
+/* ═══ TOAST ═══ */
+#toast{
+  position:fixed;bottom:2rem;right:2rem;
+  background:var(--green);color:#000;
+  font-family:var(--mono);font-size:.72rem;font-weight:700;
+  padding:10px 18px;border-radius:var(--r);
+  z-index:999;opacity:0;transform:translateY(8px);
+  transition:.3s;pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateY(0)}
+
+/* ═══ FOOTER ═══ */
+footer{
+  border-top:1px solid var(--border);background:var(--bg2);
+  padding:1.75rem 2rem;text-align:center;
+  font-size:.65rem;color:var(--text3);letter-spacing:.08em;
+  position:relative;z-index:1;
+}
+footer .fg{color:var(--green)}
+
+/* ═══ COUNTER ANIMATION ═══ */
+.count-up{display:inline-block}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">🐧</div>
+    Mukenge <span>Linux</span> Platform
+  </div>
+  <ul class="nav-links">
+    <li><a href="#lessons">Lessons</a></li>
+    <li><a href="#cheatsheet">Reference</a></li>
+    <li><a href="#sandbox">Sandbox</a></li>
+    <li><a href="#setup">VM Setup</a></li>
+    <li><a href="#share">Share</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#lessons" class="nav-badge">START LEARNING →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge"><span class="pulse"></span> LIVE PLATFORM · MUKENGE LINUX</div>
+  <div class="hero-layout">
+    <div>
+      <h1>Learn Linux<br><span class="accent">the right way.</span><br><span class="dim">From zero to sysadmin.</span></h1>
+      <p class="hero-sub">Hands-on lessons covering the terminal, file system, networking, virtualization, and server administration — taught by Mukenge Linux Platform.</p>
+      <div class="hero-pills">
+        <span class="pill pill-g">Beginner Friendly</span>
+        <span class="pill pill-c">Homelab &amp; VMs</span>
+        <span class="pill pill-a">Networking</span>
+        <span class="pill pill-p">Security</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#lessons" class="btn btn-g">▶ Start Lesson 01</a>
+        <a href="#setup" class="btn btn-o">Set up a VM first</a>
+      </div>
+    </div>
+    <div class="hero-terminal">
+      <div class="tbar">
+        <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+        <span class="tbar-title">mukenge@linux-platform:~$</span>
+      </div>
+      <div class="tbody" id="hero-term"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n count-up" data-target="12">0</div><div class="stat-l">Lessons</div></div>
+  <div class="stat"><div class="stat-n count-up" data-target="65">0</div><div class="stat-l">Commands</div></div>
+  <div class="stat"><div class="stat-n count-up" data-target="3">0</div><div class="stat-l">Tracks</div></div>
+  <div class="stat"><div class="stat-n count-up" data-target="0">0</div><div class="stat-l" id="progress-label">Lessons Done</div></div>
+</div>
+
+<hr class="div">
+
+<!-- LESSONS -->
+<section class="section" id="lessons">
+  <div class="sh">
+    <div class="stag">curriculum</div>
+    <h2 class="stitle">Lesson Library</h2>
+    <p class="ssub">Click any lesson to open it. Your progress is saved in your browser automatically.</p>
+  </div>
+
+  <div class="track-filters">
+    <button class="filter-btn active" onclick="filterLessons('all',this)">All Lessons</button>
+    <button class="filter-btn" onclick="filterLessons('beginner',this)">Beginner</button>
+    <button class="filter-btn" onclick="filterLessons('intermediate',this)">Intermediate</button>
+    <button class="filter-btn" onclick="filterLessons('advanced',this)">Advanced</button>
+    <button class="filter-btn" onclick="filterLessons('networking',this)">Networking</button>
+    <button class="filter-btn" onclick="filterLessons('vm',this)">Virtualization</button>
+    <button class="filter-btn" onclick="filterLessons('security',this)">Security</button>
+  </div>
+
+  <div class="lessons-grid" id="lessons-grid"></div>
+</section>
+
+<hr class="div">
+
+<!-- CHEATSHEET -->
+<section class="section" id="cheatsheet">
+  <div class="sh">
+    <div class="stag">reference</div>
+    <h2 class="stitle">Command Cheatsheet</h2>
+    <p class="ssub">Click any command to paste it into the sandbox below.</p>
+  </div>
+  <div class="cheat-box">
+    <div class="ctabs" id="ctabs"></div>
+    <div id="cpanels"></div>
+    <div class="cheat-tip">💡 Tip: Click any green command to load it into the sandbox. Use Tab for autocomplete in a real terminal.</div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- SANDBOX -->
+<section class="section" id="sandbox">
+  <div class="sh">
+    <div class="stag">practice</div>
+    <h2 class="stitle">Interactive Sandbox</h2>
+    <p class="ssub">Simulate Linux commands right in your browser. Great for learning syntax before touching a real terminal.</p>
+  </div>
+  <div class="sandbox-quickbtns" id="quick-btns"></div>
+  <div id="sandbox-wrap">
+    <div class="tbar">
+      <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+      <span class="tbar-title">student@mukenge-linux:~$ (simulated shell)</span>
+    </div>
+    <div id="term-out"></div>
+    <div class="irow">
+      <span class="ip">mukenge@linux:~$</span>
+      <input type="text" id="ti" placeholder="type a command… (try 'help')" autocomplete="off" spellcheck="false">
+      <span class="hist-nav">↑↓ history</span>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- VM SETUP -->
+<section class="section" id="setup">
+  <div class="sh">
+    <div class="stag">getting started</div>
+    <h2 class="stitle">Set Up Your Linux VM</h2>
+    <p class="ssub">Recommended setup for following all Mukenge Linux Platform lessons. Uses VirtualBox + Ubuntu Server — free and beginner-friendly.</p>
+  </div>
+  <div class="setup-steps">
+    <div class="vstep"><div class="vnum">1</div><div class="vcontent"><div class="vtitle">Download VirtualBox</div><div class="vbody">Get the latest VirtualBox from <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">virtualbox.org ↗</a>. Free, works on Windows, macOS, and Linux. Install with default settings — no customization needed.</div></div></div>
+    <div class="vstep"><div class="vnum">2</div><div class="vcontent"><div class="vtitle">Download Ubuntu Server ISO</div><div class="vbody">Get Ubuntu Server LTS from <a href="https://ubuntu.com/download/server" target="_blank">ubuntu.com ↗</a>. Use <strong>Server edition</strong>, not Desktop — it's lighter and forces you to work in the CLI, which is how real servers operate.</div></div></div>
+    <div class="vstep"><div class="vnum">3</div><div class="vcontent"><div class="vtitle">Create the VM</div><div class="vbody">In VirtualBox: <code>New</code> → name it <code>mukenge-lab</code> → Linux / Ubuntu 64-bit. Assign at least <code>2048 MB RAM</code> and a <code>20 GB</code> virtual disk. Leave everything else as default.</div></div></div>
+    <div class="vstep"><div class="vnum">4</div><div class="vcontent"><div class="vtitle">Attach ISO and Install</div><div class="vbody">Settings → Storage → attach the <code>.iso</code> as virtual CD. Boot and follow the Ubuntu installer. Accept defaults. When asked about partitioning, choose <code>Use an Entire Disk</code>.</div></div></div>
+    <div class="vstep"><div class="vnum">5</div><div class="vcontent"><div class="vtitle">Configure Network Adapter</div><div class="vbody"><strong>NAT</strong> — default, gives internet access. <strong>Bridged</strong> — VM gets its own IP on your LAN. <strong>Host-Only</strong> — isolated network between host and VM. For multi-VM labs, use Host-Only or Internal Network. See Lesson 09 for a full breakdown.</div></div></div>
+    <div class="vstep"><div class="vnum">6</div><div class="vcontent"><div class="vtitle">Take a Snapshot</div><div class="vbody">Before anything else: <code>Machine → Take Snapshot</code>, name it <code>clean-install</code>. Always snapshot before destructive exercises. Breaking your VM is part of learning — just restore and try again.</div></div></div>
+    <div class="vstep"><div class="vnum">7</div><div class="vcontent"><div class="vtitle">First Commands to Run</div><div class="vbody">After first boot: <code>sudo apt update && sudo apt upgrade -y</code> to update packages. Then <code>ip a</code> to confirm networking. You're ready to start Lesson 01.</div></div></div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- SHARE -->
+<section class="section" id="share">
+  <div class="sh">
+    <div class="stag">sharing</div>
+    <h2 class="stitle">Share With Students</h2>
+    <p class="ssub">Deploy to GitHub Pages in 3 minutes — free, permanent, shareable link.</p>
+  </div>
+  <div class="share-box">
+    <div>
+      <div style="font-family:var(--sans);font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:1rem">Your shareable link will be:</div>
+      <div class="share-url-box">
+        <span class="share-url" id="share-url-display">https://YOUR-USERNAME.github.io/mukenge-linux-platform/</span>
+        <button class="copy-url-btn" onclick="copyUrl()">COPY</button>
+      </div>
+      <p style="font-size:.72rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">Replace <code style="color:var(--green)">YOUR-USERNAME</code> with your actual GitHub username. Once deployed, this link works forever and loads in any browser.</p>
+      <a href="https://github.com/new" target="_blank" class="gh-deploy-btn">→ Create GitHub Repo</a>
+    </div>
+    <div>
+      <div style="font-family:var(--sans);font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1.25rem">Deploy steps (3 min)</div>
+      <div class="share-step"><div class="share-step-num">1</div><p>Go to <a href="https://github.com/new" target="_blank" style="color:var(--cyan)">github.com/new</a> and create a repo named <code>mukenge-linux-platform</code>. Set it to <strong>Public</strong>.</p></div>
+      <div class="share-step"><div class="share-step-num">2</div><p>Upload <code>index.html</code> directly to the repo via the GitHub web UI (drag and drop into the file browser).</p></div>
+      <div class="share-step"><div class="share-step-num">3</div><p>Go to repo <strong>Settings → Pages → Source</strong>. Set branch to <code>main</code>, folder to <code>/ (root)</code>. Click Save.</p></div>
+      <div class="share-step"><div class="share-step-num">4</div><p>Wait ~60 seconds. Your site is live at <code>https://YOUR-USERNAME.github.io/mukenge-linux-platform/</code></p></div>
+      <div class="share-step"><div class="share-step-num">5</div><p>Share that link with students. They open it in any browser — no installation needed.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="sh">
+    <div class="stag">instructor</div>
+    <h2 class="stitle">About Mukenge Linux Platform</h2>
+  </div>
+  <div class="about-card">
+    <div class="avatar">🐧<span class="avatar-tag">MUKENGE</span></div>
+    <div>
+      <div class="aname">Mukenge Linux Platform</div>
+      <div class="arole">// LINUX INSTRUCTOR · HOMELAB BUILDER · SYSADMIN</div>
+      <p class="abio">This is your personal command-line teaching platform. Built around a terminal-first philosophy — if you can't do it in the shell, you don't really know it yet.</p>
+      <p class="abio">Lessons cover everything from your first <code style="color:var(--green);font-size:.75rem">ls</code> command all the way to setting up servers, configuring VMs, hardening networks, and automating with bash scripts. Each track is self-contained and hands-on.</p>
+      <p class="abio">The best way to learn Linux is to break it, restore the snapshot, and break it differently. That's what the VM is for.</p>
+      <div class="askills">
+        <span class="pill pill-g">Ubuntu</span>
+        <span class="pill pill-g">Bash Scripting</span>
+        <span class="pill pill-c">Networking</span>
+        <span class="pill pill-c">SSH &amp; Tunnels</span>
+        <span class="pill pill-a">Nginx</span>
+        <span class="pill pill-a">VirtualBox</span>
+        <span class="pill pill-p">Security</span>
+        <span class="pill pill-p">Firewall / UFW</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>🐧 <span class="fg">Mukenge Linux Platform</span> · hosted free on GitHub Pages · open source, no tracking, no ads</p>
+  <p style="margin-top:5px;font-size:.6rem">Share this link with your students — it works in any browser, no account required</p>
+</footer>
+
+<!-- LESSON MODAL -->
+<div id="lesson-modal">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Lesson</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="mark-btn" id="mark-btn" onclick="toggleDone()">✓ Mark as Complete</button>
+      <div class="nav-lesson-btns">
+        <button class="nl-btn" onclick="prevLesson()">← Prev</button>
+        <button class="nl-btn" onclick="nextLesson()">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast">Copied!</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+const LESSONS = [
+  {
+    id:1, num:'01', title:'The Shell & Navigation',
+    diff:'beginner', tags:['g:bash','g:cd','g:ls','g:pwd'],
+    cats:['beginner'],
+    desc:'Understand what a shell is, how Bash works, and how to move around the Linux filesystem.',
+    content: {
+      intro: 'The shell is your primary interface to Linux. It takes text commands, passes them to the kernel, and returns output. The most common shell is Bash (Bourne Again SHell).',
+      sections: [
+        { title: 'Key Commands', items: ['pwd — print working directory (where you are right now)', 'ls — list files in current directory', 'ls -la — list all files including hidden, with details', 'cd /path — change into a directory', 'cd ~ — go to your home directory', 'cd .. — go up one level', 'cd - — go back to previous directory'] },
+        { title: 'Understanding Paths', items: ['Absolute path: starts with / (e.g. /home/student/docs)', 'Relative path: relative to where you are (e.g. docs/notes.txt)', 'Your home directory: /home/username, shortened to ~', 'Root of the filesystem: / (the top — everything lives here)'] },
+      ],
+      code: `# Print current directory\npwd\n\n# List files with details + hidden files\nls -la\n\n# Navigate to home directory\ncd ~\n\n# Navigate to /etc and back\ncd /etc\nls\ncd -         # returns to previous dir\n\n# Show full path always\npwd`,
+      exercise: 'Open your terminal. Run pwd, then navigate to /etc, run ls, then come back with cd -. Try ls -la ~ to see your home directory contents.'
+    }
+  },
+  {
+    id:2, num:'02', title:'Files & Directories',
+    diff:'beginner', tags:['g:mkdir','g:cp','g:mv','g:rm'],
+    cats:['beginner'],
+    desc:'Create, copy, move, rename and delete files and folders. Wildcards and hidden files.',
+    content: {
+      intro: 'Everything in Linux is a file. Mastering file operations is the foundation of everything else you will do.',
+      sections: [
+        { title: 'Creating & Deleting', items: ['touch file.txt — create empty file', 'mkdir dirname — create directory', 'mkdir -p a/b/c — create nested directories at once', 'rm file — delete a file (permanent — no trash!)', 'rm -rf dirname/ — delete directory and all contents recursively', 'rmdir dirname/ — delete empty directory only'] },
+        { title: 'Copying & Moving', items: ['cp src.txt dst.txt — copy a file', 'cp -r srcdir/ dstdir/ — copy directory recursively', 'mv oldname newname — rename a file or move it', 'ln -s target linkname — create a symbolic link'] },
+        { title: 'Wildcards', items: ['* matches any characters: ls *.log', '? matches one character: ls file?.txt', '[abc] matches a,b,or c: ls file[123].txt'] },
+      ],
+      code: `# Create a test directory and files\nmkdir -p ~/lab/test\ntouch ~/lab/test/notes.txt\ntouch ~/lab/test/backup.txt\n\n# Copy and rename\ncp ~/lab/test/notes.txt ~/lab/test/notes_backup.txt\n\n# Move a file\nmv ~/lab/test/backup.txt ~/lab/backup_old.txt\n\n# List only .txt files\nls ~/lab/test/*.txt\n\n# Cleanup\nrm -rf ~/lab/test/`,
+      exercise: 'Create a directory called practice in your home. Inside it, create 3 files. Copy one, move another, delete the third. Then remove the whole directory with rm -rf.'
+    }
+  },
+  {
+    id:3, num:'03', title:'Reading & Editing Files',
+    diff:'beginner', tags:['c:cat','c:less','c:pipes','c:redirects'],
+    cats:['beginner'],
+    desc:'cat, less, head, tail. Redirects with > and >>. Pipes with |. Intro to nano and vim.',
+    content: {
+      intro: 'Reading files and chaining commands with pipes is where Linux starts feeling powerful. These tools form the backbone of everything from log analysis to scripting.',
+      sections: [
+        { title: 'Viewing Files', items: ['cat file — print entire file to screen', 'less file — paginated view (q to quit, / to search)', 'head -n 20 file — first 20 lines', 'tail -n 20 file — last 20 lines', 'tail -f file — follow a file live (great for logs!)'] },
+        { title: 'Redirects', items: ['command > file — write output to file (overwrites)', 'command >> file — append output to file', 'command 2> errors.txt — redirect stderr only', 'command &> all.txt — redirect both stdout and stderr'] },
+        { title: 'Pipes', items: ['cmd1 | cmd2 — pass output of cmd1 as input to cmd2', 'ls -la | grep ".txt" — filter ls output', 'cat /etc/passwd | wc -l — count lines in a file', 'ps aux | sort -k3 -rn | head -5 — top 5 CPU processes'] },
+      ],
+      code: `# View a file page by page\nless /etc/passwd\n\n# Get first 5 lines\nhead -n 5 /etc/passwd\n\n# Write and append\necho "first line" > ~/test.txt\necho "second line" >> ~/test.txt\ncat ~/test.txt\n\n# Powerful pipe chain\nps aux | grep bash | grep -v grep\n\n# Follow a live log\ntail -f /var/log/syslog`,
+      exercise: 'Use tail -f /var/log/syslog in one terminal. Open a second terminal and run sudo apt update. Watch the log update in real time.'
+    }
+  },
+  {
+    id:4, num:'04', title:'Permissions & Ownership',
+    diff:'intermediate', tags:['a:chmod','a:chown','a:sudo','a:root'],
+    cats:['intermediate','security'],
+    desc:'Understanding rwx flags, chmod, chown, octal notation, root user, sudo, and SetUID.',
+    content: {
+      intro: 'Linux permissions control who can read, write, or execute every file. Getting this right is fundamental to both security and system administration.',
+      sections: [
+        { title: 'Reading Permissions', items: ['-rwxr-xr-x breakdown: first char = type, next 9 = permissions in groups of 3', 'r=read(4), w=write(2), x=execute(1)', 'Three groups: owner | group | others', 'Example: 755 = rwxr-xr-x | 644 = rw-r--r--'] },
+        { title: 'Changing Permissions', items: ['chmod 755 file — owner:rwx, group:rx, others:rx', 'chmod +x script.sh — add execute for everyone', 'chmod -R 644 dir/ — recursive change', 'chmod u+s file — set SUID bit (runs as owner)'] },
+        { title: 'Changing Ownership', items: ['chown user file — change owner', 'chown user:group file — change owner and group', 'chgrp group file — change group only', 'sudo command — run as root for one command', 'sudo su - — switch to root shell (be careful!)'] },
+      ],
+      code: `# See current permissions\nls -la ~/lab/\n\n# Create a script and make executable\necho '#!/bin/bash\\necho "Hello from Mukenge Lab"' > ~/hello.sh\nchmod +x ~/hello.sh\n./hello.sh\n\n# Octal permissions\nchmod 600 ~/private.txt   # only owner can read/write\nchmod 755 ~/public/       # anyone can enter, only owner writes\n\n# Check who owns what\nls -la /var/log/ | head -10`,
+      exercise: 'Create a file, set it to 000 permissions, try to read it, then chmod it back to 644. Create a shell script and chmod +x it, then run it.'
+    }
+  },
+  {
+    id:5, num:'05', title:'Processes & System Info',
+    diff:'intermediate', tags:['a:ps','a:kill','a:top','a:htop'],
+    cats:['intermediate'],
+    desc:'ps, top, htop, kill, jobs, bg, fg. System monitoring with vmstat and iostat. Signals.',
+    content: {
+      intro: 'Every running program is a process with a PID (Process ID). Understanding how to view, manage, and kill processes is essential for any sysadmin.',
+      sections: [
+        { title: 'Viewing Processes', items: ['ps aux — list all processes (snapshot)', 'top — live updating process list', 'htop — interactive, colorful top (install with apt)', 'pgrep nginx — find PID by process name', 'pstree — show process family tree'] },
+        { title: 'Controlling Processes', items: ['kill PID — send SIGTERM (polite stop)', 'kill -9 PID — send SIGKILL (force stop, no cleanup)', 'killall nginx — kill all processes named nginx', 'Ctrl+C — interrupt current process', 'Ctrl+Z — suspend current process', 'bg — resume suspended process in background', 'fg — bring background process to foreground'] },
+        { title: 'System Resources', items: ['free -h — RAM usage (human readable)', 'df -h — disk usage per filesystem', 'vmstat 1 5 — system stats every 1s, 5 times', 'iostat — CPU and I/O stats', 'uptime — load averages'] },
+      ],
+      code: `# See all processes\nps aux | head -20\n\n# Find a specific process\nps aux | grep sshd\n\n# Live monitoring\ntop\n# Inside top: press 'q' to quit, 'k' to kill by PID\n\n# Background/foreground\nsleep 60 &      # run in background\njobs            # list background jobs\nfg 1            # bring job 1 to foreground\n\n# System overview\nfree -h && df -h && uptime`,
+      exercise: 'Run sleep 300 & to put a process in the background. Use ps aux | grep sleep to find its PID. Kill it with kill PID. Verify it is gone.'
+    }
+  },
+  {
+    id:6, num:'06', title:'Package Management',
+    diff:'intermediate', tags:['a:apt','a:dpkg','c:snap'],
+    cats:['intermediate'],
+    desc:'apt vs apt-get. Installing, updating, removing packages. dpkg basics. PPAs and snap.',
+    content: {
+      intro: 'On Ubuntu and Debian-based systems, apt is your package manager — the app store of Linux. Understanding it lets you install any software in seconds.',
+      sections: [
+        { title: 'Core apt Commands', items: ['sudo apt update — refresh package lists from repositories', 'sudo apt upgrade — install available updates', 'sudo apt install nginx — install a package', 'sudo apt remove nginx — remove (keep config)', 'sudo apt purge nginx — remove + delete config files', 'sudo apt autoremove — clean up unused dependencies', 'apt search nginx — search for packages', 'apt show nginx — show package info'] },
+        { title: 'dpkg (lower level)', items: ['dpkg -l — list all installed packages', 'dpkg -i package.deb — install a .deb file', 'dpkg -r package — remove package', 'dpkg -L nginx — list files installed by a package'] },
+        { title: 'Snap & Flatpak', items: ['snap install code — install VS Code via snap', 'snap list — see installed snaps', 'snap refresh — update all snaps', 'Snaps are self-contained and sandboxed', 'flatpak install flathub app.id — install flatpak app'] },
+      ],
+      code: `# Always update first\nsudo apt update\n\n# Install useful tools\nsudo apt install -y htop curl wget net-tools nmap\n\n# Search for something\napt search "web server"\n\n# See what a package includes\napt show nginx\n\n# Clean up\nsudo apt autoremove -y\nsudo apt clean\n\n# List installed packages\ndpkg -l | grep nginx`,
+      exercise: 'Install htop with apt. Run it. Then purge it. Use dpkg -l before and after to confirm installation and removal.'
+    }
+  },
+  {
+    id:7, num:'07', title:'Networking Basics',
+    diff:'intermediate', tags:['c:ip','c:ssh','c:ping','c:dns'],
+    cats:['intermediate','networking'],
+    desc:'ip, ifconfig, ping, traceroute. DNS with nslookup and dig. SSH key-based authentication.',
+    content: {
+      intro: 'Networking is where Linux administration gets real. Whether you are managing servers, setting up homelabs, or doing security work — you need to understand how Linux handles the network.',
+      sections: [
+        { title: 'Interface & Routing', items: ['ip a — show all network interfaces and IPs', 'ip r — show routing table', 'ip link show — show link layer info', 'ifconfig — legacy command (still useful)', 'ss -tuln — show listening ports', 'netstat -an — all network connections (legacy)'] },
+        { title: 'Diagnostics', items: ['ping 8.8.8.8 — test basic connectivity', 'traceroute google.com — trace network path', 'mtr google.com — live traceroute', 'nslookup domain.com — DNS lookup', 'dig domain.com — detailed DNS query', 'curl -I https://example.com — HTTP headers only', 'wget https://example.com/file.txt — download file'] },
+        { title: 'SSH', items: ['ssh user@host — connect to remote server', 'ssh-keygen -t ed25519 — generate key pair', 'ssh-copy-id user@host — copy public key to server', 'scp file.txt user@host:~/path/ — secure copy', 'ssh -L 8080:localhost:80 user@host — port forward'] },
+      ],
+      code: `# Full network overview\nip a && ip r\n\n# Test connectivity step by step\nping -c 4 8.8.8.8           # internet reachable?\nping -c 4 192.168.1.1        # gateway reachable?\nnslookup google.com          # DNS working?\n\n# Who is listening on what port?\nss -tuln\n\n# Generate SSH key (no passphrase for lab use)\nssh-keygen -t ed25519 -C "mukenge-lab-key"\n\n# Connect to VM\nssh student@192.168.56.10`,
+      exercise: 'On your VM, run ip a to get its IP. From your host machine, ping that IP. Then SSH into the VM. Use ss -tuln to see what services are listening.'
+    }
+  },
+  {
+    id:8, num:'08', title:'Shell Scripting Intro',
+    diff:'intermediate', tags:['p:bash','p:scripts','p:cron'],
+    cats:['intermediate'],
+    desc:'Write your first bash script. Variables, conditionals, loops. Making scripts executable. Cron.',
+    content: {
+      intro: 'Shell scripting lets you automate repetitive tasks. A script is just a text file with a list of commands — but add variables, conditions, and loops and it becomes a powerful tool.',
+      sections: [
+        { title: 'Script Basics', items: ['#!/bin/bash — shebang line, always on line 1', 'chmod +x script.sh — make executable', './script.sh — run it', 'bash script.sh — run without making executable', 'Variables: NAME="Mukenge" then echo $NAME', 'Arguments: $1 $2 etc for command line args, $# for count'] },
+        { title: 'Conditionals & Loops', items: ['if [ $VAR -eq 1 ]; then ... fi', 'for i in 1 2 3; do echo $i; done', 'while [ condition ]; do ... done', '-eq equal, -ne not equal, -gt greater than', '-f file exists, -d directory exists, -z string empty'] },
+        { title: 'Cron Jobs', items: ['crontab -e — edit your cron jobs', 'crontab -l — list your cron jobs', '* * * * * = min hour day month weekday', '0 2 * * * = every day at 2am', '*/5 * * * * = every 5 minutes'] },
+      ],
+      code: `#!/bin/bash\n# My first Mukenge Lab script\n\nNAME="Student"\necho "Welcome to Mukenge Linux Platform, $NAME!"\n\n# Conditional\nif [ -f /etc/hostname ]; then\n  echo "Hostname: $(cat /etc/hostname)"\nfi\n\n# Loop over files\necho "--- Files in /etc (first 5) ---"\nfor f in /etc/*.conf; do\n  echo "  Found: $f"\ndone | head -5\n\n# Cron: run this script every day at 8am\n# 0 8 * * * /home/student/welcome.sh`,
+      exercise: 'Write a script that: prints today\'s date, prints your hostname, lists how many files are in /etc, and prints disk usage. Save as sysinfo.sh and chmod +x it.'
+    }
+  },
+  {
+    id:9, num:'09', title:'VirtualBox & VM Networking',
+    diff:'advanced', tags:['c:virtualbox','c:NAT','c:bridged','r:advanced'],
+    cats:['advanced','vm','networking'],
+    desc:'NAT vs bridged vs host-only networking. Promiscuous mode on switches. Snapshots and cloning.',
+    content: {
+      intro: 'VirtualBox gives you multiple networking modes, each with different isolation levels. Choosing the right one matters for homelab work, network security labs, and multi-VM setups.',
+      sections: [
+        { title: 'Network Adapter Modes', items: ['NAT — VM shares host\'s IP, internet works, not reachable from LAN. Good for single VMs.', 'Bridged — VM gets its own IP from your router, fully visible on LAN. Good for server testing.', 'Host-Only — VM only talks to host, completely isolated from internet. Good for security labs.', 'Internal Network — VMs talk to each other but not host or internet. Good for isolated multi-VM labs.', 'NAT Network — like NAT but multiple VMs share one NAT and can talk to each other.'] },
+        { title: 'Promiscuous Mode', items: ['Default: DENY — VM only sees traffic addressed to it (normal use)', 'Allow VMs — VM can see traffic between other VMs on same virtual switch', 'Allow All — VM can see ALL traffic on the network (sniffing)', 'On a real switched network, promiscuous mode only shows broadcast traffic + traffic to your port', 'Use promiscuous mode in Host-Only or Internal for realistic network capture labs'] },
+        { title: 'Snapshots & Clones', items: ['Snapshot = saved state of VM disk + memory at a point in time', 'Machine → Take Snapshot before any risky lab exercise', 'Restore = Machine → Snapshots → Restore', 'Linked Clone = new VM sharing base disk (disk-efficient)', 'Full Clone = completely independent copy'] },
+      ],
+      code: `# Check VM's network from inside\nip a                    # see all interfaces\nip r                    # see routing table\ncat /etc/resolv.conf    # see DNS servers\n\n# Test connectivity by adapter type\nping 8.8.8.8            # works: NAT, Bridged. Fails: Host-Only\nping 192.168.56.1       # works: Host-Only (host)\nping 192.168.1.X        # works: Bridged (LAN device)\n\n# Set adapter in VirtualBox:\n# VM Settings → Network → Adapter 1 → Attached to: [mode]\n# You can have up to 4 adapters per VM`,
+      exercise: 'Create two VMs with Host-Only adapters on the same network. Confirm they can ping each other. Enable promiscuous mode on one and use tcpdump to capture traffic from the other.'
+    }
+  },
+  {
+    id:10, num:'10', title:'Web Server Setup (Nginx)',
+    diff:'advanced', tags:['a:nginx','a:ufw','c:ssl','r:server'],
+    cats:['advanced','networking'],
+    desc:'Install and configure Nginx. Server blocks. SSL with Let\'s Encrypt. Firewall with ufw.',
+    content: {
+      intro: 'Nginx is one of the most widely-used web servers in the world. Setting it up from scratch teaches you about ports, services, firewalls, and TLS — all in one exercise.',
+      sections: [
+        { title: 'Install & Start Nginx', items: ['sudo apt install nginx', 'sudo systemctl start nginx', 'sudo systemctl enable nginx — start on boot', 'sudo systemctl status nginx — check it\'s running', 'curl localhost — confirm it responds', 'Web root: /var/www/html/'] },
+        { title: 'Firewall with ufw', items: ['sudo ufw enable — enable firewall', 'sudo ufw allow 22 — allow SSH (do this BEFORE enabling!)', 'sudo ufw allow 80 — allow HTTP', 'sudo ufw allow 443 — allow HTTPS', 'sudo ufw status — see current rules', 'sudo ufw delete allow 80 — remove a rule'] },
+        { title: 'Server Blocks (Virtual Hosts)', items: ['Config lives in /etc/nginx/sites-available/', 'Enabled by symlinking to /etc/nginx/sites-enabled/', 'sudo nginx -t — test config syntax before reloading', 'sudo systemctl reload nginx — apply changes', 'Logs: /var/log/nginx/access.log and error.log'] },
+      ],
+      code: `# Install and verify\nsudo apt install -y nginx\nsudo systemctl enable --now nginx\ncurl -I localhost\n\n# Set up firewall (SSH first!)\nsudo ufw allow 22\nsudo ufw allow 'Nginx Full'\nsudo ufw enable\nsudo ufw status\n\n# Deploy a custom page\necho '<h1>Mukenge Linux Platform Lab</h1>' | sudo tee /var/www/html/index.html\ncurl localhost\n\n# Check logs live\nsudo tail -f /var/log/nginx/access.log`,
+      exercise: 'Install Nginx, allow it through ufw, replace the default index.html with your own content, and access it from your host browser using the VM\'s bridged IP address.'
+    }
+  },
+  {
+    id:11, num:'11', title:'Logs & Troubleshooting',
+    diff:'advanced', tags:['a:journalctl','a:grep','r:debug'],
+    cats:['advanced','security'],
+    desc:'journalctl, syslog, dmesg. Reading /var/log. grep for pattern matching. strace and lsof.',
+    content: {
+      intro: 'When things break (and they will), logs are how you find out why. Linux has a rich logging system — once you know how to read it, debugging becomes methodical rather than guesswork.',
+      sections: [
+        { title: 'systemd Journal (journalctl)', items: ['journalctl — all logs (oldest first)', 'journalctl -r — reverse (newest first)', 'journalctl -f — follow live (like tail -f)', 'journalctl -u nginx — logs for specific service', 'journalctl --since "1 hour ago"', 'journalctl -p err — only errors and above', 'journalctl -b — logs since last boot'] },
+        { title: 'Log Files', items: ['/var/log/syslog — general system log', '/var/log/auth.log — auth/sudo/SSH events', '/var/log/kern.log — kernel messages', '/var/log/nginx/access.log — Nginx requests', 'dmesg — kernel ring buffer (hardware events)', 'dmesg | grep -i error — filter for errors'] },
+        { title: 'Investigation Tools', items: ['grep -r "error" /var/log/ — search across all logs', 'grep -i "failed" /var/log/auth.log — case insensitive', 'lsof -i :80 — what process is using port 80', 'lsof -p PID — all files opened by a process', 'strace command — trace system calls (deep debug)', 'netstat -tulnp | grep nginx — verify nginx ports'] },
+      ],
+      code: `# Watch auth events in real time\nsudo journalctl -f -u ssh\n\n# Find all failed SSH logins\nsudo grep "Failed password" /var/log/auth.log | tail -20\n\n# What is using port 80?\nsudo lsof -i :80\n\n# Last 10 kernel messages\ndmesg | tail -10\n\n# Find errors across all logs\nsudo grep -ri "error\\|failed\\|critical" /var/log/ --include="*.log" | tail -30`,
+      exercise: 'Intentionally fail 3 SSH logins to your VM using a wrong password. Then use grep on /var/log/auth.log to find those failed attempts and identify the source IP.'
+    }
+  },
+  {
+    id:12, num:'12', title:'Disk & Storage Management',
+    diff:'advanced', tags:['a:fdisk','a:mount','r:LVM','r:fstab'],
+    cats:['advanced'],
+    desc:'df, du, lsblk, fdisk. Mounting and unmounting. fstab. LVM basics. Creating partitions.',
+    content: {
+      intro: 'Storage management is fundamental for servers. You need to know how to add disks, partition them, mount them, and make mounts persistent across reboots.',
+      sections: [
+        { title: 'Checking Disk Usage', items: ['df -h — disk usage per mounted filesystem', 'du -sh /var/log — size of a specific directory', 'du -sh /* 2>/dev/null | sort -h — find large dirs', 'lsblk — list block devices (disks + partitions)', 'fdisk -l — list all disks and partitions (needs sudo)', 'blkid — show UUIDs and filesystem types'] },
+        { title: 'Mounting', items: ['mount /dev/sdb1 /mnt — mount a partition', 'umount /mnt — unmount', 'mount | grep sdb — see what is mounted', 'mount -o ro /dev/sdb1 /mnt — mount read-only', '/etc/fstab — file that defines persistent mounts', 'UUID=... /mnt/data ext4 defaults 0 2 — fstab entry format'] },
+        { title: 'Creating Partitions', items: ['sudo fdisk /dev/sdb — interactive partition tool', 'n = new partition, d = delete, p = print, w = write', 'sudo mkfs.ext4 /dev/sdb1 — format as ext4', 'sudo mkfs.xfs /dev/sdb1 — format as xfs', 'After formatting: mount it and add to fstab'] },
+      ],
+      code: `# Full storage overview\nlsblk\ndf -h\n\n# Find what is eating disk space\ndu -sh /var/* 2>/dev/null | sort -rh | head -10\n\n# In VirtualBox: add a 5GB disk to the VM, then:\nsudo fdisk /dev/sdb\n# n → p → 1 → defaults → w\n\n# Format and mount it\nsudo mkfs.ext4 /dev/sdb1\nsudo mkdir /mnt/extra\nsudo mount /dev/sdb1 /mnt/extra\ndf -h /mnt/extra\n\n# Make persistent (add to fstab)\nsudo blkid /dev/sdb1   # get UUID\n# Then edit /etc/fstab and add the UUID line`,
+      exercise: 'Add a second virtual disk to your VirtualBox VM (Settings → Storage). Boot up, use lsblk to find it, partition it with fdisk, format with mkfs.ext4, mount it, and add it to fstab.'
+    }
+  }
+];
+
+const CHEATDATA = {
+  Navigation: {
+    'Moving Around': [
+      ['pwd','print working directory'],['cd /path','change directory'],['cd ~','go home'],
+      ['cd -','go to previous dir'],['cd ..','go up one level'],['ls -la','all files, long format'],
+      ['ls -lh','human-readable sizes'],['tree','visual directory tree'],
+    ],
+    'Finding': [
+      ['find / -name foo','find by name'],['find . -type f','find files only'],
+      ['locate foo','fast name search'],['which bash','find binary path'],
+      ['whereis ls','binary + man location'],['type ls','how shell resolves it'],
+    ]
+  },
+  Files: {
+    'Create & Delete': [
+      ['touch file.txt','create empty file'],['mkdir -p a/b/c','create nested dirs'],
+      ['rm file','delete file (permanent)'],['rm -rf dir/','delete dir recursively'],
+      ['shred -u file','secure delete'],['stat file','file metadata'],
+    ],
+    'Copy & Move': [
+      ['cp src dst','copy file'],['cp -r src/ dst/','copy dir'],
+      ['mv src dst','move or rename'],['ln -s src link','create symlink'],
+      ['rsync -av src/ dst/','sync dirs'],['tar -czf out.tar.gz dir/','compress dir'],
+    ]
+  },
+  Permissions: {
+    'chmod': [
+      ['chmod 755 file','rwxr-xr-x'],['chmod 644 file','rw-r--r--'],
+      ['chmod 600 file','rw------- (private)'],['chmod +x file','add execute bit'],
+      ['chmod -R 644 dir/','recursive'],['umask 022','default mask'],
+    ],
+    'Ownership': [
+      ['chown user file','change owner'],['chown user:grp file','owner + group'],
+      ['chgrp grp file','group only'],['sudo su -','become root'],
+      ['id','show user+groups'],['groups','list groups'],
+    ]
+  },
+  Processes: {
+    'View': [
+      ['ps aux','all processes'],['pgrep nginx','find PID by name'],
+      ['top','real-time view'],['htop','interactive top'],
+      ['pstree','process tree'],['lsof -p PID','files by process'],
+    ],
+    'Control': [
+      ['kill PID','SIGTERM (polite)'],['kill -9 PID','SIGKILL (force)'],
+      ['killall name','kill by name'],['Ctrl+Z','suspend process'],
+      ['bg / fg','background/foreground'],['nohup cmd &','run detached'],
+    ]
+  },
+  Networking: {
+    'Interfaces': [
+      ['ip a','show addresses'],['ip r','routing table'],
+      ['ss -tuln','listening ports'],['netstat -an','all connections'],
+      ['ip link show','link layer'],['ifconfig','legacy interfaces'],
+    ],
+    'Diagnostics': [
+      ['ping -c 4 host','test reachability'],['traceroute host','trace path'],
+      ['dig domain','DNS query'],['nslookup domain','DNS lookup'],
+      ['curl -I url','HTTP headers'],['wget url','download file'],
+    ]
+  },
+  'Text Tools': {
+    'View & Search': [
+      ['cat file','print file'],['less file','paged view'],
+      ['head -n 20 file','first 20 lines'],['tail -f file','follow live'],
+      ['grep -r "pat" .','recursive search'],['grep -i "pat" file','case insensitive'],
+    ],
+    'Transform': [
+      ['sort file','sort lines'],['uniq -c','count duplicates'],
+      ['wc -l file','count lines'],["awk '{print $2}'","print column 2"],
+      ["sed 's/a/b/g'","replace all a→b"],['cut -d: -f1','cut by delimiter'],
+    ]
+  }
+};
+
+const QUICKCMDS = ['help','ls -la','pwd','whoami','ip a','df -h','free -h','ps aux','date','uname -a','cat /etc/hostname','history'];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let progress = JSON.parse(localStorage.getItem('mlp-progress') || '{}');
+let currentLesson = null;
+let cmdHistory = [], histIdx = -1;
+let cwd = '/home/student';
+
+function saveProgress(){ localStorage.setItem('mlp-progress', JSON.stringify(progress)) }
+
+// ═══════════════════════════════════════════════
+// RENDER LESSONS
+// ═══════════════════════════════════════════════
+const TAGMAP = {g:'tg',c:'tc',a:'ta',p:'tp',r:'tr'};
+const DIFFMAP = {beginner:'d-b Beginner',intermediate:'d-i Intermediate',advanced:'d-a Advanced'};
+
+function renderLessons(filter='all'){
+  const grid = document.getElementById('lessons-grid');
+  grid.innerHTML = '';
+  LESSONS.filter(l => filter==='all' || l.cats.includes(filter)).forEach(l => {
+    const done = !!progress[l.id];
+    const el = document.createElement('div');
+    el.className = 'lesson-card' + (done ? ' done' : '');
+    el.onclick = () => openLesson(l.id);
+    const [dc,dl] = DIFFMAP[l.diff].split(' ');
+    el.innerHTML = `
+      <div class="lcard-top">
+        <span class="lnum">LESSON ${l.num}</span>
+        <span class="ldiff ${dc}">${dl}</span>
+      </div>
+      <div class="ltitle">${l.title}</div>
+      <div class="ldesc">${l.desc}</div>
+      <div class="ltags">${l.tags.map(t=>{const[c,n]=t.split(':');return`<span class="ltag ${TAGMAP[c]||'tg'}">${n}</span>`}).join('')}</div>
+      <div class="lcard-footer">
+        <div class="lprog-wrap"><div class="lprog-fill" style="width:${done?'100':'0'}%"></div></div>
+        <div class="lcheck">${done?'✓':''}</div>
+      </div>`;
+    grid.appendChild(el);
+  });
+}
+
+function filterLessons(f, btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLessons(f);
+}
+
+// ═══════════════════════════════════════════════
+// LESSON MODAL
+// ═══════════════════════════════════════════════
+function openLesson(id){
+  const l = LESSONS.find(x=>x.id===id);
+  if(!l) return;
+  currentLesson = id;
+  document.getElementById('modal-title').textContent = `${l.num} — ${l.title}`;
+  const mb = document.getElementById('modal-body');
+  const done = !!progress[id];
+  const btn = document.getElementById('mark-btn');
+  btn.textContent = done ? '✓ Completed!' : '✓ Mark as Complete';
+  btn.className = 'mark-btn' + (done ? ' marked' : '');
+
+  let html = `<p>${l.content.intro}</p>`;
+  l.content.sections.forEach(s => {
+    html += `<h3>${s.title}</h3><ul>${s.items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+  });
+  html += `<h3>Practice Commands</h3>
+  <div class="modal-code">
+    <div class="modal-code-bar">
+      <span class="modal-code-label">bash</span>
+      <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+    </div>
+    <pre>${syntaxHL(l.content.code)}</pre>
+  </div>`;
+  if(l.content.exercise){
+    html += `<h3>Exercise</h3><p style="background:var(--green-bg);border:1px solid var(--green2);border-radius:var(--r);padding:.9rem 1rem;color:var(--text2)">🎯 ${l.content.exercise}</p>`;
+  }
+  mb.innerHTML = html;
+  document.getElementById('lesson-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('lesson-modal').classList.remove('open');
+  document.body.style.overflow='';
+  renderLessons();
+  updateStats();
+}
+
+function toggleDone(){
+  if(!currentLesson) return;
+  progress[currentLesson] = !progress[currentLesson];
+  if(!progress[currentLesson]) delete progress[currentLesson];
+  saveProgress();
+  const done = !!progress[currentLesson];
+  const btn = document.getElementById('mark-btn');
+  btn.textContent = done ? '✓ Completed!' : '✓ Mark as Complete';
+  btn.className = 'mark-btn' + (done ? ' marked' : '');
+  showToast(done ? 'Lesson marked complete!' : 'Marked incomplete');
+}
+
+function prevLesson(){
+  const idx = LESSONS.findIndex(l=>l.id===currentLesson);
+  if(idx > 0){ document.getElementById('modal-box').scrollTop=0; openLesson(LESSONS[idx-1].id); }
+}
+function nextLesson(){
+  const idx = LESSONS.findIndex(l=>l.id===currentLesson);
+  if(idx < LESSONS.length-1){ document.getElementById('modal-box').scrollTop=0; openLesson(LESSONS[idx+1].id); }
+}
+
+function syntaxHL(code){
+  return code
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/(#[^\n]*)/g,'<span class="cm">$1</span>')
+    .replace(/\b(sudo|if|then|fi|for|do|done|while|echo|export|source)\b/g,'<span class="kw">$1</span>')
+    .replace(/"([^"]*?)"/g,'"<span class="st">$1</span>"');
+}
+
+function copyCode(btn){
+  const pre = btn.closest('.modal-code').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(()=>showToast('Code copied!'));
+}
+
+// ═══════════════════════════════════════════════
+// CHEATSHEET
+// ═══════════════════════════════════════════════
+function renderCheatsheet(){
+  const tabsEl = document.getElementById('ctabs');
+  const panelsEl = document.getElementById('cpanels');
+  Object.entries(CHEATDATA).forEach(([cat, groups], ci) => {
+    const tab = document.createElement('button');
+    tab.className = 'ctab' + (ci===0?' on':'');
+    tab.textContent = cat;
+    tab.onclick = function(){ document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('on')); document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('on')); this.classList.add('on'); document.getElementById('cp-'+ci).classList.add('on'); };
+    tabsEl.appendChild(tab);
+
+    const panel = document.createElement('div');
+    panel.className = 'cpanel' + (ci===0?' on':'');
+    panel.id = 'cp-'+ci;
+    Object.entries(groups).forEach(([gname, rows]) => {
+      const g = document.createElement('div');
+      g.innerHTML = `<div class="cgroup-title">${gname}</div>${rows.map(([cmd,desc])=>`<div class="crow"><span class="ccmd" onclick="pasteCmd('${cmd.replace(/'/g,"\\'")}')" title="Click to paste in sandbox">${cmd}</span><span class="cdesc">${desc}</span></div>`).join('')}`;
+      panel.appendChild(g);
+    });
+    panelsEl.appendChild(panel);
+  });
+}
+
+function pasteCmd(cmd){
+  document.getElementById('ti').value = cmd;
+  document.getElementById('ti').focus();
+  document.getElementById('sandbox').scrollIntoView({behavior:'smooth'});
+  showToast('Pasted into sandbox ↓');
+}
+
+// ═══════════════════════════════════════════════
+// SANDBOX
+// ═══════════════════════════════════════════════
+const FS = {
+  '/home/student': ['documents/','downloads/','lab/','scripts/','.bashrc','.bash_history','notes.txt','sysinfo.sh'],
+  '/home/student/lab': ['lesson1.txt','lesson2.txt','test/'],
+  '/home/student/scripts': ['hello.sh','backup.sh'],
+  '/home/student/documents': ['readme.txt','network-notes.txt'],
+  '/': ['bin/','boot/','dev/','etc/','home/','lib/','media/','mnt/','opt/','proc/','root/','run/','sbin/','srv/','sys/','tmp/','usr/','var/'],
+  '/etc': ['hostname','hosts','passwd','fstab','resolv.conf','apt/','nginx/','ssh/','crontab'],
+  '/var/log': ['syslog','auth.log','kern.log','nginx/','apt/'],
+  '/proc': ['cpuinfo','meminfo','uptime','version','net/'],
+};
+
+const CMDS = {
+  pwd: ()=> cwd,
+  whoami: ()=> 'student',
+  hostname: ()=> 'mukenge-linux',
+  id: ()=> 'uid=1000(student) gid=1000(student) groups=1000(student),27(sudo),4(adm)',
+  date: ()=> new Date().toString(),
+  uptime: ()=> ' ' + new Date().toLocaleTimeString() + ' up 3 days,  7:12,  1 user,  load average: 0.05, 0.08, 0.04',
+  'uname -a': ()=> 'Linux mukenge-linux 6.8.0-47-generic #47-Ubuntu SMP x86_64 GNU/Linux',
+  'uname -r': ()=> '6.8.0-47-generic',
+  history: ()=> QUICKCMDS.map((c,i)=>`  ${String(i+1).padStart(3)}  ${c}`).join('\n'),
+  'ip a': ()=> `1: lo: &lt;LOOPBACK,UP&gt;\n    inet <span style="color:var(--green)">127.0.0.1/8</span> scope host lo\n2: enp0s3: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--green)">10.0.2.15/24</span> brd 10.0.2.255 scope global enp0s3\n3: enp0s8: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--cyan)">192.168.56.10/24</span> brd 192.168.56.255 scope global enp0s8`,
+  'ip r': ()=> `default via 10.0.2.2 dev enp0s3\n10.0.2.0/24 dev enp0s3 proto kernel src 10.0.2.15\n192.168.56.0/24 dev enp0s8 proto kernel src 192.168.56.10`,
+  'ss -tuln': ()=> `Netid State  Recv-Q  Local Address:Port\ntcp   LISTEN 0       0.0.0.0:22\ntcp   LISTEN 0       0.0.0.0:80\ntcp   LISTEN 0       127.0.0.1:631`,
+  'ps aux': ()=> `USER       PID %CPU %MEM COMMAND\nroot         1  0.0  0.5 /sbin/init\nroot       450  0.0  0.8 /usr/sbin/sshd\nstudent   1024  0.0  0.3 -bash\nstudent   1055  0.0  0.1 ps aux`,
+  top: ()=> `top - ${new Date().toLocaleTimeString()} up 3 days, load: 0.05\nTasks: 87 total, 1 running, 86 sleeping\n%Cpu: 0.8 us, 0.3 sy, 0.0 ni, 98.7 id\nMiB Mem: 2048 total, 1124 free, 612 used\n\n  PID USER %CPU %MEM COMMAND\n  450 root  0.0  0.8  sshd\n 1024 student 0.0 0.3  bash\n<span style="color:var(--text3)">(simulated — press q in real top)</span>`,
+  'df -h': ()=> `Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        20G  4.3G   15G  23% /\ntmpfs           1.0G     0  1.0G   0% /dev/shm\n/dev/sda2        50G  1.1G   46G   3% /home`,
+  'free -h': ()=> `              total  used  free  shared  buff  available\nMem:          2.0Gi  612Mi 987Mi    12Mi  448Mi    1.2Gi\nSwap:         1.0Gi    0      1.0Gi`,
+  'cat /etc/hostname': ()=> 'mukenge-linux',
+  'cat /etc/hosts': ()=> '127.0.0.1\tlocalhost\n127.0.1.1\tmukenge-linux\n::1\t\tlocalhost ip6-localhost',
+  'cat /etc/resolv.conf': ()=> 'nameserver 8.8.8.8\nnameserver 8.8.4.4\nsearch local',
+  'cat notes.txt': ()=> `Mukenge Linux Platform - Student Notes\n======================================\n- chmod 755 = rwxr-xr-x (owner all, others read+exec)\n- chmod 644 = rw-r--r-- (owner rw, others read)\n- sudo = run as root for one command\n- ~ = your home directory\n- | = pipe: send output of one cmd to next\n- > = redirect output to file (overwrites)\n- >> = append to file`,
+  'cat .bashrc': ()=> `# ~/.bashrc for Mukenge Linux Platform\nexport PS1="\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ "\nexport PATH=$PATH:/usr/local/bin\nalias ll='ls -la'\nalias la='ls -A'\nalias grep='grep --color=auto'`,
+  'ping': (args)=> args[0] ? `PING ${args[0]} 56 bytes of data.\n64 bytes: icmp_seq=1 ttl=54 time=11.2 ms\n64 bytes: icmp_seq=2 ttl=54 time=10.8 ms\n--- ${args[0]} statistics ---\n2 packets transmitted, 2 received, 0% loss` : 'ping: missing host operand',
+  echo: (args)=> args.join(' ').replace(/^["']|["']$/g,''),
+  clear: ()=> { document.getElementById('term-out').innerHTML=''; return null; },
+  man: (args)=> args[0] ? `MAN: ${args[0].toUpperCase()}\n\nIn a real terminal, this opens the full manual.\nRun: <span style="color:var(--green)">man ${args[0]}</span> in your VM.\n\nTip: press <span style="color:var(--amber)">q</span> to quit man pages, <span style="color:var(--amber)">/</span> to search.` : 'What manual page do you want?',
+  curl: (args)=> {
+    if(!args[0]) return 'curl: no URL specified';
+    if(args.includes('-I') || args.includes('--head')) return `HTTP/1.1 200 OK\nServer: nginx/1.24.0 (Ubuntu)\nDate: ${new Date().toUTCString()}\nContent-Type: text/html\nX-Powered-By: Mukenge Linux Platform`;
+    return `&lt;!DOCTYPE html&gt;\n&lt;html&gt;&lt;head&gt;&lt;title&gt;Mukenge Linux Platform&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Welcome to Mukenge Linux Platform&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;`;
+  },
+  lsblk: ()=> `NAME   MAJ:MIN  SIZE TYPE MOUNTPOINT\nsda      8:0    20G  disk\n├─sda1   8:1    19G  part /\n└─sda2   8:2     1G  part [SWAP]\nsr0     11:0  1024M  rom`,
+  dmesg: ()=> `[    0.000000] Linux version 6.8.0-47-generic\n[    0.000000] Command line: BOOT_IMAGE=/vmlinuz\n[    1.234567] enp0s3: renamed from eth0\n[    1.456789] EXT4-fs (sda1): mounted filesystem\n[    2.345678] systemd[1]: Reached target Network`,
+  journalctl: (args, flags)=> {
+    if(flags.includes('f')) return `<span style="color:var(--text3)">(simulated -f follow — press Ctrl+C to stop in real terminal)</span>\nJun 03 10:22:01 mukenge-linux sshd[450]: Server listening on 0.0.0.0 port 22\nJun 03 10:22:05 mukenge-linux systemd[1]: Started OpenSSH server daemon`;
+    return `Jun 03 10:20:01 mukenge-linux systemd[1]: Starting Daily apt activities...\nJun 03 10:21:05 mukenge-linux sshd[450]: Accepted publickey for student\nJun 03 10:22:01 mukenge-linux kernel: [12345.678] net_ratelimit: 3 callbacks suppressed`;
+  },
+  'sudo apt update': ()=> `Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists... Done\nBuilding dependency tree... Done\n8 packages can be upgraded. Run 'sudo apt upgrade' to see them.`,
+  'sudo apt upgrade': ()=> `Reading package lists... Done\nCalculating upgrade... Done\n8 upgraded, 0 newly installed, 0 to remove.\nNeed to get 12.4 MB of archives.\nDo you want to continue? [Y/n] Y\nPreparing to unpack... done\nProcessing triggers for systemd...`,
+  help: ()=> `<span style="color:var(--purple);font-weight:700">Mukenge Linux Platform — Sandbox Commands</span>\n\n<span style="color:var(--green)">System:</span>    whoami  id  hostname  uname -a  date  uptime  history\n<span style="color:var(--green)">Files:</span>      ls  ls -la  cat [file]  pwd\n<span style="color:var(--green)">Network:</span>    ip a  ip r  ss -tuln  ping [host]  curl -I [url]\n<span style="color:var(--green)">Processes:</span>  ps aux  top  free -h  df -h  lsblk  dmesg\n<span style="color:var(--green)">Packages:</span>   sudo apt update  sudo apt upgrade\n<span style="color:var(--green)">Logs:</span>       journalctl  journalctl -f\n<span style="color:var(--green)">Other:</span>      man [cmd]  echo [text]  clear  help\n\n<span style="color:var(--text3)">Tip: Click any command in the Cheatsheet section above to paste it here.</span>`
+};
+
+function termPrint(html, cls=''){
+  const d = document.createElement('div');
+  if(cls) d.className=cls;
+  d.innerHTML = html;
+  document.getElementById('term-out').appendChild(d);
+}
+
+function runCmd(raw){
+  const trimmed = raw.trim();
+  if(!trimmed) return;
+  histIdx = -1;
+  if(!cmdHistory.includes(trimmed)) cmdHistory.unshift(trimmed);
+
+  termPrint(`<span style="color:var(--green)">student@mukenge-linux:${cwd}$</span> <span style="color:var(--text)">${escH(trimmed)}</span>`);
+
+  const parts = trimmed.split(/\s+/);
+  const base = parts[0];
+  const allArgs = parts.slice(1);
+  const flags = allArgs.filter(a=>a.startsWith('-')).map(a=>a.slice(1));
+  const posArgs = allArgs.filter(a=>!a.startsWith('-'));
+
+  let result = null;
+
+  if(base==='cd'){
+    const t = posArgs[0];
+    if(!t||t==='~') cwd='/home/student';
+    else if(t==='..'){const p=cwd.split('/');p.pop();cwd=p.join('/')||'/';}
+    else if(t.startsWith('/')) cwd=t.replace(/\/$/,'');
+    else cwd=(cwd==='/'?'':cwd)+'/'+t.replace(/\/$/,'');
+    document.querySelector('.ip').textContent = `student@mukenge-linux:${cwd}$`;
+  } else if(CMDS[trimmed]){
+    result = CMDS[trimmed](posArgs, flags);
+  } else if(CMDS[base]){
+    result = CMDS[base](posArgs, flags);
+  } else if(trimmed.startsWith('ls')){
+    const dir = posArgs[0] || cwd;
+    const entries = FS[dir] || FS[cwd] || [];
+    if(flags.some(f=>/l/.test(f))){
+      result = entries.map(e=>{const isD=e.endsWith('/');return`${isD?'drwxr-xr-x':'-rw-r--r--'}  2 student student 4096 Jun  3 10:22 <span style="color:${isD?'var(--cyan)':'var(--text)'}">${e}</span>`;}).join('\n');
+    } else {
+      result = entries.map(e=>`<span style="color:${e.endsWith('/')?'var(--cyan)':'var(--text)'}">${e}</span>`).join('  ');
+    }
+    if(!result) result = `ls: cannot access '${posArgs[0]||cwd}': simulated fs — try ls or ls /etc`;
+  } else if(trimmed.startsWith('sudo ')){
+    const sub = trimmed.slice(5);
+    if(CMDS[sub]||CMDS[sub.split(' ')[0]]) result = runCmdSilent(sub);
+    else result = `[sudo] simulating: ${escH(sub)}\nOK — command executed (simulated)`;
+  } else if(trimmed.startsWith('grep')){
+    result = `<span style="color:var(--amber)">${escH(trimmed)}</span>\n<span style="color:var(--text2)">(grep simulated — use in your VM for real results)</span>`;
+  } else if(trimmed==='exit'||trimmed==='logout'){
+    result='logout\nConnection to mukenge-linux closed.';
+  } else {
+    result = `<span style="color:var(--red)">${escH(base)}: command not found</span>\nType <span style="color:var(--green)">help</span> for available sandbox commands.`;
+  }
+
+  if(result !== null){
+    result.split('\n').forEach(line => termPrint(`<span style="color:var(--text2)">${line}</span>`));
+  }
+
+  termPrint(`<span style="color:var(--green)">student@mukenge-linux:${cwd}$</span> <span class="blink"></span>`);
+  const out = document.getElementById('term-out');
+  out.scrollTop = out.scrollHeight;
+}
+
+function runCmdSilent(raw){
+  const base = raw.split(' ')[0];
+  if(CMDS[raw]) return CMDS[raw]([],[]);
+  if(CMDS[base]) return CMDS[base](raw.split(' ').slice(1),[]);
+  return null;
+}
+
+function escH(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+document.getElementById('ti').addEventListener('keydown', e=>{
+  const inp = document.getElementById('ti');
+  if(e.key==='Enter'){ const v=inp.value; inp.value=''; runCmd(v); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); histIdx=Math.min(histIdx+1,cmdHistory.length-1); inp.value=cmdHistory[histIdx]||''; }
+  else if(e.key==='ArrowDown'){ e.preventDefault(); histIdx=Math.max(histIdx-1,-1); inp.value=histIdx>=0?cmdHistory[histIdx]:''; }
+});
+
+document.getElementById('sandbox-wrap').addEventListener('click',()=>document.getElementById('ti').focus());
+
+// QUICK BUTTONS
+function renderQuickBtns(){
+  const w = document.getElementById('quick-btns');
+  QUICKCMDS.forEach(cmd=>{
+    const b = document.createElement('button');
+    b.className='qbtn'; b.textContent=cmd;
+    b.onclick=()=>{ document.getElementById('ti').value=cmd; document.getElementById('ti').focus(); };
+    w.appendChild(b);
+  });
+}
+
+// INIT TERMINAL
+function initTerminal(){
+  termPrint(`<span style="color:var(--text3)"># Mukenge Linux Platform — Interactive Sandbox</span>`);
+  termPrint(`<span style="color:var(--text3)"># Type 'help' for available commands · Click cheatsheet commands to paste them here</span>`);
+  termPrint(`<span style="color:var(--green)">student@mukenge-linux:${cwd}$</span> <span class="blink"></span>`);
+}
+
+// ═══════════════════════════════════════════════
+// HERO TERMINAL ANIMATION
+// ═══════════════════════════════════════════════
+const heroLines = [
+  {type:'cmd', text:'uname -a'},
+  {type:'out', text:'Linux mukenge-linux 6.8.0-47-generic x86_64 GNU/Linux'},
+  {type:'cmd', text:'whoami'},
+  {type:'out', text:'student'},
+  {type:'cmd', text:'ls -la lab/'},
+  {type:'out', text:'total 24'},
+  {type:'file', text:'drwxr-xr-x  student  <span style="color:var(--cyan)">lab/</span>'},
+  {type:'file', text:'-rw-r--r--  student  lesson1.txt'},
+  {type:'file', text:'-rwxr-xr-x  student  <span style="color:var(--green)">sysinfo.sh</span>'},
+  {type:'cmd', text:'ip a | grep inet'},
+  {type:'out', text:'inet <span style="color:var(--green)">10.0.2.15/24</span> brd 10.0.2.255'},
+  {type:'out', text:'inet <span style="color:var(--cyan)">192.168.56.10/24</span> brd 192.168.56.255'},
+  {type:'cmd', text:'echo "Welcome to Mukenge Linux"'},
+  {type:'out', text:'<span style="color:var(--purple)">Welcome to Mukenge Linux</span>'},
+];
+
+function animateHero(){
+  const el = document.getElementById('hero-term');
+  el.innerHTML='';
+  let i=0;
+  function next(){
+    if(i>=heroLines.length){ setTimeout(()=>{el.innerHTML=''; i=0; next();},3000); return; }
+    const l = heroLines[i++];
+    const d = document.createElement('div');
+    if(l.type==='cmd'){
+      d.innerHTML = `<span style="color:var(--green)">mukenge@linux:~$</span> <span style="color:var(--text)">${l.text}</span>`;
+    } else {
+      d.innerHTML = `<span style="color:var(--text2)">${l.text}</span>`;
+    }
+    el.appendChild(d);
+    el.scrollTop=el.scrollHeight;
+    setTimeout(next, l.type==='cmd'?600:200);
+  }
+  next();
+}
+
+// ═══════════════════════════════════════════════
+// STATS + PROGRESS
+// ═══════════════════════════════════════════════
+function updateStats(){
+  const done = Object.keys(progress).filter(k=>progress[k]).length;
+  document.getElementById('progress-label').textContent = 'Lessons Done';
+  const doneEl = document.querySelector('.stats .stat:last-child .stat-n');
+  if(doneEl) doneEl.textContent = done + '/12';
+}
+
+function countUp(){
+  document.querySelectorAll('.count-up').forEach(el=>{
+    if(el.closest('.stat:last-child')) return;
+    const target = parseInt(el.dataset.target);
+    let cur = 0;
+    const step = Math.ceil(target/30);
+    const t = setInterval(()=>{
+      cur = Math.min(cur+step, target);
+      el.textContent = cur + (target >= 10 ? '+' : '');
+      if(cur>=target) clearInterval(t);
+    },40);
+  });
+}
+
+// SCROLL PROGRESS
+window.addEventListener('scroll',()=>{
+  const h = document.documentElement;
+  const pct = (h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+  document.getElementById('progress-fill').style.width = pct+'%';
+});
+
+// ═══════════════════════════════════════════════
+// SHARE
+// ═══════════════════════════════════════════════
+function copyUrl(){
+  const url = document.getElementById('share-url-display').textContent;
+  navigator.clipboard.writeText(url).then(()=>showToast('URL copied!'));
+}
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ═══════════════════════════════════════════════
+// CLOSE MODAL ON BACKGROUND CLICK
+// ═══════════════════════════════════════════════
+document.getElementById('lesson-modal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+renderLessons();
+renderCheatsheet();
+renderQuickBtns();
+initTerminal();
+animateHero();
+updateStats();
+setTimeout(countUp, 400);
+</script>
+</body>
+</html>
