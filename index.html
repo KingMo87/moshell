@@ -388,39 +388,8 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .vbody a{color:var(--cyan)}
 .vbody a:hover{text-decoration:underline}
 
-/* ═══ SHARE SECTION ═══ */
-.share-box{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--rl);
-  padding:2rem;
-  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
-}
-@media(max-width:700px){.share-box{grid-template-columns:1fr}}
-.share-url-box{
-  background:var(--bg3);
-  border:1px solid var(--border2);
-  border-radius:var(--r);
-  padding:.75rem 1rem;
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  margin:1rem 0;
-}
-.share-url{font-size:.72rem;color:var(--cyan);word-break:break-all}
-.copy-url-btn{
-  background:var(--cyan-bg);border:1px solid var(--cyan);
-  color:var(--cyan);font-family:var(--mono);font-size:.65rem;
-  padding:5px 12px;border-radius:5px;flex-shrink:0;transition:.2s;
-}
-.copy-url-btn:hover{background:#0a2a36}
-.share-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:.75rem}
-.share-step-num{
-  min-width:22px;height:22px;border-radius:50%;
-  background:var(--green-bg);border:1px solid var(--green2);
-  color:var(--green);font-size:.62rem;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
-}
-.share-step p{font-size:.75rem;color:var(--text2);line-height:1.6}
-.share-step code{color:var(--green);font-size:.72rem}
+
+
 .gh-deploy-btn{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--green);color:#000;
@@ -495,7 +464,6 @@ footer .fg{color:var(--green)}
     <li><a href="#cheatsheet">Reference</a></li>
     <li><a href="#sandbox">Sandbox</a></li>
     <li><a href="#setup">VM Setup</a></li>
-    <li><a href="#share">Share</a></li>
     <li><a href="#about">About</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:10px;">
@@ -621,36 +589,6 @@ footer .fg{color:var(--green)}
     <div class="vstep"><div class="vnum">5</div><div class="vcontent"><div class="vtitle">Configure Network Adapter</div><div class="vbody"><strong>NAT</strong> — default, gives internet access. <strong>Bridged</strong> — VM gets its own IP on your LAN. <strong>Host-Only</strong> — isolated network between host and VM. For multi-VM labs, use Host-Only or Internal Network. See Lesson 09 for a full breakdown.</div></div></div>
     <div class="vstep"><div class="vnum">6</div><div class="vcontent"><div class="vtitle">Take a Snapshot</div><div class="vbody">Before anything else: <code>Machine → Take Snapshot</code>, name it <code>clean-install</code>. Always snapshot before destructive exercises. Breaking your VM is part of learning — just restore and try again.</div></div></div>
     <div class="vstep"><div class="vnum">7</div><div class="vcontent"><div class="vtitle">First Commands to Run</div><div class="vbody">After first boot: <code>sudo apt update && sudo apt upgrade -y</code> to update packages. Then <code>ip a</code> to confirm networking. You're ready to start Lesson 01.</div></div></div>
-  </div>
-</section>
-
-<hr class="div">
-
-<!-- SHARE -->
-<section class="section" id="share">
-  <div class="sh">
-    <div class="stag">sharing</div>
-    <h2 class="stitle">Share With Students</h2>
-    <p class="ssub">Deploy to GitHub Pages in 3 minutes — free, permanent, shareable link.</p>
-  </div>
-  <div class="share-box">
-    <div>
-      <div style="font-family:var(--sans);font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:1rem">Your shareable link will be:</div>
-      <div class="share-url-box">
-        <span class="share-url" id="share-url-display">https://YOUR-USERNAME.github.io/moshell/</span>
-        <button class="copy-url-btn" onclick="copyUrl()">COPY</button>
-      </div>
-      <p style="font-size:.72rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">Replace <code style="color:var(--green)">YOUR-USERNAME</code> with your actual GitHub username. Once deployed, this link works forever and loads in any browser.</p>
-      <a href="https://github.com/new" target="_blank" class="gh-deploy-btn">→ Create GitHub Repo</a>
-    </div>
-    <div>
-      <div style="font-family:var(--sans);font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1.25rem">Deploy steps (3 min)</div>
-      <div class="share-step"><div class="share-step-num">1</div><p>Go to <a href="https://github.com/new" target="_blank" style="color:var(--cyan)">github.com/new</a> and create a repo named <code>moshell</code>. Set it to <strong>Public</strong>.</p></div>
-      <div class="share-step"><div class="share-step-num">2</div><p>Upload <code>index.html</code> directly to the repo via the GitHub web UI (drag and drop into the file browser).</p></div>
-      <div class="share-step"><div class="share-step-num">3</div><p>Go to repo <strong>Settings → Pages → Source</strong>. Set branch to <code>main</code>, folder to <code>/ (root)</code>. Click Save.</p></div>
-      <div class="share-step"><div class="share-step-num">4</div><p>Wait ~60 seconds. Your site is live at <code>https://YOUR-USERNAME.github.io/moshell/</code></p></div>
-      <div class="share-step"><div class="share-step-num">5</div><p>Share that link with students. They open it in any browser — no installation needed.</p></div>
-    </div>
   </div>
 </section>
 
@@ -1369,10 +1307,6 @@ window.addEventListener('scroll',()=>{
 // ═══════════════════════════════════════════════
 // SHARE
 // ═══════════════════════════════════════════════
-function copyUrl(){
-  const url = document.getElementById('share-url-display').textContent;
-  navigator.clipboard.writeText(url).then(()=>showToast('URL copied!'));
-}
 
 // ═══════════════════════════════════════════════
 // TOAST
