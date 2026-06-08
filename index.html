@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mukenge Linux Platform</title>
+<title>MOSHELL</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -486,7 +486,7 @@ footer .fg{color:var(--green)}
 <nav>
   <div class="nav-logo">
     <div class="nav-logo-icon">🐧</div>
-    Mukenge <span>Linux</span> Platform
+    Mo<span>Shell</span>
   </div>
   <ul class="nav-links">
     <li><a href="#lessons">Lessons</a></li>
@@ -497,16 +497,15 @@ footer .fg{color:var(--green)}
     <li><a href="#about">About</a></li>
   </ul>
   <a href="#lessons" class="nav-badge">START LEARNING →</a>
-<a href="sales.html" class="nav-badge" style="background:var(--amber-bg);color:var(--amber);border-color:var(--amber);">💰 GET FULL ACCESS</a>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge"><span class="pulse"></span> LIVE PLATFORM · MUKENGE LINUX</div>
+  <div class="hero-badge"><span class="pulse"></span> LIVE PLATFORM · MOSHELL LINUX</div>
   <div class="hero-layout">
     <div>
       <h1>Learn Linux<br><span class="accent">the right way.</span><br><span class="dim">From zero to sysadmin.</span></h1>
-      <p class="hero-sub">Hands-on lessons covering the terminal, file system, networking, virtualization, and server administration — taught by Mukenge Linux Platform.</p>
+      <p class="hero-sub">Hands-on lessons covering the terminal, file system, networking, virtualization, and server administration — taught by MOSHELL.</p>
       <div class="hero-pills">
         <span class="pill pill-g">Beginner Friendly</span>
         <span class="pill pill-c">Homelab &amp; VMs</span>
@@ -521,7 +520,7 @@ footer .fg{color:var(--green)}
     <div class="hero-terminal">
       <div class="tbar">
         <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
-        <span class="tbar-title">mukenge@linux-platform:~$</span>
+        <span class="tbar-title">student@moshell:~$</span>
       </div>
       <div class="tbody" id="hero-term"></div>
     </div>
@@ -588,11 +587,11 @@ footer .fg{color:var(--green)}
   <div id="sandbox-wrap">
     <div class="tbar">
       <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
-      <span class="tbar-title">student@mukenge-linux:~$ (simulated shell)</span>
+      <span class="tbar-title">student@moshell:~$ (simulated shell)</span>
     </div>
     <div id="term-out"></div>
     <div class="irow">
-      <span class="ip">mukenge@linux:~$</span>
+      <span class="ip">student@moshell:~$</span>
       <input type="text" id="ti" placeholder="type a command… (try 'help')" autocomplete="off" spellcheck="false">
       <span class="hist-nav">↑↓ history</span>
     </div>
@@ -606,12 +605,12 @@ footer .fg{color:var(--green)}
   <div class="sh">
     <div class="stag">getting started</div>
     <h2 class="stitle">Set Up Your Linux VM</h2>
-    <p class="ssub">Recommended setup for following all Mukenge Linux Platform lessons. Uses VirtualBox + Ubuntu Server — free and beginner-friendly.</p>
+    <p class="ssub">Recommended setup for following all MOSHELL lessons. Uses VirtualBox + Ubuntu Server — free and beginner-friendly.</p>
   </div>
   <div class="setup-steps">
     <div class="vstep"><div class="vnum">1</div><div class="vcontent"><div class="vtitle">Download VirtualBox</div><div class="vbody">Get the latest VirtualBox from <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">virtualbox.org ↗</a>. Free, works on Windows, macOS, and Linux. Install with default settings — no customization needed.</div></div></div>
     <div class="vstep"><div class="vnum">2</div><div class="vcontent"><div class="vtitle">Download Ubuntu Server ISO</div><div class="vbody">Get Ubuntu Server LTS from <a href="https://ubuntu.com/download/server" target="_blank">ubuntu.com ↗</a>. Use <strong>Server edition</strong>, not Desktop — it's lighter and forces you to work in the CLI, which is how real servers operate.</div></div></div>
-    <div class="vstep"><div class="vnum">3</div><div class="vcontent"><div class="vtitle">Create the VM</div><div class="vbody">In VirtualBox: <code>New</code> → name it <code>mukenge-lab</code> → Linux / Ubuntu 64-bit. Assign at least <code>2048 MB RAM</code> and a <code>20 GB</code> virtual disk. Leave everything else as default.</div></div></div>
+    <div class="vstep"><div class="vnum">3</div><div class="vcontent"><div class="vtitle">Create the VM</div><div class="vbody">In VirtualBox: <code>New</code> → name it <code>moshell-lab</code> → Linux / Ubuntu 64-bit. Assign at least <code>2048 MB RAM</code> and a <code>20 GB</code> virtual disk. Leave everything else as default.</div></div></div>
     <div class="vstep"><div class="vnum">4</div><div class="vcontent"><div class="vtitle">Attach ISO and Install</div><div class="vbody">Settings → Storage → attach the <code>.iso</code> as virtual CD. Boot and follow the Ubuntu installer. Accept defaults. When asked about partitioning, choose <code>Use an Entire Disk</code>.</div></div></div>
     <div class="vstep"><div class="vnum">5</div><div class="vcontent"><div class="vtitle">Configure Network Adapter</div><div class="vbody"><strong>NAT</strong> — default, gives internet access. <strong>Bridged</strong> — VM gets its own IP on your LAN. <strong>Host-Only</strong> — isolated network between host and VM. For multi-VM labs, use Host-Only or Internal Network. See Lesson 09 for a full breakdown.</div></div></div>
     <div class="vstep"><div class="vnum">6</div><div class="vcontent"><div class="vtitle">Take a Snapshot</div><div class="vbody">Before anything else: <code>Machine → Take Snapshot</code>, name it <code>clean-install</code>. Always snapshot before destructive exercises. Breaking your VM is part of learning — just restore and try again.</div></div></div>
@@ -632,7 +631,7 @@ footer .fg{color:var(--green)}
     <div>
       <div style="font-family:var(--sans);font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:1rem">Your shareable link will be:</div>
       <div class="share-url-box">
-        <span class="share-url" id="share-url-display">https://YOUR-USERNAME.github.io/mukenge-linux-platform/</span>
+        <span class="share-url" id="share-url-display">https://YOUR-USERNAME.github.io/moshell/</span>
         <button class="copy-url-btn" onclick="copyUrl()">COPY</button>
       </div>
       <p style="font-size:.72rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">Replace <code style="color:var(--green)">YOUR-USERNAME</code> with your actual GitHub username. Once deployed, this link works forever and loads in any browser.</p>
@@ -640,10 +639,10 @@ footer .fg{color:var(--green)}
     </div>
     <div>
       <div style="font-family:var(--sans);font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1.25rem">Deploy steps (3 min)</div>
-      <div class="share-step"><div class="share-step-num">1</div><p>Go to <a href="https://github.com/new" target="_blank" style="color:var(--cyan)">github.com/new</a> and create a repo named <code>mukenge-linux-platform</code>. Set it to <strong>Public</strong>.</p></div>
+      <div class="share-step"><div class="share-step-num">1</div><p>Go to <a href="https://github.com/new" target="_blank" style="color:var(--cyan)">github.com/new</a> and create a repo named <code>moshell</code>. Set it to <strong>Public</strong>.</p></div>
       <div class="share-step"><div class="share-step-num">2</div><p>Upload <code>index.html</code> directly to the repo via the GitHub web UI (drag and drop into the file browser).</p></div>
       <div class="share-step"><div class="share-step-num">3</div><p>Go to repo <strong>Settings → Pages → Source</strong>. Set branch to <code>main</code>, folder to <code>/ (root)</code>. Click Save.</p></div>
-      <div class="share-step"><div class="share-step-num">4</div><p>Wait ~60 seconds. Your site is live at <code>https://YOUR-USERNAME.github.io/mukenge-linux-platform/</code></p></div>
+      <div class="share-step"><div class="share-step-num">4</div><p>Wait ~60 seconds. Your site is live at <code>https://YOUR-USERNAME.github.io/moshell/</code></p></div>
       <div class="share-step"><div class="share-step-num">5</div><p>Share that link with students. They open it in any browser — no installation needed.</p></div>
     </div>
   </div>
@@ -655,12 +654,12 @@ footer .fg{color:var(--green)}
 <section class="section" id="about">
   <div class="sh">
     <div class="stag">instructor</div>
-    <h2 class="stitle">About Mukenge Linux Platform</h2>
+    <h2 class="stitle">About MOSHELL</h2>
   </div>
   <div class="about-card">
-    <div class="avatar">🐧<span class="avatar-tag">MUKENGE</span></div>
+    <div class="avatar">🐧<span class="avatar-tag">MOSHELL</span></div>
     <div>
-      <div class="aname">Mukenge Linux Platform</div>
+      <div class="aname">MOSHELL</div>
       <div class="arole">// LINUX INSTRUCTOR · HOMELAB BUILDER · SYSADMIN</div>
       <p class="abio">This is your personal command-line teaching platform. Built around a terminal-first philosophy — if you can't do it in the shell, you don't really know it yet.</p>
       <p class="abio">Lessons cover everything from your first <code style="color:var(--green);font-size:.75rem">ls</code> command all the way to setting up servers, configuring VMs, hardening networks, and automating with bash scripts. Each track is self-contained and hands-on.</p>
@@ -680,7 +679,7 @@ footer .fg{color:var(--green)}
 </section>
 
 <footer>
-  <p>🐧 <span class="fg">Mukenge Linux Platform</span> · hosted free on GitHub Pages · open source, no tracking, no ads</p>
+  <p>🐧 <span class="fg">MOSHELL</span> · hosted free on GitHub Pages · open source, no tracking, no ads</p>
   <p style="margin-top:5px;font-size:.6rem">Share this link with your students — it works in any browser, no account required</p>
 </footer>
 
@@ -769,7 +768,7 @@ const LESSONS = [
         { title: 'Changing Permissions', items: ['chmod 755 file — owner:rwx, group:rx, others:rx', 'chmod +x script.sh — add execute for everyone', 'chmod -R 644 dir/ — recursive change', 'chmod u+s file — set SUID bit (runs as owner)'] },
         { title: 'Changing Ownership', items: ['chown user file — change owner', 'chown user:group file — change owner and group', 'chgrp group file — change group only', 'sudo command — run as root for one command', 'sudo su - — switch to root shell (be careful!)'] },
       ],
-      code: `# See current permissions\nls -la ~/lab/\n\n# Create a script and make executable\necho '#!/bin/bash\\necho "Hello from Mukenge Lab"' > ~/hello.sh\nchmod +x ~/hello.sh\n./hello.sh\n\n# Octal permissions\nchmod 600 ~/private.txt   # only owner can read/write\nchmod 755 ~/public/       # anyone can enter, only owner writes\n\n# Check who owns what\nls -la /var/log/ | head -10`,
+      code: `# See current permissions\nls -la ~/lab/\n\n# Create a script and make executable\necho '#!/bin/bash\\necho "Hello from MOSHELL"' > ~/hello.sh\nchmod +x ~/hello.sh\n./hello.sh\n\n# Octal permissions\nchmod 600 ~/private.txt   # only owner can read/write\nchmod 755 ~/public/       # anyone can enter, only owner writes\n\n# Check who owns what\nls -la /var/log/ | head -10`,
       exercise: 'Create a file, set it to 000 permissions, try to read it, then chmod it back to 644. Create a shell script and chmod +x it, then run it.'
     }
   },
@@ -817,7 +816,7 @@ const LESSONS = [
         { title: 'Diagnostics', items: ['ping 8.8.8.8 — test basic connectivity', 'traceroute google.com — trace network path', 'mtr google.com — live traceroute', 'nslookup domain.com — DNS lookup', 'dig domain.com — detailed DNS query', 'curl -I https://example.com — HTTP headers only', 'wget https://example.com/file.txt — download file'] },
         { title: 'SSH', items: ['ssh user@host — connect to remote server', 'ssh-keygen -t ed25519 — generate key pair', 'ssh-copy-id user@host — copy public key to server', 'scp file.txt user@host:~/path/ — secure copy', 'ssh -L 8080:localhost:80 user@host — port forward'] },
       ],
-      code: `# Full network overview\nip a && ip r\n\n# Test connectivity step by step\nping -c 4 8.8.8.8           # internet reachable?\nping -c 4 192.168.1.1        # gateway reachable?\nnslookup google.com          # DNS working?\n\n# Who is listening on what port?\nss -tuln\n\n# Generate SSH key (no passphrase for lab use)\nssh-keygen -t ed25519 -C "mukenge-lab-key"\n\n# Connect to VM\nssh student@192.168.56.10`,
+      code: `# Full network overview\nip a && ip r\n\n# Test connectivity step by step\nping -c 4 8.8.8.8           # internet reachable?\nping -c 4 192.168.1.1        # gateway reachable?\nnslookup google.com          # DNS working?\n\n# Who is listening on what port?\nss -tuln\n\n# Generate SSH key (no passphrase for lab use)\nssh-keygen -t ed25519 -C "moshell-lab-key"\n\n# Connect to VM\nssh student@192.168.56.10`,
       exercise: 'On your VM, run ip a to get its IP. From your host machine, ping that IP. Then SSH into the VM. Use ss -tuln to see what services are listening.'
     }
   },
@@ -829,11 +828,11 @@ const LESSONS = [
     content: {
       intro: 'Shell scripting lets you automate repetitive tasks. A script is just a text file with a list of commands — but add variables, conditions, and loops and it becomes a powerful tool.',
       sections: [
-        { title: 'Script Basics', items: ['#!/bin/bash — shebang line, always on line 1', 'chmod +x script.sh — make executable', './script.sh — run it', 'bash script.sh — run without making executable', 'Variables: NAME="Mukenge" then echo $NAME', 'Arguments: $1 $2 etc for command line args, $# for count'] },
+        { title: 'Script Basics', items: ['#!/bin/bash — shebang line, always on line 1', 'chmod +x script.sh — make executable', './script.sh — run it', 'bash script.sh — run without making executable', 'Variables: NAME="Student" then echo $NAME', 'Arguments: $1 $2 etc for command line args, $# for count'] },
         { title: 'Conditionals & Loops', items: ['if [ $VAR -eq 1 ]; then ... fi', 'for i in 1 2 3; do echo $i; done', 'while [ condition ]; do ... done', '-eq equal, -ne not equal, -gt greater than', '-f file exists, -d directory exists, -z string empty'] },
         { title: 'Cron Jobs', items: ['crontab -e — edit your cron jobs', 'crontab -l — list your cron jobs', '* * * * * = min hour day month weekday', '0 2 * * * = every day at 2am', '*/5 * * * * = every 5 minutes'] },
       ],
-      code: `#!/bin/bash\n# My first Mukenge Lab script\n\nNAME="Student"\necho "Welcome to Mukenge Linux Platform, $NAME!"\n\n# Conditional\nif [ -f /etc/hostname ]; then\n  echo "Hostname: $(cat /etc/hostname)"\nfi\n\n# Loop over files\necho "--- Files in /etc (first 5) ---"\nfor f in /etc/*.conf; do\n  echo "  Found: $f"\ndone | head -5\n\n# Cron: run this script every day at 8am\n# 0 8 * * * /home/student/welcome.sh`,
+      code: `#!/bin/bash\n# My first MOSHELL script\n\nNAME="Student"\necho "Welcome to MOSHELL, $NAME!"\n\n# Conditional\nif [ -f /etc/hostname ]; then\n  echo "Hostname: $(cat /etc/hostname)"\nfi\n\n# Loop over files\necho "--- Files in /etc (first 5) ---"\nfor f in /etc/*.conf; do\n  echo "  Found: $f"\ndone | head -5\n\n# Cron: run this script every day at 8am\n# 0 8 * * * /home/student/welcome.sh`,
       exercise: 'Write a script that: prints today\'s date, prints your hostname, lists how many files are in /etc, and prints disk usage. Save as sysinfo.sh and chmod +x it.'
     }
   },
@@ -865,7 +864,7 @@ const LESSONS = [
         { title: 'Firewall with ufw', items: ['sudo ufw enable — enable firewall', 'sudo ufw allow 22 — allow SSH (do this BEFORE enabling!)', 'sudo ufw allow 80 — allow HTTP', 'sudo ufw allow 443 — allow HTTPS', 'sudo ufw status — see current rules', 'sudo ufw delete allow 80 — remove a rule'] },
         { title: 'Server Blocks (Virtual Hosts)', items: ['Config lives in /etc/nginx/sites-available/', 'Enabled by symlinking to /etc/nginx/sites-enabled/', 'sudo nginx -t — test config syntax before reloading', 'sudo systemctl reload nginx — apply changes', 'Logs: /var/log/nginx/access.log and error.log'] },
       ],
-      code: `# Install and verify\nsudo apt install -y nginx\nsudo systemctl enable --now nginx\ncurl -I localhost\n\n# Set up firewall (SSH first!)\nsudo ufw allow 22\nsudo ufw allow 'Nginx Full'\nsudo ufw enable\nsudo ufw status\n\n# Deploy a custom page\necho '<h1>Mukenge Linux Platform Lab</h1>' | sudo tee /var/www/html/index.html\ncurl localhost\n\n# Check logs live\nsudo tail -f /var/log/nginx/access.log`,
+      code: `# Install and verify\nsudo apt install -y nginx\nsudo systemctl enable --now nginx\ncurl -I localhost\n\n# Set up firewall (SSH first!)\nsudo ufw allow 22\nsudo ufw allow 'Nginx Full'\nsudo ufw enable\nsudo ufw status\n\n# Deploy a custom page\necho '<h1>MOSHELL Lab</h1>' | sudo tee /var/www/html/index.html\ncurl localhost\n\n# Check logs live\nsudo tail -f /var/log/nginx/access.log`,
       exercise: 'Install Nginx, allow it through ufw, replace the default index.html with your own content, and access it from your host browser using the VM\'s bridged IP address.'
     }
   },
@@ -1151,11 +1150,11 @@ const FS = {
 const CMDS = {
   pwd: ()=> cwd,
   whoami: ()=> 'student',
-  hostname: ()=> 'mukenge-linux',
+  hostname: ()=> 'moshell',
   id: ()=> 'uid=1000(student) gid=1000(student) groups=1000(student),27(sudo),4(adm)',
   date: ()=> new Date().toString(),
   uptime: ()=> ' ' + new Date().toLocaleTimeString() + ' up 3 days,  7:12,  1 user,  load average: 0.05, 0.08, 0.04',
-  'uname -a': ()=> 'Linux mukenge-linux 6.8.0-47-generic #47-Ubuntu SMP x86_64 GNU/Linux',
+  'uname -a': ()=> 'Linux moshell 6.8.0-47-generic #47-Ubuntu SMP x86_64 GNU/Linux',
   'uname -r': ()=> '6.8.0-47-generic',
   history: ()=> QUICKCMDS.map((c,i)=>`  ${String(i+1).padStart(3)}  ${c}`).join('\n'),
   'ip a': ()=> `1: lo: &lt;LOOPBACK,UP&gt;\n    inet <span style="color:var(--green)">127.0.0.1/8</span> scope host lo\n2: enp0s3: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--green)">10.0.2.15/24</span> brd 10.0.2.255 scope global enp0s3\n3: enp0s8: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--cyan)">192.168.56.10/24</span> brd 192.168.56.255 scope global enp0s8`,
@@ -1165,29 +1164,29 @@ const CMDS = {
   top: ()=> `top - ${new Date().toLocaleTimeString()} up 3 days, load: 0.05\nTasks: 87 total, 1 running, 86 sleeping\n%Cpu: 0.8 us, 0.3 sy, 0.0 ni, 98.7 id\nMiB Mem: 2048 total, 1124 free, 612 used\n\n  PID USER %CPU %MEM COMMAND\n  450 root  0.0  0.8  sshd\n 1024 student 0.0 0.3  bash\n<span style="color:var(--text3)">(simulated — press q in real top)</span>`,
   'df -h': ()=> `Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        20G  4.3G   15G  23% /\ntmpfs           1.0G     0  1.0G   0% /dev/shm\n/dev/sda2        50G  1.1G   46G   3% /home`,
   'free -h': ()=> `              total  used  free  shared  buff  available\nMem:          2.0Gi  612Mi 987Mi    12Mi  448Mi    1.2Gi\nSwap:         1.0Gi    0      1.0Gi`,
-  'cat /etc/hostname': ()=> 'mukenge-linux',
-  'cat /etc/hosts': ()=> '127.0.0.1\tlocalhost\n127.0.1.1\tmukenge-linux\n::1\t\tlocalhost ip6-localhost',
+  'cat /etc/hostname': ()=> 'moshell',
+  'cat /etc/hosts': ()=> '127.0.0.1\tlocalhost\n127.0.1.1\tmoshell\n::1\t\tlocalhost ip6-localhost',
   'cat /etc/resolv.conf': ()=> 'nameserver 8.8.8.8\nnameserver 8.8.4.4\nsearch local',
-  'cat notes.txt': ()=> `Mukenge Linux Platform - Student Notes\n======================================\n- chmod 755 = rwxr-xr-x (owner all, others read+exec)\n- chmod 644 = rw-r--r-- (owner rw, others read)\n- sudo = run as root for one command\n- ~ = your home directory\n- | = pipe: send output of one cmd to next\n- > = redirect output to file (overwrites)\n- >> = append to file`,
-  'cat .bashrc': ()=> `# ~/.bashrc for Mukenge Linux Platform\nexport PS1="\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ "\nexport PATH=$PATH:/usr/local/bin\nalias ll='ls -la'\nalias la='ls -A'\nalias grep='grep --color=auto'`,
+  'cat notes.txt': ()=> `MOSHELL - Student Notes\n======================================\n- chmod 755 = rwxr-xr-x (owner all, others read+exec)\n- chmod 644 = rw-r--r-- (owner rw, others read)\n- sudo = run as root for one command\n- ~ = your home directory\n- | = pipe: send output of one cmd to next\n- > = redirect output to file (overwrites)\n- >> = append to file`,
+  'cat .bashrc': ()=> `# ~/.bashrc for MOSHELL\nexport PS1="\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ "\nexport PATH=$PATH:/usr/local/bin\nalias ll='ls -la'\nalias la='ls -A'\nalias grep='grep --color=auto'`,
   'ping': (args)=> args[0] ? `PING ${args[0]} 56 bytes of data.\n64 bytes: icmp_seq=1 ttl=54 time=11.2 ms\n64 bytes: icmp_seq=2 ttl=54 time=10.8 ms\n--- ${args[0]} statistics ---\n2 packets transmitted, 2 received, 0% loss` : 'ping: missing host operand',
   echo: (args)=> args.join(' ').replace(/^["']|["']$/g,''),
   clear: ()=> { document.getElementById('term-out').innerHTML=''; return null; },
   man: (args)=> args[0] ? `MAN: ${args[0].toUpperCase()}\n\nIn a real terminal, this opens the full manual.\nRun: <span style="color:var(--green)">man ${args[0]}</span> in your VM.\n\nTip: press <span style="color:var(--amber)">q</span> to quit man pages, <span style="color:var(--amber)">/</span> to search.` : 'What manual page do you want?',
   curl: (args)=> {
     if(!args[0]) return 'curl: no URL specified';
-    if(args.includes('-I') || args.includes('--head')) return `HTTP/1.1 200 OK\nServer: nginx/1.24.0 (Ubuntu)\nDate: ${new Date().toUTCString()}\nContent-Type: text/html\nX-Powered-By: Mukenge Linux Platform`;
-    return `&lt;!DOCTYPE html&gt;\n&lt;html&gt;&lt;head&gt;&lt;title&gt;Mukenge Linux Platform&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Welcome to Mukenge Linux Platform&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;`;
+    if(args.includes('-I') || args.includes('--head')) return `HTTP/1.1 200 OK\nServer: nginx/1.24.0 (Ubuntu)\nDate: ${new Date().toUTCString()}\nContent-Type: text/html\nX-Powered-By: MOSHELL`;
+    return `&lt;!DOCTYPE html&gt;\n&lt;html&gt;&lt;head&gt;&lt;title&gt;MOSHELL&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Welcome to MOSHELL&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;`;
   },
   lsblk: ()=> `NAME   MAJ:MIN  SIZE TYPE MOUNTPOINT\nsda      8:0    20G  disk\n├─sda1   8:1    19G  part /\n└─sda2   8:2     1G  part [SWAP]\nsr0     11:0  1024M  rom`,
   dmesg: ()=> `[    0.000000] Linux version 6.8.0-47-generic\n[    0.000000] Command line: BOOT_IMAGE=/vmlinuz\n[    1.234567] enp0s3: renamed from eth0\n[    1.456789] EXT4-fs (sda1): mounted filesystem\n[    2.345678] systemd[1]: Reached target Network`,
   journalctl: (args, flags)=> {
-    if(flags.includes('f')) return `<span style="color:var(--text3)">(simulated -f follow — press Ctrl+C to stop in real terminal)</span>\nJun 03 10:22:01 mukenge-linux sshd[450]: Server listening on 0.0.0.0 port 22\nJun 03 10:22:05 mukenge-linux systemd[1]: Started OpenSSH server daemon`;
-    return `Jun 03 10:20:01 mukenge-linux systemd[1]: Starting Daily apt activities...\nJun 03 10:21:05 mukenge-linux sshd[450]: Accepted publickey for student\nJun 03 10:22:01 mukenge-linux kernel: [12345.678] net_ratelimit: 3 callbacks suppressed`;
+    if(flags.includes('f')) return `<span style="color:var(--text3)">(simulated -f follow — press Ctrl+C to stop in real terminal)</span>\nJun 03 10:22:01 moshell sshd[450]: Server listening on 0.0.0.0 port 22\nJun 03 10:22:05 moshell systemd[1]: Started OpenSSH server daemon`;
+    return `Jun 03 10:20:01 moshell systemd[1]: Starting Daily apt activities...\nJun 03 10:21:05 moshell sshd[450]: Accepted publickey for student\nJun 03 10:22:01 moshell kernel: [12345.678] net_ratelimit: 3 callbacks suppressed`;
   },
   'sudo apt update': ()=> `Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists... Done\nBuilding dependency tree... Done\n8 packages can be upgraded. Run 'sudo apt upgrade' to see them.`,
   'sudo apt upgrade': ()=> `Reading package lists... Done\nCalculating upgrade... Done\n8 upgraded, 0 newly installed, 0 to remove.\nNeed to get 12.4 MB of archives.\nDo you want to continue? [Y/n] Y\nPreparing to unpack... done\nProcessing triggers for systemd...`,
-  help: ()=> `<span style="color:var(--purple);font-weight:700">Mukenge Linux Platform — Sandbox Commands</span>\n\n<span style="color:var(--green)">System:</span>    whoami  id  hostname  uname -a  date  uptime  history\n<span style="color:var(--green)">Files:</span>      ls  ls -la  cat [file]  pwd\n<span style="color:var(--green)">Network:</span>    ip a  ip r  ss -tuln  ping [host]  curl -I [url]\n<span style="color:var(--green)">Processes:</span>  ps aux  top  free -h  df -h  lsblk  dmesg\n<span style="color:var(--green)">Packages:</span>   sudo apt update  sudo apt upgrade\n<span style="color:var(--green)">Logs:</span>       journalctl  journalctl -f\n<span style="color:var(--green)">Other:</span>      man [cmd]  echo [text]  clear  help\n\n<span style="color:var(--text3)">Tip: Click any command in the Cheatsheet section above to paste it here.</span>`
+  help: ()=> `<span style="color:var(--purple);font-weight:700">MOSHELL — Sandbox Commands</span>\n\n<span style="color:var(--green)">System:</span>    whoami  id  hostname  uname -a  date  uptime  history\n<span style="color:var(--green)">Files:</span>      ls  ls -la  cat [file]  pwd\n<span style="color:var(--green)">Network:</span>    ip a  ip r  ss -tuln  ping [host]  curl -I [url]\n<span style="color:var(--green)">Processes:</span>  ps aux  top  free -h  df -h  lsblk  dmesg\n<span style="color:var(--green)">Packages:</span>   sudo apt update  sudo apt upgrade\n<span style="color:var(--green)">Logs:</span>       journalctl  journalctl -f\n<span style="color:var(--green)">Other:</span>      man [cmd]  echo [text]  clear  help\n\n<span style="color:var(--text3)">Tip: Click any command in the Cheatsheet section above to paste it here.</span>`
 };
 
 function termPrint(html, cls=''){
@@ -1203,7 +1202,7 @@ function runCmd(raw){
   histIdx = -1;
   if(!cmdHistory.includes(trimmed)) cmdHistory.unshift(trimmed);
 
-  termPrint(`<span style="color:var(--green)">student@mukenge-linux:${cwd}$</span> <span style="color:var(--text)">${escH(trimmed)}</span>`);
+  termPrint(`<span style="color:var(--green)">student@moshell:${cwd}$</span> <span style="color:var(--text)">${escH(trimmed)}</span>`);
 
   const parts = trimmed.split(/\s+/);
   const base = parts[0];
@@ -1219,7 +1218,7 @@ function runCmd(raw){
     else if(t==='..'){const p=cwd.split('/');p.pop();cwd=p.join('/')||'/';}
     else if(t.startsWith('/')) cwd=t.replace(/\/$/,'');
     else cwd=(cwd==='/'?'':cwd)+'/'+t.replace(/\/$/,'');
-    document.querySelector('.ip').textContent = `student@mukenge-linux:${cwd}$`;
+    document.querySelector('.ip').textContent = `student@moshell:${cwd}$`;
   } else if(CMDS[trimmed]){
     result = CMDS[trimmed](posArgs, flags);
   } else if(CMDS[base]){
@@ -1240,7 +1239,7 @@ function runCmd(raw){
   } else if(trimmed.startsWith('grep')){
     result = `<span style="color:var(--amber)">${escH(trimmed)}</span>\n<span style="color:var(--text2)">(grep simulated — use in your VM for real results)</span>`;
   } else if(trimmed==='exit'||trimmed==='logout'){
-    result='logout\nConnection to mukenge-linux closed.';
+    result='logout\nConnection to moshell closed.';
   } else {
     result = `<span style="color:var(--red)">${escH(base)}: command not found</span>\nType <span style="color:var(--green)">help</span> for available sandbox commands.`;
   }
@@ -1249,7 +1248,7 @@ function runCmd(raw){
     result.split('\n').forEach(line => termPrint(`<span style="color:var(--text2)">${line}</span>`));
   }
 
-  termPrint(`<span style="color:var(--green)">student@mukenge-linux:${cwd}$</span> <span class="blink"></span>`);
+  termPrint(`<span style="color:var(--green)">student@moshell:${cwd}$</span> <span class="blink"></span>`);
   const out = document.getElementById('term-out');
   out.scrollTop = out.scrollHeight;
 }
@@ -1285,9 +1284,9 @@ function renderQuickBtns(){
 
 // INIT TERMINAL
 function initTerminal(){
-  termPrint(`<span style="color:var(--text3)"># Mukenge Linux Platform — Interactive Sandbox</span>`);
+  termPrint(`<span style="color:var(--text3)"># MOSHELL — Interactive Sandbox</span>`);
   termPrint(`<span style="color:var(--text3)"># Type 'help' for available commands · Click cheatsheet commands to paste them here</span>`);
-  termPrint(`<span style="color:var(--green)">student@mukenge-linux:${cwd}$</span> <span class="blink"></span>`);
+  termPrint(`<span style="color:var(--green)">student@moshell:${cwd}$</span> <span class="blink"></span>`);
 }
 
 // ═══════════════════════════════════════════════
@@ -1295,7 +1294,7 @@ function initTerminal(){
 // ═══════════════════════════════════════════════
 const heroLines = [
   {type:'cmd', text:'uname -a'},
-  {type:'out', text:'Linux mukenge-linux 6.8.0-47-generic x86_64 GNU/Linux'},
+  {type:'out', text:'Linux moshell 6.8.0-47-generic x86_64 GNU/Linux'},
   {type:'cmd', text:'whoami'},
   {type:'out', text:'student'},
   {type:'cmd', text:'ls -la lab/'},
@@ -1306,8 +1305,8 @@ const heroLines = [
   {type:'cmd', text:'ip a | grep inet'},
   {type:'out', text:'inet <span style="color:var(--green)">10.0.2.15/24</span> brd 10.0.2.255'},
   {type:'out', text:'inet <span style="color:var(--cyan)">192.168.56.10/24</span> brd 192.168.56.255'},
-  {type:'cmd', text:'echo "Welcome to Mukenge Linux"'},
-  {type:'out', text:'<span style="color:var(--purple)">Welcome to Mukenge Linux</span>'},
+  {type:'cmd', text:'echo "Welcome to MOSHELL"'},
+  {type:'out', text:'<span style="color:var(--purple)">Welcome to MOSHELL</span>'},
 ];
 
 function animateHero(){
@@ -1319,7 +1318,7 @@ function animateHero(){
     const l = heroLines[i++];
     const d = document.createElement('div');
     if(l.type==='cmd'){
-      d.innerHTML = `<span style="color:var(--green)">mukenge@linux:~$</span> <span style="color:var(--text)">${l.text}</span>`;
+      d.innerHTML = `<span style="color:var(--green)">student@moshell:~$</span> <span style="color:var(--text)">${l.text}</span>`;
     } else {
       d.innerHTML = `<span style="color:var(--text2)">${l.text}</span>`;
     }
