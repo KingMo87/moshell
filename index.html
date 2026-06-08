@@ -74,6 +74,8 @@ nav{
 .nav-links a:hover{color:var(--green)}
 .nav-badge{background:var(--green-bg);color:var(--green);border:1px solid var(--green2);padding:5px 14px;border-radius:var(--r);font-size:.7rem;font-weight:700;letter-spacing:.06em;transition:background .2s}
 .nav-badge:hover{background:#0f2e18}
+.nav-buy{background:var(--green);color:#000;padding:6px 16px;border-radius:var(--r);font-size:.7rem;font-weight:700;letter-spacing:.06em;transition:.15s;border:none;cursor:pointer}
+.nav-buy:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(57,211,83,.3)}
 @media(max-width:700px){.nav-links{display:none}}
 
 /* ═══ HERO ═══ */
@@ -496,7 +498,10 @@ footer .fg{color:var(--green)}
     <li><a href="#share">Share</a></li>
     <li><a href="#about">About</a></li>
   </ul>
-  <a href="#lessons" class="nav-badge">START LEARNING →</a>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="#lessons" class="nav-badge">START LEARNING →</a>
+    <a href="sales.html" class="nav-buy">💰 GET FULL ACCESS</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -515,6 +520,7 @@ footer .fg{color:var(--green)}
       <div class="hero-btns">
         <a href="#lessons" class="btn btn-g">▶ Start Lesson 01</a>
         <a href="#setup" class="btn btn-o">Set up a VM first</a>
+        <a href="sales.html" class="btn btn-o" style="border-color:var(--green2);color:var(--green);">💰 Get Full Bundle</a>
       </div>
     </div>
     <div class="hero-terminal">
@@ -1396,6 +1402,44 @@ initTerminal();
 animateHero();
 updateStats();
 setTimeout(countUp, 400);
+</script>
+
+<!-- STICKY BUY BANNER -->
+<div id="buy-banner" style="
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:var(--bg2);border-top:1px solid var(--border2);
+  padding:.75rem 2rem;
+  display:none;
+  align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+">
+  <div>
+    <div style="font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--text)">Enjoying MOSHELL?</div>
+    <div style="font-size:.72rem;color:var(--text2)">Get the full bundle — workbook + premium lessons + everything unlocked.</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+    <div style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--green)">$37</div>
+    <a href="sales.html" style="
+      background:var(--green);color:#000;
+      font-family:var(--mono);font-size:.75rem;font-weight:700;
+      padding:10px 22px;border-radius:var(--r);
+      letter-spacing:.05em;text-decoration:none;
+      transition:.15s;white-space:nowrap;
+    ">GET FULL ACCESS →</a>
+    <button onclick="document.getElementById('buy-banner').style.display='none'" style="
+      background:none;border:none;color:var(--text3);
+      font-size:1.1rem;cursor:pointer;padding:4px 8px;
+    ">✕</button>
+  </div>
+</div>
+<script>
+// Show sticky banner after user scrolls past hero
+window.addEventListener('scroll', function() {
+  const banner = document.getElementById('buy-banner');
+  if (window.scrollY > 600) {
+    banner.style.display = 'flex';
+  }
+}, { passive: true });
 </script>
 </body>
 </html>
