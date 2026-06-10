@@ -1009,6 +1009,10 @@ function closeModal(){
   document.body.style.overflow='';
   renderLessons();
   updateStats();
+  // Re-show banner if user has scrolled past hero
+  if(window.scrollY > 600){
+    document.getElementById('buy-banner').style.display = 'flex';
+  }
 }
 
 function toggleDone(){
@@ -1099,6 +1103,14 @@ const CMDS = {
   date: ()=> new Date().toString(),
   uptime: ()=> ' ' + new Date().toLocaleTimeString() + ' up 3 days,  7:12,  1 user,  load average: 0.05, 0.08, 0.04',
   'uname -a': ()=> 'Linux moshell 6.8.0-47-generic #47-Ubuntu SMP x86_64 GNU/Linux',
+  uname: (args,flags)=> {
+    if(flags.includes('a')||args.includes('-a')) return 'Linux moshell 6.8.0-47-generic #47-Ubuntu SMP x86_64 GNU/Linux';
+    if(flags.includes('r')) return '6.8.0-47-generic';
+    if(flags.includes('s')) return 'Linux';
+    if(flags.includes('n')) return 'moshell';
+    if(flags.includes('m')) return 'x86_64';
+    return 'Linux';
+  },
   'uname -r': ()=> '6.8.0-47-generic',
   history: ()=> QUICKCMDS.map((c,i)=>`  ${String(i+1).padStart(3)}  ${c}`).join('\n'),
   'ip a': ()=> `1: lo: &lt;LOOPBACK,UP&gt;\n    inet <span style="color:var(--green)">127.0.0.1/8</span> scope host lo\n2: enp0s3: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--green)">10.0.2.15/24</span> brd 10.0.2.255 scope global enp0s3\n3: enp0s8: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--cyan)">192.168.56.10/24</span> brd 192.168.56.255 scope global enp0s8`,
@@ -1108,13 +1120,38 @@ const CMDS = {
   top: ()=> `top - ${new Date().toLocaleTimeString()} up 3 days, load: 0.05\nTasks: 87 total, 1 running, 86 sleeping\n%Cpu: 0.8 us, 0.3 sy, 0.0 ni, 98.7 id\nMiB Mem: 2048 total, 1124 free, 612 used\n\n  PID USER %CPU %MEM COMMAND\n  450 root  0.0  0.8  sshd\n 1024 student 0.0 0.3  bash\n<span style="color:var(--text3)">(simulated — press q in real top)</span>`,
   'df -h': ()=> `Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        20G  4.3G   15G  23% /\ntmpfs           1.0G     0  1.0G   0% /dev/shm\n/dev/sda2        50G  1.1G   46G   3% /home`,
   'free -h': ()=> `              total  used  free  shared  buff  available\nMem:          2.0Gi  612Mi 987Mi    12Mi  448Mi    1.2Gi\nSwap:         1.0Gi    0      1.0Gi`,
+  cat: (args)=> {
+    if(!args[0]) return 'cat: missing file operand\nUsage: cat [file]';
+    const f = args[0];
+    const trimF = f.replace(/^~/, '/home/student');
+    // Route to known file responses
+    const fileMap = {
+      'notes.txt': 'cat notes.txt',
+      '/home/student/notes.txt': 'cat notes.txt',
+      '.bashrc': 'cat .bashrc',
+      '/home/student/.bashrc': 'cat .bashrc',
+      '/etc/hostname': 'cat /etc/hostname',
+      '/etc/hosts': 'cat /etc/hosts',
+      '/etc/resolv.conf': 'cat /etc/resolv.conf',
+    };
+    const mapped = fileMap[f] || fileMap[trimF];
+    if(mapped && CMDS[mapped]) return CMDS[mapped]();
+    // Check if it's a directory
+    if(FS[f] || FS[trimF]) return `cat: ${f}: Is a directory`;
+    return `cat: ${f}: No such file or directory`;
+  },
   'cat /etc/hostname': ()=> 'moshell',
   'cat /etc/hosts': ()=> '127.0.0.1\tlocalhost\n127.0.1.1\tmoshell\n::1\t\tlocalhost ip6-localhost',
   'cat /etc/resolv.conf': ()=> 'nameserver 8.8.8.8\nnameserver 8.8.4.4\nsearch local',
   'cat notes.txt': ()=> `MOSHELL - Student Notes\n======================================\n- chmod 755 = rwxr-xr-x (owner all, others read+exec)\n- chmod 644 = rw-r--r-- (owner rw, others read)\n- sudo = run as root for one command\n- ~ = your home directory\n- | = pipe: send output of one cmd to next\n- > = redirect output to file (overwrites)\n- >> = append to file`,
   'cat .bashrc': ()=> `# ~/.bashrc for MOSHELL\nexport PS1="\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ "\nexport PATH=$PATH:/usr/local/bin\nalias ll='ls -la'\nalias la='ls -A'\nalias grep='grep --color=auto'`,
-  'ping': (args)=> args[0] ? `PING ${args[0]} 56 bytes of data.\n64 bytes: icmp_seq=1 ttl=54 time=11.2 ms\n64 bytes: icmp_seq=2 ttl=54 time=10.8 ms\n--- ${args[0]} statistics ---\n2 packets transmitted, 2 received, 0% loss` : 'ping: missing host operand',
-  echo: (args)=> args.join(' ').replace(/^["']|["']$/g,''),
+  'ping': (args)=> { const host = args.find(a=>isNaN(a)&&a!=='-c'&&a!=='-4'&&a!=='-6'); return host ? `PING ${host} (93.184.216.34) 56(84) bytes of data.\n64 bytes from ${host}: icmp_seq=1 ttl=54 time=11.2 ms\n64 bytes from ${host}: icmp_seq=2 ttl=54 time=10.8 ms\n64 bytes from ${host}: icmp_seq=3 ttl=54 time=11.0 ms\n--- ${host} ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss\nrtt min/avg/max = 10.8/11.0/11.2 ms` : 'ping: usage error: Destination address required'; },
+  echo: (args)=> {
+    let out = args.join(' ').replace(/^["']|["']$/g,'');
+    // Basic variable expansion for common vars
+    out = out.replace(/\$HOME/g,'/home/student').replace(/\$USER/g,'student').replace(/\$HOSTNAME/g,'moshell').replace(/\$SHELL/g,'/bin/bash').replace(/\$PATH/g,'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin').replace(/\$PWD/g,cwd);
+    return out;
+  },
   clear: ()=> { document.getElementById('term-out').innerHTML=''; return null; },
   man: (args)=> args[0] ? `MAN: ${args[0].toUpperCase()}\n\nIn a real terminal, this opens the full manual.\nRun: <span style="color:var(--green)">man ${args[0]}</span> in your VM.\n\nTip: press <span style="color:var(--amber)">q</span> to quit man pages, <span style="color:var(--amber)">/</span> to search.` : 'What manual page do you want?',
   curl: (args)=> {
@@ -1122,13 +1159,37 @@ const CMDS = {
     if(args.includes('-I') || args.includes('--head')) return `HTTP/1.1 200 OK\nServer: nginx/1.24.0 (Ubuntu)\nDate: ${new Date().toUTCString()}\nContent-Type: text/html\nX-Powered-By: MOSHELL`;
     return `&lt;!DOCTYPE html&gt;\n&lt;html&gt;&lt;head&gt;&lt;title&gt;MOSHELL&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Welcome to MOSHELL&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;`;
   },
+  df: (args,flags)=> {
+    const h = flags.includes('h') || (args[0]||'').includes('h');
+    return `Filesystem      ${h?'Size ':'1K-blocks'}  ${h?'Used ':'Used    '} ${h?'Avail':'Available'} Use% Mounted on\n/dev/sda1       ${h?'20G  ':'20971520'} ${h?'4.3G ':'4404224 '} ${h?'15G  ':'15364096'}  23% /\ntmpfs           ${h?'1.0G ':'1048576 '} ${h?'   0 ':'       0'} ${h?'1.0G ':'1048576 '}   0% /dev/shm\n/dev/sda2       ${h?'50G  ':'52428800'} ${h?'1.1G ':'1126400 '} ${h?'46G  ':'47775744'}   3% /home`;
+  },
+  free: (args,flags)=> {
+    const h = flags.includes('h') || (args[0]||'').includes('h');
+    return `              total        used        free      shared  buff/cache   available\nMem:     ${h?'  2.0Gi':'  2048000'}    ${h?'612Mi':'627200'}    ${h?'987Mi':'1010688'}    ${h?'12Mi':'12288'}     ${h?'448Mi':'459264'}     ${h?'1.2Gi':'1261056'}\nSwap:    ${h?'  1.0Gi':'  1024000'}         0    ${h?'1.0Gi':'1024000'}`;
+  },
   lsblk: ()=> `NAME   MAJ:MIN  SIZE TYPE MOUNTPOINT\nsda      8:0    20G  disk\n├─sda1   8:1    19G  part /\n└─sda2   8:2     1G  part [SWAP]\nsr0     11:0  1024M  rom`,
   dmesg: ()=> `[    0.000000] Linux version 6.8.0-47-generic\n[    0.000000] Command line: BOOT_IMAGE=/vmlinuz\n[    1.234567] enp0s3: renamed from eth0\n[    1.456789] EXT4-fs (sda1): mounted filesystem\n[    2.345678] systemd[1]: Reached target Network`,
   journalctl: (args, flags)=> {
-    if(flags.includes('f')) return `<span style="color:var(--text3)">(simulated -f follow — press Ctrl+C to stop in real terminal)</span>\nJun 03 10:22:01 moshell sshd[450]: Server listening on 0.0.0.0 port 22\nJun 03 10:22:05 moshell systemd[1]: Started OpenSSH server daemon`;
-    return `Jun 03 10:20:01 moshell systemd[1]: Starting Daily apt activities...\nJun 03 10:21:05 moshell sshd[450]: Accepted publickey for student\nJun 03 10:22:01 moshell kernel: [12345.678] net_ratelimit: 3 callbacks suppressed`;
+    const service = args.find(a=>!a.startsWith('-')) || '';
+    if(flags.includes('f')) return `<span style="color:var(--text3)">(simulated -f follow — press Ctrl+C to stop)</span>\nJun 10 10:22:01 moshell sshd[450]: Server listening on 0.0.0.0 port 22\nJun 10 10:22:05 moshell systemd[1]: Started OpenSSH server daemon\nJun 10 10:22:18 moshell kernel: [12345.678] net_ratelimit: 3 callbacks suppressed`;
+    if(flags.includes('u') && service) return `Jun 10 10:20:01 moshell ${service}[450]: Started ${service} service\nJun 10 10:21:05 moshell ${service}[450]: Active: running\nJun 10 10:22:01 moshell ${service}[450]: Reloaded configuration`;
+    if(flags.includes('r')) return `Jun 10 10:22:01 moshell kernel: [12345.678] net_ratelimit: 3 callbacks suppressed\nJun 10 10:21:05 moshell sshd[450]: Accepted publickey for student\nJun 10 10:20:01 moshell systemd[1]: Starting Daily apt activities...`;
+    if(flags.includes('b')) return `-- Boot log since $(date)\nJun 10 10:00:01 moshell systemd[1]: Starting up...\nJun 10 10:00:02 moshell kernel: Booting Linux 6.8.0-47-generic\nJun 10 10:00:08 moshell systemd[1]: Reached target Network\nJun 10 10:00:12 moshell systemd[1]: Reached target Multi-User System`;
+    return `Jun 10 10:20:01 moshell systemd[1]: Starting Daily apt activities...\nJun 10 10:21:05 moshell sshd[450]: Accepted publickey for student\nJun 10 10:22:01 moshell kernel: [12345.678] net_ratelimit: 3 callbacks suppressed`;
   },
   'sudo apt update': ()=> `Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nHit:2 http://security.ubuntu.com/ubuntu noble-security InRelease\nReading package lists... Done\nBuilding dependency tree... Done\n8 packages can be upgraded. Run 'sudo apt upgrade' to see them.`,
+  'apt search': (args)=> args[0]?`Sorting... Done
+Full Text Search... Done
+${args[0]}/jammy 1.2.3 amd64
+  Package matching '${args[0]}' — found in Ubuntu repository`:'apt search: missing search term',
+  'apt show': (args)=> args[0]?`Package: ${args[0]}
+Version: 1.2.3-1ubuntu1
+Priority: optional
+Section: utils
+Installed-Size: 2048 kB
+Maintainer: Ubuntu Developers
+Homepage: https://packages.ubuntu.com/${args[0]}
+Description: ${args[0]} package for Ubuntu Linux`:'apt show: must specify package name',
   'sudo apt upgrade': ()=> `Reading package lists... Done\nCalculating upgrade... Done\n8 upgraded, 0 newly installed, 0 to remove.\nNeed to get 12.4 MB of archives.\nDo you want to continue? [Y/n] Y\nPreparing to unpack... done\nProcessing triggers for systemd...`,
   help: ()=> `<span style="color:var(--purple);font-weight:700">MOSHELL — Sandbox Commands</span>\n\n<span style="color:var(--green)">System:</span>    whoami  id  hostname  uname -a  date  uptime  history\n<span style="color:var(--green)">Files:</span>      ls  ls -la  cat [file]  pwd\n<span style="color:var(--green)">Network:</span>    ip a  ip r  ss -tuln  ping [host]  curl -I [url]\n<span style="color:var(--green)">Processes:</span>  ps aux  top  free -h  df -h  lsblk  dmesg\n<span style="color:var(--green)">Packages:</span>   sudo apt update  sudo apt upgrade\n<span style="color:var(--green)">Logs:</span>       journalctl  journalctl -f\n<span style="color:var(--green)">Other:</span>      man [cmd]  echo [text]  clear  help\n\n<span style="color:var(--text3)">Tip: Click any command in the Cheatsheet section above to paste it here.</span>`
 };
@@ -1158,10 +1219,19 @@ function runCmd(raw){
 
   if(base==='cd'){
     const t = posArgs[0];
-    if(!t||t==='~') cwd='/home/student';
+    if(!t||t==='~'){ cwd='/home/student'; }
+    else if(t==='-'){ cwd='/home/student'; }
     else if(t==='..'){const p=cwd.split('/');p.pop();cwd=p.join('/')||'/';}
-    else if(t.startsWith('/')) cwd=t.replace(/\/$/,'');
-    else cwd=(cwd==='/'?'':cwd)+'/'+t.replace(/\/$/,'');
+    else {
+      const newPath = t.startsWith('/') ? t.replace(/\/$/,'') : (cwd==='/'?'':cwd)+'/'+t.replace(/\/$/,'');
+      if(FS[newPath]!==undefined || newPath==='/'){
+        cwd = newPath;
+      } else {
+        termPrint(`<span style="color:var(--red)">bash: cd: ${escH(t)}: No such file or directory</span>`);
+        termPrint(`<span style="color:var(--green)">student@moshell:${cwd}$</span> <span class="blink"></span>`);
+        return;
+      }
+    }
     document.querySelector('.ip').textContent = `student@moshell:${cwd}$`;
   } else if(CMDS[trimmed]){
     result = CMDS[trimmed](posArgs, flags);
@@ -1175,11 +1245,17 @@ function runCmd(raw){
     } else {
       result = entries.map(e=>`<span style="color:${e.endsWith('/')?'var(--cyan)':'var(--text)'}">${e}</span>`).join('  ');
     }
-    if(!result) result = `ls: cannot access '${posArgs[0]||cwd}': simulated fs — try ls or ls /etc`;
+    if(result === '' || result === null || result === undefined) result = `ls: cannot access '${posArgs[0]||cwd}': No such file or directory (simulated fs)`;
   } else if(trimmed.startsWith('sudo ')){
     const sub = trimmed.slice(5);
-    if(CMDS[sub]||CMDS[sub.split(' ')[0]]) result = runCmdSilent(sub);
-    else result = `[sudo] simulating: ${escH(sub)}\nOK — command executed (simulated)`;
+    if(CMDS[sub]||CMDS[sub.split(' ')[0]]){ result = runCmdSilent(sub); }
+    else if(sub.startsWith('apt install ')){ const pkg=sub.replace('apt install ','').replace(/-y/g,'').trim(); result=`Reading package lists... Done\nBuilding dependency tree... Done\nThe following NEW packages will be installed:\n  ${pkg}\n0 upgraded, 1 newly installed.\nGet:1 http://archive.ubuntu.com/ubuntu ${pkg}\nSelecting previously unselected package ${pkg}\nSetting up ${pkg}... done`; }
+    else if(sub.startsWith('apt remove ')||sub.startsWith('apt purge ')){ const pkg=sub.split(' ').pop(); result=`Reading package lists... Done\nBuilding dependency tree... Done\nThe following packages will be REMOVED:\n  ${pkg}\n0 upgraded, 0 newly installed, 1 to remove.\n(Reading database ... )\nRemoving ${pkg}... done`; }
+    else if(sub==='apt autoremove'||sub==='apt autoremove -y'){ result=`Reading package lists... Done\nBuilding dependency tree... Done\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.`; }
+    else if(sub.startsWith('systemctl ')){ const parts2=sub.split(' '); const action=parts2[1]; const svc=parts2[2]||''; result=`[sudo] systemctl ${action} ${svc}\n${action==='status'?`● ${svc} - ${svc} service\n   Active: active (running)\n   PID: 450`:action==='start'||action==='enable'?`${svc} started and enabled successfully`:action==='stop'?`${svc} stopped`:`systemctl: ${action} ${svc} — OK (simulated)`}`; }
+    else if(sub.startsWith('ufw ')){ result=`[sudo] ${sub}\nFirewall updated (simulated).`; }
+    else if(sub.startsWith('chmod ')||sub.startsWith('chown ')||sub.startsWith('chgrp ')){ result=`[sudo] ${escH(sub)}\nPermissions updated (simulated).`; }
+    else{ result = `[sudo] simulating: ${escH(sub)}\nOK — command executed (simulated)`; }
   } else if(trimmed.startsWith('grep')){
     result = `<span style="color:var(--amber)">${escH(trimmed)}</span>\n<span style="color:var(--text2)">(grep simulated — use in your VM for real results)</span>`;
   } else if(trimmed==='exit'||trimmed==='logout'){
@@ -1285,7 +1361,7 @@ function updateStats(){
 
 function countUp(){
   document.querySelectorAll('.count-up').forEach(el=>{
-    if(el.closest('.stat:last-child')) return;
+    if(parseInt(el.dataset.target)===0) return;
     const target = parseInt(el.dataset.target);
     let cur = 0;
     const step = Math.ceil(target/30);
@@ -1370,8 +1446,11 @@ setTimeout(countUp, 400);
 // Show sticky banner after user scrolls past hero
 window.addEventListener('scroll', function() {
   const banner = document.getElementById('buy-banner');
-  if (window.scrollY > 600) {
+  const modalOpen = document.getElementById('lesson-modal').classList.contains('open');
+  if (window.scrollY > 600 && !modalOpen) {
     banner.style.display = 'flex';
+  } else if(modalOpen) {
+    banner.style.display = 'none';
   }
 }, { passive: true });
 </script>
