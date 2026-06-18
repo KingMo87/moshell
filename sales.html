@@ -374,44 +374,7 @@ nav{
 .final-cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
 /* ── GUMROAD GUIDE ── */
-.guide-section{
-  background:var(--dark);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  position:relative;z-index:1;
-}
-.guide-inner{max-width:1000px;margin:0 auto;padding:6rem 2rem}
-.guide-steps{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.gstep{
-  display:grid;grid-template-columns:72px 1fr;
-  background:var(--card);transition:.2s;
-}
-.gstep:hover{background:#13161d}
-.gstep-num{
-  background:var(--dark);border-right:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--display);font-size:2rem;
-  color:var(--green);letter-spacing:.04em;
-}
-.gstep-content{padding:1.4rem 1.6rem}
-.gstep-title{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
-.gstep-body{font-size:.8rem;color:var(--text2);line-height:1.75}
-.gstep-body code{
-  font-family:var(--mono);font-size:.75rem;
-  color:var(--green);background:var(--green3);
-  padding:1px 6px;border-radius:3px;
-}
-.gstep-body a{color:var(--blue)}
-.gstep-body a:hover{text-decoration:underline}
-.gstep-body strong{color:var(--text)}
-.gstep-tip{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:.75rem;
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;
-  background:var(--amber2);color:var(--amber);
-  border:1px solid rgba(255,204,0,.2);
-  padding:4px 10px;border-radius:3px;
-}
+
 
 /* ── PRICING TABLE ── */
 .pricing-table{
@@ -481,7 +444,6 @@ footer .fg{color:var(--green)}
   .price-card{min-width:140px;padding:1rem 1.1rem}
   .pc-price{font-size:2rem}
   
-  .gstep{grid-template-columns:52px 1fr}
 }
 
 /* ── ANIMATIONS ── */
@@ -507,7 +469,7 @@ footer .fg{color:var(--green)}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-kicker">🐧 NOW AVAILABLE — FULL LINUX COURSE BUNDLE</div>
+  <div class="hero-kicker">🚀 JUST LAUNCHED — BE ONE OF THE FIRST TO LEARN WITH MOSHELL</div>
   <h1>
     STOP<br>
     <span class="outline">GOOGLING</span><br>
@@ -559,6 +521,24 @@ footer .fg{color:var(--green)}
     <span class="ticker-item">🌐 <span class="t-amber">NETWORKING & SSH</span></span>
     <span class="ticker-item">💰 <span class="t-green">TWO PRODUCTS AVAILABLE</span></span>
     <span class="ticker-item">🚀 <span class="t-amber">FROM ZERO TO SYSADMIN</span></span>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF BAR -->
+<div style="background:var(--dark);border-bottom:1px solid var(--border);padding:1.5rem 2rem;text-align:center">
+  <div style="max-width:700px;margin:0 auto;display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap">
+    <div>
+      <div style="font-family:var(--display);font-size:2rem;color:var(--green);letter-spacing:.04em">131+</div>
+      <div style="font-family:var(--mono);font-size:.62rem;color:var(--text3);letter-spacing:.08em">PEOPLE ALREADY EXPLORING MOSHELL</div>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-size:2rem;color:var(--green);letter-spacing:.04em">248+</div>
+      <div style="font-family:var(--mono);font-size:.62rem;color:var(--text3);letter-spacing:.08em">PLATFORM DOWNLOADS IN 2 WEEKS</div>
+    </div>
+    <div>
+      <div style="font-family:var(--display);font-size:2rem;color:var(--green);letter-spacing:.04em">100%</div>
+      <div style="font-family:var(--mono);font-size:.62rem;color:var(--text3);letter-spacing:.08em">FREE TO TRY — NO SIGN-UP</div>
+    </div>
   </div>
 </div>
 
@@ -750,8 +730,9 @@ footer .fg{color:var(--green)}
 
     <div class="pt-card best">
       <div class="pt-name">FULL BUNDLE</div>
-      <div class="pt-price"><sub>$</sub>37</div>
-      <p class="pt-tagline">Everything. PDF + platform access + all premium lessons. Best value — cheaper than one month of competitor platforms.</p>
+      <div style="display:inline-flex;align-items:center;gap:6px;background:var(--amber2);color:var(--amber);font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;padding:3px 10px;border-radius:4px;margin-bottom:.6rem;font-weight:600">🚀 LAUNCH PRICING — ENDS AT 50 SALES</div>
+      <div class="pt-price"><sub>$</sub>37 <span style="font-size:1rem;color:var(--text3);text-decoration:line-through;font-family:var(--mono);margin-left:6px">$47</span></div>
+      <p class="pt-tagline">Everything. PDF + platform access + all premium lessons. Locked-in launch price — increases to $47 after the first 50 sales.</p>
       <ul class="pt-features">
         <li>PDF Lab Workbook (60+ pages)</li>
         <li>Command cheatsheet (65+ cmds)</li>
@@ -814,91 +795,6 @@ footer .fg{color:var(--green)}
 </div>
 
 <hr class="div">
-
-<!-- GUMROAD SETUP GUIDE -->
-<div class="guide-section" id="gumroad-guide">
-  <div class="guide-inner">
-    <div class="section-eyebrow" style="margin-bottom:1rem">GUMROAD SETUP GUIDE</div>
-    <h2 class="section-title" style="font-size:clamp(2rem,4vw,3.5rem)">GO LIVE ON<br>GUMROAD IN 15 MIN</h2>
-    <p style="font-size:.9rem;color:var(--text2);max-width:500px;margin-bottom:3rem;font-weight:300;line-height:1.7">Everything you need to start taking payments. Follow these steps in order.</p>
-
-    <div class="guide-steps">
-      <div class="gstep">
-        <div class="gstep-num">1</div>
-        <div class="gstep-content">
-          <div class="gstep-title">Create your Gumroad account</div>
-          <div class="gstep-body">Go to <a href="https://gumroad.com" target="_blank">gumroad.com</a> and sign up with your email. Choose a <strong>creator username</strong> — your username is already set to <code>moshell</code>. This becomes your store URL: <code>moshell.gumroad.com</code>
-          <div class="gstep-tip">💡 Gumroad takes ~10% on the free plan. No monthly fee.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gstep">
-        <div class="gstep-num">2</div>
-        <div class="gstep-content">
-          <div class="gstep-title">Connect your bank / PayPal for payouts</div>
-          <div class="gstep-body">Go to <strong>Settings → Payments</strong>. Connect your bank account (US) or PayPal for international payouts. Gumroad pays out weekly once you hit $10. <strong>Do this first</strong> — you can't receive money until it's connected.</div>
-        </div>
-      </div>
-      </div>
-
-      <div class="gstep">
-        <div class="gstep-num">3</div>
-        <div class="gstep-content">
-          <div class="gstep-title">Copy your buy links and update this sales page</div>
-          <div class="gstep-body">After publishing each product, Gumroad gives you a link like:<br>
-          <code>https://moshell.gumroad.com/l/fydlcl</code><br><br>
-          Your buy buttons are already connected to your Gumroad links.<br><br>Upload the updated <code>sales.html</code> to your GitHub repo as a new file. Your sales page will be live at:<br>
-          <code>https://kingmo87.github.io/moshell/sales.html</code>
-          </div>
-        </div>
-      </div>
-
-      <div class="gstep">
-        <div class="gstep-num">4</div>
-        <div class="gstep-content">
-          <div class="gstep-title">Add a "Buy Now" button to your main platform</div>
-          <div class="gstep-body">Open your main <code>index.html</code>. In the nav section, find the <code>nav-badge</code> button and add a second link:<br>
-          <code>&lt;a href="sales.html" style="..."&gt;💰 GET FULL ACCESS&lt;/a&gt;</code><br><br>
-          This way students browsing your free platform see the upgrade option naturally.
-          <div class="gstep-tip">💡 You can also add the Gumroad overlay script to auto-open checkout in a popup — see gumroad.com/follow-gumroad for the embed code.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="gstep">
-        <div class="gstep-num">5</div>
-        <div class="gstep-content">
-          <div class="gstep-title">Share & promote</div>
-          <div class="gstep-body">Your shareable sales page link:<br>
-          <code>https://kingmo87.github.io/moshell/sales.html</code><br><br>
-          <strong>Where to share:</strong><br>
-          • Reddit: r/linux, r/learnprogramming, r/ITCareerQuestions<br>
-          • LinkedIn: post about your platform + link<br>
-          • Twitter/X: "I built a free Linux course — and a $37 bundle for people who want to go deeper"<br>
-          • Discord: Linux, sysadmin, and cybersecurity servers<br>
-          • YouTube: record a free lesson, link to full bundle in description
-          <div class="gstep-tip">💡 Even 10 sales at $37 = $333. 100 sales = $3,330. Keep the free platform growing to drive sales.</div>
-          </div>
-        </div>
-      </div>
-
-    <!-- PRICING SUMMARY -->
-    <div style="margin-top:3rem">
-      <div class="section-eyebrow" style="margin-bottom:1rem">REVENUE POTENTIAL</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.5rem;text-align:center">
-          <div style="font-family:var(--display);font-size:2.5rem;color:var(--green);letter-spacing:.04em">$333</div>
-          <div style="font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.1em;margin-top:4px">10 BUNDLE SALES</div>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--green);border-radius:8px;padding:1.5rem;text-align:center">
-          <div style="font-family:var(--display);font-size:2.5rem;color:var(--green);letter-spacing:.04em">$3,330</div>
-          <div style="font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.1em;margin-top:4px">100 BUNDLE SALES</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <footer>
   <p>🐧 <span class="fg">MOSHELL</span> · <a href="https://kingmo87.github.io/moshell/" style="color:var(--blue)">FREE PLATFORM ↗</a> · POWERED BY GUMROAD</p>
