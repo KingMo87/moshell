@@ -251,6 +251,38 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .lesson-card.done .lcheck{background:var(--green-bg);border-color:var(--green);color:var(--green)}
 .l-open-btn{font-size:.65rem;color:var(--cyan);opacity:0;transition:.2s}
 .lesson-card:hover .l-open-btn{opacity:1}
+.lesson-card.locked{position:relative;opacity:.72}
+.lesson-card.locked:hover{opacity:.92}
+.lock-badge{
+  position:absolute;top:12px;right:12px;
+  background:var(--amber-bg);color:var(--amber);
+  border:1px solid var(--amber2);
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;
+  padding:3px 9px;border-radius:4px;font-weight:500;
+  display:flex;align-items:center;gap:4px;
+}
+.modal-locked{
+  text-align:center;padding:2.5rem 1.5rem;
+}
+.modal-locked .lock-icon{font-size:2.5rem;margin-bottom:1rem}
+.modal-locked h3{font-family:var(--sans);font-size:1.2rem;color:var(--text);margin-bottom:.6rem}
+.modal-locked p{color:var(--text2);font-size:.85rem;max-width:380px;margin:0 auto 1.5rem;line-height:1.7}
+.modal-locked .preview-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:1rem 1.2rem;margin:0 auto 1.5rem;max-width:420px;text-align:left;
+}
+.modal-locked .preview-box .pv-title{font-size:.7rem;letter-spacing:.06em;color:var(--text3);margin-bottom:.5rem;font-family:var(--mono)}
+.modal-locked .preview-box ul{list-style:none;padding:0;margin:0}
+.modal-locked .preview-box li{font-size:.78rem;color:var(--text2);padding:3px 0;padding-left:1.1rem;position:relative}
+.modal-locked .preview-box li::before{content:'→';position:absolute;left:0;color:var(--green)}
+.unlock-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green);color:#000;font-weight:700;
+  font-family:var(--mono);font-size:.8rem;
+  padding:12px 28px;border-radius:var(--r);
+  text-decoration:none;transition:.15s;
+}
+.unlock-btn:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(57,211,83,.3)}
 
 /* ═══ LESSON MODAL ═══ */
 #lesson-modal{
@@ -959,16 +991,20 @@ function saveProgress(){ localStorage.setItem('mlp-progress', JSON.stringify(pro
 const TAGMAP = {g:'tg',c:'tc',a:'ta',p:'tp',r:'tr'};
 const DIFFMAP = {beginner:'d-b Beginner',intermediate:'d-i Intermediate',advanced:'d-a Advanced'};
 
+const FREE_LESSON_LIMIT = 6;
+
 function renderLessons(filter='all'){
   const grid = document.getElementById('lessons-grid');
   grid.innerHTML = '';
   LESSONS.filter(l => filter==='all' || l.cats.includes(filter)).forEach(l => {
     const done = !!progress[l.id];
+    const locked = l.id > FREE_LESSON_LIMIT;
     const el = document.createElement('div');
-    el.className = 'lesson-card' + (done ? ' done' : '');
+    el.className = 'lesson-card' + (done ? ' done' : '') + (locked ? ' locked' : '');
     el.onclick = () => openLesson(l.id);
     const [dc,dl] = DIFFMAP[l.diff].split(' ');
     el.innerHTML = `
+      ${locked ? '<div class="lock-badge">🔒 BUNDLE</div>' : ''}
       <div class="lcard-top">
         <span class="lnum">LESSON ${l.num}</span>
         <span class="ldiff ${dc}">${dl}</span>
@@ -978,7 +1014,7 @@ function renderLessons(filter='all'){
       <div class="ltags">${l.tags.map(t=>{const[c,n]=t.split(':');return`<span class="ltag ${TAGMAP[c]||'tg'}">${n}</span>`}).join('')}</div>
       <div class="lcard-footer">
         <div class="lprog-wrap"><div class="lprog-fill" style="width:${done?'100':'0'}%"></div></div>
-        <div class="lcheck">${done?'✓':''}</div>
+        <div class="lcheck">${locked ? '' : (done?'✓':'')}</div>
       </div>`;
     grid.appendChild(el);
   });
@@ -1001,6 +1037,28 @@ function openLesson(id){
   const mb = document.getElementById('modal-body');
   const done = !!progress[id];
   const btn = document.getElementById('mark-btn');
+  const locked = id > FREE_LESSON_LIMIT;
+
+  if(locked){
+    btn.style.display = 'none';
+    const previewItems = (l.content.sections[0] && l.content.sections[0].items.slice(0,4)) || [];
+    mb.innerHTML = `
+      <div class="modal-locked">
+        <div class="lock-icon">🔒</div>
+        <h3>This lesson is part of the Full Bundle</h3>
+        <p>${l.content.intro}</p>
+        <div class="preview-box">
+          <div class="pv-title">PREVIEW — WHAT YOU'LL LEARN</div>
+          <ul>${previewItems.map(i=>`<li>${i.split(' — ')[0]}</li>`).join('')}</ul>
+        </div>
+        <a href="sales.html" class="unlock-btn">🏆 Unlock Full Bundle — $37 →</a>
+      </div>`;
+    document.getElementById('lesson-modal').classList.add('open');
+    document.body.style.overflow='hidden';
+    return;
+  }
+
+  btn.style.display = '';
   btn.textContent = done ? '✓ Completed!' : '✓ Mark as Complete';
   btn.className = 'mark-btn' + (done ? ' marked' : '');
 
