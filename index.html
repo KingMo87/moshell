@@ -508,6 +508,8 @@ footer .fg{color:var(--green)}
 
 </style>
 </head>
+  <script src="moshell-analytics.js"></script>
+<script src="moshell-missions.js"></script>
 <body>
 
 <!-- PROGRESS BAR -->
@@ -1111,6 +1113,7 @@ function toggleDone(){
   btn.textContent = done ? '✓ Completed!' : '✓ Mark as Complete';
   btn.className = 'mark-btn' + (done ? ' marked' : '');
   showToast(done ? 'Lesson marked complete!' : 'Marked incomplete');
+  if (done) trackLessonComplete(currentLesson);
 }
 
 function prevLesson(){
