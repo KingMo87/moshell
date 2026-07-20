@@ -11,13 +11,17 @@
      • keeps a small mutable file model (LAB) so end-state can be checked
      • on full completion, calls your real progress API
        (progress[id]=true; saveProgress(); renderLessons(); updateStats())
+     • also fires a GA4 lesson_complete event via trackLessonComplete()
+       (defined in moshell-analytics.js — load that file BEFORE this one)
 
    PAYWALL-SAFE: targets a free lesson only. It never unlocks lessons 7–12 —
    your lock is id-based, so completion can't bypass it.
 
-   INSTALL (2 steps):
+   INSTALL (3 steps):
      1. Commit this file to your repo as  moshell-missions.js
-     2. In index.html, immediately before  </body>, add:
+     2. Commit moshell-analytics.js to your repo too
+     3. In index.html, immediately before  </body>, add:
+            <script src="moshell-analytics.js"></script>
             <script src="moshell-missions.js"></script>
    ════════════════════════════════════════════════════════════════════════ */
 (function () {
@@ -158,6 +162,9 @@
       if (typeof renderLessons === 'function') renderLessons();
       if (typeof updateStats === 'function') updateStats();
       if (typeof showToast === 'function') showToast('Lesson ' + String(LESSON_ID).padStart(2, '0') + ' verified complete ✓');
+
+      // GA4 tracking — dedup'd per browser inside trackLessonComplete()
+      if (typeof trackLessonComplete === 'function') trackLessonComplete(LESSON_ID);
     } catch (e) { console.error(e); }
   }
 
