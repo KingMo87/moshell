@@ -2,6 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- ============================================================
+     MOSHELL — index.html HEAD PATCH
+     Replace everything in your file FROM <meta charset="UTF-8">
+     DOWN TO the closing </script> right before your <link rel="icon" ...>
+     line. Do NOT touch anything after that (favicon, fonts, <style>,
+     moshell-analytics.js, moshell-missions.js, or the body).
+     ============================================================ -->
+
+<meta charset="UTF-8">
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZT815QEJS"></script>
 <script>
@@ -11,25 +20,65 @@
   gtag('config', 'G-3ZT815QEJS');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MOSHELL — Master Linux. Own the Terminal. | Free Linux Course</title>
-<meta name="description" content="MOSHELL — Hands-on Linux course from zero to sysadmin. Free interactive platform plus PDF workbooks covering bash, networking, SSH, Docker, firewalls and server administration. Starting at $17.">
-<meta name="keywords" content="learn Linux, Linux course, Linux tutorial, Linux for beginners, bash scripting, Ubuntu tutorial, sysadmin course, Linux commands, VirtualBox Linux, homelab Linux, Linux security, SSH tutorial, Docker Linux, free Linux course, Linux workbook">
+
+<!-- ---------- TITLE / DESCRIPTION (disambiguation fix) ---------- -->
+<title>MOSHELL — Interactive Browser-Based Linux Sandbox | Learn Linux Free, No Install</title>
+<meta name="description" content="MOSHELL is a browser-based interactive Linux sandbox — learn bash, networking, SSH, Docker, and sysadmin skills with zero install and no VM required. Free lessons 1-6, full course from $17.">
+<meta name="keywords" content="linux sandbox, browser based linux, interactive linux tutorial, learn linux online, linux terminal simulator, learn linux, linux course, linux tutorial, linux for beginners, bash scripting, ubuntu tutorial, sysadmin course, linux commands, virtualbox linux, homelab linux, linux security, ssh tutorial, docker linux, free linux course, linux workbook">
 <meta name="author" content="MOSHELL Linux Platform">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#00e676">
+
+<!-- ---------- OPEN GRAPH ---------- -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="MOSHELL — Master Linux. Own the Terminal.">
-<meta property="og:description" content="Hands-on Linux course from zero to sysadmin. Free platform plus PDF workbooks. Bash, networking, Docker, SSH, firewalls and more.">
+<meta property="og:title" content="MOSHELL — Interactive Browser-Based Linux Sandbox">
+<meta property="og:description" content="Learn Linux hands-on, right in your browser. No install, no VM, no sign-up needed to start. Bash, networking, Docker, SSH, firewalls and more.">
 <meta property="og:url" content="https://kingmo87.github.io/moshell/">
 <meta property="og:image" content="https://kingmo87.github.io/moshell/cover.png">
 <meta property="og:site_name" content="MOSHELL Linux Platform">
+
+<!-- ---------- TWITTER / X CARD ---------- -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="MOSHELL — Master Linux. Own the Terminal.">
-<meta name="twitter:description" content="Free hands-on Linux course. Beginner to advanced. Bash, networking, Docker, SSH, firewalls. Try free — no sign-up needed.">
+<meta name="twitter:title" content="MOSHELL — Interactive Browser-Based Linux Sandbox">
+<meta name="twitter:description" content="Free hands-on Linux course, right in your browser. No install, no VM. Bash, networking, Docker, SSH, firewalls. Try free — no sign-up needed.">
 <meta name="twitter:image" content="https://kingmo87.github.io/moshell/cover.png">
 <link rel="canonical" href="https://kingmo87.github.io/moshell/">
+
+<!-- ---------- STRUCTURED DATA (the core disambiguation signal) ---------- -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Course","name":"MOSHELL Linux Platform","description":"Hands-on Linux course from zero to sysadmin covering bash scripting, networking, SSH, Docker, firewalls and server administration.","provider":{"@type":"Organization","name":"MOSHELL","url":"https://kingmo87.github.io/moshell/"},"url":"https://kingmo87.github.io/moshell/","courseMode":"online","isAccessibleForFree":true,"inLanguage":"en","educationalLevel":"Beginner to Advanced"}
+{
+  "@context": "https://schema.org",
+  "@type": ["Course", "LearningResource"],
+  "name": "MOSHELL Linux Platform",
+  "alternateName": "MOSHELL",
+  "description": "Browser-based interactive Linux sandbox teaching bash scripting, networking, SSH, Docker, firewalls, and server administration. No install or VM required to start.",
+  "provider": {
+    "@type": "Organization",
+    "name": "MOSHELL",
+    "url": "https://kingmo87.github.io/moshell/"
+  },
+  "url": "https://kingmo87.github.io/moshell/",
+  "courseMode": "online",
+  "learningResourceType": "Interactive sandbox",
+  "applicationCategory": "EducationalApplication",
+  "keywords": "linux sandbox, browser based linux, interactive linux tutorial, learn linux online",
+  "isAccessibleForFree": true,
+  "inLanguage": "en",
+  "educationalLevel": "Beginner to Advanced"
+}
+</script>
+
+<!-- ---------- everything below this line is UNCHANGED from your file ----------
+     <link rel="icon" href="data:image/svg+xml,...">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono..." rel="stylesheet">
+     <style> ... </style>
+     </head>
+     <script src="moshell-analytics.js"></script>
+     <script src="moshell-missions.js"></script>
+     <body> ... (nothing here changes)
+------------------------------------------------------------------------------ -->
 </script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
