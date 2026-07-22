@@ -541,7 +541,13 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
   transition:.3s;pointer-events:none;
 }
 #toast.show{opacity:1;transform:translateY(0)}
-
+/* ═══ LESSON COMPLETE EFFECT ═══ */
+#complete-fx{position:fixed;inset:0;pointer-events:none;z-index:998;overflow:hidden}
+.fx-particle{position:absolute;width:6px;height:6px;background:var(--green);border-radius:1px;opacity:0;box-shadow:0 0 6px var(--green)}
+@keyframes fx-burst{0%{opacity:1;transform:translate(0,0) scale(1) rotate(0deg)}100%{opacity:0;transform:var(--fx-end) scale(.3) rotate(180deg)}}
+.fx-line{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--green2);border-radius:var(--r);padding:12px 22px;font-family:var(--mono);font-size:.8rem;color:var(--green);white-space:nowrap;overflow:hidden;z-index:999;opacity:0;box-shadow:0 8px 32px rgba(57,211,83,.2);transition:opacity .3s ease, transform .3s ease}
+.fx-line.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.fx-line .fx-cursor{display:inline-block;width:7px;height:13px;background:var(--green);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
 /* ═══ FOOTER ═══ */
 footer{
   border-top:1px solid var(--border);background:var(--bg2);
@@ -1160,8 +1166,12 @@ function toggleDone(){
   const btn = document.getElementById('mark-btn');
   btn.textContent = done ? '✓ Completed!' : '✓ Mark as Complete';
   btn.className = 'mark-btn' + (done ? ' marked' : '');
-  showToast(done ? 'Lesson marked complete!' : 'Marked incomplete');
-  if (done) trackLessonComplete(currentLesson);
+ showToast(done ? 'Lesson marked complete!' : 'Marked incomplete');
+  if (done) {
+    trackLessonComplete(currentLesson);
+    const l = LESSONS.find(x => x.id === currentLesson);
+    celebrateLessonComplete(l.title);
+  }
 }
 
 function prevLesson(){
@@ -1530,7 +1540,59 @@ function showToast(msg){
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2200);
 }
+function celebrateLessonComplete(lessonTitle){
+  let fx = document.getElementById('complete-fx');
+  if(!fx){
+    fx = document.createElement('div');
+    fx.id = 'complete-fx';
+    document.body.appendChild(fx);
+  }
+  fx.innerHTML = '';
 
+  const originX = window.innerWidth / 2;
+  const originY = window.innerHeight / 2;
+  const count = 18;
+
+  for(let i = 0; i < count; i++){
+    const p = document.createElement('div');
+    p.className = 'fx-particle';
+    const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.3);
+    const dist = 80 + Math.random() * 120;
+    const dx = Math.cos(angle) * dist;
+    const dy = Math.sin(angle) * dist;
+    p.style.left = originX + 'px';
+    p.style.top = originY + 'px';
+    p.style.setProperty('--fx-end', `translate(${dx}px, ${dy}px)`);
+    p.style.animation = `fx-burst ${0.6 + Math.random()*0.4}s ease-out forwards`;
+    p.style.animationDelay = (Math.random() * 0.1) + 's';
+    fx.appendChild(p);
+  }
+  setTimeout(() => { fx.innerHTML = ''; }, 1200);
+
+  let line = document.getElementById('fx-line');
+  if(!line){
+    line = document.createElement('div');
+    line.id = 'fx-line';
+    line.className = 'fx-line';
+    document.body.appendChild(line);
+  }
+
+  const fullText = `✓ lesson_complete: "${lessonTitle}"`;
+  line.textContent = '';
+  line.classList.add('show');
+
+  let i = 0;
+  function typeChar(){
+    if(i <= fullText.length){
+      line.innerHTML = fullText.slice(0, i) + '<span class="fx-cursor"></span>';
+      i++;
+      setTimeout(typeChar, 18);
+    } else {
+      setTimeout(() => { line.classList.remove('show'); }, 1600);
+    }
+  }
+  typeChar();
+}
 // ═══════════════════════════════════════════════
 // CLOSE MODAL ON BACKGROUND CLICK
 // ═══════════════════════════════════════════════
