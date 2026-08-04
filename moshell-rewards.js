@@ -1,20 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════
-   MOSHELL — Rewards/Badges System
-   ────────────────────────────────────────────────────────────────────────
-   When users complete lessons, they earn badges. Each badge unlock shows
-   an email-gate modal. Users can view their badge collection.
-
-   Badge Tiers:
-   - Lesson 1: 🐧 Hacker (entry level)
-   - Lesson 3: ⚡ Power User (intermediate)
-   - Lesson 6: 🎓 Linux Master (beginner complete)
-   - Lesson 9: 🔐 Security Expert (advanced)
-   - Lesson 12: 👑 Full Stack Admin (mastery)
-
-   INSTALL:
-     1. Load this file before </body> in index.html
-     2. Call awardBadge(lessonId) from toggleDone()
-     3. User completes lesson → badge unlocks → email gate shows
+   MOSHELL — Rewards/Badges System with Gumroad Integration
    ════════════════════════════════════════════════════════════════════════ */
 
 const BADGES = {
@@ -50,28 +35,23 @@ const BADGES = {
   }
 };
 
-// Badge milestones that trigger email gate
 const EMAIL_GATE_TRIGGERS = [3, 6, 9, 12];
 
 window.awardBadge = function(lessonId) {
   try {
-    if (!BADGES[lessonId]) return; // No badge for this lesson
+    if (!BADGES[lessonId]) return;
 
-    // Load earned badges
     let earned = JSON.parse(sessionStorage.getItem('moshell-badges') || '{}');
-    if (earned[lessonId]) return; // Already earned this badge
+    if (earned[lessonId]) return;
 
-    // Award badge
     earned[lessonId] = {
       unlockedAt: new Date().toISOString(),
       lesson: lessonId
     };
     sessionStorage.setItem('moshell-badges', JSON.stringify(earned));
 
-    // Show badge unlock animation + modal
     showBadgeUnlock(lessonId);
 
-    // Fire GA4 event
     if (typeof gtag === 'function') {
       gtag('event', 'badge_earned', {
         badge_name: BADGES[lessonId].name,
@@ -79,9 +59,8 @@ window.awardBadge = function(lessonId) {
       });
     }
 
-    // Trigger email gate on specific milestones
     if (EMAIL_GATE_TRIGGERS.includes(lessonId)) {
-      setTimeout(() => showEmailGate(lessonId), 1200); // After badge animation
+      setTimeout(() => showEmailGate(lessonId), 1200);
     }
   } catch (e) {
     console.error('[moshell-rewards] badge award failed', e);
@@ -261,68 +240,21 @@ window.handleEmailSubmit = function(event, lessonId) {
   const email = event.target[0].value.trim();
   
   try {
-    // Store email + badge earned
-    let subscriber = {
-      email: email,
-      badgesEarned: [lessonId],
-      subscribedAt: new Date().toISOString()
-    };
+    const gumroadUrl = 'https://moshell.gumroad.com/l/mjwclt';
+    const checkoutUrl = gumroadUrl + '?email=' + encodeURIComponent(email);
     
-    // Save to localStorage (later: send to Gumroad workflow)
-    localStorage.setItem('moshell-email-' + email, JSON.stringify(subscriber));
-
-    // Fire GA4 event
     if (typeof gtag === 'function') {
       gtag('event', 'email_submitted', {
         badge_trigger: lessonId
       });
     }
-
-    // Show confirmation
-    const modal = document.getElementById('email-gate-modal');
-    modal.innerHTML = `
-      <div style="
-        background: var(--surface2);
-        border: 1px solid var(--border2);
-        border-radius: 14px;
-        padding: 2rem;
-        max-width: 380px;
-        text-align: center;
-      ">
-        <div style="font-size: 2rem; margin-bottom: 1rem;">✓</div>
-        <h3 style="
-          font-family: var(--sans);
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: var(--green);
-          margin-bottom: 0.5rem;
-        ">
-          Badge saved!
-        </h3>
-        <p style="color: var(--text2); font-size: 0.85rem; margin-bottom: 1.5rem;">
-          Check your email for download link. Keep learning!
-        </p>
-        <button onclick="document.getElementById('email-gate-modal').remove()" style="
-          background: var(--green); color: #000;
-          border: none; padding: 8px 20px; border-radius: 6px;
-          font-weight: 700; font-family: var(--mono); font-size: 0.75rem;
-          cursor: pointer;
-        ">
-          Continue
-        </button>
-      </div>
-    `;
-
-    setTimeout(() => {
-      const m = document.getElementById('email-gate-modal');
-      if (m) m.remove();
-    }, 3000);
+    
+    window.location.href = checkoutUrl;
   } catch (e) {
     console.error('[moshell-rewards] email submit failed', e);
   }
 };
 
-// Show badge collection
 window.showBadgeCollection = function() {
   let earned = JSON.parse(sessionStorage.getItem('moshell-badges') || '{}');
   
