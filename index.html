@@ -2,16 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- ============================================================
-     MOSHELL — index.html HEAD PATCH
-     Replace everything in your file FROM <meta charset="UTF-8">
-     DOWN TO the closing </script> right before your <link rel="icon" ...>
-     line. Do NOT touch anything after that (favicon, fonts, <style>,
-     moshell-analytics.js, moshell-missions.js, or the body).
-     ============================================================ -->
-
-<meta charset="UTF-8">
-  <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZT815QEJS"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -68,15 +59,6 @@
 }
 </script>
 
-<!-- ---------- everything below this line is UNCHANGED from your file ----------
-     <link rel="icon" href="data:image/svg+xml,...">
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono..." rel="stylesheet">
-     <style> ... </style>
-     </head>
-     <body> ... (nothing here changes)
------------------------------------------------------------------------------- -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1033,7 +1015,7 @@ const CHEATDATA = {
   }
 };
 
-const QUICKCMDS = ['help','ls -la','pwd','whoami','ip a','df -h','free -h','ps aux','date','uname -a','cat /etc/hostname','history'];
+const QUICKCMDS = ['help','ls -la','pwd','tree','find . -type f','ip a','ps aux','df -h','chmod 755 file','history'];
 
 // ═══════════════════════════════════════════════
 // STATE
@@ -1239,6 +1221,29 @@ const FS = {
   '/proc': ['cpuinfo','meminfo','uptime','version','net/'],
 };
 
+// ── path resolution helper, mirrors the logic already used by `cd` ──────
+function resolvePath(t){
+  if(!t) return cwd;
+  if(t==='~') return '/home/student';
+  if(t.startsWith('~/')) return '/home/student/'+t.slice(2);
+  if(t.startsWith('/')) return t.replace(/\/$/,'') || '/';
+  return ((cwd==='/'?'':cwd)+'/'+t).replace(/\/$/,'');
+}
+
+function modeToSymbolic(mode){
+  const map = {'0':'---','1':'--x','2':'-w-','3':'-wx','4':'r--','5':'r-x','6':'rw-','7':'rwx'};
+  if(!/^[0-7]{3,4}$/.test(mode)) return null;
+  const digits = mode.length===4 ? mode.slice(1) : mode;
+  return digits.split('').map(d=>map[d]).join('');
+}
+
+const BINPATHS = {
+  bash:'/bin/bash', ls:'/bin/ls', cat:'/bin/cat', grep:'/usr/bin/grep', ssh:'/usr/bin/ssh',
+  python3:'/usr/bin/python3', curl:'/usr/bin/curl', vim:'/usr/bin/vim', nano:'/usr/bin/nano',
+  git:'/usr/bin/git', docker:'/usr/bin/docker', sudo:'/usr/bin/sudo', top:'/usr/bin/top',
+  wget:'/usr/bin/wget', ping:'/usr/bin/ping'
+};
+
 const CMDS = {
   pwd: ()=> cwd,
   whoami: ()=> 'student',
@@ -1259,11 +1264,307 @@ const CMDS = {
   history: ()=> QUICKCMDS.map((c,i)=>`  ${String(i+1).padStart(3)}  ${c}`).join('\n'),
   'ip a': ()=> `1: lo: &lt;LOOPBACK,UP&gt;\n    inet <span style="color:var(--green)">127.0.0.1/8</span> scope host lo\n2: enp0s3: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--green)">10.0.2.15/24</span> brd 10.0.2.255 scope global enp0s3\n3: enp0s8: &lt;BROADCAST,MULTICAST,UP&gt;\n    inet <span style="color:var(--cyan)">192.168.56.10/24</span> brd 192.168.56.255 scope global enp0s8`,
   'ip r': ()=> `default via 10.0.2.2 dev enp0s3\n10.0.2.0/24 dev enp0s3 proto kernel src 10.0.2.15\n192.168.56.0/24 dev enp0s8 proto kernel src 192.168.56.10`,
+  'ip link show': ()=> `1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536\n2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500\n3: enp0s8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500`,
   'ss -tuln': ()=> `Netid State  Recv-Q  Local Address:Port\ntcp   LISTEN 0       0.0.0.0:22\ntcp   LISTEN 0       0.0.0.0:80\ntcp   LISTEN 0       127.0.0.1:631`,
+  netstat: ()=> `Active Internet connections\nProto Local Address           Foreign Address         State\ntcp   0.0.0.0:22              0.0.0.0:*               LISTEN\ntcp   10.0.2.15:22            10.0.2.2:52344          ESTABLISHED`,
+  ifconfig: ()=> `enp0s3: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500\n        inet <span style="color:var(--green)">10.0.2.15</span>  netmask 255.255.255.0\n\nlo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536\n        inet <span style="color:var(--green)">127.0.0.1</span>  netmask 255.0.0.0\n\n<span style="color:var(--text3)">(ifconfig is deprecated — try 'ip a')</span>`,
+  traceroute: (args)=>{
+    const host = args.find(a=>!a.startsWith('-')) || 'example.com';
+    return `traceroute to ${host}, 30 hops max\n 1  10.0.2.2  0.412 ms\n 2  192.168.1.1  4.203 ms\n 3  ${host} (93.184.216.34)  11.02 ms`;
+  },
+  dig: (args)=>{
+    const host = args.find(a=>!a.startsWith('-')) || 'example.com';
+    return `; &lt;&lt;&gt;&gt; DiG 9.18 &lt;&lt;&gt;&gt; ${host}\n;; ANSWER SECTION:\n${host}.\t\t300\tIN\tA\t93.184.216.34\n\n;; Query time: 11 msec`;
+  },
+  nslookup: (args)=>{
+    const host = args[0] || 'example.com';
+    return `Server:\t\t8.8.8.8\nAddress:\t8.8.8.8#53\n\nNon-authoritative answer:\nName:\t${host}\nAddress: 93.184.216.34`;
+  },
+  wget: (args)=>{
+    const url = args.find(a=>!a.startsWith('-')) || 'http://example.com/file';
+    const name = url.split('/').pop() || 'index.html';
+    return `Resolving host... connected.\nHTTP request sent, awaiting response... 200 OK\nSaving to: '${name}'\n\n${name}  100%[===================>]  12.4K\n\n'${name}' saved <span style="color:var(--text3)">(simulated)</span>`;
+  },
   'ps aux': ()=> `USER       PID %CPU %MEM COMMAND\nroot         1  0.0  0.5 /sbin/init\nroot       450  0.0  0.8 /usr/sbin/sshd\nstudent   1024  0.0  0.3 -bash\nstudent   1055  0.0  0.1 ps aux`,
   top: ()=> `top - ${new Date().toLocaleTimeString()} up 3 days, load: 0.05\nTasks: 87 total, 1 running, 86 sleeping\n%Cpu: 0.8 us, 0.3 sy, 0.0 ni, 98.7 id\nMiB Mem: 2048 total, 1124 free, 612 used\n\n  PID USER %CPU %MEM COMMAND\n  450 root  0.0  0.8  sshd\n 1024 student 0.0 0.3  bash\n<span style="color:var(--text3)">(simulated — press q in real top)</span>`,
+  htop: ()=> `<span style="color:var(--text3)">(simulated — htop is interactive; here's a static snapshot)</span>\n` + CMDS.top(),
+  pstree: ()=> `systemd─┬─sshd───bash───pstree\n        ├─nginx─┬─nginx\n        │       └─nginx\n        └─cron`,
+  pgrep: (args)=>{
+    if(!args[0]) return 'pgrep: no pattern specified';
+    const fake = {sshd:450, nginx:812, bash:1024, systemd:1};
+    return fake[args[0]] ? String(fake[args[0]]) : `<span style="color:var(--text3)">(no matching process — simulated)</span>`;
+  },
+  lsof: (args)=>{
+    if(args.includes('-p')){
+      const pid = args[args.indexOf('-p')+1] || '1024';
+      return `COMMAND  PID    USER   FD   TYPE DEVICE NODE NAME\nbash   ${pid} student  cwd    DIR    8,1   131 ${cwd}\nbash   ${pid} student  txt    REG    8,1    45 /bin/bash`;
+    }
+    return `<span style="color:var(--text3)">(simulated — try: lsof -p PID)</span>`;
+  },
+  kill: (args, flags)=>{
+    if(!args[0]) return 'kill: usage: kill [-signal] pid';
+    const sig = flags.includes('9') ? 'SIGKILL' : 'SIGTERM';
+    return `<span style="color:var(--text3)">(simulated) sent ${sig} to PID ${args[0]}</span>`;
+  },
+  killall: (args)=> !args[0] ? 'killall: usage: killall [name]' : `<span style="color:var(--text3)">(simulated) killed all processes named '${args[0]}'</span>`,
+  nohup: ()=> `nohup: ignoring input and appending output to 'nohup.out'\n<span style="color:var(--text3)">(simulated — process would keep running after logout)</span>`,
   'df -h': ()=> `Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        20G  4.3G   15G  23% /\ntmpfs           1.0G     0  1.0G   0% /dev/shm\n/dev/sda2        50G  1.1G   46G   3% /home`,
   'free -h': ()=> `              total  used  free  shared  buff  available\nMem:          2.0Gi  612Mi 987Mi    12Mi  448Mi    1.2Gi\nSwap:         1.0Gi    0      1.0Gi`,
+  tree: (args)=>{
+    const start = args[0] ? resolvePath(args[0]) : cwd;
+    if(!FS[start]) return `tree: ${args[0]||start}: No such file or directory`;
+    function walk(path, prefix){
+      const entries = FS[path] || [];
+      let out = '';
+      entries.forEach((e,i)=>{
+        const last = i===entries.length-1;
+        out += `${prefix}${last?'└── ':'├── '}<span style="color:${e.endsWith('/')?'var(--cyan)':'var(--text)'}">${e}</span>\n`;
+        if(e.endsWith('/')){
+          const sub = (path==='/'?'':path)+'/'+e.replace(/\/$/,'');
+          if(FS[sub]) out += walk(sub, prefix+(last?'    ':'│   '));
+        }
+      });
+      return out;
+    }
+    return `<span style="color:var(--cyan)">${start}</span>\n` + walk(start,'').trimEnd();
+  },
+  find: (args, flags)=>{
+    let path = (args[0] && args[0]!=='.') ? resolvePath(args[0]) : cwd;
+    const qualifier = args[1];
+    let results = [];
+    Object.keys(FS).forEach(dir=>{
+      if(dir===path || dir.startsWith(path.replace(/\/$/,'')+'/')){
+        (FS[dir]||[]).forEach(e=>{
+          const isDir = e.endsWith('/');
+          const full = (dir==='/'?'':dir)+'/'+e;
+          if(flags.includes('type')){
+            if(qualifier==='f' && isDir) return;
+            if(qualifier==='d' && !isDir) return;
+          }
+          if(flags.includes('name') && qualifier){
+            const re = new RegExp('^'+qualifier.replace(/\*/g,'.*')+'$');
+            if(!re.test(e.replace(/\/$/,''))) return;
+          }
+          results.push(full);
+        });
+      }
+    });
+    if(!results.length) return `<span style="color:var(--text3)">(simulated fs — no matches under ${path}. Try: find ${cwd} -type f)</span>`;
+    return results.join('\n');
+  },
+  locate: (args)=>{
+    if(!args[0]) return 'locate: no pattern specified';
+    let results=[];
+    Object.keys(FS).forEach(dir=>{
+      (FS[dir]||[]).forEach(e=>{
+        if(e.toLowerCase().includes(args[0].toLowerCase())) results.push((dir==='/'?'':dir)+'/'+e);
+      });
+    });
+    return results.length ? results.join('\n') : `<span style="color:var(--text3)">(simulated — 'locate' database has no match for '${args[0]}')</span>`;
+  },
+  which: (args)=>{
+    if(!args[0]) return 'which: missing operand';
+    return BINPATHS[args[0]] || `which: no ${args[0]} in ($PATH)`;
+  },
+  whereis: (args)=>{
+    if(!args[0]) return 'whereis: missing operand';
+    const p = BINPATHS[args[0]];
+    return p ? `${args[0]}: ${p} ${p}.1.gz` : `${args[0]}:`;
+  },
+  type: (args)=>{
+    if(!args[0]) return 'type: missing operand';
+    const builtins=['cd','echo','pwd','history','type','help'];
+    if(builtins.includes(args[0])) return `${args[0]} is a shell builtin`;
+    const p = BINPATHS[args[0]];
+    return p ? `${args[0]} is ${p}` : `bash: type: ${args[0]}: not found`;
+  },
+  touch: (args)=>{
+    if(!args.length) return 'touch: missing file operand';
+    args.forEach(f=>{
+      const full = resolvePath(f);
+      const dir = full.substring(0, full.lastIndexOf('/')) || '/';
+      const name = full.substring(full.lastIndexOf('/')+1);
+      if(!FS[dir]) FS[dir] = [];
+      if(!FS[dir].includes(name)) FS[dir].push(name);
+    });
+    return null;
+  },
+  mkdir: (args, flags)=>{
+    if(!args.length) return 'mkdir: missing operand';
+    args.forEach(pathArg=>{
+      const full = resolvePath(pathArg);
+      if(flags.includes('p')){
+        const segs = full.split('/').filter(Boolean);
+        let acc = '';
+        segs.forEach(seg=>{
+          const parent = acc || '/';
+          acc = acc + '/' + seg;
+          if(!FS[parent]) FS[parent]=[];
+          if(!FS[parent].includes(seg+'/')) FS[parent].push(seg+'/');
+          if(!FS[acc]) FS[acc]=[];
+        });
+      } else {
+        const dir = full.substring(0, full.lastIndexOf('/')) || '/';
+        const name = full.substring(full.lastIndexOf('/')+1)+'/';
+        if(!FS[dir]) return;
+        if(!FS[dir].includes(name)) FS[dir].push(name);
+        if(!FS[full]) FS[full]=[];
+      }
+    });
+    return null;
+  },
+  rm: (args, flags)=>{
+    if(!args.length) return 'rm: missing operand';
+    const recursive = flags.some(f=>f.includes('r')||f.includes('R'));
+    let errors=[];
+    args.forEach(f=>{
+      const full = resolvePath(f);
+      const dir = full.substring(0, full.lastIndexOf('/')) || '/';
+      const name = full.substring(full.lastIndexOf('/')+1);
+      const isDirEntry = (FS[dir]||[]).includes(name+'/');
+      if(isDirEntry && !recursive){ errors.push(`rm: cannot remove '${f}': Is a directory`); return; }
+      if(FS[dir]) FS[dir] = FS[dir].filter(e=>e!==name && e!==name+'/');
+      if(isDirEntry) delete FS[full];
+    });
+    return errors.length ? errors.join('\n') : null;
+  },
+  shred: (args)=>{
+    const files = args.filter(a=>!a.startsWith('-'));
+    if(!files.length) return 'shred: missing file operand';
+    return files.map(f=>`shred: ${f}: pass 1/3 (random)...\nshred: ${f}: pass 2/3 (random)...\nshred: ${f}: pass 3/3 (random)...\n${f}: removed`).join('\n');
+  },
+  stat: (args)=>{
+    if(!args[0]) return 'stat: missing operand';
+    const full = resolvePath(args[0]);
+    const dir = full.substring(0, full.lastIndexOf('/')) || '/';
+    const name = full.substring(full.lastIndexOf('/')+1);
+    const isDir = (FS[dir]||[]).includes(name+'/');
+    const exists = isDir || (FS[dir]||[]).includes(name);
+    if(!exists) return `stat: cannot stat '${args[0]}': No such file or directory`;
+    return `  File: ${args[0]}\n  Size: ${isDir?4096:1240}\tBlocks: 8\tIO Block: 4096\t${isDir?'directory':'regular file'}\nAccess: (0644/-rw-r--r--)\tUid: (1000/student)\tGid: (1000/student)\nModify: ${new Date().toString()}`;
+  },
+  cp: (args, flags)=>{
+    if(args.length<2) return 'cp: missing file operand';
+    const src = resolvePath(args[0]);
+    const srcDir = src.substring(0, src.lastIndexOf('/')) || '/';
+    const srcName = src.substring(src.lastIndexOf('/')+1);
+    const isDirEntry = (FS[srcDir]||[]).includes(srcName+'/');
+    if(isDirEntry && !flags.includes('r')) return `cp: -r not specified; omitting directory '${args[0]}'`;
+    const dst = resolvePath(args[1]);
+    let destDir, destName;
+    if(FS[dst] !== undefined){ destDir = dst; destName = srcName; }
+    else { destDir = dst.substring(0, dst.lastIndexOf('/')) || '/'; destName = dst.substring(dst.lastIndexOf('/')+1); }
+    if(!FS[destDir]) FS[destDir] = [];
+    const finalName = isDirEntry ? destName+'/' : destName;
+    if(!FS[destDir].includes(finalName)) FS[destDir].push(finalName);
+    if(isDirEntry) FS[destDir.replace(/\/$/,'')+'/'+destName] = [...(FS[src]||[])];
+    return null;
+  },
+  mv: (args)=>{
+    if(args.length<2) return 'mv: missing file operand';
+    const src = resolvePath(args[0]);
+    const srcDir = src.substring(0, src.lastIndexOf('/')) || '/';
+    const srcName = src.substring(src.lastIndexOf('/')+1);
+    const isDirEntry = (FS[srcDir]||[]).includes(srcName+'/');
+    const dst = resolvePath(args[1]);
+    let destDir, destName;
+    if(FS[dst] !== undefined){ destDir = dst; destName = srcName; }
+    else { destDir = dst.substring(0, dst.lastIndexOf('/')) || '/'; destName = dst.substring(dst.lastIndexOf('/')+1); }
+    if(!FS[destDir]) FS[destDir] = [];
+    if(FS[srcDir]) FS[srcDir] = FS[srcDir].filter(e=>e!==srcName && e!==srcName+'/');
+    const finalName = isDirEntry ? destName+'/' : destName;
+    if(!FS[destDir].includes(finalName)) FS[destDir].push(finalName);
+    if(isDirEntry){
+      const newFull = destDir.replace(/\/$/,'')+'/'+destName;
+      FS[newFull] = FS[src] || [];
+      delete FS[src];
+    }
+    return null;
+  },
+  ln: (args, flags)=>{
+    if(args.length<2) return 'ln: missing file operand';
+    if(!flags.includes('s')) return `ln: hard links not supported in sandbox — try: ln -s ${args[0]} ${args[1]}`;
+    const full = resolvePath(args[1]);
+    const dir = full.substring(0, full.lastIndexOf('/')) || '/';
+    const name = full.substring(full.lastIndexOf('/')+1);
+    if(!FS[dir]) FS[dir]=[];
+    if(!FS[dir].includes(name)) FS[dir].push(name);
+    return `'${args[1]}' -> '${args[0]}'`;
+  },
+  rsync: (args)=>{
+    const files = args.filter(a=>!a.startsWith('-'));
+    return `sending incremental file list\n${(files[0]||'src/').replace(/\/$/,'')}/\n\nsent 1,842 bytes  received 42 bytes\ntotal size is 12,004  speedup is 6.37\n<span style="color:var(--text3)">(simulated)</span>`;
+  },
+  tar: (args, flags)=>{
+    const isCreate = flags.some(f=>f.includes('c'));
+    const isExtract = flags.some(f=>f.includes('x'));
+    const fileIdx = args.findIndex(a=>/\.(tar|tar\.gz|tgz)$/.test(a));
+    const archive = fileIdx!==-1 ? args[fileIdx] : (args[0]||'archive.tar.gz');
+    const targets = args.filter((a,i)=>i!==fileIdx);
+    if(isCreate) return `<span style="color:var(--text3)">(simulated) created ${archive} from: ${targets.join(', ')||cwd}</span>`;
+    if(isExtract) return `<span style="color:var(--text3)">(simulated) extracted ${archive} to ${cwd}</span>`;
+    return 'tar: you must specify -c (create) or -x (extract)';
+  },
+  chmod: (args, flags)=>{
+    if(args.length<2) return 'chmod: missing operand';
+    const mode = args[0], target = args.slice(1).join(' ');
+    const sym = modeToSymbolic(mode);
+    const rec = flags.includes('R') ? ' (recursive)' : '';
+    return sym ? `Mode of '${target}' changed to ${mode} (${sym})${rec}` : `Mode of '${target}' changed to ${mode}${rec}`;
+  },
+  chown: (args)=> args.length<2 ? 'chown: missing operand' : `Changed ownership of '${args[args.length-1]}' to ${args[0]}`,
+  chgrp: (args)=> args.length<2 ? 'chgrp: missing operand' : `Changed group of '${args[args.length-1]}' to ${args[0]}`,
+  umask: (args)=> args[0] ? `umask set to ${args[0]}` : '0022',
+  groups: ()=> 'student sudo adm cdrom dip plugdev',
+  less: (args)=>{
+    const out = CMDS.cat(args);
+    return out + `\n<span style="color:var(--text3)">(less is paged in a real terminal — press q to quit)</span>`;
+  },
+  head: (args, flags)=>{
+    let n = 10, fileArgs = args;
+    if(flags.includes('n')){
+      const idx = args.findIndex(a=>!isNaN(a));
+      if(idx!==-1){ n = parseInt(args[idx]); fileArgs = args.filter((a,i)=>i!==idx); }
+    }
+    const content = CMDS.cat(fileArgs);
+    if(content.startsWith('cat:')) return content.replace('cat:','head:');
+    return content.split('\n').slice(0,n).join('\n');
+  },
+  tail: (args, flags)=>{
+    if(flags.includes('f')){
+      return `<span style="color:var(--text3)">(simulated -f follow on '${args[0]||'file'}' — press Ctrl+C to stop)</span>\n[new log lines would appear here in real time]`;
+    }
+    const content = CMDS.cat(args);
+    if(content.startsWith('cat:')) return content.replace('cat:','tail:');
+    return content.split('\n').slice(-10).join('\n');
+  },
+  sort: (args)=>{
+    const content = CMDS.cat(args.filter(a=>!a.startsWith('-')));
+    if(content.startsWith('cat:')) return `<span style="color:var(--text3)">(simulated example)</span>\napple\nbanana\ncherry`;
+    return content.split('\n').sort().join('\n');
+  },
+  uniq: (args, flags)=>{
+    const sample = ['error','error','warning','info','info','info'];
+    if(flags.includes('c')){
+      const counts={}; sample.forEach(s=>counts[s]=(counts[s]||0)+1);
+      return Object.entries(counts).map(([k,v])=>`   ${v} ${k}`).join('\n') + `\n<span style="color:var(--text3)">(simulated sample data)</span>`;
+    }
+    return [...new Set(sample)].join('\n') + `\n<span style="color:var(--text3)">(simulated)</span>`;
+  },
+  wc: (args, flags)=>{
+    const content = CMDS.cat(args.filter(a=>!a.startsWith('-')));
+    if(content.startsWith('cat:')) return content.replace('cat:','wc:');
+    const lines = content.split('\n').length;
+    const words = content.split(/\s+/).filter(Boolean).length;
+    if(flags.includes('l')) return `${lines} ${args[0]||''}`;
+    if(flags.includes('w')) return `${words} ${args[0]||''}`;
+    return `${lines} ${words} ${content.length} ${args[0]||''}`;
+  },
+  awk: (args)=> `<span style="color:var(--text3)">(simulated) awk would print the requested field from each input line — pipe real output to awk in your VM to see it live</span>`,
+  sed: (args)=> `<span style="color:var(--text3)">(simulated) sed would apply pattern ${args[0]||''} to input — pipe real output to sed in your VM to see it live</span>`,
+  cut: ()=> `<span style="color:var(--text3)">(simulated example on an /etc/passwd-style line):</span>\nroot`,
+  'Ctrl+Z': ()=> `<span style="color:var(--text3)">Ctrl+Z is a keyboard shortcut (suspends the foreground process) — try pressing it for real in a terminal, it can't be typed as a command.</span>`,
+  'bg / fg': ()=> `bg — resume a suspended job in the background\nfg — bring a background job to the foreground\n<span style="color:var(--text3)">(needs an actual suspended job — try: sleep 100, then Ctrl+Z, then 'bg')</span>`,
   cat: (args)=> {
     if(!args[0]) return 'cat: missing file operand\nUsage: cat [file]';
     const f = args[0];
@@ -1335,7 +1636,21 @@ Maintainer: Ubuntu Developers
 Homepage: https://packages.ubuntu.com/${args[0]}
 Description: ${args[0]} package for Ubuntu Linux`:'apt show: must specify package name',
   'sudo apt upgrade': ()=> `Reading package lists... Done\nCalculating upgrade... Done\n8 upgraded, 0 newly installed, 0 to remove.\nNeed to get 12.4 MB of archives.\nDo you want to continue? [Y/n] Y\nPreparing to unpack... done\nProcessing triggers for systemd...`,
-  help: ()=> `<span style="color:var(--purple);font-weight:700">MOSHELL — Sandbox Commands</span>\n\n<span style="color:var(--green)">System:</span>    whoami  id  hostname  uname -a  date  uptime  history\n<span style="color:var(--green)">Files:</span>      ls  ls -la  cat [file]  pwd\n<span style="color:var(--green)">Network:</span>    ip a  ip r  ss -tuln  ping [host]  curl -I [url]\n<span style="color:var(--green)">Processes:</span>  ps aux  top  free -h  df -h  lsblk  dmesg\n<span style="color:var(--green)">Packages:</span>   sudo apt update  sudo apt upgrade\n<span style="color:var(--green)">Logs:</span>       journalctl  journalctl -f\n<span style="color:var(--green)">Other:</span>      man [cmd]  echo [text]  clear  help\n\n<span style="color:var(--text3)">Tip: Click any command in the Cheatsheet section above to paste it here.</span>`
+  help: ()=> `<span style="color:var(--purple);font-weight:700">MOSHELL — Sandbox Commands</span>
+<span style="color:var(--text3)">Every command in the Cheatsheet above now works here. Click any of them to paste it in.</span>
+
+<span style="color:var(--green)">Navigation:</span>  pwd  cd [path]  ls -la  ls -lh  tree  find [path] -name/-type  locate  which  whereis  type
+<span style="color:var(--green)">Files:</span>       cat [file]  touch  mkdir -p  rm -rf  cp -r  mv  ln -s  stat  shred  tar -czf  rsync -av
+<span style="color:var(--green)">Permissions:</span> chmod  chown  chgrp  umask  id  groups  sudo su -
+<span style="color:var(--green)">Processes:</span>   ps aux  top  htop  pstree  pgrep  lsof -p  kill  kill -9  killall  nohup
+<span style="color:var(--green)">Networking:</span>  ip a  ip r  ip link show  ss -tuln  netstat -an  ifconfig  ping  traceroute  dig  nslookup  curl -I  wget
+<span style="color:var(--green)">Text Tools:</span>  cat  less  head -n  tail -f  grep  sort  uniq -c  wc -l  awk  sed  cut
+<span style="color:var(--green)">System:</span>      whoami  hostname  uname -a  date  uptime  history  df -h  free -h  lsblk  dmesg
+<span style="color:var(--green)">Packages:</span>    sudo apt update  sudo apt upgrade  apt search  apt show  sudo apt install
+<span style="color:var(--green)">Logs:</span>        journalctl  journalctl -f  journalctl -u [service]
+<span style="color:var(--green)">Other:</span>       man [cmd]  echo [text]  clear  help
+
+<span style="color:var(--text3)">Tip: touch/mkdir/rm/cp/mv/ln actually change what 'ls' shows you — try them together.</span>`
 };
 
 function termPrint(html, cls=''){
@@ -1523,10 +1838,6 @@ window.addEventListener('scroll',()=>{
   const pct = (h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
   document.getElementById('progress-fill').style.width = pct+'%';
 });
-
-// ═══════════════════════════════════════════════
-// SHARE
-// ═══════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════
 // TOAST
