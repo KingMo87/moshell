@@ -35,7 +35,15 @@ const BADGES = {
   }
 };
 
-const EMAIL_GATE_TRIGGERS = [3, 6, 9, 12];
+const EMAIL_GATE_TRIGGERS = [1, 3, 6, 9, 12];
+
+const BADGE_PRODUCT_SLUGS = {
+  1: 'mjwclt',   // Lesson 1 & 3 combined badge product
+  3: 'mjwclt',   // same product, both badges live here
+  6: 'ywipee',   // Lesson 6 badge product
+  9: 'ivllve',   // Lesson 9 badge product
+  12: 'hjwwd'    // Lesson 12 badge product
+};
 
 window.awardBadge = function(lessonId) {
   try {
@@ -240,7 +248,8 @@ window.handleEmailSubmit = function(event, lessonId) {
   const email = event.target[0].value.trim();
   
   try {
-    const gumroadUrl = 'https://moshell.gumroad.com/l/mjwclt';
+    const slug = BADGE_PRODUCT_SLUGS[lessonId] || 'mjwclt';
+    const gumroadUrl = 'https://moshell.gumroad.com/l/' + slug;
     const checkoutUrl = gumroadUrl + '?email=' + encodeURIComponent(email);
     
     if (typeof gtag === 'function') {
