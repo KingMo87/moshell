@@ -251,14 +251,20 @@ window.handleEmailSubmit = function(event, lessonId) {
     const slug = BADGE_PRODUCT_SLUGS[lessonId] || 'mjwclt';
     const gumroadUrl = 'https://moshell.gumroad.com/l/' + slug;
     const checkoutUrl = gumroadUrl + '?email=' + encodeURIComponent(email);
-    
-    if (typeof gtag === 'function') {
-      gtag('event', 'email_submitted', {
-        badge_trigger: lessonId
-      });
+
+    // Use trackAndGo (moshell-analytics.js) so the email_submitted event has
+    // a guaranteed chance to send before we leave the page. Previously this
+    // called gtag() then set window.location.href on the very next line,
+    // which could cut the beacon off mid-flight. Falls back to a plain
+    // redirect if trackAndGo isn't loaded for some reason.
+    if (typeof window.trackAndGo === 'function') {
+      window.trackAndGo('email_submitted', { badge_trigger: lessonId }, checkoutUrl);
+    } else {
+      if (typeof gtag === 'function') {
+        gtag('event', 'email_submitted', { badge_trigger: lessonId });
+      }
+      window.location.href = checkoutUrl;
     }
-    
-    window.location.href = checkoutUrl;
   } catch (e) {
     console.error('[moshell-rewards] email submit failed', e);
   }
