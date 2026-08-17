@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZT815QEJS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3ZT815QEJS');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You — MOSHELL</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{
+  --bg:#080c10; --surface:#141c24; --surface2:#1a2433;
+  --border2:#253444; --green:#39d353; --green2:#2ea043; --green-bg:#0a1f10;
+  --text:#e2e8f0; --text2:#8b9ab0; --text3:#4a5568;
+  --mono:'IBM Plex Mono',monospace; --sans:'Space Grotesk',sans-serif;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+  min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem;
+}
+.card{
+  max-width:480px; width:100%; background:var(--surface); border:1px solid var(--border2);
+  border-radius:14px; padding:2.5rem; text-align:center;
+}
+.icon{font-size:3rem; margin-bottom:1rem}
+h1{font-size:1.4rem; margin:0 0 .5rem}
+p{color:var(--text2); line-height:1.6; font-size:.95rem}
+.detail{
+  font-family:var(--mono); font-size:.72rem; color:var(--text3);
+  background:var(--surface2); border:1px solid var(--border2); border-radius:8px;
+  padding:.75rem 1rem; margin:1.5rem 0; text-align:left; word-break:break-all;
+}
+.btn{
+  display:inline-flex; align-items:center; gap:6px; font-family:var(--mono);
+  font-size:.8rem; font-weight:700; padding:12px 26px; border-radius:8px;
+  background:var(--green); color:#000; text-decoration:none; margin-top:.5rem;
+}
+.btn:hover{background:var(--green2)}
+.note{font-size:.75rem; color:var(--text3); margin-top:1.5rem}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="icon">🐧</div>
+  <h1 id="title">Thank you for your purchase!</h1>
+  <p id="subtitle">Your receipt and download links have been emailed to you by Gumroad. You can also jump straight back into the platform below.</p>
+  <div class="detail" id="detail" style="display:none"></div>
+  <a href="https://kingmo87.github.io/moshell/" class="btn">▶ Go to MOSHELL →</a>
+  <p class="note">Didn't get the email? Check spam, or reach out and we'll sort it out.</p>
+</div>
+
+<script>
+/* ────────────────────────────────────────────────────────────────────
+   Gumroad "custom receipt / delivery" redirect lands here after a real
+   purchase, appending sale info as query params (sale_id, price in
+   cents, product_id, product_permalink, product_name, email, currency,
+   test). We use those to fire a proper GA4 `purchase` event with
+   transaction_id, value, and currency — the piece that was missing,
+   which is why GA4 showed 0 purchases even with real sales.
+
+   Setup required in Gumroad (per product → Content → "Custom Delivery" /
+   receipt redirect URL): set it to
+     https://kingmo87.github.io/moshell/thank-you.html
+   for both the Lab Workbook (fydlcl) and Full Bundle (odlbsr) products.
+   ──────────────────────────────────────────────────────────────────── */
+(function () {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const saleId = params.get('sale_id');
+
+    // Known product name/price fallback if Gumroad doesn't pass them
+    const PRODUCT_META = {
+      fydlcl: { name: 'MOSHELL Lab Workbook', price: 17.00 },
+      odlbsr: { name: 'MOSHELL Full Bundle', price: 37.00 },
+    };
+
+    if (!saleId) {
+      // No sale info in the URL — someone just visited this page directly.
+      return;
+    }
+
+    // De-dupe: don't double-fire if the page is refreshed/reopened.
+    const dedupeKey = 'ms_purchase_tracked_' + saleId;
+    if (localStorage.getItem(dedupeKey)) return;
+
+    const isTest = params.get('test') === 'true';
+    const permalink = params.get('product_permalink') || '';
+    const slugMatch = permalink.match(/\/l\/([a-zA-Z0-9]+)/);
+    const slug = params.get('short_product_id') || (slugMatch ? slugMatch[1] : null);
+    const meta = (slug && PRODUCT_META[slug]) || {};
+
+    const priceCents = params.get('price');
+    const value = priceCents !== null ? (parseInt(priceCents, 10) / 100) : (meta.price || 0);
+    const currency = (params.get('currency') || 'USD').toUpperCase();
+    const productName = params.get('product_name') || meta.name || 'MOSHELL Product';
+    const productId = params.get('product_id') || slug || 'unknown';
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'purchase', {
+        transaction_id: saleId,
+        value: value,
+        currency: currency,
+        items: [{
+          item_id: productId,
+          item_name: productName,
+          price: value,
+          quantity: 1,
+        }],
+        // Flag test purchases so they can be filtered out of reporting
+        // without losing the event entirely (useful for DebugView testing).
+        debug_mode: isTest || undefined,
+      });
+    }
+
+    localStorage.setItem(dedupeKey, '1');
+
+    // Personalize the confirmation copy.
+    document.getElementById('title').textContent = 'You\'re in! 🎉';
+    const detailEl = document.getElementById('detail');
+    detailEl.style.display = 'block';
+    detailEl.textContent = productName + '  ·  $' + value.toFixed(2) + ' ' + currency + '  ·  order ' + saleId;
+  } catch (e) {
+    console.error('[moshell-thank-you] purchase tracking failed', e);
+  }
+})();
+</script>
+
+</body>
+</html>
