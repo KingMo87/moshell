@@ -165,7 +165,7 @@ nav{
 .pill-c{background:var(--cyan-bg);color:var(--cyan);border:1px solid #1a3a4a44}
 .pill-a{background:var(--amber-bg);color:var(--amber);border:1px solid #3a2a0a44}
 .pill-p{background:var(--purple-bg);color:var(--purple);border:1px solid #2a1a4a44}
-.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
 .btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.78rem;font-weight:700;padding:11px 22px;border-radius:var(--r);transition:.15s;border:none;text-decoration:none}
 .btn-g{background:var(--green);color:#000}
 .btn-g:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(57,211,83,.3)}
@@ -198,7 +198,9 @@ nav{
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .typed-line{overflow:hidden;white-space:nowrap;border-right:2px solid var(--green)}
 
-@media(max-width:900px){.hero-layout{grid-template-columns:1fr}.hero-terminal{display:none}}
+@media(max-width:900px){.hero-layout{grid-template-columns:1fr}.hero-terminal{display:none}.hero{min-height:auto;padding:6rem 1.25rem 2.5rem}}
+.hero-proof{font-family:var(--mono);font-size:.72rem;color:var(--text2);margin:-1.1rem 0 1.75rem;letter-spacing:.02em}
+.hero-proof b{color:var(--green);font-weight:700}
 
 /* ═══ STATS ═══ */
 .stats{
@@ -562,7 +564,7 @@ footer .fg{color:var(--green)}
   </ul>
   <div style="display:flex;align-items:center;gap:10px;">
     <a href="#lessons" class="nav-badge">START LEARNING →</a>
-    <a href="sales.html" class="nav-buy">💰 GET FULL ACCESS</a>
+    <a href="sales.html" class="nav-buy" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'nav_get_full_access'},'sales.html')">💰 GET FULL ACCESS</a>
   </div>
 </nav>
 
@@ -571,8 +573,8 @@ footer .fg{color:var(--green)}
   <div class="hero-badge"><span class="pulse"></span> LIVE PLATFORM · MOSHELL LINUX</div>
   <div class="hero-layout">
     <div>
-      <h1>Learn Linux<br><span class="accent">the right way.</span><br><span class="dim">From zero to sysadmin.</span></h1>
-      <p class="hero-sub">Hands-on lessons covering the terminal, file system, networking, virtualization, and server administration — taught by MOSHELL.</p>
+      <h1>Learn Linux<br><span class="accent">in your browser.</span><br><span class="dim">Zero installs. Zero risk.</span></h1>
+      <p class="hero-sub">A real Linux terminal sandbox for the file system, networking, virtualization, and server administration — no VM, no sign-up, no risk to your machine. Just click a lesson and start typing.</p>
       <div class="hero-pills">
         <span class="pill pill-g">Beginner Friendly</span>
         <span class="pill pill-c">Homelab &amp; VMs</span>
@@ -580,10 +582,13 @@ footer .fg{color:var(--green)}
         <span class="pill pill-p">Security</span>
       </div>
       <div class="hero-btns">
-        <a href="#lessons" class="btn btn-g">▶ Start Lesson 01</a>
-        <a href="#setup" class="btn btn-o">Set up a VM first</a>
-        <a href="sales.html" class="btn btn-o" style="border-color:var(--green2);color:var(--green);">💰 Get Full Bundle</a>
+        <a href="#lessons" class="btn btn-g" onclick="trackCta('hero_start_lesson')">▶ Start Lesson 01 — Free</a>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
+          <a href="sales.html" class="btn btn-o" style="border-color:var(--green2);color:var(--green);" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_get_bundle'},'sales.html')">💰 Get Full Bundle — $37</a>
+          <span style="font-family:var(--mono);font-size:.68rem;color:var(--text3);">No account needed to try it right now</span>
+        </div>
       </div>
+      <p class="hero-proof">🔥 <b>Lessons 1–6 are free, forever.</b> <a href="#setup" style="color:var(--text2);text-decoration:underline;">Prefer a real VM? Set one up here →</a></p>
     </div>
     <div class="hero-terminal">
       <div class="tbar">
