@@ -1,0 +1,311 @@
+{
+  "7": {
+    "intro": "Networking is where Linux administration gets real. Whether you are managing servers, setting up homelabs, or doing security work \u2014 you need to understand how Linux handles the network.",
+    "sections": [
+      {
+        "title": "Interface & Routing",
+        "items": [
+          "ip a \u2014 show all network interfaces and IPs",
+          "ip r \u2014 show routing table",
+          "ip link show \u2014 show link layer info",
+          "ifconfig \u2014 legacy command (still useful)",
+          "ss -tuln \u2014 show listening ports",
+          "netstat -an \u2014 all network connections (legacy)"
+        ]
+      },
+      {
+        "title": "Diagnostics",
+        "items": [
+          "ping 8.8.8.8 \u2014 test basic connectivity",
+          "traceroute google.com \u2014 trace network path",
+          "mtr google.com \u2014 live traceroute",
+          "nslookup domain.com \u2014 DNS lookup",
+          "dig domain.com \u2014 detailed DNS query",
+          "curl -I https://example.com \u2014 HTTP headers only",
+          "wget https://example.com/file.txt \u2014 download file"
+        ]
+      },
+      {
+        "title": "SSH",
+        "items": [
+          "ssh user@host \u2014 connect to remote server",
+          "ssh-keygen -t ed25519 \u2014 generate key pair",
+          "ssh-copy-id user@host \u2014 copy public key to server",
+          "scp file.txt user@host:~/path/ \u2014 secure copy",
+          "ssh -L 8080:localhost:80 user@host \u2014 port forward"
+        ]
+      }
+    ],
+    "code": "# Full network overview\nip a && ip r\n\n# Test connectivity step by step\nping -c 4 8.8.8.8           # internet reachable?\nping -c 4 192.168.1.1        # gateway reachable?\nnslookup google.com          # DNS working?\n\n# Who is listening on what port?\nss -tuln\n\n# Generate SSH key (no passphrase for lab use)\nssh-keygen -t ed25519 -C \"moshell-lab-key\"\n\n# Connect to VM\nssh student@192.168.56.10",
+    "exercise": "On your VM, run ip a to get its IP. From your host machine, ping that IP. Then SSH into the VM. Use ss -tuln to see what services are listening."
+  },
+  "8": {
+    "intro": "Shell scripting lets you automate repetitive tasks. A script is just a text file with a list of commands \u2014 but add variables, conditions, and loops and it becomes a powerful tool.",
+    "sections": [
+      {
+        "title": "Script Basics",
+        "items": [
+          "#!/bin/bash \u2014 shebang line, always on line 1",
+          "chmod +x script.sh \u2014 make executable",
+          "./script.sh \u2014 run it",
+          "bash script.sh \u2014 run without making executable",
+          "Variables: NAME=\"Student\" then echo $NAME",
+          "Arguments: $1 $2 etc for command line args, $# for count"
+        ]
+      },
+      {
+        "title": "Conditionals & Loops",
+        "items": [
+          "if [ $VAR -eq 1 ]; then ... fi",
+          "for i in 1 2 3; do echo $i; done",
+          "while [ condition ]; do ... done",
+          "-eq equal, -ne not equal, -gt greater than",
+          "-f file exists, -d directory exists, -z string empty"
+        ]
+      },
+      {
+        "title": "Cron Jobs",
+        "items": [
+          "crontab -e \u2014 edit your cron jobs",
+          "crontab -l \u2014 list your cron jobs",
+          "* * * * * = min hour day month weekday",
+          "0 2 * * * = every day at 2am",
+          "*/5 * * * * = every 5 minutes"
+        ]
+      }
+    ],
+    "code": "#!/bin/bash\n# My first MOSHELL script\n\nNAME=\"Student\"\necho \"Welcome to MOSHELL, $NAME!\"\n\n# Conditional\nif [ -f /etc/hostname ]; then\n  echo \"Hostname: $(cat /etc/hostname)\"\nfi\n\n# Loop over files\necho \"--- Files in /etc (first 5) ---\"\nfor f in /etc/*.conf; do\n  echo \"  Found: $f\"\ndone | head -5\n\n# Cron: run this script every day at 8am\n# 0 8 * * * /home/student/welcome.sh",
+    "exercise": "Write a script that: prints today's date, prints your hostname, lists how many files are in /etc, and prints disk usage. Save as sysinfo.sh and chmod +x it."
+  },
+  "9": {
+    "intro": "VirtualBox gives you multiple networking modes, each with different isolation levels. Choosing the right one matters for homelab work, network security labs, and multi-VM setups.",
+    "sections": [
+      {
+        "title": "Network Adapter Modes",
+        "items": [
+          "NAT \u2014 VM shares host's IP, internet works, not reachable from LAN. Good for single VMs.",
+          "Bridged \u2014 VM gets its own IP from your router, fully visible on LAN. Good for server testing.",
+          "Host-Only \u2014 VM only talks to host, completely isolated from internet. Good for security labs.",
+          "Internal Network \u2014 VMs talk to each other but not host or internet. Good for isolated multi-VM labs.",
+          "NAT Network \u2014 like NAT but multiple VMs share one NAT and can talk to each other."
+        ]
+      },
+      {
+        "title": "Promiscuous Mode",
+        "items": [
+          "Default: DENY \u2014 VM only sees traffic addressed to it (normal use)",
+          "Allow VMs \u2014 VM can see traffic between other VMs on same virtual switch",
+          "Allow All \u2014 VM can see ALL traffic on the network (sniffing)",
+          "On a real switched network, promiscuous mode only shows broadcast traffic + traffic to your port",
+          "Use promiscuous mode in Host-Only or Internal for realistic network capture labs"
+        ]
+      },
+      {
+        "title": "Snapshots & Clones",
+        "items": [
+          "Snapshot = saved state of VM disk + memory at a point in time",
+          "Machine \u2192 Take Snapshot before any risky lab exercise",
+          "Restore = Machine \u2192 Snapshots \u2192 Restore",
+          "Linked Clone = new VM sharing base disk (disk-efficient)",
+          "Full Clone = completely independent copy"
+        ]
+      }
+    ],
+    "code": "# Check VM's network from inside\nip a                    # see all interfaces\nip r                    # see routing table\ncat /etc/resolv.conf    # see DNS servers\n\n# Test connectivity by adapter type\nping 8.8.8.8            # works: NAT, Bridged. Fails: Host-Only\nping 192.168.56.1       # works: Host-Only (host)\nping 192.168.1.X        # works: Bridged (LAN device)\n\n# Set adapter in VirtualBox:\n# VM Settings \u2192 Network \u2192 Adapter 1 \u2192 Attached to: [mode]\n# You can have up to 4 adapters per VM",
+    "exercise": "Create two VMs with Host-Only adapters on the same network. Confirm they can ping each other. Enable promiscuous mode on one and use tcpdump to capture traffic from the other."
+  },
+  "10": {
+    "intro": "Nginx is one of the most widely-used web servers in the world. Setting it up from scratch teaches you about ports, services, firewalls, and TLS \u2014 all in one exercise.",
+    "sections": [
+      {
+        "title": "Install & Start Nginx",
+        "items": [
+          "sudo apt install nginx",
+          "sudo systemctl start nginx",
+          "sudo systemctl enable nginx \u2014 start on boot",
+          "sudo systemctl status nginx \u2014 check it's running",
+          "curl localhost \u2014 confirm it responds",
+          "Web root: /var/www/html/"
+        ]
+      },
+      {
+        "title": "Firewall with ufw",
+        "items": [
+          "sudo ufw enable \u2014 enable firewall",
+          "sudo ufw allow 22 \u2014 allow SSH (do this BEFORE enabling!)",
+          "sudo ufw allow 80 \u2014 allow HTTP",
+          "sudo ufw allow 443 \u2014 allow HTTPS",
+          "sudo ufw status \u2014 see current rules",
+          "sudo ufw delete allow 80 \u2014 remove a rule"
+        ]
+      },
+      {
+        "title": "Server Blocks (Virtual Hosts)",
+        "items": [
+          "Config lives in /etc/nginx/sites-available/",
+          "Enabled by symlinking to /etc/nginx/sites-enabled/",
+          "sudo nginx -t \u2014 test config syntax before reloading",
+          "sudo systemctl reload nginx \u2014 apply changes",
+          "Logs: /var/log/nginx/access.log and error.log"
+        ]
+      }
+    ],
+    "code": "# Install and verify\nsudo apt install -y nginx\nsudo systemctl enable --now nginx\ncurl -I localhost\n\n# Set up firewall (SSH first!)\nsudo ufw allow 22\nsudo ufw allow 'Nginx Full'\nsudo ufw enable\nsudo ufw status\n\n# Deploy a custom page\necho '<h1>MOSHELL Lab</h1>' | sudo tee /var/www/html/index.html\ncurl localhost\n\n# Check logs live\nsudo tail -f /var/log/nginx/access.log",
+    "exercise": "Install Nginx, allow it through ufw, replace the default index.html with your own content, and access it from your host browser using the VM's bridged IP address."
+  },
+  "11": {
+    "intro": "When things break (and they will), logs are how you find out why. Linux has a rich logging system \u2014 once you know how to read it, debugging becomes methodical rather than guesswork.",
+    "sections": [
+      {
+        "title": "systemd Journal (journalctl)",
+        "items": [
+          "journalctl \u2014 all logs (oldest first)",
+          "journalctl -r \u2014 reverse (newest first)",
+          "journalctl -f \u2014 follow live (like tail -f)",
+          "journalctl -u nginx \u2014 logs for specific service",
+          "journalctl --since \"1 hour ago\"",
+          "journalctl -p err \u2014 only errors and above",
+          "journalctl -b \u2014 logs since last boot"
+        ]
+      },
+      {
+        "title": "Log Files",
+        "items": [
+          "/var/log/syslog \u2014 general system log",
+          "/var/log/auth.log \u2014 auth/sudo/SSH events",
+          "/var/log/kern.log \u2014 kernel messages",
+          "/var/log/nginx/access.log \u2014 Nginx requests",
+          "dmesg \u2014 kernel ring buffer (hardware events)",
+          "dmesg | grep -i error \u2014 filter for errors"
+        ]
+      },
+      {
+        "title": "Investigation Tools",
+        "items": [
+          "grep -r \"error\" /var/log/ \u2014 search across all logs",
+          "grep -i \"failed\" /var/log/auth.log \u2014 case insensitive",
+          "lsof -i :80 \u2014 what process is using port 80",
+          "lsof -p PID \u2014 all files opened by a process",
+          "strace command \u2014 trace system calls (deep debug)",
+          "netstat -tulnp | grep nginx \u2014 verify nginx ports"
+        ]
+      }
+    ],
+    "code": "# Watch auth events in real time\nsudo journalctl -f -u ssh\n\n# Find all failed SSH logins\nsudo grep \"Failed password\" /var/log/auth.log | tail -20\n\n# What is using port 80?\nsudo lsof -i :80\n\n# Last 10 kernel messages\ndmesg | tail -10\n\n# Find errors across all logs\nsudo grep -ri \"(error|failed|critical)\" /var/log/ --include=\"*.log\" | tail -30",
+    "exercise": "Intentionally fail 3 SSH logins to your VM using a wrong password. Then use grep on /var/log/auth.log to find those failed attempts and identify the source IP."
+  },
+  "12": {
+    "intro": "Storage management is fundamental for servers. You need to know how to add disks, partition them, mount them, and make mounts persistent across reboots.",
+    "sections": [
+      {
+        "title": "Checking Disk Usage",
+        "items": [
+          "df -h \u2014 disk usage per mounted filesystem",
+          "du -sh /var/log \u2014 size of a specific directory",
+          "du -sh /* 2>/dev/null | sort -h \u2014 find large dirs",
+          "lsblk \u2014 list block devices (disks + partitions)",
+          "fdisk -l \u2014 list all disks and partitions (needs sudo)",
+          "blkid \u2014 show UUIDs and filesystem types"
+        ]
+      },
+      {
+        "title": "Mounting",
+        "items": [
+          "mount /dev/sdb1 /mnt \u2014 mount a partition",
+          "umount /mnt \u2014 unmount",
+          "mount | grep sdb \u2014 see what is mounted",
+          "mount -o ro /dev/sdb1 /mnt \u2014 mount read-only",
+          "/etc/fstab \u2014 file that defines persistent mounts",
+          "UUID=... /mnt/data ext4 defaults 0 2 \u2014 fstab entry format"
+        ]
+      },
+      {
+        "title": "Creating Partitions",
+        "items": [
+          "sudo fdisk /dev/sdb \u2014 interactive partition tool",
+          "n = new partition, d = delete, p = print, w = write",
+          "sudo mkfs.ext4 /dev/sdb1 \u2014 format as ext4",
+          "sudo mkfs.xfs /dev/sdb1 \u2014 format as xfs",
+          "After formatting: mount it and add to fstab"
+        ]
+      }
+    ],
+    "code": "# Full storage overview\nlsblk\ndf -h\n\n# Find what is eating disk space\ndu -sh /var/* 2>/dev/null | sort -rh | head -10\n\n# In VirtualBox: add a 5GB disk to the VM, then:\nsudo fdisk /dev/sdb\n# n \u2192 p \u2192 1 \u2192 defaults \u2192 w\n\n# Format and mount it\nsudo mkfs.ext4 /dev/sdb1\nsudo mkdir /mnt/extra\nsudo mount /dev/sdb1 /mnt/extra\ndf -h /mnt/extra\n\n# Make persistent (add to fstab)\nsudo blkid /dev/sdb1   # get UUID\n# Then edit /etc/fstab and add the UUID line",
+    "exercise": "Add a second virtual disk to your VirtualBox VM (Settings \u2192 Storage). Boot up, use lsblk to find it, partition it with fdisk, format with mkfs.ext4, mount it, and add it to fstab."
+  },
+  "13": {
+    "intro": "Docker packages an application and everything it needs to run into a portable container \u2014 no more \"works on my machine.\" Understanding containers is now a baseline expectation for sysadmin and DevOps roles.",
+    "sections": [
+      {
+        "title": "Images & Containers",
+        "items": [
+          "docker --version \u2014 confirm Docker is installed",
+          "docker pull nginx \u2014 download an image from Docker Hub",
+          "docker images \u2014 list downloaded images",
+          "docker run -d -p 8080:80 nginx \u2014 run a container, map host port 8080 to container port 80",
+          "docker ps \u2014 list running containers",
+          "docker ps -a \u2014 list all containers, including stopped ones"
+        ]
+      },
+      {
+        "title": "Managing Containers",
+        "items": [
+          "docker exec -it <container> bash \u2014 open a shell inside a running container",
+          "docker logs <container> \u2014 view container output",
+          "docker logs -f <container> \u2014 follow logs live",
+          "docker stop <container> \u2014 stop a running container",
+          "docker rm <container> \u2014 remove a stopped container",
+          "docker rmi <image> \u2014 remove an image"
+        ]
+      },
+      {
+        "title": "Volumes & Persistence",
+        "items": [
+          "docker run -v ~/data:/var/www/html nginx \u2014 mount a host folder into the container",
+          "docker volume ls \u2014 list Docker-managed volumes",
+          "docker volume create mydata \u2014 create a named volume",
+          "Without a volume, data inside a container is lost when it's removed"
+        ]
+      }
+    ],
+    "code": "# Pull and run Nginx in a container\ndocker pull nginx\ndocker run -d --name mynginx -p 8080:80 nginx\n\n# Confirm it's running\ndocker ps\ncurl localhost:8080\n\n# Get a shell inside the container\ndocker exec -it mynginx bash\n# (inside container) cat /etc/os-release; exit\n\n# Watch logs live\ndocker logs -f mynginx\n\n# Clean up\ndocker stop mynginx\ndocker rm mynginx",
+    "exercise": "Pull the nginx image, run it as a container named mynginx mapped to port 8080, confirm it responds with curl, then exec into the container and check its OS with cat /etc/os-release. Stop and remove the container when done."
+  },
+  "14": {
+    "intro": "Real applications are rarely a single container \u2014 they're a web server, a database, maybe a cache, all talking to each other. Docker Compose lets you define and run that whole stack with one file and one command.",
+    "sections": [
+      {
+        "title": "Compose Basics",
+        "items": [
+          "docker compose version \u2014 confirm Compose is available",
+          "docker-compose.yml \u2014 the file that defines your services",
+          "docker compose up -d \u2014 start every service defined in the file",
+          "docker compose ps \u2014 list running services in this project",
+          "docker compose down \u2014 stop and remove everything the file created"
+        ]
+      },
+      {
+        "title": "Writing a Compose File",
+        "items": [
+          "services: \u2014 top-level key listing each container to run",
+          "image: nginx \u2014 which image a service uses",
+          "ports: [\"8080:80\"] \u2014 host:container port mapping",
+          "volumes: [\"./html:/usr/share/nginx/html\"] \u2014 persistent/shared data",
+          "depends_on: \u2014 control startup order between services",
+          "environment: \u2014 pass environment variables into a container"
+        ]
+      },
+      {
+        "title": "Debugging a Stack",
+        "items": [
+          "docker compose logs -f \u2014 follow logs for every service at once",
+          "docker compose logs -f web \u2014 follow logs for just one service",
+          "docker compose exec web bash \u2014 shell into a running service",
+          "docker compose restart web \u2014 restart a single service without touching the rest"
+        ]
+      }
+    ],
+    "code": "# docker-compose.yml\nversion: \"3.9\"\nservices:\n  web:\n    image: nginx:latest\n    ports:\n      - \"8080:80\"\n    volumes:\n      - ./html:/usr/share/nginx/html\n    depends_on:\n      - api\n  api:\n    image: node:18-alpine\n    working_dir: /app\n    command: node server.js\n    volumes:\n      - ./api:/app\n    environment:\n      - PORT=3000\n\n# Bring the whole stack up\ndocker compose up -d\ndocker compose ps\ncurl localhost:8080\n\n# Watch both services\ndocker compose logs -f\n\n# Tear it down\ndocker compose down",
+    "exercise": "Write a docker-compose.yml that runs an Nginx service on port 8080 and a second placeholder service of your choice. Bring the stack up, confirm both containers are running with docker compose ps, then tear it down with docker compose down."
+  }
+}
