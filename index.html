@@ -558,6 +558,24 @@ footer .fg{color:var(--green)}
 </head>
 <body>
 
+<!-- UPDATE ANNOUNCEMENT BANNER -->
+<div id="update-banner" style="
+  display:none; align-items:center; justify-content:center; gap:14px;
+  background:var(--green-bg); border-bottom:1px solid var(--green2);
+  padding:10px 16px; text-align:center; flex-wrap:wrap;
+">
+  <span style="font-family:var(--mono);font-size:.78rem;color:var(--text)" id="update-banner-text">
+    🐳 <strong>New:</strong> Docker Fundamentals & Docker Compose lessons just added (13–14).
+  </span>
+  <a href="#lessons" id="update-banner-cta" style="
+    font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.04em;
+    background:var(--green);color:#000;padding:5px 14px;border-radius:5px;text-decoration:none;
+  ">Check it out →</a>
+  <button type="button" onclick="dismissUpdateBanner()" style="
+    background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;padding:0 4px;
+  ">✕</button>
+</div>
+
 <!-- PROGRESS BAR -->
 <div id="progress-bar"><div id="progress-fill"></div></div>
 
@@ -615,7 +633,7 @@ footer .fg{color:var(--green)}
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-n count-up" data-target="12">0</div><div class="stat-l">Lessons</div></div>
+  <div class="stat"><div class="stat-n count-up" data-target="14">0</div><div class="stat-l">Lessons</div></div>
   <div class="stat"><div class="stat-n count-up" data-target="65">0</div><div class="stat-l">Commands</div></div>
   <div class="stat"><div class="stat-n count-up" data-target="3">0</div><div class="stat-l">Tracks</div></div>
   <div class="stat"><div class="stat-n count-up" data-target="0">0</div><div class="stat-l" id="progress-label">Lessons Done</div></div>
@@ -2182,7 +2200,7 @@ function updateStats(){
   const done = Object.keys(progress).filter(k=>progress[k]).length;
   document.getElementById('progress-label').textContent = 'Lessons Done';
   const doneEl = document.querySelector('.stats .stat:last-child .stat-n');
-  if(doneEl) doneEl.textContent = done + '/12';
+  if(doneEl) doneEl.textContent = done + '/' + LESSONS.length;
 }
 
 function countUp(){
@@ -2307,6 +2325,47 @@ function updateProUI(){
 }
 
 // ═══════════════════════════════════════════════
+// UPDATE ANNOUNCEMENT BANNER
+// Bump UPDATE_ID for future announcements — a new ID
+// means everyone sees the new banner once, even if they
+// dismissed a previous one.
+// ═══════════════════════════════════════════════
+const UPDATE_ID = 'docker-lessons-13-14';
+const UPDATE_SEEN_KEY = 'moshell_seen_update_' + UPDATE_ID;
+
+function dismissUpdateBanner(){
+  try{ localStorage.setItem(UPDATE_SEEN_KEY, '1'); }catch(e){}
+  const b = document.getElementById('update-banner');
+  if(b) b.style.display = 'none';
+}
+
+function initUpdateBanner(){
+  let seen = false;
+  try{ seen = localStorage.getItem(UPDATE_SEEN_KEY) === '1'; }catch(e){}
+  if(seen) return;
+
+  const banner = document.getElementById('update-banner');
+  const text = document.getElementById('update-banner-text');
+  const cta = document.getElementById('update-banner-cta');
+  if(!banner) return;
+
+  if(isProUnlocked()){
+    text.innerHTML = '🐳 <strong>New:</strong> Docker Fundamentals & Docker Compose lessons just added (13–14) — already unlocked for you.';
+    cta.textContent = 'Start Lesson 13 →';
+    cta.href = 'index.html?openLesson=13';
+  } else {
+    text.innerHTML = '🐳 <strong>New:</strong> MOSHELL Pro just added Docker Fundamentals & Docker Compose lessons (13–14).';
+    cta.textContent = 'See what\'s new →';
+    cta.href = 'sales.html';
+  }
+
+  banner.style.display = 'flex';
+  if(typeof gtag === 'function'){
+    gtag('event', 'update_banner_shown', {event_category:'engagement', update_id: UPDATE_ID});
+  }
+}
+
+// ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
 renderLessons();
@@ -2316,6 +2375,7 @@ initTerminal();
 animateHero();
 updateStats();
 updateProUI();
+initUpdateBanner();
 setTimeout(countUp, 400);
 
 // Admin/QA deep link: index.html?openLesson=13
