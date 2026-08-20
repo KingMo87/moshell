@@ -120,6 +120,7 @@ nav{
   display:flex;align-items:center;justify-content:space-between;
   padding:0 2rem;
   gap:1rem;
+  transition:top .25s ease;
 }
 .nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:.95rem;color:var(--text)}
 .nav-logo-icon{width:32px;height:32px;background:var(--green-bg);border:1px solid var(--green2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
@@ -227,6 +228,7 @@ nav{
 #progress-bar{
   position:fixed;top:58px;left:0;right:0;height:2px;
   background:var(--border);z-index:199;
+  transition:top .25s ease;
 }
 #progress-fill{height:100%;width:0%;background:var(--green);transition:width .1s}
 
@@ -2337,6 +2339,17 @@ function dismissUpdateBanner(){
   try{ localStorage.setItem(UPDATE_SEEN_KEY, '1'); }catch(e){}
   const b = document.getElementById('update-banner');
   if(b) b.style.display = 'none';
+  repositionForBanner();
+}
+
+function repositionForBanner(){
+  const banner = document.getElementById('update-banner');
+  const nav = document.querySelector('nav');
+  const progressBar = document.getElementById('progress-bar');
+  const visible = banner && banner.style.display !== 'none' && banner.style.display !== '';
+  const h = visible ? banner.offsetHeight : 0;
+  if(nav) nav.style.top = h + 'px';
+  if(progressBar) progressBar.style.top = (h + 58) + 'px';
 }
 
 function initUpdateBanner(){
@@ -2360,6 +2373,8 @@ function initUpdateBanner(){
   }
 
   banner.style.display = 'flex';
+  repositionForBanner();
+  window.addEventListener('resize', repositionForBanner);
   if(typeof gtag === 'function'){
     gtag('event', 'update_banner_shown', {event_category:'engagement', update_id: UPDATE_ID});
   }
