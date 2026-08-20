@@ -23,7 +23,7 @@
 <!-- ---------- OPEN GRAPH ---------- -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="MOSHELL — Interactive Browser-Based Linux Sandbox">
-<meta property="og:description" content="Learn Linux hands-on, right in your browser. No install, no VM, no sign-up needed to start. Bash, networking, Docker, SSH, firewalls and more.">
+<meta property="og:description" content="Learn Linux hands-on, right in your browser. No install, no VM, no sign-up needed to start. Bash, networking, SSH, Docker, firewalls and more.">
 <meta property="og:url" content="https://kingmo87.github.io/moshell/">
 <meta property="og:image" content="https://kingmo87.github.io/moshell/cover.png">
 <meta property="og:site_name" content="MOSHELL Linux Platform">
@@ -31,7 +31,7 @@
 <!-- ---------- TWITTER / X CARD ---------- -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="MOSHELL — Interactive Browser-Based Linux Sandbox">
-<meta name="twitter:description" content="Free hands-on Linux course, right in your browser. No install, no VM. Bash, networking, Docker, SSH, firewalls. Try free — no sign-up needed.">
+<meta name="twitter:description" content="Free hands-on Linux course, right in your browser. No install, no VM. Bash, networking, SSH, Docker, firewalls. Try free — no sign-up needed.">
 <meta name="twitter:image" content="https://kingmo87.github.io/moshell/cover.png">
 <link rel="canonical" href="https://kingmo87.github.io/moshell/">
 
@@ -322,6 +322,18 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 }
 .unlock-btn:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(57,211,83,.3)}
 
+/* ═══ LICENSE KEY MODAL ═══ */
+#license-modal{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(8,12,16,.95);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;justify-content:center;
+  padding:1rem;
+}
+#license-modal.open{display:flex}
+#license-key-input:focus{outline:none;border-color:var(--green2)}
+
 /* ═══ LESSON MODAL ═══ */
 #lesson-modal{
   position:fixed;inset:0;z-index:500;
@@ -564,7 +576,8 @@ footer .fg{color:var(--green)}
   </ul>
   <div style="display:flex;align-items:center;gap:10px;">
     <a href="#lessons" class="nav-badge">START LEARNING →</a>
-    <a href="sales.html" class="nav-buy" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'nav_get_full_access'},'sales.html')">💰 GET FULL ACCESS</a>
+    <button type="button" onclick="openLicenseModal()" style="background:none;border:none;color:var(--text3);font-family:var(--mono);font-size:.68rem;cursor:pointer;text-decoration:underline;text-underline-offset:2px">Have a license key?</button>
+    <a href="sales.html" class="nav-buy" id="nav-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'nav_get_full_access'},'sales.html')">💰 UNLOCK MOSHELL PRO</a>
   </div>
 </nav>
 
@@ -573,7 +586,7 @@ footer .fg{color:var(--green)}
   <div class="hero-badge"><span class="pulse"></span> LIVE PLATFORM · MOSHELL LINUX</div>
   <div class="hero-layout">
     <div>
-      <h1>Learn Linux<br><span class="accent">in your browser.</span><br><span class="dim">Zero installs. Zero risk.</span></h1>
+      <h1>Stop Watching<br><span class="accent">Linux Tutorials.</span><br><span class="dim">Start Using Linux.</span></h1>
       <p class="hero-sub">A real Linux terminal sandbox for the file system, networking, virtualization, and server administration — no VM, no sign-up, no risk to your machine. Just click a lesson and start typing.</p>
       <div class="hero-pills">
         <span class="pill pill-g">Beginner Friendly</span>
@@ -584,7 +597,7 @@ footer .fg{color:var(--green)}
       <div class="hero-btns">
         <a href="#lessons" class="btn btn-g" onclick="trackCta('hero_start_lesson')">▶ Start Lesson 01 — Free</a>
         <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
-          <a href="sales.html" class="btn btn-o" style="border-color:var(--green2);color:var(--green);" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_get_bundle'},'sales.html')">💰 Get Full Bundle — $37</a>
+          <a href="sales.html" class="btn btn-o" id="hero-buy-cta" style="border-color:var(--green2);color:var(--green);" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_get_bundle'},'sales.html')">💰 Unlock MOSHELL Pro — $37</a>
           <span style="font-family:var(--mono);font-size:.68rem;color:var(--text3);">No account needed to try it right now</span>
         </div>
       </div>
@@ -704,8 +717,8 @@ footer .fg{color:var(--green)}
     <div>
       <div class="aname">MOSHELL</div>
       <div class="arole">// LINUX INSTRUCTOR · HOMELAB BUILDER · SYSADMIN</div>
-      <p class="abio">This is your personal command-line teaching platform. Built around a terminal-first philosophy — if you can't do it in the shell, you don't really know it yet.</p>
-      <p class="abio">Lessons cover everything from your first <code style="color:var(--green);font-size:.75rem">ls</code> command all the way to setting up servers, configuring VMs, hardening networks, and automating with bash scripts. Each track is self-contained and hands-on.</p>
+      <p class="abio">MOSHELL teaches real Linux system administration — the terminal skills sysadmins, DevOps engineers, and security analysts use every day. Built around a terminal-first philosophy: if you can't do it in the shell, you don't really know it yet.</p>
+      <p class="abio">Lessons cover everything from your first <code style="color:var(--green);font-size:.75rem">ls</code> command all the way to deploying servers, configuring VMs, hardening networks, and automating with bash scripts. Each track is self-contained, hands-on, and built on the same commands used in production environments.</p>
       <p class="abio">The best way to learn Linux is to break it, restore the snapshot, and break it differently. That's what the VM is for.</p>
       <div class="askills">
         <span class="pill pill-g">Ubuntu</span>
@@ -722,7 +735,7 @@ footer .fg{color:var(--green)}
 </section>
 
 <footer>
-  <p>🐧 <span class="fg">MOSHELL</span> · hosted free on GitHub Pages · open source, no tracking, no ads</p>
+  <p>🐧 <span class="fg">MOSHELL</span> · hosted free on GitHub Pages · no ads, no sign-up required</p>
   <p style="margin-top:5px;font-size:.6rem">Share this link with your students — it works in any browser, no account required</p>
 </footer>
 
@@ -741,6 +754,20 @@ footer .fg{color:var(--green)}
         <button class="nl-btn" onclick="nextLesson()">Next →</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- LICENSE KEY MODAL -->
+<div id="license-modal">
+  <div class="modal-box" id="license-modal-box" style="max-width:420px;padding:2rem;text-align:center">
+    <button class="modal-close" onclick="closeLicenseModal()" style="position:absolute;top:14px;right:14px">✕</button>
+    <div style="font-size:2rem;margin-bottom:.5rem">🔑</div>
+    <h3 style="margin:0 0 .5rem">Enter Your License Key</h3>
+    <p style="color:var(--text2);font-size:.85rem;line-height:1.6;margin-bottom:1.2rem">Purchased MOSHELL Pro? Your license key was in the Gumroad receipt email. Paste it below to unlock every lesson in this browser.</p>
+    <input type="text" id="license-key-input" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX" style="width:100%;box-sizing:border-box;padding:11px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--bg);color:var(--text);font-family:var(--mono);font-size:.8rem;margin-bottom:.9rem">
+    <div id="license-status" style="font-size:.78rem;min-height:1.2rem;margin-bottom:.8rem"></div>
+    <button class="unlock-btn" id="license-submit-btn" style="width:100%;border:none;cursor:pointer" onclick="submitLicenseKey()">Unlock MOSHELL Pro →</button>
+    <p style="font-size:.72rem;color:var(--text3);margin-top:1rem">Haven't purchased yet? <a href="sales.html" style="color:var(--green)">See MOSHELL Pro →</a></p>
   </div>
 </div>
 
@@ -852,15 +879,9 @@ const LESSONS = [
     diff:'intermediate', tags:['c:ip','c:ssh','c:ping','c:dns'],
     cats:['intermediate','networking'],
     desc:'ip, ifconfig, ping, traceroute. DNS with nslookup and dig. SSH key-based authentication.',
-    content: {
+    preview: {
       intro: 'Networking is where Linux administration gets real. Whether you are managing servers, setting up homelabs, or doing security work — you need to understand how Linux handles the network.',
-      sections: [
-        { title: 'Interface & Routing', items: ['ip a — show all network interfaces and IPs', 'ip r — show routing table', 'ip link show — show link layer info', 'ifconfig — legacy command (still useful)', 'ss -tuln — show listening ports', 'netstat -an — all network connections (legacy)'] },
-        { title: 'Diagnostics', items: ['ping 8.8.8.8 — test basic connectivity', 'traceroute google.com — trace network path', 'mtr google.com — live traceroute', 'nslookup domain.com — DNS lookup', 'dig domain.com — detailed DNS query', 'curl -I https://example.com — HTTP headers only', 'wget https://example.com/file.txt — download file'] },
-        { title: 'SSH', items: ['ssh user@host — connect to remote server', 'ssh-keygen -t ed25519 — generate key pair', 'ssh-copy-id user@host — copy public key to server', 'scp file.txt user@host:~/path/ — secure copy', 'ssh -L 8080:localhost:80 user@host — port forward'] },
-      ],
-      code: `# Full network overview\nip a && ip r\n\n# Test connectivity step by step\nping -c 4 8.8.8.8           # internet reachable?\nping -c 4 192.168.1.1        # gateway reachable?\nnslookup google.com          # DNS working?\n\n# Who is listening on what port?\nss -tuln\n\n# Generate SSH key (no passphrase for lab use)\nssh-keygen -t ed25519 -C "moshell-lab-key"\n\n# Connect to VM\nssh student@192.168.56.10`,
-      exercise: 'On your VM, run ip a to get its IP. From your host machine, ping that IP. Then SSH into the VM. Use ss -tuln to see what services are listening.'
+      items: ['ip a — show all network interfaces and IPs', 'ip r — show routing table', 'ip link show — show link layer info', 'ifconfig — legacy command (still useful)']
     }
   },
   {
@@ -868,15 +889,9 @@ const LESSONS = [
     diff:'intermediate', tags:['p:bash','p:scripts','p:cron'],
     cats:['intermediate'],
     desc:'Write your first bash script. Variables, conditionals, loops. Making scripts executable. Cron.',
-    content: {
+    preview: {
       intro: 'Shell scripting lets you automate repetitive tasks. A script is just a text file with a list of commands — but add variables, conditions, and loops and it becomes a powerful tool.',
-      sections: [
-        { title: 'Script Basics', items: ['#!/bin/bash — shebang line, always on line 1', 'chmod +x script.sh — make executable', './script.sh — run it', 'bash script.sh — run without making executable', 'Variables: NAME="Student" then echo $NAME', 'Arguments: $1 $2 etc for command line args, $# for count'] },
-        { title: 'Conditionals & Loops', items: ['if [ $VAR -eq 1 ]; then ... fi', 'for i in 1 2 3; do echo $i; done', 'while [ condition ]; do ... done', '-eq equal, -ne not equal, -gt greater than', '-f file exists, -d directory exists, -z string empty'] },
-        { title: 'Cron Jobs', items: ['crontab -e — edit your cron jobs', 'crontab -l — list your cron jobs', '* * * * * = min hour day month weekday', '0 2 * * * = every day at 2am', '*/5 * * * * = every 5 minutes'] },
-      ],
-      code: `#!/bin/bash\n# My first MOSHELL script\n\nNAME="Student"\necho "Welcome to MOSHELL, $NAME!"\n\n# Conditional\nif [ -f /etc/hostname ]; then\n  echo "Hostname: $(cat /etc/hostname)"\nfi\n\n# Loop over files\necho "--- Files in /etc (first 5) ---"\nfor f in /etc/*.conf; do\n  echo "  Found: $f"\ndone | head -5\n\n# Cron: run this script every day at 8am\n# 0 8 * * * /home/student/welcome.sh`,
-      exercise: 'Write a script that: prints today\'s date, prints your hostname, lists how many files are in /etc, and prints disk usage. Save as sysinfo.sh and chmod +x it.'
+      items: ['#!/bin/bash — shebang line, always on line 1', 'chmod +x script.sh — make executable', './script.sh — run it', 'bash script.sh — run without making executable']
     }
   },
   {
@@ -884,15 +899,9 @@ const LESSONS = [
     diff:'advanced', tags:['c:virtualbox','c:NAT','c:bridged','r:advanced'],
     cats:['advanced','vm','networking'],
     desc:'NAT vs bridged vs host-only networking. Promiscuous mode on switches. Snapshots and cloning.',
-    content: {
+    preview: {
       intro: 'VirtualBox gives you multiple networking modes, each with different isolation levels. Choosing the right one matters for homelab work, network security labs, and multi-VM setups.',
-      sections: [
-        { title: 'Network Adapter Modes', items: ['NAT — VM shares host\'s IP, internet works, not reachable from LAN. Good for single VMs.', 'Bridged — VM gets its own IP from your router, fully visible on LAN. Good for server testing.', 'Host-Only — VM only talks to host, completely isolated from internet. Good for security labs.', 'Internal Network — VMs talk to each other but not host or internet. Good for isolated multi-VM labs.', 'NAT Network — like NAT but multiple VMs share one NAT and can talk to each other.'] },
-        { title: 'Promiscuous Mode', items: ['Default: DENY — VM only sees traffic addressed to it (normal use)', 'Allow VMs — VM can see traffic between other VMs on same virtual switch', 'Allow All — VM can see ALL traffic on the network (sniffing)', 'On a real switched network, promiscuous mode only shows broadcast traffic + traffic to your port', 'Use promiscuous mode in Host-Only or Internal for realistic network capture labs'] },
-        { title: 'Snapshots & Clones', items: ['Snapshot = saved state of VM disk + memory at a point in time', 'Machine → Take Snapshot before any risky lab exercise', 'Restore = Machine → Snapshots → Restore', 'Linked Clone = new VM sharing base disk (disk-efficient)', 'Full Clone = completely independent copy'] },
-      ],
-      code: `# Check VM's network from inside\nip a                    # see all interfaces\nip r                    # see routing table\ncat /etc/resolv.conf    # see DNS servers\n\n# Test connectivity by adapter type\nping 8.8.8.8            # works: NAT, Bridged. Fails: Host-Only\nping 192.168.56.1       # works: Host-Only (host)\nping 192.168.1.X        # works: Bridged (LAN device)\n\n# Set adapter in VirtualBox:\n# VM Settings → Network → Adapter 1 → Attached to: [mode]\n# You can have up to 4 adapters per VM`,
-      exercise: 'Create two VMs with Host-Only adapters on the same network. Confirm they can ping each other. Enable promiscuous mode on one and use tcpdump to capture traffic from the other.'
+      items: ['NAT — VM shares host\'s IP, internet works, not reachable from LAN. Good for single VMs.', 'Bridged — VM gets its own IP from your router, fully visible on LAN. Good for server testing.', 'Host-Only — VM only talks to host, completely isolated from internet. Good for security labs.', 'Internal Network — VMs talk to each other but not host or internet. Good for isolated multi-VM labs.']
     }
   },
   {
@@ -900,15 +909,9 @@ const LESSONS = [
     diff:'advanced', tags:['a:nginx','a:ufw','c:ssl','r:server'],
     cats:['advanced','networking'],
     desc:'Install and configure Nginx. Server blocks. SSL with Let\'s Encrypt. Firewall with ufw.',
-    content: {
+    preview: {
       intro: 'Nginx is one of the most widely-used web servers in the world. Setting it up from scratch teaches you about ports, services, firewalls, and TLS — all in one exercise.',
-      sections: [
-        { title: 'Install & Start Nginx', items: ['sudo apt install nginx', 'sudo systemctl start nginx', 'sudo systemctl enable nginx — start on boot', 'sudo systemctl status nginx — check it\'s running', 'curl localhost — confirm it responds', 'Web root: /var/www/html/'] },
-        { title: 'Firewall with ufw', items: ['sudo ufw enable — enable firewall', 'sudo ufw allow 22 — allow SSH (do this BEFORE enabling!)', 'sudo ufw allow 80 — allow HTTP', 'sudo ufw allow 443 — allow HTTPS', 'sudo ufw status — see current rules', 'sudo ufw delete allow 80 — remove a rule'] },
-        { title: 'Server Blocks (Virtual Hosts)', items: ['Config lives in /etc/nginx/sites-available/', 'Enabled by symlinking to /etc/nginx/sites-enabled/', 'sudo nginx -t — test config syntax before reloading', 'sudo systemctl reload nginx — apply changes', 'Logs: /var/log/nginx/access.log and error.log'] },
-      ],
-      code: `# Install and verify\nsudo apt install -y nginx\nsudo systemctl enable --now nginx\ncurl -I localhost\n\n# Set up firewall (SSH first!)\nsudo ufw allow 22\nsudo ufw allow 'Nginx Full'\nsudo ufw enable\nsudo ufw status\n\n# Deploy a custom page\necho '<h1>MOSHELL Lab</h1>' | sudo tee /var/www/html/index.html\ncurl localhost\n\n# Check logs live\nsudo tail -f /var/log/nginx/access.log`,
-      exercise: 'Install Nginx, allow it through ufw, replace the default index.html with your own content, and access it from your host browser using the VM\'s bridged IP address.'
+      items: ['sudo apt install nginx', 'sudo systemctl start nginx', 'sudo systemctl enable nginx — start on boot', 'sudo systemctl status nginx — check it\'s running']
     }
   },
   {
@@ -916,15 +919,9 @@ const LESSONS = [
     diff:'advanced', tags:['a:journalctl','a:grep','r:debug'],
     cats:['advanced','security'],
     desc:'journalctl, syslog, dmesg. Reading /var/log. grep for pattern matching. strace and lsof.',
-    content: {
+    preview: {
       intro: 'When things break (and they will), logs are how you find out why. Linux has a rich logging system — once you know how to read it, debugging becomes methodical rather than guesswork.',
-      sections: [
-        { title: 'systemd Journal (journalctl)', items: ['journalctl — all logs (oldest first)', 'journalctl -r — reverse (newest first)', 'journalctl -f — follow live (like tail -f)', 'journalctl -u nginx — logs for specific service', 'journalctl --since "1 hour ago"', 'journalctl -p err — only errors and above', 'journalctl -b — logs since last boot'] },
-        { title: 'Log Files', items: ['/var/log/syslog — general system log', '/var/log/auth.log — auth/sudo/SSH events', '/var/log/kern.log — kernel messages', '/var/log/nginx/access.log — Nginx requests', 'dmesg — kernel ring buffer (hardware events)', 'dmesg | grep -i error — filter for errors'] },
-        { title: 'Investigation Tools', items: ['grep -r "error" /var/log/ — search across all logs', 'grep -i "failed" /var/log/auth.log — case insensitive', 'lsof -i :80 — what process is using port 80', 'lsof -p PID — all files opened by a process', 'strace command — trace system calls (deep debug)', 'netstat -tulnp | grep nginx — verify nginx ports'] },
-      ],
-      code: `# Watch auth events in real time\nsudo journalctl -f -u ssh\n\n# Find all failed SSH logins\nsudo grep "Failed password" /var/log/auth.log | tail -20\n\n# What is using port 80?\nsudo lsof -i :80\n\n# Last 10 kernel messages\ndmesg | tail -10\n\n# Find errors across all logs\nsudo grep -ri "(error|failed|critical)" /var/log/ --include="*.log" | tail -30`,
-      exercise: 'Intentionally fail 3 SSH logins to your VM using a wrong password. Then use grep on /var/log/auth.log to find those failed attempts and identify the source IP.'
+      items: ['journalctl — all logs (oldest first)', 'journalctl -r — reverse (newest first)', 'journalctl -f — follow live (like tail -f)', 'journalctl -u nginx — logs for specific service']
     }
   },
   {
@@ -932,17 +929,31 @@ const LESSONS = [
     diff:'advanced', tags:['a:fdisk','a:mount','r:LVM','r:fstab'],
     cats:['advanced'],
     desc:'df, du, lsblk, fdisk. Mounting and unmounting. fstab. LVM basics. Creating partitions.',
-    content: {
+    preview: {
       intro: 'Storage management is fundamental for servers. You need to know how to add disks, partition them, mount them, and make mounts persistent across reboots.',
-      sections: [
-        { title: 'Checking Disk Usage', items: ['df -h — disk usage per mounted filesystem', 'du -sh /var/log — size of a specific directory', 'du -sh /* 2>/dev/null | sort -h — find large dirs', 'lsblk — list block devices (disks + partitions)', 'fdisk -l — list all disks and partitions (needs sudo)', 'blkid — show UUIDs and filesystem types'] },
-        { title: 'Mounting', items: ['mount /dev/sdb1 /mnt — mount a partition', 'umount /mnt — unmount', 'mount | grep sdb — see what is mounted', 'mount -o ro /dev/sdb1 /mnt — mount read-only', '/etc/fstab — file that defines persistent mounts', 'UUID=... /mnt/data ext4 defaults 0 2 — fstab entry format'] },
-        { title: 'Creating Partitions', items: ['sudo fdisk /dev/sdb — interactive partition tool', 'n = new partition, d = delete, p = print, w = write', 'sudo mkfs.ext4 /dev/sdb1 — format as ext4', 'sudo mkfs.xfs /dev/sdb1 — format as xfs', 'After formatting: mount it and add to fstab'] },
-      ],
-      code: `# Full storage overview\nlsblk\ndf -h\n\n# Find what is eating disk space\ndu -sh /var/* 2>/dev/null | sort -rh | head -10\n\n# In VirtualBox: add a 5GB disk to the VM, then:\nsudo fdisk /dev/sdb\n# n → p → 1 → defaults → w\n\n# Format and mount it\nsudo mkfs.ext4 /dev/sdb1\nsudo mkdir /mnt/extra\nsudo mount /dev/sdb1 /mnt/extra\ndf -h /mnt/extra\n\n# Make persistent (add to fstab)\nsudo blkid /dev/sdb1   # get UUID\n# Then edit /etc/fstab and add the UUID line`,
-      exercise: 'Add a second virtual disk to your VirtualBox VM (Settings → Storage). Boot up, use lsblk to find it, partition it with fdisk, format with mkfs.ext4, mount it, and add it to fstab.'
+      items: ['df -h — disk usage per mounted filesystem', 'du -sh /var/log — size of a specific directory', 'du -sh /* 2>/dev/null | sort -h — find large dirs', 'lsblk — list block devices (disks + partitions)']
     }
-  }
+  },
+  {
+    id:13, num:'13', title:'Docker Fundamentals',
+    diff:'advanced', tags:['c:docker','c:containers'],
+    cats:['advanced','vm'],
+    desc:'Images, containers, exec, logs. Running Nginx in a container. Volumes and persistent data.',
+    preview: {
+      intro: 'Docker packages an application and everything it needs to run into a portable container — no more "works on my machine." Understanding containers is now a baseline expectation for sysadmin and DevOps roles.',
+      items: ['docker pull nginx — download an image from Docker Hub', 'docker run -d -p 8080:80 nginx — run a container', 'docker ps — list running containers', 'docker exec -it <container> bash — shell into a running container']
+    }
+  },
+  {
+    id:14, num:'14', title:'Deploying with Docker Compose',
+    diff:'advanced', tags:['c:docker','c:compose','r:deploy'],
+    cats:['advanced','vm','networking'],
+    desc:'Multi-container stacks with docker-compose.yml. Service dependencies, ports, volumes, debugging.',
+    preview: {
+      intro: 'Real applications are rarely a single container — they\'re a web server, a database, maybe a cache, all talking to each other. Docker Compose lets you define and run that whole stack with one file and one command.',
+      items: ['docker compose up -d — start every service in the file', 'docker compose ps — list running services', 'docker compose logs -f — follow logs for every service', 'docker compose down — stop and remove everything']
+    }
+  },
 ];
 
 const CHEATDATA = {
@@ -1030,6 +1041,16 @@ let currentLesson = null;
 let cmdHistory = [], histIdx = -1;
 let cwd = '/home/student';
 
+// ── Docker sandbox state (Lessons 13-14) ──
+let DOCKER_IMAGES = [
+  {repo:'nginx', tag:'latest', id:'605c77e624dd', size:'187MB'},
+  {repo:'node', tag:'18-alpine', id:'a8bdb7c37e8b', size:'177MB'}
+];
+let DOCKER_CONTAINERS = []; // {id, name, image, status:'running'|'exited', ports, created}
+let DOCKER_VOLUMES = [];
+let COMPOSE_UP = false;
+let dockerIdCounter = 1;
+
 function saveProgress(){ localStorage.setItem('mlp-progress', JSON.stringify(progress)) }
 
 // ═══════════════════════════════════════════════
@@ -1039,19 +1060,80 @@ const TAGMAP = {g:'tg',c:'tc',a:'ta',p:'tp',r:'tr'};
 const DIFFMAP = {beginner:'d-b Beginner',intermediate:'d-i Intermediate',advanced:'d-a Advanced'};
 
 const FREE_LESSON_LIMIT = 6;
+const PRO_UNLOCK_KEY = 'moshell_pro_unlock';
+const GUMROAD_PRO_PERMALINK = 'odlbsr'; // MOSHELL Pro / Full Bundle product
+let premiumContentLoaded = false;
+
+function isProUnlocked(){
+  try { return localStorage.getItem(PRO_UNLOCK_KEY) === '1'; }
+  catch(e){ return false; }
+}
+
+function isLocked(id){
+  return id > FREE_LESSON_LIMIT && !isProUnlocked();
+}
+
+async function loadPremiumContent(){
+  if(premiumContentLoaded) return true;
+  try{
+    const res = await fetch('moshell-premium-content.json', {cache:'no-store'});
+    if(!res.ok) throw new Error('bad response');
+    const data = await res.json();
+    Object.keys(data).forEach(idStr=>{
+      const lesson = LESSONS.find(l => l.id === Number(idStr));
+      if(lesson) lesson.content = data[idStr];
+    });
+    premiumContentLoaded = true;
+    return true;
+  }catch(e){
+    console.error('Failed to load premium lesson content', e);
+    return false;
+  }
+}
+
+async function verifyLicenseKey(key){
+  const trimmed = (key || '').trim();
+  if(!trimmed) return {success:false, message:'Enter your license key.'};
+  try{
+    const body = new URLSearchParams({
+      product_permalink: GUMROAD_PRO_PERMALINK,
+      license_key: trimmed,
+      increment_uses_count: 'false'
+    });
+    const res = await fetch('https://api.gumroad.com/v2/licenses/verify', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body
+    });
+    const data = await res.json();
+    if(data && data.success){
+      try{ localStorage.setItem(PRO_UNLOCK_KEY, '1'); }catch(e){}
+      if(typeof gtag === 'function'){
+        gtag('event','license_verified',{event_category:'ecommerce'});
+      }
+      return {success:true};
+    }
+    if(typeof gtag === 'function'){
+      gtag('event','license_verify_failed',{event_category:'ecommerce'});
+    }
+    return {success:false, message: (data && data.message) || 'That license key was not recognized. Double-check it and try again.'};
+  }catch(e){
+    return {success:false, message:'Could not reach the license server. Check your connection and try again.'};
+  }
+}
 
 function renderLessons(filter='all'){
   const grid = document.getElementById('lessons-grid');
   grid.innerHTML = '';
   LESSONS.filter(l => filter==='all' || l.cats.includes(filter)).forEach(l => {
     const done = !!progress[l.id];
-    const locked = l.id > FREE_LESSON_LIMIT;
+    const locked = isLocked(l.id);
     const el = document.createElement('div');
     el.className = 'lesson-card' + (done ? ' done' : '') + (locked ? ' locked' : '');
     el.onclick = () => openLesson(l.id);
     const [dc,dl] = DIFFMAP[l.diff].split(' ');
     el.innerHTML = `
-      ${locked ? '<div class="lock-badge">🔒 BUNDLE</div>' : ''}
+      ${locked ? '<div class="lock-badge">🔒 PRO</div>' : ''}
       <div class="lcard-top">
         <span class="lnum">LESSON ${l.num}</span>
         <span class="ldiff ${dc}">${dl}</span>
@@ -1076,7 +1158,7 @@ function filterLessons(f, btn){
 // ═══════════════════════════════════════════════
 // LESSON MODAL
 // ═══════════════════════════════════════════════
-function openLesson(id){
+async function openLesson(id){
   const l = LESSONS.find(x=>x.id===id);
   if(!l) return;
   currentLesson = id;
@@ -1084,25 +1166,39 @@ function openLesson(id){
   const mb = document.getElementById('modal-body');
   const done = !!progress[id];
   const btn = document.getElementById('mark-btn');
-  const locked = id > FREE_LESSON_LIMIT;
+  const locked = isLocked(id);
 
   if(locked){
     btn.style.display = 'none';
-    const previewItems = (l.content.sections[0] && l.content.sections[0].items.slice(0,4)) || [];
+    const previewItems = (l.preview && l.preview.items) || [];
     mb.innerHTML = `
       <div class="modal-locked">
         <div class="lock-icon">🔒</div>
-        <h3>This lesson is part of the Full Bundle</h3>
-        <p>${l.content.intro}</p>
+        <h3>This lesson is part of MOSHELL Pro</h3>
+        <p>${l.preview ? l.preview.intro : ''}</p>
         <div class="preview-box">
           <div class="pv-title">PREVIEW — WHAT YOU'LL LEARN</div>
           <ul>${previewItems.map(i=>`<li>${i.split(' — ')[0]}</li>`).join('')}</ul>
         </div>
-        <a href="sales.html" class="unlock-btn">🏆 Unlock Full Bundle — $37 →</a>
+        <a href="sales.html" class="unlock-btn">🏆 Unlock MOSHELL Pro — $37 →</a>
+        <button type="button" class="unlock-btn" style="background:transparent;border:1px solid var(--green2);color:var(--green);margin-top:.6rem;cursor:pointer" onclick="openLicenseModal()">🔑 Already purchased? Enter license key</button>
       </div>`;
     document.getElementById('lesson-modal').classList.add('open');
     document.body.style.overflow='hidden';
     return;
+  }
+
+  // Pro lesson, unlocked — fetch the real content on first open
+  if(id > FREE_LESSON_LIMIT && !l.content){
+    mb.innerHTML = `<p style="text-align:center;color:var(--text3);padding:2.5rem 0">Loading lesson…</p>`;
+    document.getElementById('lesson-modal').classList.add('open');
+    document.body.style.overflow='hidden';
+    const ok = await loadPremiumContent();
+    if(!ok || !l.content){
+      mb.innerHTML = `<p style="text-align:center;color:var(--text3);padding:2.5rem 0">Couldn't load this lesson right now. Please refresh and try again.</p>`;
+      return;
+    }
+    if(currentLesson !== id) return; // user navigated away while loading
   }
 
   btn.style.display = '';
@@ -1137,6 +1233,56 @@ function closeModal(){
   // Re-show banner if user has scrolled past hero
   if(window.scrollY > 600){
     document.getElementById('buy-banner').style.display = 'flex';
+  }
+}
+
+// ═══════════════════════════════════════════════
+// LICENSE KEY / PRO UNLOCK
+// ═══════════════════════════════════════════════
+function openLicenseModal(){
+  document.getElementById('license-status').textContent = '';
+  document.getElementById('license-key-input').value = '';
+  document.getElementById('license-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(typeof gtag === 'function'){ gtag('event','license_modal_open',{event_category:'ecommerce'}); }
+  setTimeout(()=>document.getElementById('license-key-input').focus(), 50);
+}
+
+function closeLicenseModal(){
+  document.getElementById('license-modal').classList.remove('open');
+  document.body.style.overflow = document.getElementById('lesson-modal').classList.contains('open') ? 'hidden' : '';
+}
+
+async function submitLicenseKey(){
+  const input = document.getElementById('license-key-input');
+  const status = document.getElementById('license-status');
+  const btn = document.getElementById('license-submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Verifying…';
+  status.style.color = 'var(--text2)';
+  status.textContent = '';
+
+  const result = await verifyLicenseKey(input.value);
+
+  btn.disabled = false;
+  if(result.success){
+    btn.textContent = '✓ Unlocked!';
+    status.style.color = 'var(--green)';
+    status.textContent = 'All lessons unlocked in this browser. Enjoy!';
+    showToast('MOSHELL Pro unlocked!');
+    renderLessons();
+    updateStats();
+    updateProUI();
+    setTimeout(()=>{
+      closeLicenseModal();
+      btn.textContent = 'Unlock MOSHELL Pro →';
+      // If a locked lesson modal is open behind this, re-open it unlocked
+      if(currentLesson) openLesson(currentLesson);
+    }, 900);
+  } else {
+    btn.textContent = 'Unlock MOSHELL Pro →';
+    status.style.color = '#ff6b6b';
+    status.textContent = result.message || 'Something went wrong. Try again.';
   }
 }
 
@@ -1653,6 +1799,7 @@ Description: ${args[0]} package for Ubuntu Linux`:'apt show: must specify packag
 <span style="color:var(--green)">System:</span>      whoami  hostname  uname -a  date  uptime  history  df -h  free -h  lsblk  dmesg
 <span style="color:var(--green)">Packages:</span>    sudo apt update  sudo apt upgrade  apt search  apt show  sudo apt install
 <span style="color:var(--green)">Logs:</span>        journalctl  journalctl -f  journalctl -u [service]
+<span style="color:var(--green)">Containers:</span>  docker ps [-a]  docker run  docker exec  docker logs [-f]  docker stop/rm  docker images  docker compose up/ps/down
 <span style="color:var(--green)">Other:</span>       man [cmd]  echo [text]  clear  help
 
 <span style="color:var(--text3)">Tip: touch/mkdir/rm/cp/mv/ln actually change what 'ls' shows you — try them together.</span>`
@@ -1663,6 +1810,219 @@ function termPrint(html, cls=''){
   if(cls) d.className=cls;
   d.innerHTML = html;
   document.getElementById('term-out').appendChild(d);
+}
+
+// ═══════════════════════════════════════════════
+// DOCKER SANDBOX (Lessons 13-14) — stateful, in-memory
+// ═══════════════════════════════════════════════
+function genDockerId(){
+  const chars = '0123456789abcdef';
+  let id = '';
+  for(let i=0;i<12;i++) id += chars[Math.floor(Math.random()*16)];
+  return id;
+}
+
+function parseDockerTokens(tokens){
+  // tokens = everything after 'docker' (or after 'docker compose')
+  const valueFlags = {'--name':'name', '-p':'p', '-v':'v', '-e':'e'};
+  const boolFlags = {'-d':'d', '-it':'it', '-ti':'it', '-i':'it', '-t':'it', '-f':'f', '-a':'a'};
+  const out = {flags:{}, values:{}, positional:[]};
+  for(let i=0;i<tokens.length;i++){
+    const t = tokens[i];
+    if(valueFlags[t]){ out.values[valueFlags[t]] = tokens[++i]; }
+    else if(boolFlags[t]){ out.flags[boolFlags[t]] = true; }
+    else if(t.startsWith('--') && t.includes('=')){ const [k,v]=t.slice(2).split('='); out.values[k]=v; }
+    else { out.positional.push(t); }
+  }
+  return out;
+}
+
+function dockerFindContainer(nameOrId){
+  return DOCKER_CONTAINERS.find(c => c.name===nameOrId || c.id.startsWith(nameOrId));
+}
+
+function dockerImageExists(image){
+  const [repo, tag] = image.split(':');
+  return DOCKER_IMAGES.some(i => i.repo===repo && (i.tag===(tag||'latest')));
+}
+
+function dockerCmd(rawTrimmed){
+  const tokens = rawTrimmed.split(/\s+/).slice(1); // drop 'docker'
+
+  if(tokens.length === 0){
+    return `Usage:  docker [COMMAND]\n\nCommon Commands:\n  run         Create and run a new container from an image\n  exec        Execute a command in a running container\n  ps          List containers\n  images      List images\n  pull        Download an image from a registry\n  logs        Fetch the logs of a container\n  stop        Stop one or more running containers\n  rm          Remove one or more containers\n  compose     Define and run multi-container applications`;
+  }
+
+  if(tokens[0] === '--version' || tokens[0] === 'version'){
+    return `Docker version 24.0.7, build afdd53b (simulated)`;
+  }
+
+  if(tokens[0] === 'compose'){
+    return dockerComposeCmd(tokens.slice(1));
+  }
+
+  const sub = tokens[0];
+  const { flags, values, positional } = parseDockerTokens(tokens.slice(1));
+
+  if(sub === 'pull'){
+    const image = positional[0];
+    if(!image) return `docker: 'docker pull' requires at least 1 argument.`;
+    const [repo, tag] = image.split(':');
+    if(!dockerImageExists(image)) DOCKER_IMAGES.push({repo, tag: tag||'latest', id: genDockerId().slice(0,12), size: (Math.floor(Math.random()*150)+40)+'MB'});
+    return `${tag||'latest'}: Pulling from library/${repo}\nDigest: sha256:${genDockerId()}${genDockerId()}\nStatus: Downloaded newer image for ${repo}:${tag||'latest'}`;
+  }
+
+  if(sub === 'images'){
+    if(DOCKER_IMAGES.length===0) return `REPOSITORY   TAG       IMAGE ID       CREATED       SIZE`;
+    const rows = DOCKER_IMAGES.map(i => `${i.repo.padEnd(12)} ${i.tag.padEnd(9)} ${i.id.slice(0,12).padEnd(14)} 2 weeks ago   ${i.size}`);
+    return `REPOSITORY   TAG       IMAGE ID       CREATED       SIZE\n${rows.join('\n')}`;
+  }
+
+  if(sub === 'run'){
+    const image = positional[positional.length-1];
+    if(!image) return `docker: 'docker run' requires at least 1 argument.`;
+    if(!dockerImageExists(image)){
+      const [repo, tag] = image.split(':');
+      DOCKER_IMAGES.push({repo, tag: tag||'latest', id: genDockerId().slice(0,12), size: (Math.floor(Math.random()*150)+40)+'MB'});
+    }
+    const id = genDockerId();
+    const name = values.name || (image.split(':')[0] + '_' + Math.floor(Math.random()*9000+1000));
+    if(dockerFindContainer(name)) return `docker: Error response from daemon: Conflict. The container name "/${name}" is already in use.`;
+    const container = { id, name, image, status:'running', ports: values.p || '', created: 'Just now' };
+    DOCKER_CONTAINERS.push(container);
+    return flags.d ? id : `Started container ${name} (${id.slice(0,12)}) — running in foreground (simulated). Use -d to run detached.`;
+  }
+
+  if(sub === 'ps'){
+    let list = DOCKER_CONTAINERS.filter(c => flags.a || c.status==='running');
+    const header = `CONTAINER ID   IMAGE          COMMAND       CREATED       STATUS                    PORTS                    NAMES`;
+    if(list.length===0) return header;
+    const rows = list.map(c => `${c.id.slice(0,12).padEnd(14)} ${c.image.padEnd(14)} "..."         ${c.created.padEnd(13)} ${(c.status==='running'?'Up 2 minutes':'Exited (0) 1 minute ago').padEnd(25)} ${(c.ports?('0.0.0.0:'+c.ports):'').padEnd(24)} ${c.name}`);
+    return `${header}\n${rows.join('\n')}`;
+  }
+
+  if(sub === 'exec'){
+    const containerRef = positional[0];
+    const cmdArgs = positional.slice(1);
+    const c = dockerFindContainer(containerRef);
+    if(!c) return `Error: No such container: ${containerRef}`;
+    if(c.status !== 'running') return `Error response from daemon: Container ${c.id.slice(0,12)} is not running`;
+    const cmdStr = cmdArgs.join(' ');
+    if(cmdStr === 'cat /etc/os-release' || cmdStr === 'cat/etc/os-release'){
+      return `PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"\nNAME="Debian GNU/Linux"\nVERSION_ID="12"\nID=debian`;
+    }
+    if(cmdStr === 'whoami') return `root`;
+    if(cmdStr === 'ls' || cmdStr === 'ls /') return `bin  boot  dev  docker-entrypoint.sh  etc  home  lib  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var`;
+    if(cmdStr === 'bash' || cmdStr === 'sh' || cmdStr === ''){
+      return `<span style="color:var(--text3)">(simulated — this sandbox doesn't support a nested interactive shell)</span>\nTry a direct exec instead, e.g.: <span style="color:var(--green)">docker exec ${c.name} cat /etc/os-release</span>`;
+    }
+    return `${cmdStr}: simulated — try 'cat /etc/os-release', 'whoami', or 'ls' for real output inside this container`;
+  }
+
+  if(sub === 'logs'){
+    const containerRef = positional[0];
+    const c = dockerFindContainer(containerRef);
+    if(!c) return `Error: No such container: ${containerRef}`;
+    const lines = `${c.image.startsWith('nginx')?'2025/06/10 10:22:01 [notice] 1#1: start worker processes':'Server starting on port 3000'}\n172.17.0.1 - - [10/Jun/2025:10:22:04] "GET / HTTP/1.1" 200 615\n172.17.0.1 - - [10/Jun/2025:10:22:07] "GET /favicon.ico HTTP/1.1" 404 153`;
+    return flags.f ? `<span style="color:var(--text3)">(following — simulated, showing recent lines)</span>\n${lines}` : lines;
+  }
+
+  if(sub === 'stop'){
+    const c = dockerFindContainer(positional[0]);
+    if(!c) return `Error: No such container: ${positional[0]}`;
+    c.status = 'exited';
+    return c.name;
+  }
+
+  if(sub === 'rm'){
+    const c = dockerFindContainer(positional[0]);
+    if(!c) return `Error: No such container: ${positional[0]}`;
+    if(c.status === 'running') return `Error response from daemon: You cannot remove a running container ${c.id.slice(0,12)}. Stop it first or use -f.`;
+    DOCKER_CONTAINERS = DOCKER_CONTAINERS.filter(x => x.id !== c.id);
+    return c.name;
+  }
+
+  if(sub === 'rmi'){
+    const image = positional[0];
+    if(!image) return `docker: 'docker rmi' requires at least 1 argument.`;
+    if(DOCKER_CONTAINERS.some(c => c.image===image)) return `Error response from daemon: conflict: unable to remove repository reference "${image}" (must force) - container is using its referenced image`;
+    const [repo, tag] = image.split(':');
+    DOCKER_IMAGES = DOCKER_IMAGES.filter(i => !(i.repo===repo && i.tag===(tag||'latest')));
+    return `Untagged: ${image}\nDeleted: sha256:${genDockerId()}${genDockerId()}`;
+  }
+
+  if(sub === 'volume'){
+    const action = positional[0];
+    if(action === 'ls'){
+      const header = `DRIVER    VOLUME NAME`;
+      if(DOCKER_VOLUMES.length===0) return header;
+      return `${header}\n${DOCKER_VOLUMES.map(v=>`local     ${v}`).join('\n')}`;
+    }
+    if(action === 'create'){
+      const name = positional[1] || ('vol_'+genDockerId().slice(0,8));
+      if(!DOCKER_VOLUMES.includes(name)) DOCKER_VOLUMES.push(name);
+      return name;
+    }
+    return `docker volume: unknown subcommand '${action||''}'`;
+  }
+
+  return `docker: '${sub}' is not a docker command.\nSee 'docker --help'`;
+}
+
+function dockerComposeCmd(tokens){
+  const sub = tokens[0];
+  const rest = tokens.slice(1);
+
+  if(!sub || sub==='version'){
+    return `Docker Compose version v2.24.0 (simulated)`;
+  }
+
+  if(sub === 'up'){
+    COMPOSE_UP = true;
+    ['web','api'].forEach(svc=>{
+      if(!DOCKER_CONTAINERS.find(c=>c.name===('moshell_'+svc+'_1'))){
+        DOCKER_CONTAINERS.push({ id: genDockerId(), name:'moshell_'+svc+'_1', image: svc==='web'?'nginx:latest':'node:18-alpine', status:'running', ports: svc==='web'?'8080:80':'', created:'Just now' });
+      } else {
+        const c = DOCKER_CONTAINERS.find(c=>c.name===('moshell_'+svc+'_1')); c.status='running';
+      }
+    });
+    return `Creating network "moshell_default" ... done\nCreating moshell_api_1 ... done\nCreating moshell_web_1 ... done`;
+  }
+
+  if(sub === 'ps'){
+    const services = DOCKER_CONTAINERS.filter(c => c.name.startsWith('moshell_'));
+    const header = `NAME                COMMAND      SERVICE   STATUS       PORTS`;
+    if(services.length===0) return header + `\n(no services running — try 'docker compose up -d')`;
+    const rows = services.map(c => `${c.name.padEnd(19)} "..."        ${c.name.replace('moshell_','').replace('_1','').padEnd(9)} ${(c.status==='running'?'running':'exited').padEnd(12)} ${c.ports?('0.0.0.0:'+c.ports):''}`);
+    return `${header}\n${rows.join('\n')}`;
+  }
+
+  if(sub === 'down'){
+    DOCKER_CONTAINERS = DOCKER_CONTAINERS.filter(c => !c.name.startsWith('moshell_'));
+    COMPOSE_UP = false;
+    return `Stopping moshell_web_1 ... done\nStopping moshell_api_1 ... done\nRemoving moshell_web_1 ... done\nRemoving moshell_api_1 ... done\nRemoving network moshell_default ... done`;
+  }
+
+  if(sub === 'logs'){
+    const svc = rest.find(a=>!a.startsWith('-'));
+    const follow = rest.includes('-f');
+    const lines = svc==='api'
+      ? `api_1  | Server listening on port 3000\napi_1  | GET /health 200 4ms`
+      : `web_1  | 2025/06/10 10:22:01 [notice] 1#1: start worker processes\napi_1  | Server listening on port 3000`;
+    return follow ? `<span style="color:var(--text3)">(following — simulated)</span>\n${lines}` : lines;
+  }
+
+  if(sub === 'exec'){
+    const svc = rest[0];
+    return `<span style="color:var(--text3)">(simulated — this sandbox doesn't support a nested interactive shell)</span>\nTry: <span style="color:var(--green)">docker compose logs ${svc||''}</span> to inspect the service instead.`;
+  }
+
+  if(sub === 'restart'){
+    const svc = rest[0];
+    return `Restarting moshell_${svc}_1 ... done`;
+  }
+
+  return `docker compose: '${sub}' is not a compose command.`;
 }
 
 function runCmd(raw){
@@ -1722,6 +2082,8 @@ function runCmd(raw){
     else{ result = `[sudo] simulating: ${escH(sub)}\nOK — command executed (simulated)`; }
   } else if(trimmed.startsWith('grep')){
     result = `<span style="color:var(--amber)">${escH(trimmed)}</span>\n<span style="color:var(--text2)">(grep simulated — use in your VM for real results)</span>`;
+  } else if(trimmed.startsWith('docker')){
+    result = dockerCmd(trimmed);
   } else if(trimmed==='exit'||trimmed==='logout'){
     result='logout\nConnection to moshell closed.';
   } else {
@@ -1912,7 +2274,37 @@ function celebrateLessonComplete(lessonTitle){
 document.getElementById('lesson-modal').addEventListener('click',function(e){
   if(e.target===this) closeModal();
 });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+document.getElementById('license-modal').addEventListener('click',function(e){
+  if(e.target===this) closeLicenseModal();
+});
+document.getElementById('license-key-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter') submitLicenseKey();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('license-modal').classList.contains('open')) closeLicenseModal();
+    else closeModal();
+  }
+});
+
+function updateProUI(){
+  const unlocked = isProUnlocked();
+  const navCta = document.getElementById('nav-buy-cta');
+  const heroCta = document.getElementById('hero-buy-cta');
+  const bannerTitle = document.getElementById('buy-banner-title');
+  const bannerSub = document.getElementById('buy-banner-sub');
+  const bannerCta = document.getElementById('buy-banner-cta');
+  const bannerPrice = document.getElementById('buy-banner-price');
+
+  if(unlocked){
+    if(navCta){ navCta.textContent = '✓ PRO UNLOCKED'; navCta.href = '#lessons'; navCta.onclick = null; }
+    if(heroCta){ heroCta.textContent = '✓ MOSHELL Pro Unlocked'; heroCta.href = '#lessons'; heroCta.onclick = null; }
+    if(bannerTitle) bannerTitle.textContent = "You're all set!";
+    if(bannerSub) bannerSub.textContent = 'MOSHELL Pro is unlocked in this browser — dive into any lesson.';
+    if(bannerPrice) bannerPrice.style.display = 'none';
+    if(bannerCta){ bannerCta.textContent = 'GO TO LESSONS →'; bannerCta.href = '#lessons'; }
+  }
+}
 
 // ═══════════════════════════════════════════════
 // INIT
@@ -1923,7 +2315,17 @@ renderQuickBtns();
 initTerminal();
 animateHero();
 updateStats();
+updateProUI();
 setTimeout(countUp, 400);
+
+// Admin/QA deep link: index.html?openLesson=13
+(function(){
+  try{
+    const params = new URLSearchParams(window.location.search);
+    const openId = parseInt(params.get('openLesson'), 10);
+    if(openId){ setTimeout(()=>openLesson(openId), 300); }
+  }catch(e){}
+})();
 </script>
 
 <!-- STICKY BUY BANNER -->
@@ -1936,18 +2338,18 @@ setTimeout(countUp, 400);
   gap:1rem;flex-wrap:wrap;
 ">
   <div>
-    <div style="font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--text)">Enjoying MOSHELL?</div>
-    <div style="font-size:.72rem;color:var(--text2)">Get the full bundle — workbook + premium lessons + everything unlocked.</div>
+    <div style="font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--text)" id="buy-banner-title">Enjoying MOSHELL?</div>
+    <div style="font-size:.72rem;color:var(--text2)" id="buy-banner-sub">Unlock MOSHELL Pro — every track, every lab, lifetime access.</div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-    <div style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--green)">$37</div>
-    <a href="sales.html" style="
+    <div style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--green)" id="buy-banner-price">$37</div>
+    <a href="sales.html" id="buy-banner-cta" style="
       background:var(--green);color:#000;
       font-family:var(--mono);font-size:.75rem;font-weight:700;
       padding:10px 22px;border-radius:var(--r);
       letter-spacing:.05em;text-decoration:none;
       transition:.15s;white-space:nowrap;
-    ">GET FULL ACCESS →</a>
+    ">UNLOCK PRO →</a>
     <button onclick="document.getElementById('buy-banner').style.display='none'" style="
       background:none;border:none;color:var(--text3);
       font-size:1.1rem;cursor:pointer;padding:4px 8px;
