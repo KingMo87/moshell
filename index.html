@@ -562,24 +562,6 @@ footer .fg{color:var(--green)}
 </head>
 <body>
 
-<!-- UPDATE ANNOUNCEMENT BANNER -->
-<div id="update-banner" style="
-  display:none; align-items:center; justify-content:center; gap:14px;
-  background:var(--green-bg); border-bottom:1px solid var(--green2);
-  padding:10px 16px; text-align:center; flex-wrap:wrap;
-">
-  <span style="font-family:var(--mono);font-size:.78rem;color:var(--text)" id="update-banner-text">
-    🐳 <strong>New:</strong> Docker Fundamentals & Docker Compose lessons just added (13–14).
-  </span>
-  <a href="#lessons" id="update-banner-cta" style="
-    font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.04em;
-    background:var(--green);color:#000;padding:5px 14px;border-radius:5px;text-decoration:none;
-  ">Check it out →</a>
-  <button type="button" onclick="dismissUpdateBanner()" style="
-    background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;padding:0 4px;
-  ">✕</button>
-</div>
-
 <!-- PROGRESS BAR -->
 <div id="progress-bar"><div id="progress-fill"></div></div>
 
@@ -1285,10 +1267,6 @@ function closeModal(){
   document.body.style.overflow='';
   renderLessons();
   updateStats();
-  // Re-show banner if user has scrolled past hero
-  if(window.scrollY > 600){
-    document.getElementById('buy-banner').style.display = 'flex';
-  }
 }
 
 // ═══════════════════════════════════════════════
@@ -2350,37 +2328,19 @@ function updateProUI(){
   const unlocked = isProUnlocked();
   const navCta = document.getElementById('nav-buy-cta');
   const heroCta = document.getElementById('hero-buy-cta');
-  const bannerTitle = document.getElementById('buy-banner-title');
-  const bannerSub = document.getElementById('buy-banner-sub');
-  const bannerCta = document.getElementById('buy-banner-cta');
-  const bannerPrice = document.getElementById('buy-banner-price');
 
   if(unlocked){
     if(navCta){ navCta.textContent = '✓ PRO UNLOCKED'; navCta.href = '#lessons'; navCta.onclick = null; }
     if(heroCta){ heroCta.textContent = '✓ MOSHELL Pro Unlocked'; heroCta.href = '#lessons'; heroCta.onclick = null; }
-    if(bannerTitle) bannerTitle.textContent = "You're all set!";
-    if(bannerSub) bannerSub.textContent = 'MOSHELL Pro is unlocked in this browser — dive into any lesson.';
-    if(bannerPrice) bannerPrice.style.display = 'none';
-    if(bannerCta){ bannerCta.textContent = 'GO TO LESSONS →'; bannerCta.href = '#lessons'; }
   }
 }
 
 // ═══════════════════════════════════════════════
-// UPDATE ANNOUNCEMENT BANNER
-// Bump UPDATE_ID for future announcements — a new ID
-// means everyone sees the new banner once, even if they
-// dismissed a previous one.
+// NAV / PROGRESS-BAR HEIGHT SYNC
+// Keeps the fixed nav and progress-bar aligned with the nav's
+// actual rendered height, which can vary if it wraps to two lines
+// on narrow screens.
 // ═══════════════════════════════════════════════
-const UPDATE_ID = 'docker-lessons-13-14';
-const UPDATE_SEEN_KEY = 'moshell_seen_update_' + UPDATE_ID;
-
-function dismissUpdateBanner(){
-  try{ localStorage.setItem(UPDATE_SEEN_KEY, '1'); }catch(e){}
-  const b = document.getElementById('update-banner');
-  if(b) b.style.display = 'none';
-  repositionForBanner();
-}
-
 let lastKnownWidth = window.innerWidth;
 function handleBannerResize(){
   // Mobile browsers fire 'resize' on scroll (address bar hide/show changes
@@ -2392,40 +2352,10 @@ function handleBannerResize(){
 }
 
 function repositionForBanner(){
-  const banner = document.getElementById('update-banner');
   const nav = document.querySelector('nav');
   const progressBar = document.getElementById('progress-bar');
-  const visible = banner && banner.style.display !== 'none' && banner.style.display !== '';
-  const bannerH = visible ? banner.offsetHeight : 0;
-  if(nav) nav.style.top = bannerH + 'px';
-  if(progressBar && nav) progressBar.style.top = (bannerH + nav.offsetHeight) + 'px';
-}
-
-function initUpdateBanner(){
-  let seen = false;
-  try{ seen = localStorage.getItem(UPDATE_SEEN_KEY) === '1'; }catch(e){}
-  if(seen) return;
-
-  const banner = document.getElementById('update-banner');
-  const text = document.getElementById('update-banner-text');
-  const cta = document.getElementById('update-banner-cta');
-  if(!banner) return;
-
-  if(isProUnlocked()){
-    text.innerHTML = '🐳 <strong>New:</strong> Docker Fundamentals & Docker Compose lessons just added (13–14) — already unlocked for you.';
-    cta.textContent = 'Start Lesson 13 →';
-    cta.href = 'index.html?openLesson=13';
-  } else {
-    text.innerHTML = '🐳 <strong>New:</strong> MOSHELL Pro just added Docker Fundamentals & Docker Compose lessons (13–14).';
-    cta.textContent = 'See what\'s new →';
-    cta.href = 'sales.html';
-  }
-
-  banner.style.display = 'flex';
-  repositionForBanner();
-  if(typeof gtag === 'function'){
-    gtag('event', 'update_banner_shown', {event_category:'engagement', update_id: UPDATE_ID});
-  }
+  if(nav) nav.style.top = '0px';
+  if(progressBar && nav) progressBar.style.top = nav.offsetHeight + 'px';
 }
 
 // ═══════════════════════════════════════════════
@@ -2438,7 +2368,6 @@ initTerminal();
 animateHero();
 updateStats();
 updateProUI();
-initUpdateBanner();
 repositionForBanner();
 window.addEventListener('resize', handleBannerResize);
 setTimeout(countUp, 400);
@@ -2451,47 +2380,6 @@ setTimeout(countUp, 400);
     if(openId){ setTimeout(()=>openLesson(openId), 300); }
   }catch(e){}
 })();
-</script>
-
-<!-- STICKY BUY BANNER -->
-<div id="buy-banner" style="
-  position:fixed;bottom:0;left:0;right:0;z-index:300;
-  background:var(--bg2);border-top:1px solid var(--border2);
-  padding:.75rem 2rem;
-  display:none;
-  align-items:center;justify-content:space-between;
-  gap:1rem;flex-wrap:wrap;
-">
-  <div>
-    <div style="font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--text)" id="buy-banner-title">Enjoying MOSHELL?</div>
-    <div style="font-size:.72rem;color:var(--text2)" id="buy-banner-sub">Unlock MOSHELL Pro — every track, every lab, lifetime access.</div>
-  </div>
-  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-    <div style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--green)" id="buy-banner-price">$37</div>
-    <a href="sales.html" id="buy-banner-cta" style="
-      background:var(--green);color:#000;
-      font-family:var(--mono);font-size:.75rem;font-weight:700;
-      padding:10px 22px;border-radius:var(--r);
-      letter-spacing:.05em;text-decoration:none;
-      transition:.15s;white-space:nowrap;
-    ">UNLOCK PRO →</a>
-    <button onclick="document.getElementById('buy-banner').style.display='none'" style="
-      background:none;border:none;color:var(--text3);
-      font-size:1.1rem;cursor:pointer;padding:4px 8px;
-    ">✕</button>
-  </div>
-</div>
-<script>
-// Show sticky banner after user scrolls past hero
-window.addEventListener('scroll', function() {
-  const banner = document.getElementById('buy-banner');
-  const modalOpen = document.getElementById('lesson-modal').classList.contains('open');
-  if (window.scrollY > 600 && !modalOpen) {
-    banner.style.display = 'flex';
-  } else if(modalOpen) {
-    banner.style.display = 'none';
-  }
-}, { passive: true });
 </script>
 <script src="moshell-analytics.js"></script>
 <script src="moshell-missions.js"></script>
