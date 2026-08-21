@@ -1116,7 +1116,7 @@ const DIFFMAP = {beginner:'d-b Beginner',intermediate:'d-i Intermediate',advance
 
 const FREE_LESSON_LIMIT = 6;
 const PRO_UNLOCK_KEY = 'moshell_pro_unlock';
-const GUMROAD_PRO_PERMALINK = 'odlbsr'; // MOSHELL Pro / Full Bundle product
+const GUMROAD_PRO_PRODUCT_ID = 'LMffutnTJooI_6r4WTZx9A=='; // MOSHELL Pro / Full Bundle product (Gumroad product_id, not the URL permalink)
 let premiumContentLoaded = false;
 
 function isProUnlocked(){
@@ -1151,7 +1151,7 @@ async function verifyLicenseKey(key){
   if(!trimmed) return {success:false, message:'Enter your license key.'};
   try{
     const body = new URLSearchParams({
-      product_permalink: GUMROAD_PRO_PERMALINK,
+      product_id: GUMROAD_PRO_PRODUCT_ID,
       license_key: trimmed,
       increment_uses_count: 'false'
     });
