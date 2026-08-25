@@ -49,14 +49,15 @@ window.awardBadge = function(lessonId) {
   try {
     if (!BADGES[lessonId]) return;
 
-    let earned = JSON.parse(sessionStorage.getItem('moshell-badges') || '{}');
+    let earned = JSON.parse(localStorage.getItem('moshell-badges') || '{}');
     if (earned[lessonId]) return;
 
     earned[lessonId] = {
       unlockedAt: new Date().toISOString(),
       lesson: lessonId
     };
-    sessionStorage.setItem('moshell-badges', JSON.stringify(earned));
+    localStorage.setItem('moshell-badges', JSON.stringify(earned));
+    window.updateBadgeTracker();
 
     showBadgeUnlock(lessonId);
 
@@ -271,7 +272,7 @@ window.handleEmailSubmit = function(event, lessonId) {
 };
 
 window.showBadgeCollection = function() {
-  let earned = JSON.parse(sessionStorage.getItem('moshell-badges') || '{}');
+  let earned = JSON.parse(localStorage.getItem('moshell-badges') || '{}');
   
   const modal = document.createElement('div');
   modal.id = 'badge-collection-modal';
@@ -330,3 +331,19 @@ window.showBadgeCollection = function() {
 
   document.body.appendChild(modal);
 };
+
+// Keeps the "🏆 X/5" trackers (nav bar + lessons section) in sync with
+// earned badges. Called on every award below, and once here on load.
+window.updateBadgeTracker = function() {
+  try {
+    const earned = JSON.parse(localStorage.getItem('moshell-badges') || '{}');
+    const count = Object.keys(earned).length;
+    document.querySelectorAll('.badge-tracker-count').forEach(function(el) {
+      el.textContent = count;
+    });
+  } catch (e) {
+    console.error('[moshell-rewards] badge tracker update failed', e);
+  }
+};
+
+window.updateBadgeTracker();
