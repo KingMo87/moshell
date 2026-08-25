@@ -297,13 +297,14 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .lesson-card:hover .l-open-btn{opacity:1}
 .lesson-card.locked{position:relative;opacity:.72}
 .lesson-card.locked:hover{opacity:.92}
+.lcard-top-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .lock-badge{
-  position:absolute;top:12px;right:12px;
   background:var(--amber-bg);color:var(--amber);
-  border:1px solid var(--amber2);
+  border:1px solid var(--amber);
   font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;
   padding:3px 9px;border-radius:4px;font-weight:500;
-  display:flex;align-items:center;gap:4px;
+  display:inline-flex;align-items:center;gap:4px;
+  white-space:nowrap;
 }
 .modal-locked{
   text-align:center;padding:2.5rem 1.5rem;
@@ -1174,10 +1175,12 @@ function renderLessons(filter='all'){
     el.onclick = () => openLesson(l.id);
     const [dc,dl] = DIFFMAP[l.diff].split(' ');
     el.innerHTML = `
-      ${locked ? '<div class="lock-badge">🔒 PRO</div>' : ''}
       <div class="lcard-top">
         <span class="lnum">LESSON ${l.num}</span>
-        <span class="ldiff ${dc}">${dl}</span>
+        <div class="lcard-top-right">
+          <span class="ldiff ${dc}">${dl}</span>
+          ${locked ? '<span class="lock-badge">🔒 PRO</span>' : ''}
+        </div>
       </div>
       <div class="ltitle">${l.title}</div>
       <div class="ldesc">${l.desc}</div>
