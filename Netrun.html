@@ -370,12 +370,15 @@ const SAVE_KEY = "moshell_netrun_v1";
    >>> PASTE the second product_id below (the Full Bundle / MOSHELL Pro id) so
        both products' keys are accepted. Leave the known one as-is.            */
 const LICENSE_PRODUCT_IDS = [
-  "LMffutnTJooI_6r4WTZx9A==",   // known MOSHELL product id (Premium/Workbook tier)
-  "PASTE_FULL_BUNDLE_PRODUCT_ID_HERE"  // <-- replace with the odlbsr / Full Bundle product_id
+  "LMffutnTJooI_6r4WTZx9A=="   // MOSHELL Pro / Full Bundle — same product_id the main site verifies against
+  // OPTIONAL: if the $17 Lab Workbook is a SEPARATE Gumroad product you also want to
+  // accept, add its product_id on a new line above this comment, e.g.:
+  //   , "PASTE_WORKBOOK_PRODUCT_ID_HERE"
 ];
 const GUMROAD_VERIFY_URL = "https://api.gumroad.com/v2/licenses/verify";
-const BUY_URL_WORKBOOK = "https://kingmo87.gumroad.com/l/fydlcl"; // $17 Lab Workbook
-const BUY_URL_BUNDLE   = "https://kingmo87.gumroad.com/l/odlbsr"; // $37 Full Bundle / Pro
+// NOTE: confirm the store handle matches your live links (the product SLUGS fydlcl/odlbsr are correct).
+const BUY_URL_WORKBOOK = "https://moshell.gumroad.com/l/fydlcl"; // $17 Lab Workbook
+const BUY_URL_BUNDLE   = "https://moshell.gumroad.com/l/odlbsr"; // $37 Full Bundle / Pro
 
 /* GA4 event helper — safe no-op if gtag isn't loaded (offline / tests). */
 function track(event, params){
