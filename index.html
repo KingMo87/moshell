@@ -137,6 +137,11 @@ nav{
 .badge-tracker-pill{display:inline-flex;align-items:center;gap:5px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);padding:5px 12px;border-radius:var(--r);font-size:.7rem;font-weight:700;letter-spacing:.04em;font-family:var(--mono);cursor:pointer;transition:background .2s,transform .15s;white-space:nowrap}
 .badge-tracker-pill:hover{background:#241a08;transform:translateY(-1px)}
 @media(max-width:520px){.nav-links{gap:1rem}.nav-links a{font-size:.65rem}.badge-tracker-pill{font-size:.65rem;padding:4px 10px}}
+.nav-netrun{display:inline-flex;align-items:center;gap:5px;color:var(--amber)!important;font-weight:700}
+.nav-netrun:hover{color:var(--amber)!important}
+.nav-netrun-new{font-size:.55rem;letter-spacing:.08em;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);padding:1px 5px;border-radius:3px;animation:netrunGlow 2.4s ease-in-out infinite}
+@keyframes netrunGlow{0%,100%{box-shadow:0 0 0 rgba(240,168,74,0)}50%{box-shadow:0 0 8px rgba(240,168,74,.5)}}
+@media(prefers-reduced-motion:reduce){.nav-netrun-new{animation:none}}
 
 /* ═══ HERO ═══ */
 .hero{
@@ -578,6 +583,7 @@ footer .fg{color:var(--green)}
     <li><a href="#lessons">Lessons</a></li>
     <li><a href="#cheatsheet">Reference</a></li>
     <li><a href="#sandbox">Sandbox</a></li>
+    <li><a href="netrun.html" class="nav-netrun">NETRUN <span class="nav-netrun-new">NEW</span></a></li>
     <li><a href="#setup">VM Setup</a></li>
     <li><a href="#about">About</a></li>
   </ul>
@@ -675,8 +681,27 @@ footer .fg{color:var(--green)}
       <span class="ltag tg">quiz</span>
       <span class="ltag tc">badges</span>
     </div>
-    <div class="lcard-footer">
+       <div class="lcard-footer">
       <span style="font-size:.68rem; color:var(--cyan); letter-spacing:.04em;">Play now →</span>
+    </div>
+  </a>
+
+  <a href="netrun.html"
+     class="lesson-card active-lesson"
+     style="text-decoration:none; color:inherit; margin-top:1rem; display:flex; border-color:var(--amber); box-shadow:0 0 0 1px var(--amber-bg) inset;">
+    <div class="lcard-top">
+      <span class="lnum">BONUS</span>
+      <span class="ldiff d-a">HACKING GAME</span>
+    </div>
+    <div class="ltitle">🖥️ NETRUN — Break In &amp; Harden</div>
+    <div class="ldesc">A hands-on SSH hacking sim. Break into a network of servers by exploiting real misconfigurations — default creds, weak SSH, SUID, rogue cron — then switch sides and harden every box. Two tracks, mission-based, no login to start.</div>
+    <div class="ltags">
+      <span class="ltag ta">ssh</span>
+      <span class="ltag tr">exploitation</span>
+      <span class="ltag tp">hardening</span>
+    </div>
+    <div class="lcard-footer">
+      <span style="font-size:.68rem; color:var(--amber); letter-spacing:.04em;">Start hacking →</span>
     </div>
   </a>
 </section>
