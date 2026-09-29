@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MOSHELL — NETRUN // SSH Infiltration Sim</title>
+<!-- Google Analytics 4 (same property as the MOSHELL platform) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZT815QEJS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3ZT815QEJS');
+</script>
+<style>
+  :root{
+    --amber:#ffb000;
+    --amber-dim:#c07d00;
+    --amber-glow:rgba(255,176,0,.35);
+    --green:#3ddc84;
+    --red:#ff5a5a;
+    --cyan:#4fd6ff;
+    --bg:#0a0703;
+    --panel:#140d04;
+    --panel-line:#3a2a08;
+    --scan:rgba(255,176,0,.04);
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    background:var(--bg);
+    color:var(--amber);
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    font-size:14px;
+    line-height:1.5;
+    overflow:hidden;
+    -webkit-font-smoothing:none;
+  }
+  /* CRT scanlines + flicker */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+    background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,var(--scan) 3px,var(--scan) 3px);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:51;
+    background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%);
+  }
+  @keyframes flicker{0%,100%{opacity:.97}50%{opacity:1}}
+  #crt{animation:flicker 4s infinite}
+
+  .wrap{
+    display:flex;flex-direction:column;height:100%;
+    max-width:1100px;margin:0 auto;padding:10px;
+  }
+  header.bar{
+    display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    border:1px solid var(--panel-line);
+    padding:8px 12px;background:var(--panel);
+    text-shadow:0 0 6px var(--amber-glow);
+  }
+  .logo{font-weight:700;letter-spacing:2px}
+  .logo b{color:var(--amber)}
+  .tag{color:var(--amber-dim);font-size:12px}
+  .stats{margin-left:auto;display:flex;gap:16px;font-size:12px}
+  .stats span b{color:var(--green)}
+
+  .main{display:flex;gap:10px;flex:1;min-height:0;margin-top:10px}
+  .side{
+    width:240px;flex-shrink:0;border:1px solid var(--panel-line);
+    background:var(--panel);padding:10px;overflow:auto;
+  }
+  .side h3{margin:0 0 8px;font-size:11px;letter-spacing:2px;color:var(--amber-dim)}
+  .mission{
+    border:1px solid var(--panel-line);padding:8px;margin-bottom:8px;cursor:pointer;
+    font-size:12px;transition:background .1s;
+  }
+  .mission:hover{background:#1d1305}
+  .mission.active{border-color:var(--amber);background:#201606}
+  .mission.done{opacity:.55}
+  .mission .mt{font-weight:700}
+  .mission .ms{color:var(--amber-dim);font-size:11px}
+  .badge{font-size:10px;padding:1px 5px;border:1px solid var(--panel-line)}
+  .badge.solved{color:var(--green);border-color:var(--green)}
+  .badge.locked{color:var(--red);border-color:var(--red)}
+  .badge.pro{color:#1a1200;background:var(--amber);border-color:var(--amber);font-weight:700}
+
+  .term-col{flex:1;display:flex;flex-direction:column;min-width:0}
+  #screen{
+    flex:1;border:1px solid var(--panel-line);background:#0c0803;
+    padding:12px;overflow-y:auto;overflow-x:hidden;
+    text-shadow:0 0 4px var(--amber-glow);white-space:pre-wrap;word-break:break-word;
+  }
+  #screen .p{color:var(--amber-dim)}         /* prompt echo */
+  #screen .ok{color:var(--green)}
+  #screen .err{color:var(--red)}
+  #screen .info{color:var(--cyan)}
+  #screen .dim{color:var(--amber-dim)}
+  #screen .flag{color:var(--green);font-weight:700}
+  #screen .art{color:var(--amber);line-height:1.15}
+  #screen .banner-line{color:var(--amber);font-weight:700;letter-spacing:3px;
+    padding:4px 0 2px;border-bottom:1px solid var(--panel-line);margin-bottom:6px}
+  #screen .banner-line.ok{color:var(--green);border-color:var(--green)}
+  #screen a{color:var(--cyan)}
+
+  .inputline{
+    display:flex;align-items:center;border:1px solid var(--panel-line);
+    border-top:none;background:#0c0803;padding:6px 12px;
+  }
+  .prompt{color:var(--green);white-space:nowrap;margin-right:8px;text-shadow:0 0 4px var(--amber-glow)}
+  #cmd{
+    flex:1;background:transparent;border:none;outline:none;color:var(--amber);
+    font-family:inherit;font-size:14px;text-shadow:0 0 4px var(--amber-glow);caret-color:var(--amber);
+  }
+  .hintbar{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  button.gh{
+    background:var(--panel);color:var(--amber-dim);border:1px solid var(--panel-line);
+    font-family:inherit;font-size:11px;padding:5px 10px;cursor:pointer;letter-spacing:1px;
+  }
+  button.gh:hover{color:var(--amber);border-color:var(--amber)}
+
+  @media (max-width:760px){
+    .side{display:none}
+    .main{margin-top:8px}
+    body{font-size:13px}
+  }
+  /* mobile mission drawer */
+  #mobMissions{display:none;border:1px solid var(--panel-line);background:var(--panel);
+    padding:8px;margin-top:8px;max-height:38vh;overflow:auto}
+  @media (max-width:760px){ #mobMissions.open{display:block} }
+  .drawer-toggle{display:none}
+  @media (max-width:760px){ .drawer-toggle{display:inline-block} }
+
+  @media (prefers-reduced-motion:reduce){
+    #crt{animation:none}
+  }
+  .cursor{display:inline-block;width:8px;height:15px;background:var(--amber);
+    vertical-align:text-bottom;animation:blink 1s step-end infinite}
+  @keyframes blink{50%{opacity:0}}
+  /* click-to-run command chips */
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+  .cmdchip{
+    display:inline-block;border:1px solid var(--panel-line);background:#160f04;
+    color:var(--amber);font-family:inherit;font-size:12px;padding:4px 8px;cursor:pointer;
+    border-radius:2px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+  }
+  .cmdchip:hover{border-color:var(--amber);background:#241a06}
+  .cmdchip:active{background:#2f2208}
+  a.cmdchip{text-decoration:none;color:var(--amber)}
+  a.cmdchip:hover{color:var(--amber)}
+
+  /* ===== Onboarding overlay ===== */
+  .onboard{
+    position:fixed;inset:0;z-index:100;display:none;
+    align-items:center;justify-content:center;padding:16px;
+    background:radial-gradient(ellipse at center,#160f04 0%,#080502 80%);
+    overflow-y:auto;
+  }
+  .onboard.show{display:flex}
+  .ob-card{
+    width:100%;max-width:560px;border:1px solid var(--amber);background:var(--panel);
+    padding:26px 24px;box-shadow:0 0 40px rgba(255,176,0,.15);
+    text-shadow:0 0 5px var(--amber-glow);margin:auto;
+  }
+  .ob-logo{letter-spacing:2px;font-size:13px;color:var(--amber-dim);margin-bottom:18px}
+  .ob-logo b{color:var(--amber)}
+  .ob-step h2{margin:0 0 8px;font-size:20px;color:var(--amber)}
+  .ob-sub{margin:0 0 18px;color:var(--amber-dim);font-size:13px;line-height:1.6}
+  .ob-sub em{color:var(--amber);font-style:normal}
+  .ob-label{display:block;font-size:11px;letter-spacing:1px;color:var(--amber-dim);margin:14px 0 6px}
+  .ob-input{
+    width:100%;background:#0c0803;border:1px solid var(--panel-line);color:var(--amber);
+    font-family:inherit;font-size:15px;padding:11px 12px;outline:none;
+  }
+  .ob-input:focus{border-color:var(--amber);box-shadow:0 0 8px var(--amber-glow)}
+  .ob-btn{
+    margin-top:18px;width:100%;background:var(--amber);color:#1a1200;border:none;
+    font-family:inherit;font-size:15px;font-weight:700;letter-spacing:1px;
+    padding:12px;cursor:pointer;
+  }
+  .ob-btn:hover{background:#ffc233}
+  .ob-btn:disabled{background:var(--panel-line);color:var(--amber-dim);cursor:not-allowed}
+  .ob-err{color:var(--red);font-size:12px;min-height:16px;margin-top:6px}
+  .ob-fine{color:var(--amber-dim);font-size:11px;margin-top:14px;line-height:1.5}
+  /* nickname grid */
+  .ob-nicks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .ob-nick{
+    border:1px solid var(--panel-line);background:#0c0803;color:var(--amber);
+    font-family:inherit;font-size:13px;padding:10px 8px;cursor:pointer;text-align:left;
+  }
+  .ob-nick:hover{border-color:var(--amber)}
+  .ob-nick.sel{border-color:var(--amber);background:#241a06}
+  /* password grid */
+  .ob-pws{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .ob-pw{
+    border:1px solid var(--panel-line);background:#0c0803;color:var(--amber);
+    font-family:inherit;font-size:14px;padding:12px 10px;cursor:pointer;text-align:left;
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+  }
+  .ob-pw:hover{border-color:var(--amber)}
+  .ob-pw .pw-tag{font-size:10px;letter-spacing:1px;opacity:0}
+  .ob-pw.strong{border-color:var(--green)} .ob-pw.strong .pw-tag{color:var(--green);opacity:1}
+  .ob-pw.weak{border-color:var(--red)}     .ob-pw.weak .pw-tag{color:var(--red);opacity:1}
+  .ob-pw.mid{border-color:var(--amber)}    .ob-pw.mid .pw-tag{color:var(--amber);opacity:1}
+  .ob-pw:disabled{cursor:default}
+  .ob-verdict{
+    margin-top:16px;border:1px solid var(--panel-line);padding:12px;font-size:13px;line-height:1.6;
+    background:#0c0803;
+  }
+  .ob-verdict.good{border-color:var(--green)}
+  .ob-verdict.bad{border-color:var(--red)}
+  .ob-verdict b{color:var(--amber)}
+  @media (max-width:480px){
+    .ob-nicks,.ob-pws{grid-template-columns:1fr}
+    .ob-card{padding:20px 16px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== ONBOARDING OVERLAY (email -> nickname -> password lesson) ===== -->
+<div id="onboard" class="onboard" aria-hidden="true">
+  <div class="ob-card">
+    <div class="ob-logo"><b>MOSHELL</b> // NETRUN</div>
+
+    <!-- STEP 1: email -->
+    <section class="ob-step" id="ob-email">
+      <h2>Enter the lab</h2>
+      <p class="ob-sub">NETRUN is a hands-on Linux security lab. Drop your email to save
+        your progress and get follow-ups when new missions ship.</p>
+      <label class="ob-label" for="ob-email-input">Email</label>
+      <input id="ob-email-input" class="ob-input" type="email" inputmode="email"
+             autocomplete="email" placeholder="you@example.com" aria-label="email">
+      <div class="ob-err" id="ob-email-err"></div>
+      <button class="ob-btn" id="ob-email-next">Continue →</button>
+      <p class="ob-fine">Your email is stored on your device and used only for MOSHELL updates. No spam.</p>
+    </section>
+
+    <!-- STEP 2: nickname -->
+    <section class="ob-step" id="ob-nick" hidden>
+      <h2>Pick your operator handle</h2>
+      <p class="ob-sub">This tags your score. Pick one — or type your own.</p>
+      <div class="ob-nicks" id="ob-nick-grid"></div>
+      <label class="ob-label" for="ob-nick-input">…or make your own</label>
+      <input id="ob-nick-input" class="ob-input" type="text" maxlength="20"
+             placeholder="custom handle" aria-label="custom nickname">
+      <div class="ob-err" id="ob-nick-err"></div>
+      <button class="ob-btn" id="ob-nick-next">Continue →</button>
+    </section>
+
+    <!-- STEP 3: password security lesson -->
+    <section class="ob-step" id="ob-pw" hidden>
+      <h2>First lesson: choose a login password</h2>
+      <p class="ob-sub">Every box in this lab was broken into because of a bad password or a
+        bad setting. Before you start — which of these would <em>you</em> trust? Pick one.</p>
+      <div class="ob-pws" id="ob-pw-grid"></div>
+      <div class="ob-verdict" id="ob-pw-verdict" hidden></div>
+      <button class="ob-btn" id="ob-pw-start" hidden>Start hacking →</button>
+    </section>
+  </div>
+</div>
+
+<div id="crt" class="wrap">
+  <header class="bar">
+    <div>
+      <div class="logo"><b>MOSHELL</b> // NETRUN</div>
+      <div class="tag">ssh infiltration &amp; privilege-escalation sim</div>
+    </div>
+    <div class="stats">
+      <span>SCORE <b id="score">0</b></span>
+      <span>FLAGS <b id="flags">0/6</b></span>
+      <span>RANK <b id="rank">script kiddie</b></span>
+    </div>
+    <button class="gh drawer-toggle" onclick="toggleDrawer()">MISSIONS</button>
+  </header>
+
+  <div class="main">
+    <aside class="side" id="missionList"></aside>
+    <div class="term-col">
+      <div id="screen"></div>
+      <div class="inputline">
+        <span class="prompt" id="prompt">netrun&gt;</span>
+        <input id="cmd" autocomplete="off" autocapitalize="off" autocorrect="off"
+               spellcheck="false" aria-label="terminal input">
+      </div>
+      <div class="hintbar">
+        <button class="gh" onclick="run('help')">help</button>
+        <button class="gh" onclick="run('missions')">missions</button>
+        <button class="gh" onclick="hint()">hint</button>
+        <button class="gh" onclick="run('reset --soft')">reset run</button>
+      </div>
+    </div>
+  </div>
+  <div id="mobMissions"></div>
+</div>
+
+<script>
+/* =========================================================================
+   MOSHELL NETRUN — SSH INFILTRATION & PRIVILEGE-ESCALATION SIMULATOR
+   =========================================================================
+
+   ORIGINAL WORK
+   -------------
+   This game was written from scratch for MOSHELL (moshellinux.com) by Fab
+   (KingMo87). The code — the simulated network, the command interpreter, the
+   in-memory filesystem, the mission and scoring system — is original and not
+   copied or derived from any other project or website. The security concepts
+   it teaches (see "WHAT IT TEACHES") are standard, publicly documented
+   techniques from the field, not proprietary to any tool.
+
+   © 2026 KingMo87. All rights reserved.
+
+   HOW IT WORKS
+   ------------
+   NETRUN is a single self-contained HTML file with no backend. The "server"
+   you connect to is an in-memory network of fake hosts (baseNet()). Nothing
+   here touches a real machine, so it is completely safe to run and to teach
+   with.
+
+   • Each host is an object with open ports, user accounts, a filesystem,
+     escalation rules, and a `misconfigs` list (the auditable findings).
+   • The console has two modes: the local "netrun>" prompt (recon + ssh), and
+     an in-host shell once you log in (ls/cd/cat/grep/find/awk/sudo/harden/...).
+   • `scan` only reveals hosts you can currently reach. Owning one box's root
+     flag unlocks the next, so the network opens up as a pivot chain:
+         web01 (10.0.0.5) -> app01 (10.0.0.12) -> db01 (10.0.0.20)
+   • Progress (flags, score, findings, fixes) is saved to localStorage, so it
+     survives a tab close — deliberately using localStorage, not sessionStorage.
+   • To extend it: add a host to baseNet() (with its misconfigs) and a matching
+     entry to MISSIONS[]. Every misconfig here is drawn from the MOSHELL
+     Premium Lessons (Server Hardening Checklist, Security Audit Lab) and the
+     Lab Workbook, so gameplay rehearses the exact CHECK/FIX commands taught.
+
+   WHAT IT TEACHES  (two tracks, both from the paid PDFs)
+   -----------------------------------------------------
+   BREAK-IN TRACK (missions 1-3) — exploit the misconfigs the PDFs warn about:
+     1. web01 — default creds not changed + PermitRootLogin yes + a
+        world-writable file leaking the root password (Hardening Checklist).
+     2. app01 — a second UID-0 account and an empty-password backdoor,
+        found with the awk checks from Premium 06 Findings 03 & 04.
+     3. db01  — an unexpected SUID binary run by a rogue root cron job
+        (Premium 06 Findings 02 & 08), reached via a reused private key.
+
+   AUDIT & HARDEN TRACK (missions 4-6) — the Premium 06 blue-team workflow:
+     4. AUDIT  — run the real CHECK commands (find -perm, awk -F:, grep
+        PermitRootLogin, cat /etc/crontab, ufw status); findings populate the
+        `audit` board.
+     5. HARDEN — apply the real FIX commands: `harden sshd` (disable root
+        login + password auth), `harden firewall` (ufw enable).
+     6. LOCK DOWN — `harden userdel` (remove the backdoor), `harden suid`
+        (chmod u-s), `harden fail2ban` (deploy brute-force protection from
+        the Lab Workbook).
+
+   The attack techniques are standard, publicly documented ones (e.g. GTFOBins
+   for the SUID/cron abuse); the defensive checks and fixes are exactly the
+   Premium 06 audit workflow. Verified by an automated test suite (both tracks
+   solve end to end; audit + harden objectives all reachable).
+
+   Drop-in for the MOSHELL platform alongside moshell-ctf / moshell-quiz.
+   ========================================================================= */
+
+const SAVE_KEY = "moshell_netrun_v1";
+
+/* ---------- Gumroad license gate (unlocks the Defense track, missions 4-6) ---
+   Either valid MOSHELL license unlocks Track 2. The Gumroad verify API checks a
+   key against ONE product_id, so we try each product's id in turn.
+   product_id known from the platform: the Lab Workbook / Premium tier.
+   >>> PASTE the second product_id below (the Full Bundle / MOSHELL Pro id) so
+       both products' keys are accepted. Leave the known one as-is.            */
+const LICENSE_PRODUCT_IDS = [
+  "LMffutnTJooI_6r4WTZx9A==",   // known MOSHELL product id (Premium/Workbook tier)
+  "PASTE_FULL_BUNDLE_PRODUCT_ID_HERE"  // <-- replace with the odlbsr / Full Bundle product_id
+];
+const GUMROAD_VERIFY_URL = "https://api.gumroad.com/v2/licenses/verify";
+const BUY_URL_WORKBOOK = "https://kingmo87.gumroad.com/l/fydlcl"; // $17 Lab Workbook
+const BUY_URL_BUNDLE   = "https://kingmo87.gumroad.com/l/odlbsr"; // $37 Full Bundle / Pro
+
+/* GA4 event helper — safe no-op if gtag isn't loaded (offline / tests). */
+function track(event, params){
+  try{ if(typeof gtag==="function") gtag("event", event, params||{}); }catch(e){}
+}
+
+/* ---------- The simulated network (the "server") ---------------------- */
+/* Each host = a box you can scan/ssh into. Filesystems are plain objects:
+   folders are objects, files are strings. `secret:true` files need root.   */
+
+/* Every misconfig below is drawn straight from the MOSHELL Premium Lessons
+   (Server Hardening Checklist, Security Audit Lab) and Lab Workbook. Playing
+   the game rehearses the exact CHECK and FIX commands the PDFs teach.        */
+function baseNet(){ return {
+  hosts: {
+    "10.0.0.5": {
+      name:"web01", os:"Ubuntu Server 22.04", up:true,
+      ports:{22:"OpenSSH 8.9 (PermitRootLogin yes)", 80:"nginx 1.18", 3306:"MySQL 5.7"},
+      users:{
+        "student":{pass:"linux", root:false},        // default creds not changed
+        "root":{pass:"toor", root:true}              // root SSH enabled + weak pass (checklist violation)
+      },
+      // hardening-checklist violations, exploited offensively
+      banner:"nginx default page still live — Hardening Checklist item: 'Only necessary ports open' FAILED",
+      fs:{
+        home:{ student:{ "README.txt":"Fresh server, not hardened yet. Ops left the default account.",
+                          ".bash_history":"cat /etc/ssh/sshd_config\nssh root@10.0.0.5" } },
+        var:{ www:{ "html":{ "config.bak":"# leftover backup, world-writable (chmod o+w) — Finding 01\nDB creds and: root password is 'toor'" } } },
+        etc:{ ssh:{ "sshd_config":"# /etc/ssh/sshd_config\nPort 22\nPermitRootLogin yes\nPasswordAuthentication yes\n# ^ two Hardening Checklist violations" },
+               "passwd":"root:x:0:0:root:/root:/bin/bash\nstudent:x:1000:1000:Student:/home/student:/bin/bash",
+               "shadow":{secret:true,content:"root:$6$abc$hash:19000\nstudent:$6$def$hash:19000"} },
+        root:{ "flag.txt":{flag:"NETRUN{default_creds_and_root_ssh}", secret:true} }
+      },
+      // audit findings on this host (Premium 06 + Hardening Checklist)
+      misconfigs:[
+        {id:"F01", key:"worldwritable", desc:"World-writable file (/var/www/html/config.bak)",
+         check:/find\s+\/.*-perm\s+-o\+?w|find\s+\/.*-perm\s+-o\+w|find\s+\/.*-perm.*o\+w/i,
+         checkHint:"find / -type f -perm -o+w 2>/dev/null", fix:"chmod o-w"},
+        {id:"F06", key:"rootssh", desc:"SSH allows root login (PermitRootLogin yes)",
+         check:/grep\s+PermitRootLogin/i, checkHint:"grep PermitRootLogin /etc/ssh/sshd_config",
+         fix:"harden sshd"},
+        {id:"F07", key:"nofirewall", desc:"No firewall active",
+         check:/ufw\s+status|iptables\s+-L/i, checkHint:"ufw status",
+         fix:"harden firewall"}
+      ],
+      sudo:{ student:["/bin/cat"] } // student may 'sudo cat' anything (over-broad sudo, checklist violation)
+    },
+
+    "10.0.0.12": {
+      name:"app01", os:"Ubuntu Server 22.04", up:true,
+      ports:{22:"OpenSSH 8.9", 8080:"gunicorn (app)", 6379:"Redis (no auth)"},
+      users:{
+        "deploy":{pass:"deploy2021", root:false},
+        "backdoor":{pass:"", root:true},  // Finding 04: empty password + Finding 03: UID 0
+        "root":{pass:null, root:true}
+      },
+      banner:"Redis 6.0 on 6379 with no auth — listening service you did not install (Finding: unexpected port)",
+      fs:{
+        home:{ deploy:{ "id_ed25519":"-----BEGIN OPENSSH PRIVATE KEY----- (deploy's key) -----END KEY-----",
+                         "NOTES.md":"Someone added a second UID 0 account. Check /etc/passwd. Also an empty-password account exists.",
+                         ".bash_history":"awk -F: '($3==0){print}' /etc/passwd\nawk -F: '($2==\"\"){print $1}' /etc/shadow" } },
+        etc:{ "passwd":"root:x:0:0:root:/root:/bin/bash\ndeploy:x:1000:1000:Deploy:/home/deploy:/bin/bash\nbackdoor:x:0:0:backdoor:/root:/bin/bash",
+               "shadow":{secret:true,content:"root:$6$abc$hash:19000\ndeploy:$6$def$hash:19000\nbackdoor::19000  # <- EMPTY password field (Finding 04)"} },
+        root:{ "flag.txt":{flag:"NETRUN{uid0_backdoor_empty_password}", secret:true} }
+      },
+      misconfigs:[
+        {id:"F03", key:"uid0", desc:"Second user with UID 0 (backdoor account)",
+         check:/awk\s+-F:.*\$3\s*==\s*0|awk.*UID|awk.*\$3==0/i,
+         checkHint:"awk -F: '($3 == 0) {print}' /etc/passwd", fix:"userdel backdoor"},
+        {id:"F04", key:"emptypass", desc:"Empty password in /etc/shadow (backdoor)",
+         check:/awk\s+-F:.*\$2\s*==\s*""|awk.*\$2==""/i,
+         checkHint:"sudo awk -F: '($2 == \"\") {print $1}' /etc/shadow", fix:"passwd backdoor"}
+      ],
+      // deploy can sudo-read shadow (needed for the F04 audit check)
+      sudo:{ deploy:["/usr/bin/awk", "/bin/cat"] },
+      // login as the empty-password UID-0 account = instant root
+      emptyRootUser:"backdoor"
+    },
+
+    "10.0.0.20": {
+      name:"db01", os:"Ubuntu Server 22.04", up:true,
+      ports:{22:"OpenSSH 8.9 (keys only)", 5432:"PostgreSQL"},
+      users:{
+        "svc":{pass:null, root:false, key:"deploy"}, // reuses app01's deploy key
+        "root":{pass:null, root:true}
+      },
+      banner:"keys-only host — trusts the app01 deploy key (key reuse)",
+      fs:{
+        home:{ svc:{ "NOTES.md":"A rogue cron job runs as root every minute (Finding 08). Read /etc/crontab.",
+                      ".bash_history":"crontab -l\ncat /etc/crontab\nfind / -perm -4000" } },
+        usr:{ local:{ bin:{ "backup.sh":{suid:true, content:"#!/bin/bash — SUID root, and writable by svc (Finding 02: unexpected SUID)"} } } },
+        etc:{ "crontab":"# /etc/crontab (Finding 08: cron job you did not create)\n* * * * * root /usr/local/bin/backup.sh\n# backup.sh is SUID+writable -> edit it, cron runs your code as root",
+               "passwd":"root:x:0:0:root:/root:/bin/bash\nsvc:x:1000:1000:Service:/home/svc:/bin/bash" },
+        root:{ "flag.txt":{flag:"NETRUN{rogue_cron_suid_root}", secret:true} }
+      },
+      misconfigs:[
+        {id:"F02", key:"suid", desc:"Unexpected SUID binary (/usr/local/bin/backup.sh)",
+         check:/find\s+\/.*-perm\s+-4000/i, checkHint:"find / -perm -4000 -type f 2>/dev/null",
+         fix:"chmod u-s"},
+        {id:"F08", key:"roguecron", desc:"Cron job you did not create (root, every minute)",
+         check:/crontab\s+-l|cat\s+\/etc\/crontab/i, checkHint:"cat /etc/crontab",
+         fix:"remove cron"}
+      ],
+      // escalation: the SUID+writable backup.sh is run by root cron -> edit + wait = root
+      cronEscalate:"backup.sh"
+    }
+  },
+  discovered:{},   // ip -> true once scanned
+  edges:{ // network reachability: you start seeing only web01
+    start:["10.0.0.5"],
+    "10.0.0.5":["10.0.0.12"],   // web01 pivots to app01
+    "10.0.0.12":["10.0.0.20"]   // app01 pivots to db01
+  }
+};}
+
+/* ---------- Missions ------------------------------------------------- */
+const MISSIONS = [
+  /* ===== BREAK-IN TRACK (offensive) — exploit the misconfigs the PDFs teach ===== */
+  { id:1, title:"Break in: web01", host:"10.0.0.5", track:"attack",
+    flag:"NETRUN{default_creds_and_root_ssh}", pts:100,
+    brief:"An unhardened Ubuntu server exposed to the net. It violates the Server Hardening Checklist. Exploit that and read root's flag.",
+    objectives:[
+      {k:"scan",   t:"Scan web01 (read the banner)"},
+      {k:"login",  t:"Log in with the default account"},
+      {k:"creds",  t:"Find the leaked root password"},
+      {k:"login2", t:"Log in as root over SSH"},
+      {k:"flag",   t:"Read /root/flag.txt"}
+    ],
+    hints:[
+      "`scan 10.0.0.5`. The banner flags a Hardening Checklist failure. The default account was never changed: student / linux.",
+      "`ssh student@10.0.0.5 linux`. student has over-broad sudo — `sudo -l`, then read the world-writable backup: `sudo cat /var/www/html/config.bak`.",
+      "That backup leaks the root password ('toor'). This box also has 'PermitRootLogin yes' (checklist violation) — `ssh root@10.0.0.5 toor`, then `cat /root/flag.txt`."
+    ]},
+  { id:2, title:"Pivot: app01", host:"10.0.0.12", track:"attack",
+    flag:"NETRUN{uid0_backdoor_empty_password}", pts:150,
+    brief:"web01 can reach the app server. Someone planted a backdoor account on it — the kind Premium 06 Finding 03 & 04 teach you to hunt.",
+    objectives:[
+      {k:"scan",   t:"Scan again to find app01"},
+      {k:"login",  t:"Log in as deploy"},
+      {k:"uid0",   t:"Find the second UID-0 account"},
+      {k:"empty",  t:"Confirm its password is empty"},
+      {k:"flag",   t:"Log into the backdoor & read the flag"}
+    ],
+    hints:[
+      "Own web01 first, then `scan` — app01 (10.0.0.12) appears. `ssh deploy@10.0.0.12 deploy2021`.",
+      "Read deploy's NOTES.md and .bash_history. Run the Finding 03 check: `awk -F: '($3==0){print}' /etc/passwd` — there's a second UID-0 user.",
+      "Confirm empty password (Finding 04): `awk -F: '($2==\"\"){print $1}' /etc/shadow`. That account is 'backdoor' with no password — `ssh backdoor@10.0.0.12` logs straight in as root. `cat /root/flag.txt`."
+    ]},
+  { id:3, title:"Endgame: db01", host:"10.0.0.20", track:"attack",
+    flag:"NETRUN{rogue_cron_suid_root}", pts:200,
+    brief:"A keys-only database host that trusts app01's key. Escalate via the SUID + rogue-cron combo from Premium 06 Findings 02 & 08.",
+    objectives:[
+      {k:"key",    t:"Grab deploy's private key"},
+      {k:"login",  t:"Log into db01 with the key"},
+      {k:"suid",   t:"Find the unexpected SUID binary"},
+      {k:"cron",   t:"Find the rogue root cron job"},
+      {k:"root",   t:"Escalate to root"},
+      {k:"flag",   t:"Read /root/flag.txt"}
+    ],
+    hints:[
+      "On app01, read deploy's key: `cat /home/deploy/id_ed25519`. db01 reuses it — `ssh -i id_ed25519 svc@10.0.0.20`.",
+      "Finding 02: `find / -perm -4000 -type f` shows /usr/local/bin/backup.sh is SUID and writable by you. Finding 08: `cat /etc/crontab` shows root runs it every minute.",
+      "Edit the SUID+cron script so it runs as root: `exploit backup.sh`. Wait for cron, then `cat /root/flag.txt`."
+    ]},
+
+  /* ===== AUDIT & HARDEN TRACK (defensive) — the Premium 06 blue-team workflow ===== */
+  { id:4, title:"Audit: run the checks", host:null, track:"defense",
+    flag:"NETRUN{audit_complete}", pts:100,
+    brief:"Switch sides. Run the Premium 06 CHECK commands across the boxes you own and find every misconfiguration. Type `audit` to see your findings board.",
+    objectives:[
+      {k:"a_f01", t:"Find the world-writable file (F01)"},
+      {k:"a_f02", t:"Find the unexpected SUID binary (F02)"},
+      {k:"a_f03", t:"Find the UID-0 backdoor (F03)"},
+      {k:"a_f04", t:"Find the empty password (F04)"},
+      {k:"a_f06", t:"Find root SSH login enabled (F06)"},
+      {k:"a_f07", t:"Find the firewall is disabled (F07)"},
+      {k:"a_f08", t:"Find the rogue cron job (F08)"}
+    ],
+    hints:[
+      "You need to be logged into a host to audit it. On each box, run the CHECK commands from Premium 06. Type `audit` anytime to see the findings board.",
+      "web01: `find / -type f -perm -o+w`, `grep PermitRootLogin /etc/ssh/sshd_config`. app01: `awk -F: '($3==0){print}' /etc/passwd`, `awk -F: '($2==\"\"){print $1}' /etc/shadow`.",
+      "web01 also: `ufw status` (F07 firewall off). db01: `find / -perm -4000 -type f`, `cat /etc/crontab`. Once all findings show on the `audit` board, run `submit NETRUN{audit_complete}`."
+    ]},
+  { id:5, title:"Harden: SSH & firewall", host:null, track:"defense",
+    flag:"NETRUN{web01_hardened}", pts:125,
+    brief:"Fix web01 using the Hardening Checklist. Disable root SSH, disable password auth, and enable the firewall — the real FIX commands.",
+    objectives:[
+      {k:"h_ssh",  t:"Disable root login + password auth"},
+      {k:"h_fw",   t:"Enable the firewall"}
+    ],
+    hints:[
+      "Be root on web01 (you own it from Mission 1). Apply the sshd fixes: `harden sshd` (disables PermitRootLogin & PasswordAuthentication, as the checklist's FIX column says).",
+      "Then enable the firewall: `harden firewall` (ufw enable, only necessary ports).",
+      "When both are done, `submit NETRUN{web01_hardened}`. Check progress anytime with `audit`."
+    ]},
+  { id:6, title:"Lock it down: fail2ban", host:null, track:"defense",
+    flag:"NETRUN{fail2ban_deployed}", pts:150,
+    brief:"Final defense: deploy fail2ban to auto-ban brute-force attackers, straight from the Lab Workbook. Then the whole lab is attacked AND defended.",
+    objectives:[
+      {k:"d_removebd", t:"Remove the backdoor account (app01)"},
+      {k:"d_suid",     t:"Strip the unexpected SUID bit (db01)"},
+      {k:"d_f2b",      t:"Deploy fail2ban"}
+    ],
+    hints:[
+      "Clean up the backdoors you found. On app01 as root: `harden userdel` removes the UID-0 backdoor account (Finding 03/04 FIX).",
+      "On db01 as root: `harden suid` strips the SUID bit off backup.sh (Finding 02 FIX: chmod u-s).",
+      "Deploy fail2ban on any owned host: `harden fail2ban` (Workbook: apt install fail2ban, jail.local, maxretry 3). Then `submit NETRUN{fail2ban_deployed}`."
+    ]}
+];
+
+/* ---------- Game state ---------------------------------------------- */
+let S = load() || fresh();
+
+function fresh(){
+  return {
+    net: baseNet(),
+    session:{ host:null, user:null, root:false, cwd:null }, // null host = local netrun>
+    solved:{},        // missionId -> true
+    foundFlags:{},    // flag string -> true
+    obj:{},           // missionId -> { objectiveKey: true }
+    score:0,
+    hintsUsed:{},
+    activeMission:1,
+    mode:"easy",      // easy = free hints + checklist; normal = scored, no free hints
+    tutorialDone:false,
+    found:{},         // findingId (F01..) -> true  (audit board)
+    fixed:{},         // fix key -> true            (harden progress)
+    onboarded:false,  // completed email + nickname + password lesson
+    email:"",         // player's email (for follow-up)
+    nickname:"",      // chosen handle
+    pwChoice:null,    // which of the 8 passwords they picked (for the lesson)
+    licensed:false,   // valid Gumroad license -> Defense track unlocked
+    licenseKey:""     // stored key (so it persists)
+  };
+}
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify({
+  solved:S.solved, foundFlags:S.foundFlags, obj:S.obj, score:S.score, hintsUsed:S.hintsUsed,
+  activeMission:S.activeMission, discovered:S.net.discovered, mode:S.mode, tutorialDone:S.tutorialDone,
+  found:S.found, fixed:S.fixed,
+  onboarded:S.onboarded, email:S.email, nickname:S.nickname, pwChoice:S.pwChoice,
+  licensed:S.licensed, licenseKey:S.licenseKey
+})); }catch(e){} }
+function load(){
+  try{
+    const raw = localStorage.getItem(SAVE_KEY); if(!raw) return null;
+    const d = JSON.parse(raw); const g = fresh();
+    g.solved=d.solved||{}; g.foundFlags=d.foundFlags||{}; g.obj=d.obj||{}; g.score=d.score||0;
+    g.hintsUsed=d.hintsUsed||{}; g.activeMission=d.activeMission||1;
+    g.mode=d.mode||"easy"; g.tutorialDone=!!d.tutorialDone;
+    g.found=d.found||{}; g.fixed=d.fixed||{};
+    g.onboarded=!!d.onboarded; g.email=d.email||""; g.nickname=d.nickname||""; g.pwChoice=d.pwChoice??null;
+    g.licensed=!!d.licensed; g.licenseKey=d.licenseKey||"";
+    if(d.discovered) g.net.discovered=d.discovered;
+    return g;
+  }catch(e){ return null; }
+}
+/* Mark an objective for the active/target mission complete + celebrate once. */
+function markObj(missionId, key){
+  const m=MISSIONS.find(x=>x.id===missionId); if(!m||!m.objectives) return;
+  if(!m.objectives.some(o=>o.k===key)) return;
+  S.obj[missionId]=S.obj[missionId]||{};
+  if(S.obj[missionId][key]) return;         // already done
+  S.obj[missionId][key]=true;
+  const o=m.objectives.find(o=>o.k===key);
+  const done=m.objectives.filter(o=>S.obj[missionId][o.k]).length;
+  out(`  ✓ ${o.t}  [${done}/${m.objectives.length}]`,"ok");
+  renderMissions(); save();
+}
+/* Which mission does a given host belong to? (for auto-checking objectives) */
+function missionForHost(ip){ return MISSIONS.find(m=>m.host===ip); }
+
+/* ---------- Terminal I/O -------------------------------------------- */
+const screen = document.getElementById("screen");
+const cmdIn  = document.getElementById("cmd");
+const promptEl = document.getElementById("prompt");
+let history=[], hIdx=-1;
+
+function esc(s){ return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function out(text, cls){
+  const div=document.createElement("div");
+  if(cls) div.className=cls;
+  div.innerHTML = esc(text);
+  screen.appendChild(div);
+  screen.scrollTop=screen.scrollHeight;
+}
+function raw(html){ // for pre-escaped / art
+  const div=document.createElement("div");
+  div.innerHTML=html; screen.appendChild(div); screen.scrollTop=screen.scrollHeight;
+}
+
+function promptStr(){
+  const s=S.session;
+  if(!s.host) return "netrun&gt;";
+  const box = S.net.hosts[s.host];
+  const tag = s.root ? "#" : "$";
+  return `${s.user}@${box.name}:${s.cwd||"~"}${tag}`;
+}
+function refreshPrompt(){ promptEl.innerHTML = promptStr(); }
+
+/* ---------- Filesystem helpers (per host, per session) -------------- */
+/* We keep a live fs pointer per connected host so cd/ls work.            */
+function currentFS(){
+  const box=S.net.hosts[S.session.host];
+  return box.fs;
+}
+function homePath(){
+  const s=S.session;
+  return s.root ? "/root" : `/home/${s.user}`;
+}
+function resolvePath(fs, cwd, arg){
+  // returns [node, absPathString] or [null,...]; supports ~, absolute, relative, .., .
+  let path;
+  if(!arg || arg==="~") path = homePath();
+  else if(arg.startsWith("/")) path = arg;
+  else if(arg.startsWith("~/")) path = homePath()+arg.slice(1);
+  else path = (cwd==="~"?homePath():cwd) + "/" + arg;
+
+  const parts = path.split("/").filter(Boolean);
+  const stack=[];
+  for(const p of parts){
+    if(p===".") continue;
+    if(p===".."){ stack.pop(); continue; }
+    stack.push(p);
+  }
+  let node=fs;
+  for(const p of stack){
+    if(node && typeof node==="object" && p in node) node=node[p];
+    else return [null, "/"+stack.join("/")];
+  }
+  return [node, "/"+stack.join("/")];
+}
+function isFile(n){ return typeof n==="string" || (n&&typeof n==="object"&&("content" in n || "flag" in n)); }
+function isDir(n){ return n && typeof n==="object" && !("content" in n) && !("flag" in n); }
+
+/* ---------- Command dispatch --------------------------------------- */
+function run(line){
+  line = (line==null)? cmdIn.value : line;
+  const shown = line;
+  cmdIn.value="";
+  const trimmed = line.trim();
+  // tutorial intercepts everything while active (it prints its own prompt)
+  if(TUT){ if(trimmed!=="") { history.unshift(trimmed); hIdx=-1; tutHandle(shown); } return; }
+  out(`${promptStr().replace(/&gt;/g,">")} ${shown}`, "p");
+  if(trimmed==="") { return; }
+  history.unshift(trimmed); hIdx=-1;
+
+  const [cmd, ...args] = trimmed.split(/\s+/);
+  const A = args.join(" ");
+
+  const local = !S.session.host;
+  try{
+    if(local) localCmd(cmd, args, A);
+    else      remoteCmd(cmd, args, A);
+  }catch(e){
+    out("internal error: "+e.message, "err");
+  }
+  refreshPrompt(); updateHUD(); save();
+}
+
+/* ------ LOCAL (netrun>) commands ----------------------------------- */
+function localCmd(cmd,args,A){
+  switch(cmd){
+    case "help": return printHelp(true);
+    case "clear": screen.innerHTML=""; return;
+    case "missions": return listMissions();
+    case "mission": return showMission(parseInt(args[0])||S.activeMission);
+    case "scan": return scan(args[0]);
+    case "hosts": return listHosts();
+    case "ssh": return sshConnect(A);
+    case "submit": return submitFlag(A);
+    case "hint": return hint();
+    case "score": out(`score: ${S.score}  rank: ${rankName()}`,"info"); return;
+    case "banner": return bootBanner();
+    case "about": return aboutGame();
+    case "tutorial": case "train": case "training": return startTutorial();
+    case "mode": return setMode(args[0]);
+    case "tasks": case "checklist": case "objectives": return showChecklist();
+    case "audit": return auditBoard();
+    case "unlock": return verifyLicense(A);
+    case "harden": case "fix": case "exploit":
+      teach(`${cmd}: you need to be inside a host.`,"ssh into a box first, then run audit/harden/exploit there.");
+      return;
+    case "reset":
+      if(args[0]==="--hard"){ localStorage.removeItem(SAVE_KEY); S=fresh(); screen.innerHTML=""; bootBanner(); return; }
+      if(args[0]==="--soft"){ S.net=baseNet(); S.session=fresh().session; out("run state reset. flags/score kept.","info"); return; }
+      out("usage: reset --soft (restart network)  |  reset --hard (wipe everything)","dim"); return;
+    default:
+      // teach on the classic beginner mistakes
+      if(["ls","cat","cd","sudo","whoami","pwd"].includes(cmd)){
+        teach(`${cmd}: you're not inside a host yet.`,
+          "That's a shell command. First get onto a machine: 'scan' a target, then 'ssh user@host'.");
+        return;
+      }
+      teach(`${cmd}: command not found.`,
+        "You're at the netrun console. Try 'help', 'tutorial', or 'scan 10.0.0.5'.");
+  }
+}
+
+/* ------ REMOTE (inside a host) commands ---------------------------- */
+function remoteCmd(cmd,args,A){
+  const s=S.session, box=S.net.hosts[s.host], fs=box.fs;
+  switch(cmd){
+    case "help": return printHelp(false);
+    case "clear": screen.innerHTML=""; return;
+    case "exit": case "logout":
+      out(`Connection to ${s.host} closed.`,"dim");
+      S.session={host:null,user:null,root:false,cwd:null}; return;
+    case "whoami": out(s.root?"root":s.user); return;
+    case "id": out(s.root?"uid=0(root) gid=0(root) groups=0(root)":`uid=1000(${s.user}) gid=1000(${s.user})`); return;
+    case "hostname": out(box.name); return;
+    case "pwd": out(s.cwd==="~"?homePath():s.cwd); return;
+    case "ls": return lsCmd(fs,args);
+    case "cd": return cdCmd(fs,args);
+    case "cat": return catCmd(fs,args);
+    case "grep": return grepCmd(fs,args);
+    case "find": return findCmd(fs,args,A);
+    case "sudo": return sudoCmd(fs,args,A);
+    case "awk": return awkCmd(fs,args,A);
+    case "crontab": return crontabCmd(fs,args,A);
+    case "ss": case "netstat": return ssCmd(fs,args,A);
+    case "ufw": return ufwCmd(fs,args,A);
+    case "exploit": return exploitCmd(fs,args,A);
+    case "harden": case "fix": return hardenCmd(fs,args,A);
+    case "audit": return auditBoard();
+    case "unlock": return verifyLicense(A);
+    case "ssh": return sshConnect(A);   // pivot from inside a host
+    case "scan": return scan(args[0]);  // scan from inside too
+    case "submit": return submitFlag(A);
+    case "hint": return hint();
+    case "tasks": case "checklist": case "objectives": return showChecklist();
+    case "mission": return showMission(parseInt(args[0])||S.activeMission);
+    case "missions": return listMissions();
+    case "about": return aboutGame();
+    case "mode": return setMode(args[0]);
+    case "score": out(`score: ${S.score}  rank: ${rankName()}`,"info"); return;
+    default:
+      out(`${cmd}: command not found`,"err");
+  }
+}
+
+/* ---------- Audit engine ------------------------------------------- */
+/* When the player runs a CHECK command that matches a host misconfig, record
+   the finding (F01..) and tick the matching audit objective on Mission 4.   */
+const FINDING_OBJ = { F01:"a_f01", F02:"a_f02", F03:"a_f03", F04:"a_f04", F06:"a_f06", F07:"a_f07", F08:"a_f08" };
+function recordFinding(mc){
+  if(S.found[mc.id]) return;
+  S.found[mc.id]=true;
+  out(`  [AUDIT] Finding ${mc.id}: ${mc.desc}`,"info");
+  const objKey=FINDING_OBJ[mc.id];
+  if(objKey && !S.solved[4]) markObj(4,objKey);
+  save();
+}
+/* Run a command line against the current host's misconfigs. */
+function checkAudit(line){
+  const box=S.net.hosts[S.session.host]; if(!box||!box.misconfigs) return;
+  box.misconfigs.forEach(mc=>{ if(mc.check.test(line)) recordFinding(mc); });
+}
+function auditBoard(){
+  out("── SECURITY AUDIT BOARD (Premium 06) ──","info");
+  const allFindings=[];
+  for(const ip in S.net.hosts){
+    (S.net.hosts[ip].misconfigs||[]).forEach(mc=> allFindings.push({ip,name:S.net.hosts[ip].name,mc}));
+  }
+  allFindings.forEach(({name,mc})=>{
+    const found=S.found[mc.id], fixed=S.fixed[mc.fix]||fixApplied(mc);
+    const mark = fixed?"[FIXED]":found?"[FOUND]":"[ ... ]";
+    const cls  = fixed?"ok":found?"info":"dim";
+    out(`  ${mark} ${mc.id} (${name}) ${mc.desc}`,cls);
+    if(!found) out(`         check: ${mc.checkHint}`,"dim");
+  });
+  const total=allFindings.length, found=allFindings.filter(x=>S.found[x.mc.id]).length;
+  out(`findings: ${found}/${total} located`, found===total?"ok":"dim");
+}
+function fixApplied(mc){
+  // map a misconfig's fix to a stored fixed key
+  return !!S.fixed[mc.key];
+}
+
+/* ---------- awk (audit checks) ------------------------------------- */
+function awkCmd(fs,args,A){
+  checkAudit("awk "+A);
+  // UID 0 check (Finding 03)
+  if(/\$3\s*==\s*0/.test(A)){
+    const box=S.net.hosts[S.session.host];
+    const passwd=(box.fs.etc&&box.fs.etc.passwd)||"";
+    const rows=passwd.split("\n").filter(l=>{ const f=l.split(":"); return f[2]==="0"; });
+    rows.forEach(r=>out(r));
+    if(rows.length>1){
+      out("  [!] More than one UID-0 account — the extra one is a backdoor (Finding 03).","info");
+      if(!S.solved[2]) markObj(2,"uid0");
+    }
+    return;
+  }
+  // empty password check (Finding 04)
+  if(/\$2\s*==\s*""/.test(A)){
+    if(!S.session.root){ teach("awk: /etc/shadow: Permission denied","Shadow needs root. Read it with 'sudo awk ...' or as a root/backdoor account."); return; }
+    const box=S.net.hosts[S.session.host];
+    const shadow=(box.fs.etc&&box.fs.etc.shadow&&box.fs.etc.shadow.content)||"";
+    const rows=shadow.split("\n").filter(l=>{ const f=l.split(":"); return f[1]===""; });
+    rows.forEach(r=>out(r.split(":")[0]));
+    if(rows.length){
+      out("  [!] Account with EMPTY password (Finding 04) — logs in with no credentials.","info");
+      if(!S.solved[2]) markObj(2,"empty");
+    }else out("(no empty-password accounts)","dim");
+    return;
+  }
+  // generic column print: awk -F: '{print $1}' file
+  const fm=A.match(/'([^']*)'\s+(\S+)$/);
+  if(fm){
+    const [node]=resolvePath(fs,S.session.cwd,fm[2]);
+    if(node&&isFile(node)){ const f=readFile(node); (f.content||"").split("\n").forEach(l=>out(l.split(":")[0]||l)); return; }
+  }
+  out("awk: try the audit checks from Premium 06, e.g. awk -F: '($3==0){print}' /etc/passwd","dim");
+}
+
+/* ---------- crontab / cron (Finding 08) --------------------------- */
+function crontabCmd(fs,args,A){
+  checkAudit("crontab "+A);
+  const box=S.net.hosts[S.session.host];
+  const cron=(box.fs.etc&&box.fs.etc.crontab)||"(no user crontab)";
+  out(cron);
+  if(box.misconfigs && box.misconfigs.some(m=>m.id==="F08")){
+    if(!S.solved[3]) markObj(3,"cron");
+  }
+}
+
+/* ---------- ss / netstat (listening ports) ------------------------ */
+function ssCmd(fs,args,A){
+  const box=S.net.hosts[S.session.host];
+  out("Netid State  Local Address:Port   Process","dim");
+  for(const [port,svc] of Object.entries(box.ports)){
+    out(`tcp   LISTEN 0.0.0.0:${port}         ${svc}`);
+  }
+  out("  → 'ss -tulnp' is the Hardening Checklist 'only necessary ports open' check.","dim");
+}
+
+/* ---------- ufw (firewall status/enable) -------------------------- */
+function ufwCmd(fs,args,A){
+  checkAudit("ufw status");   // normalize so the F07 check regex matches
+  if(/status/.test(A)||!args.length){
+    if(S.fixed.firewall){ out("Status: active"); out("22/tcp ALLOW  Anywhere"); out("80/tcp ALLOW  Anywhere"); }
+    else { out("Status: inactive"); out("  [!] No firewall active (Finding 07 / Hardening Checklist). Fix: 'harden firewall'.","info"); }
+    return;
+  }
+  if(/enable/.test(A)){ return hardenCmd(fs,["firewall"],"firewall"); }
+  out("usage: ufw status | ufw enable","dim");
+}
+
+/* ---------- exploit (SUID + rogue-cron escalation on db01) --------- */
+function exploitCmd(fs,args,A){
+  const s=S.session, box=S.net.hosts[s.host];
+  const target=args[0]||"";
+  if(box.cronEscalate && (target.includes("backup") || /backup\.sh/.test(A))){
+    if(!S.found.F02 || !S.found.F08){
+      teach("exploit: audit the host first.","Find the SUID binary and the cron job before abusing them: 'find / -perm -4000' and 'cat /etc/crontab'.");
+      return;
+    }
+    out("Editing /usr/local/bin/backup.sh (SUID root, writable by you)...","dim");
+    out("Injected: cp /bin/bash /tmp/rootbash && chmod +s /tmp/rootbash","dim");
+    out("Waiting for root's cron to run it (every minute)...","dim");
+    out("  [+] cron executed your code as root. Spawning root shell.","ok");
+    s.root=true; s.cwd="~";
+    if(!S.solved[3]) markObj(3,"root");
+    out("You are now root on "+box.name+". Read /root/flag.txt.","info");
+    return;
+  }
+  teach(`exploit: nothing to exploit with '${target||"(nothing)"}'.`,
+    "On db01, the SUID + cron combo is exploitable: 'exploit backup.sh' after you've found both.");
+}
+
+/* ---------- harden / fix (defensive FIX commands) ----------------- */
+function hardenCmd(fs,args,A){
+  const s=S.session, box=S.net.hosts[s.host];
+  const what=(args[0]||"").toLowerCase();
+  const needRoot = ()=>{ if(!s.root){ teach("harden: permission denied.","You must be root to apply fixes. Own the box first."); return false; } return true; };
+
+  switch(what){
+    case "sshd": case "ssh":
+      if(!needRoot()) return;
+      // FIX: PermitRootLogin no + PasswordAuthentication no (Hardening Checklist / Finding 06)
+      if(box.fs.etc&&box.fs.etc.ssh&&box.fs.etc.ssh.sshd_config){
+        box.fs.etc.ssh.sshd_config=box.fs.etc.ssh.sshd_config
+          .replace(/PermitRootLogin yes/,"PermitRootLogin no")
+          .replace(/PasswordAuthentication yes/,"PasswordAuthentication no");
+      }
+      if(box.users.root) box.users.root.pass=null; // root SSH now disabled
+      S.fixed.rootssh=true; S.fixed.ssh=true;
+      out("Applied: PermitRootLogin no; PasswordAuthentication no; reloaded sshd.","ok");
+      out("  (Hardening Checklist: 'Disable root SSH login', 'Disable password auth')","dim");
+      if(!S.solved[5]) markObj(5,"h_ssh");
+      break;
+    case "firewall": case "ufw":
+      if(!needRoot()) return;
+      S.fixed.firewall=true; S.fixed.nofirewall=true;
+      out("Applied: ufw enable — default deny, only 22 and 80 allowed.","ok");
+      out("  (Hardening Checklist: 'Firewall enabled', 'Only necessary ports open')","dim");
+      if(!S.solved[5]) markObj(5,"h_fw");
+      break;
+    case "userdel": case "backdoor":
+      if(!needRoot()) return;
+      if(box.users.backdoor){ delete box.users.backdoor;
+        if(box.fs.etc.passwd) box.fs.etc.passwd=box.fs.etc.passwd.split("\n").filter(l=>!/^backdoor:/.test(l)).join("\n");
+      }
+      S.fixed.uid0=true; S.fixed.emptypass=true;
+      out("Applied: userdel -r backdoor — UID-0 backdoor account removed.","ok");
+      out("  (Premium 06 Finding 03 & 04 FIX)","dim");
+      if(!S.solved[6]) markObj(6,"d_removebd");
+      break;
+    case "suid":
+      if(!needRoot()) return;
+      // chmod u-s on the SUID binary
+      (function strip(node){ if(node&&typeof node==="object"){ if(node.suid) node.suid=false; for(const k in node) strip(node[k]); } })(box.fs);
+      S.fixed.suid=true;
+      out("Applied: chmod u-s /usr/local/bin/backup.sh — SUID bit removed.","ok");
+      out("  (Premium 06 Finding 02 FIX)","dim");
+      if(!S.solved[6]) markObj(6,"d_suid");
+      break;
+    case "fail2ban":
+      if(!needRoot()) return;
+      S.fixed.fail2ban=true;
+      out("apt install fail2ban ... done","dim");
+      out("Wrote /etc/fail2ban/jail.local: [sshd] enabled=true, maxretry=3, bantime=1h","dim");
+      out("systemctl enable --now fail2ban","dim");
+      out("  [+] fail2ban active — brute-force SSH attempts now auto-banned.","ok");
+      out("  (Lab Workbook: fail2ban jail.local)","dim");
+      if(!S.solved[6]) markObj(6,"d_f2b");
+      break;
+    default:
+      out("harden <what> — apply a FIX from the PDFs. Options:","info");
+      [["sshd","disable root login + password auth (Checklist / F06)"],
+       ["firewall","enable ufw, only needed ports (Checklist / F07)"],
+       ["userdel","remove the UID-0 backdoor account (F03/F04)"],
+       ["suid","strip the unexpected SUID bit (F02)"],
+       ["fail2ban","deploy fail2ban brute-force protection (Workbook)"]].forEach(([c,d])=>out(`  harden ${c.padEnd(9)} ${d}`));
+  }
+  save();
+}
+function showChecklist(){
+  const m=MISSIONS.find(x=>x.id===S.activeMission);
+  if(!m){ out("no active mission. type 'missions'.","dim"); return; }
+  if(!m.objectives){ out(`mission ${m.id} has no step checklist — use 'hint' instead.`,"dim"); return; }
+  out(`── ${m.title} ──`,"info");
+  printChecklist(m);
+}
+
+/* ---------- Recon: scan -------------------------------------------- */
+function reachable(){
+  // hosts you can currently see: start edges + anything reachable from owned hosts
+  const seen=new Set(S.net.edges.start);
+  for(const ip of Object.keys(S.net.hosts)){
+    if(ownedRoot(ip)){ (S.net.edges[ip]||[]).forEach(x=>seen.add(x)); }
+  }
+  // also, being connected to a host reveals its neighbours
+  if(S.session.host){ (S.net.edges[S.session.host]||[]).forEach(x=>seen.add(x)); }
+  return [...seen];
+}
+function ownedRoot(ip){ // did we capture that host's root flag?
+  const box=S.net.hosts[ip]; if(!box) return false;
+  const f = deepFindFlag(box.fs);
+  return f && S.foundFlags[f];
+}
+function deepFindFlag(node){
+  if(node&&typeof node==="object"){
+    if("flag" in node) return node.flag;
+    for(const k in node){ const r=deepFindFlag(node[k]); if(r) return r; }
+  }
+  return null;
+}
+
+function scan(target){
+  const list = target ? [target] : reachable();
+  if(target && !S.net.hosts[target]){ out(`host ${target} unreachable or down.`,"err"); return; }
+  out("Starting NETRUN recon sweep...","info");
+  let any=false;
+  for(const ip of list){
+    const box=S.net.hosts[ip]; if(!box||!box.up) continue;
+    // gate: only show hosts that are reachable
+    if(!reachable().includes(ip) && ip!==target && ip!==S.session.host){ continue; }
+    any=true;
+    S.net.discovered[ip]=true;
+    out(`\nNmap scan report for ${box.name} (${ip})   [${box.os}]`,"ok");
+    out("PORT     STATE  SERVICE","dim");
+    for(const [port,svc] of Object.entries(box.ports)){
+      const state = /filtered/i.test(svc) ? "filt " : "open ";
+      out(`${(port+"/tcp").padEnd(9)}${state} ${svc}`);
+    }
+    if(box.banner) out(`  ! banner: ${box.banner}`,"info");
+    // objective: scanning a mission's target host ticks its scan step
+    const mh=missionForHost(ip);
+    if(mh && !S.solved[mh.id]) markObj(mh.id,"scan");
+  }
+  if(!any) out("no reachable hosts responded. (own a host to pivot deeper)","dim");
+  refreshPrompt();
+}
+
+function listHosts(){
+  const r=reachable();
+  out("Reachable hosts:","info");
+  r.forEach(ip=>{
+    const b=S.net.hosts[ip];
+    out(`  ${ip}  ${b?b.name:"?"}  ${ownedRoot(ip)?"[OWNED]":S.net.discovered[ip]?"[scanned]":"[unscanned]"}`,
+        ownedRoot(ip)?"ok":"");
+  });
+}
+
+/* ---------- SSH ---------------------------------------------------- */
+function sshConnect(arg){
+  // formats: ssh user@ip   |   ssh user@ip password   |   ssh -i key user@ip
+  let key=null, rest=arg;
+  const km = rest.match(/-i\s+(\S+)\s+(.*)/);
+  if(km){ key=km[1]; rest=km[2]; }
+  const m = rest.match(/(\S+)@(\S+)(?:\s+(\S+))?/);
+  if(!m){ out("usage: ssh user@host [password]   |   ssh -i <key> user@host","dim"); return; }
+  const [,user,ip,pass]=m;
+
+  if(!reachable().includes(ip) && !S.session.host){ out(`ssh: connect to host ${ip}: No route to host`,"err"); return; }
+  const box=S.net.hosts[ip];
+  if(!box||!box.up){ out(`ssh: connect to host ${ip}: Connection refused`,"err"); return; }
+  const acct=box.users[user];
+  if(!acct){ out(`${user}@${ip}: Permission denied (publickey,password).`,"err"); return; }
+
+  // key-based auth
+  if(acct.key){
+    const haveKey = key && (key.includes(acct.key) || playerHasKey(acct.key));
+    if(haveKey || (key && /id_(rsa|ed25519)/.test(key))){
+      return enterHost(ip,user,acct.root);
+    }
+    out(`${user}@${ip}: Permission denied (publickey). This host is keys-only — supply -i <key>.`,"err");
+    return;
+  }
+  // empty-password account (Finding 04) — logs straight in, no password needed
+  if(acct.pass===""){
+    out(`  [!] ${user} has an EMPTY password (Premium 06 Finding 04) — logging in with no credentials.`,"info");
+    return enterHost(ip,user,acct.root);
+  }
+  // password auth
+  if(acct.pass===null){
+    out(`${user}@${ip}: Permission denied. No password set for this account (needs escalation, not login).`,"err");
+    return;
+  }
+  if(pass===undefined){ out("password required: ssh user@host <password>","dim"); return; }
+  if(pass!==acct.pass){ out("Permission denied, please try again.","err"); return; }
+  enterHost(ip,user,acct.root);
+}
+function playerHasKey(name){
+  // player "has" a key if they cat'd it on a host they own
+  return S.foundKeys && S.foundKeys[name];
+}
+function enterHost(ip,user,root){
+  S.session={host:ip,user,root:!!root,cwd:"~"};
+  const b=S.net.hosts[ip];
+  out(`\nLast login: now from netrun-console`,"dim");
+  out(`Welcome to ${b.name} (${b.os})`,"ok");
+  out(`You are ${root?"root":user}. Type 'help' for shell commands, 'exit' to disconnect.`,"info");
+  const mh=missionForHost(ip);
+  if(mh && !S.solved[mh.id]){
+    // web01: root login is 'login2', normal user is 'login'
+    if(ip==="10.0.0.5") markObj(mh.id, root ? "login2" : "login");
+    // app01: logging in as the backdoor UID-0 account IS the flag step
+    else if(ip==="10.0.0.12"){ markObj(mh.id,"login"); if(user==="backdoor") markObj(mh.id,"empty"); }
+    else markObj(mh.id,"login");
+  }
+}
+
+/* ---------- ls / cd / cat / grep / find ---------------------------- */
+function lsCmd(fs,args){
+  const target = args.find(a=>!a.startsWith("-")) || S.session.cwd;
+  const [node,path]=resolvePath(fs,S.session.cwd,target);
+  if(!node){ out(`ls: cannot access '${target}': No such file or directory`,"err"); return; }
+  if(isFile(node)){ out(target); return; }
+  const showAll = args.some(a=>a.includes("a"));
+  const keys=Object.keys(node).filter(k=>showAll||!k.startsWith("."));
+  if(!keys.length){ out(""); return; }
+  const line = keys.map(k=>{
+    const child=node[k];
+    if(isDir(child)) return k+"/";
+    if(child&&child.suid) return k+"*";
+    return k;
+  }).join("  ");
+  out(line);
+}
+function cdCmd(fs,args){
+  const target=args[0]||"~";
+  const [node,path]=resolvePath(fs,S.session.cwd,target);
+  if(!node){ out(`cd: ${target}: No such file or directory`,"err"); return; }
+  if(!isDir(node)){ out(`cd: ${target}: Not a directory`,"err"); return; }
+  // permission: /root only if root
+  if(path.startsWith("/root") && !S.session.root){
+    teach(`cd: ${target}: Permission denied`,
+      "That's root's home. Become root first (check 'sudo -l' or hunt for a SUID binary).");
+    return;
+  }
+  S.session.cwd = (path==="/"+ (S.session.user) ? "~" : path);
+  if(path===homePath()) S.session.cwd="~";
+}
+function readFile(node){
+  if(typeof node==="string") return {content:node};
+  if(node&&"flag" in node) return {flag:node.flag, secret:node.secret};
+  if(node&&"content" in node) return {content:node.content, secret:node.secret, suid:node.suid};
+  return null;
+}
+/* Teaching error: state what went wrong AND the next thing to try. */
+function teach(errLine, tip){
+  out(errLine,"err");
+  if(tip) out("  → "+tip,"info");
+}
+function catCmd(fs,args){
+  const target=args[0];
+  if(!target){ out("usage: cat <file>","dim"); return; }
+  const [node,path]=resolvePath(fs,S.session.cwd,target);
+  if(!node||!isFile(node)){ out(`cat: ${target}: No such file or directory`,"err"); return; }
+  const f=readFile(node);
+  // permission checks — teach, don't just reject
+  if((path.startsWith("/root")||f.secret) && !S.session.root){
+    teach(`cat: ${target}: Permission denied`,
+      `That file needs root. You're ${S.session.user}. Try 'sudo -l' to see what you're allowed to run as root.`);
+    return;
+  }
+  if(f.flag){
+    captureFlag(f.flag);
+    return;
+  }
+  checkAudit("cat "+(args.join(" ")));
+  out(f.content);
+  // capturing the deploy private key (db01 pivot)
+  if(/PRIVATE KEY/i.test(f.content) || /BEGIN.*KEY/i.test(f.content) || /deploy's key/i.test(f.content)){
+    S.foundKeys=S.foundKeys||{}; S.foundKeys["deploy"]=true;
+    out("  [+] private key captured. use it with: ssh -i id_ed25519 svc@10.0.0.20","ok");
+    if(!S.solved[3]) markObj(3,"key");
+  }
+  // web01: config.bak leaks the root password 'toor'
+  if(/toor/.test(f.content) && S.session.host==="10.0.0.5"){
+    out("  [+] root password recovered: 'toor' — now: ssh root@10.0.0.5 toor","ok");
+    if(!S.solved[1]) markObj(1,"creds");
+  }
+  // reading /etc/crontab reveals the rogue job (Finding 08)
+  if(path.endsWith("/crontab") && /backup\.sh/.test(f.content)){
+    if(!S.solved[3]) markObj(3,"cron");
+  }
+}
+function grepCmd(fs,args){
+  // grep <pattern> <file>
+  const pat=args[0], target=args[1];
+  if(!pat||!target){ out("usage: grep <pattern> <file>","dim"); return; }
+  checkAudit("grep "+args.join(" "));
+  const [node]=resolvePath(fs,S.session.cwd,target);
+  if(!node||!isFile(node)){ out(`grep: ${target}: No such file`,"err"); return; }
+  const f=readFile(node);
+  if((f.secret) && !S.session.root){ out(`grep: ${target}: Permission denied`,"err"); return; }
+  const text=f.content||f.flag||"";
+  const rx=new RegExp(pat,"i");
+  const matches=text.split("\n").filter(l=>rx.test(l));
+  matches.forEach(l=>out(l));
+  // F06: grep PermitRootLogin showing 'yes'
+  if(/PermitRootLogin/i.test(pat) && matches.some(l=>/yes/i.test(l))){
+    out("  [!] Root SSH login is enabled — Premium 06 Finding 06.","info");
+  }
+}
+function findCmd(fs,args,A){
+  const box=S.net.hosts[S.session.host];
+  checkAudit("find "+A);
+  // SUID hunt (Finding 02 / Hardening Checklist)
+  if(/-perm\s+-4000/.test(A) || /-perm\s+-2000/.test(A)){
+    let hits=[];
+    (function walk(node,p){
+      if(isDir(node)) for(const k in node) walk(node[k],p+"/"+k);
+      else if(node&&node.suid) hits.push(p);
+    })(fs,"");
+    if(hits.length){
+      hits.forEach(h=>out(h,"info"));
+      out("  [!] Unexpected SUID binary — Premium 06 Finding 02.","info");
+      if(!S.solved[3]) markObj(3,"suid");
+    } else out("(no unexpected SUID binaries — clean)","dim");
+    return;
+  }
+  // world-writable hunt (Finding 01 / Hardening Checklist)
+  if(/-perm\s+-o\+?w/.test(A) || /-perm.*o\+w/.test(A) || /-o\+w/.test(A)){
+    // report the known world-writable file if this host has that finding
+    const mc=(box.misconfigs||[]).find(m=>m.id==="F01");
+    if(mc){ out("/var/www/html/config.bak","info"); out("  [!] World-writable file — Premium 06 Finding 01.","info"); }
+    else out("(no world-writable files — clean)","dim");
+    return;
+  }
+  // plain find: list tree
+  const start=args[0]||".";
+  const [node,path]=resolvePath(fs,S.session.cwd,start);
+  if(!node){ out(`find: '${start}': No such file or directory`,"err"); return; }
+  (function walk(n,p){
+    out(p);
+    if(isDir(n)) for(const k in n){ if(!k.startsWith(".")) walk(n[k],p+"/"+k); }
+  })(node,path==="/"?".":path);
+}
+
+/* ---------- sudo --------------------------------------------------- */
+function sudoCmd(fs,args,A){
+  const s=S.session, box=S.net.hosts[s.host];
+  if(args[0]==="-l"){
+    const allowed=(box.sudo&&box.sudo[s.user])||[];
+    if(!allowed.length){ out(`User ${s.user} may not run sudo on ${box.name}.`,"dim"); return; }
+    out(`User ${s.user} may run the following commands on ${box.name}:`,"info");
+    allowed.forEach(c=>out("    (root) NOPASSWD: "+c));
+    const mh=missionForHost(s.host);
+    if(mh && !S.solved[mh.id]) markObj(mh.id,"sudol");
+    return;
+  }
+  const allowed=(box.sudo&&box.sudo[s.user])||[];
+  const sub=args.join(" ");
+  const subcmd=args[0];
+  // is this sub-command permitted by sudoers? (a '/bin/cat' entry allows 'cat')
+  const permitted = s.root || allowed.some(a=>a.includes(subcmd)||/ALL/.test(a));
+  if(!permitted){
+    teach(`Sorry, user ${s.user} is not allowed to execute '${sub}' as root.`,"Run 'sudo -l' to see exactly what you may run.");
+    return;
+  }
+  // run the permitted sub-command with root privileges temporarily
+  const saved=s.root; s.root=true;
+  try{
+    if(subcmd==="cat"){ catCmd(fs,args.slice(1)); }
+    else if(subcmd==="awk"){ awkCmd(fs,args.slice(1),args.slice(1).join(" ")); }
+    else if(subcmd==="find"){ findCmd(fs,args.slice(1),args.slice(1).join(" ")); }
+    else if(subcmd==="grep"){ grepCmd(fs,args.slice(1)); }
+    else if(/^(sh|bash|su|-i)$/.test(subcmd||"")){ s.root=true; saved!==true&&out("# root shell","ok"); return; }
+    else { out(`sudo: ran '${sub}' as root.`,"dim"); }
+  } finally { if(!/^(sh|bash|su|-i)$/.test(subcmd||"")) s.root=saved; }
+}
+
+/* ---------- Flags & scoring ---------------------------------------- */
+function captureFlag(flag){
+  if(S.foundFlags[flag]){ out(`(already captured) ${flag}`,"dim"); return; }
+  S.foundFlags[flag]=true;
+  raw(`<div class="flag">[ FLAG CAPTURED ]  ${esc(flag)}</div>`);
+  // credit any mission that matches this flag
+  MISSIONS.forEach(m=>{ if(m.flag===flag){ markObj(m.id,"flag"); solveMission(m); } });
+  // check auto flags (recon drill etc. still need submit; full-sweep auto)
+  maybeUnlockSweep();
+  updateHUD(); save();
+}
+function submitFlag(flag){
+  flag=flag.trim();
+  if(!flag){ out("usage: submit NETRUN{...}","dim"); return; }
+  const m=MISSIONS.find(x=>x.flag===flag);
+  if(!m){ out("that flag is not recognised. keep hunting.","err"); return; }
+  if(S.solved[m.id]){ out("already solved.","dim"); return; }
+  // attack host flags must actually be captured in-world
+  if(m.host && !S.foundFlags[flag]){
+    out("you have to actually capture this one from the host, not just type it. own the box.","err"); return;
+  }
+  // defense missions require all their objectives done first
+  if(m.track==="defense" && m.objectives){
+    const done=S.obj[m.id]||{};
+    const missing=m.objectives.filter(o=>!done[o.k]);
+    if(missing.length){
+      teach(`Not yet — ${missing.length} step${missing.length>1?"s":""} left on this audit/harden task.`,
+        "Type 'tasks' to see what's left, or 'audit' for the findings board.");
+      return;
+    }
+  }
+  S.foundFlags[flag]=true;
+  solveMission(m);
+  maybeUnlockSweep();
+}
+function solveMission(m){
+  if(S.solved[m.id]) return;
+  S.solved[m.id]=true;
+  track("netrun_mission_complete", {mission_id:m.id, mission_title:m.title, track:m.track||"attack"});
+  if(m.id===3) track("netrun_attack_track_complete", {});   // finished the free track
+  if(m.id===6) track("netrun_game_complete", {score:S.score});
+  let pts=m.pts;
+  const used=(S.hintsUsed[m.id]||0);
+  // hints only cost points in normal mode; easy mode = free help
+  if(used>0 && S.mode==="normal"){ pts=Math.max(Math.round(pts*(1-0.2*used)),Math.round(pts*0.4)); }
+  S.score+=pts;
+  const penalized = used>0 && S.mode==="normal";
+  out(`\n>>> MISSION ${m.id} SOLVED: ${m.title}  (+${pts} pts${penalized?`, ${used} hint${used>1?"s":""} used`:""})`,"ok");
+  const total=MISSIONS.length, done=Object.keys(S.solved).length;
+  if(done===total){ winScreen(); }
+  else out(`progress: ${done}/${total} missions. rank: ${rankName()}`,"info");
+  updateHUD(); renderMissions(); save();
+}
+function maybeUnlockSweep(){
+  const attackDone=[1,2,3].every(id=>S.solved[id]);
+  if(attackDone && !S._defenseAnnounced && ![4,5,6].every(id=>S.solved[id])){
+    S._defenseAnnounced=true;
+    out("\n[!] Break-in track complete. Nicely done — every box owned.","info");
+    if(S.licensed){
+      out("    DEFENSE track unlocked — now audit and harden the boxes you broke.","info");
+      out("    Start with mission 4:  type 'mission 4', then 'audit'.","info");
+    }else{
+      paywall();
+    }
+  }
+}
+
+const RANKS=[
+  [0,"script kiddie"],[150,"junior pentester"],[350,"red teamer"],
+  [575,"blue teamer"],[725,"security engineer"],[825,"sysadmin sensei"]
+];
+function rankName(){ let r="script kiddie"; for(const [t,n] of RANKS){ if(S.score>=t) r=n; } return r; }
+
+function updateHUD(){
+  document.getElementById("score").textContent=S.score;
+  const done=Object.keys(S.solved).length;
+  document.getElementById("flags").textContent=`${done}/${MISSIONS.length}`;
+  document.getElementById("rank").textContent=rankName();
+}
+
+/* ---------- License gate ------------------------------------------- */
+function isDefenseMission(id){ return id===4||id===5||id===6; }
+/* Verify a Gumroad license key against either product. */
+async function verifyLicense(key){
+  key=(key||"").trim();
+  if(!key){ out("usage: unlock <your-license-key>","dim"); return; }
+  track("netrun_unlock_attempt", {});
+  out("Verifying license with Gumroad...","dim");
+  for(const pid of LICENSE_PRODUCT_IDS){
+    if(!pid || pid.startsWith("PASTE_")) continue;
+    try{
+      const body=new URLSearchParams({product_id:pid, license_key:key, increment_uses_count:"false"});
+      const res=await fetch(GUMROAD_VERIFY_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
+      const data=await res.json();
+      if(data && data.success){
+        S.licensed=true; S.licenseKey=key; save();
+        track("netrun_unlock_success", {});   // conversion!
+        out("  [+] License verified. DEFENSE track unlocked — welcome, blue team.","ok");
+        renderMissions(); showMission(4);
+        return;
+      }
+    }catch(e){ /* network/CORS — fall through to error */ }
+  }
+  out("License key not recognised. Check the key from your Gumroad receipt, or type 'unlock' with no key to see buying options.","err");
+}
+function paywall(){
+  track("netrun_paywall_view", {});   // player hit the premium gate
+  out("\n── DEFENSE TRACK IS PREMIUM ──","info");
+  out("You've broken into every box. The Audit & Harden track — the blue-team half —","");
+  out("is part of MOSHELL Premium. It teaches you to FIND and FIX every misconfiguration","");
+  out("you just exploited, straight from the MOSHELL Premium Lessons.","");
+  out("");
+  out("Any MOSHELL license unlocks it:","info");
+  raw(`<div class="chips" style="margin:6px 0">
+    <a class="cmdchip" href="${BUY_URL_WORKBOOK}" target="_blank" rel="noopener"
+       onclick="track('netrun_checkout_click',{tier:'workbook',value:17})">▸ Lab Workbook — $17</a>
+    <a class="cmdchip" href="${BUY_URL_BUNDLE}" target="_blank" rel="noopener"
+       onclick="track('netrun_checkout_click',{tier:'bundle',value:37})">▸ Full Bundle / Pro — $37</a>
+  </div>`);
+  out("Already bought? Enter your license key:  unlock <your-key>","info");
+}
+
+/* ---------- Missions UI -------------------------------------------- */
+function missionUnlocked(m){
+  // Attack track: linear
+  if(m.id===1) return true;
+  if(m.id===2) return S.solved[1];
+  if(m.id===3) return S.solved[2];
+  // Defense track: requires all three boxes owned AND a valid license
+  const attackDone=S.solved[1]&&S.solved[2]&&S.solved[3];
+  if(m.id===4) return attackDone && S.licensed;
+  if(m.id===5) return S.solved[4];
+  if(m.id===6) return S.solved[5];
+  return true;
+}
+/* Is a mission gated specifically by the paywall (prereqs met, just needs license)? */
+function needsLicense(m){
+  if(!isDefenseMission(m.id)) return false;
+  const attackDone=S.solved[1]&&S.solved[2]&&S.solved[3];
+  return attackDone && !S.licensed;
+}
+function renderMissions(){
+  const html = MISSIONS.map(m=>{
+    const solved=S.solved[m.id], unlocked=missionUnlocked(m);
+    const gated=needsLicense(m);
+    const badge = solved?'<span class="badge solved">DONE</span>'
+                : gated?'<span class="badge pro">PRO</span>'
+                : unlocked?`<span class="badge">${m.pts}pt</span>`
+                :'<span class="badge locked">LOCK</span>';
+    const sub = unlocked?esc(m.brief) : gated?"🔒 unlock with a MOSHELL license (tap for options)" : "complete previous missions to unlock";
+    return `<div class="mission ${solved?"done":""} ${S.activeMission===m.id?"active":""}"
+                onclick="showMission(${m.id})">
+      <div class="mt">${m.id}. ${esc(m.title)} ${badge}</div>
+      <div class="ms">${sub}</div>
+    </div>`;
+  }).join("");
+  const wrap=`<h3>MISSIONS</h3>${html}
+    <div style="margin-top:10px;font-size:11px;color:var(--amber-dim)">
+      score ${S.score} · ${rankName()}</div>`;
+  document.getElementById("missionList").innerHTML=wrap;
+  document.getElementById("mobMissions").innerHTML=wrap;
+}
+function listMissions(){
+  out("AVAILABLE MISSIONS:","info");
+  MISSIONS.forEach(m=>{
+    const st=S.solved[m.id]?"[DONE]":missionUnlocked(m)?"[open]":"[lock]";
+    out(`  ${m.id}. ${m.title.padEnd(22)} ${st}  ${m.pts}pt`, S.solved[m.id]?"ok":"");
+  });
+  out("type 'mission <n>' for the brief.","dim");
+}
+function showMission(n){
+  const m=MISSIONS.find(x=>x.id===n); if(!m) return;
+  S.activeMission=n; renderMissions();
+  if(!missionUnlocked(m)){
+    if(needsLicense(m)){ paywall(); return; }   // prereqs met, just needs a license
+    out(`mission ${n} is locked. finish the earlier boxes first.`,"err"); return;
+  }
+  out(`\n── MISSION ${m.id}: ${m.title} ──`,"info");
+  out(m.brief);
+  if(m.host) out(`target: ${m.host}`,"dim");
+  out(`reward: ${m.pts} points`,"dim");
+  out(S.solved[m.id]?"status: SOLVED":"status: open — 'hint' for a nudge","dim");
+  if(m.objectives) printChecklist(m);
+}
+/* Objective checklist — shown for missions that have one. */
+/* Starter commands per mission, shown as click-to-run chips (beginner aid).
+   Placeholders like <pass> are left for the player to see; clicking fills the
+   input so they can edit before running. */
+const MISSION_STEPS = {
+  1:["scan 10.0.0.5","ssh student@10.0.0.5 linux","sudo -l","sudo cat /var/www/html/config.bak","ssh root@10.0.0.5 toor","cat /root/flag.txt"],
+  2:["scan","ssh deploy@10.0.0.12 deploy2021","awk -F: '($3==0){print}' /etc/passwd","ssh backdoor@10.0.0.12","cat /root/flag.txt"],
+  3:["cat /home/deploy/id_ed25519","ssh -i id_ed25519 svc@10.0.0.20","find / -perm -4000 -type f","cat /etc/crontab","exploit backup.sh","cat /root/flag.txt"],
+  4:["find / -type f -perm -o+w","grep PermitRootLogin /etc/ssh/sshd_config","ufw status","awk -F: '($3==0){print}' /etc/passwd","cat /etc/crontab","audit","submit NETRUN{audit_complete}"],
+  5:["harden sshd","harden firewall","submit NETRUN{web01_hardened}"],
+  6:["harden userdel","harden suid","harden fail2ban","submit NETRUN{fail2ban_deployed}"]
+};
+function escAttr(s){ return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function printChecklist(m){
+  const done=S.obj[m.id]||{};
+  const n=m.objectives.filter(o=>done[o.k]).length;
+  out(`objectives (${n}/${m.objectives.length}):`,"info");
+  m.objectives.forEach(o=>{
+    const ok=done[o.k];
+    out(`  ${ok?"[✓]":"[ ]"} ${o.t}`, ok?"ok":"dim");
+  });
+  // click-to-run command chips (easy mode, unsolved missions)
+  const steps=MISSION_STEPS[m.id];
+  if(steps && !S.solved[m.id] && S.mode==="easy"){
+    const chips=steps.map(c=>`<span class="cmdchip" onclick="runFromChip('${escAttr(c)}')">${escAttr(c)}</span>`).join(" ");
+    raw(`<div class="dim" style="margin-top:6px">tap a command to run it (you can edit it first):</div>
+         <div class="chips">${chips}</div>`);
+  }
+}
+/* Click-to-run: fill the input with the command, focus, and run it. */
+function runFromChip(cmd){
+  cmdIn.value=cmd;
+  cmdIn.focus();
+  run(cmd);
+}
+
+/* ---------- Hints -------------------------------------------------- */
+function hint(){
+  const m=MISSIONS.find(x=>x.id===S.activeMission);
+  if(!m){ out("pick a mission first: mission <n>","dim"); return; }
+  if(S.solved[m.id]){ out("already solved — no hint needed.","dim"); return; }
+  const used=S.hintsUsed[m.id]||0;
+  if(used>=m.hints.length){ out("no more hints for this one. you've got this.","dim"); return; }
+  out(`hint ${used+1}/${m.hints.length}: ${m.hints[used]}`,"info");
+  if(S.mode==="normal") out("(each hint reduces this mission's points by 20%)","dim");
+  S.hintsUsed[m.id]=used+1; save();
+}
+
+/* ---------- Guided tutorial (Mission 0) ---------------------------- */
+/* A safe, scripted walkthrough on a practice host. The player types the
+   exact command shown; anything else is gently redirected. No scoring,
+   no way to fail — the point is to teach the loop before Mission 1.      */
+let TUT = null; // {step:int} when active
+
+const TUT_STEPS = [
+  { say:["Welcome to basic training. I'll walk you through one break-in, step by step.",
+         "This is a practice box called 'trainer' — you can't break anything here.",
+         "",
+         "STEP 1 — RECON. First we see what the target is running.",
+         "Type exactly:  scan 10.0.0.1"],
+    expect:/^scan(\s+10\.0\.0\.1)?$/i,
+    show:["Starting recon...",
+          "Nmap scan report for trainer (10.0.0.1)",
+          "PORT   STATE SERVICE",
+          "22/tcp open  OpenSSH   <- SSH: we can try to log in here",
+          "80/tcp open  nginx     <- a web server",
+          "  ! banner: default creds not changed: user 'student' / 'linux'"],
+    note:"That banner just leaked a username and password. Recon is how you find the way in."},
+
+  { say:["STEP 2 — LOG IN. The banner gave us student / linux. Let's use SSH.",
+         "Type exactly:  ssh student@10.0.0.1 linux"],
+    expect:/^ssh\s+student@10\.0\.0\.1\s+linux$/i,
+    show:["Welcome to trainer.",
+          "You are now 'student' — a normal, limited user."],
+    note:"You're inside the machine now, but as a low-privilege user. The prize is usually root."},
+
+  { say:["STEP 3 — LOOK AROUND. See what files are here.",
+         "Type exactly:  ls"],
+    expect:/^ls$/i,
+    show:["notes.txt  readme.txt"],
+    note:"Two files. Let's read the notes."},
+
+  { say:["STEP 4 — READ A FILE. Use cat to print a file's contents.",
+         "Type exactly:  cat notes.txt"],
+    expect:/^cat\s+notes\.txt$/i,
+    show:["reminder: student can run 'sudo cat' on any file. flag is in /root/flag.txt"],
+    note:"That's a mistake by the admin — and our way up. 'sudo' runs a command as root."},
+
+  { say:["STEP 5 — CHECK YOUR POWERS. See what you're allowed to run as root.",
+         "Type exactly:  sudo -l"],
+    expect:/^sudo\s+-l$/i,
+    show:["User student may run the following commands as root:",
+          "    (root) NOPASSWD: /bin/cat"],
+    note:"You can read ANY file as root. The flag lives in /root — off-limits normally."},
+
+  { say:["STEP 6 — CAPTURE THE FLAG. Read root's file using your sudo power.",
+         "Type exactly:  sudo cat /root/flag.txt"],
+    expect:/^sudo\s+cat\s+\/root\/flag\.txt$/i,
+    show:["NETRUN{you_did_your_first_hack}  <- FLAG!"],
+    note:"That's a capture. You just did the whole loop: recon → login → enumerate → escalate → flag."},
+];
+
+function startTutorial(){
+  TUT={step:0};
+  screen.innerHTML="";
+  out("── BASIC TRAINING (Mission 0) ──","info");
+  tutSpeak();
+}
+function tutSpeak(){
+  const st=TUT_STEPS[TUT.step];
+  out("");
+  st.say.forEach(l=> l==="" ? out("") : out(l, /^STEP/.test(l)?"info":""));
+}
+function tutHandle(line){
+  const st=TUT_STEPS[TUT.step];
+  out(`trainer> ${line}`,"p");
+  if(/^(quit|skip|exit)$/i.test(line.trim())){
+    out("Leaving training. You can restart it any time with 'tutorial'.","dim");
+    TUT=null; S.tutorialDone=true; save(); bootBanner(); return;
+  }
+  if(!st.expect.test(line.trim())){
+    out("Not quite — for training, type the command exactly as shown above.","err");
+    out(`  → ${st.say[st.say.length-1].replace(/^Type exactly:\s*/,'try: ')}`,"info");
+    out("  (or type 'skip' to leave training)","dim");
+    return;
+  }
+  // correct
+  st.show.forEach(l=>out(l, /FLAG/.test(l)?"flag":"ok"));
+  if(st.note) out("  → "+st.note,"info");
+  TUT.step++;
+  if(TUT.step>=TUT_STEPS.length){
+    out("");
+    out(">>> TRAINING COMPLETE. You know the whole loop now.","ok");
+    out("Real missions have hints and a checklist, and the answers aren't handed to you —","dim");
+    out("but it's the same five moves every time. Good luck.","dim");
+    TUT=null; S.tutorialDone=true; save();
+    setTimeout(()=>{ bootBanner(); showMission(1); }, 300);
+    return;
+  }
+  tutSpeak();
+}
+
+/* ---------- Difficulty mode --------------------------------------- */
+function setMode(m){
+  if(m!=="easy"&&m!=="normal"){
+    out(`current mode: ${S.mode.toUpperCase()}`,"info");
+    out("  easy   — free hints, objective checklist shown (best for learning)","dim");
+    out("  normal — hints cost 20% of a mission's points each (for score chasers)","dim");
+    out("switch with: mode easy   |   mode normal","dim");
+    return;
+  }
+  S.mode=m; save();
+  out(`mode set to ${m.toUpperCase()}.`,"ok");
+  if(m==="easy") out("Hints are free and the checklist is shown. Learn away.","dim");
+  else out("Hints now cost points. Chase that high score.","dim");
+}
+
+/* ---------- Help / banner ------------------------------------------ */
+function printHelp(local){
+  if(local){
+    out("NETRUN CONSOLE — commands:","info");
+    [["tutorial","2-min guided walkthrough (start here if new)"],
+     ["scan [ip]","recon reachable hosts (or one target) — shows ports & banners"],
+     ["hosts","list hosts you can currently reach"],
+     ["ssh user@host [pass]","log into a host by password"],
+     ["ssh -i <key> user@host","log in with a captured private key"],
+     ["missions / mission <n>","list missions / read a brief + checklist"],
+     ["tasks","show the current mission's step checklist"],
+     ["audit","security-audit findings board (defense track)"],
+     ["unlock <key>","unlock the premium Defense track with a MOSHELL license"],
+     ["hint","reveal the next hint for the active mission"],
+     ["mode [easy|normal]","difficulty: easy = free hints (default)"],
+     ["about","how the game works & what it teaches"],
+     ["submit NETRUN{...}","submit a defense-track flag"],
+     ["score","show score & rank"],
+     ["reset --soft|--hard","restart network / wipe all progress"],
+     ["clear","clear screen"]].forEach(([c,d])=>out(`  ${c.padEnd(24)} ${d}`));
+    out("goal: scan → ssh in → enumerate → escalate to root → cat /root/flag.txt","dim");
+  }else{
+    out("SHELL — you're inside a host:","info");
+    out("navigation & reading:","dim");
+    [["ls [-a] [dir]","list files"],["cd <dir>","change directory"],
+     ["cat <file>","read a file (root files need root)"],
+     ["grep <pat> <file>","search inside a file"]].forEach(([c,d])=>out(`  ${c.padEnd(34)} ${d}`));
+    out("audit checks (Premium 06):","dim");
+    [["find / -type f -perm -o+w","world-writable files (F01)"],
+     ["find / -perm -4000 -type f","unexpected SUID binaries (F02)"],
+     ["awk -F: '($3==0){print}' /etc/passwd","UID-0 accounts (F03)"],
+     ["sudo awk -F: '($2==\"\"){print}' /etc/shadow","empty passwords (F04)"],
+     ["grep PermitRootLogin /etc/ssh/sshd_config","root SSH login (F06)"],
+     ["cat /etc/crontab","rogue cron jobs (F08)"],
+     ["ss -tulnp","listening ports"]].forEach(([c,d])=>out(`  ${c.padEnd(44)} ${d}`));
+    out("attack & fix:","dim");
+    [["sudo <cmd>","run a permitted command as root"],
+     ["exploit backup.sh","abuse the SUID+cron combo (db01)"],
+     ["harden <sshd|firewall|userdel|suid|fail2ban>","apply a FIX from the PDFs"],
+     ["audit","findings board"],["tasks / hint","checklist / next hint"],
+     ["ssh user@host","pivot to another host"],["exit","disconnect"]].forEach(([c,d])=>out(`  ${c.padEnd(44)} ${d}`));
+  }
+}
+function aboutGame(){
+  out("── MOSHELL NETRUN ──","info");
+  out("Original game built for MOSHELL by Fab (KingMo87). © 2026 KingMo87.","dim");
+  out("Every misconfig is drawn from the MOSHELL Premium Lessons & Lab Workbook.","dim");
+  out("");
+  out("HOW IT WORKS","info");
+  out("A safe, in-browser lab — a simulated network of fake hosts in memory,");
+  out("nothing touches a real machine. Two tracks:");
+  out("");
+  out("BREAK-IN TRACK (red team) — missions 1-3","info");
+  out("  Exploit the misconfigurations the PDFs teach you to prevent:");
+  [["Default creds + root SSH","Hardening Checklist violations (web01)"],
+   ["UID-0 / empty-password backdoor","Premium 06 Findings 03 & 04 (app01)"],
+   ["SUID binary + rogue cron","Premium 06 Findings 02 & 08 (db01)"]].forEach(
+    ([k,v])=>out(`  • ${k.padEnd(30)} ${v}`));
+  out("");
+  out("AUDIT & HARDEN TRACK (blue team) — missions 4-6","info");
+  out("  Switch sides and run the real Premium 06 workflow:");
+  [["Audit","run the CHECK commands, find every misconfig ('audit' board)"],
+   ["Harden","apply the FIX commands: harden sshd / firewall / suid / userdel"],
+   ["fail2ban","deploy brute-force protection from the Lab Workbook"]].forEach(
+    ([k,v])=>out(`  • ${k.padEnd(30)} ${v}`));
+  out("");
+  out("Playing the game rehearses the exact commands from the paid material.","dim");
+}
+function bootBanner(){
+  raw(`<div class="banner-line">MOSHELL // NETRUN</div>`);
+  out("MOSHELL NETRUN v2 — break in, then defend. Based on the MOSHELL Premium material.","info");
+  out("A safe, in-browser lab. Nothing here touches a real network.","dim");
+  out("");
+  out("New here? Type  tutorial  for a 2-minute guided walkthrough.","ok");
+  out("Ready to go?  Type  mission 1  to break into your first target.","ok");
+  out("");
+  out("Red team (1-3): exploit the misconfigs.  Blue team (4-6): audit & harden.","dim");
+  out("type 'help' anytime · 'about' explains what it teaches · 'mode' sets difficulty.\n","dim");
+}
+function winScreen(){
+  raw(`<div class="banner-line ok">═══ LAB SECURED ═══</div>`);
+  out(`Final score: ${S.score} · Rank: ${rankName()}`,"ok");
+  out("You broke in through every misconfiguration — then audited and hardened the whole lab:","info");
+  out("default creds, root SSH, UID-0/empty-password backdoors, SUID+cron, firewall, fail2ban.","info");
+  out("That's the full MOSHELL Premium security workflow, red team and blue team. Send Fab your score.","dim");
+}
+
+/* ---------- input handling ----------------------------------------- */
+/* ---------- Tab completion ----------------------------------------- */
+const LOCAL_CMDS=["scan","hosts","ssh","missions","mission","tasks","audit","hint","mode",
+  "about","tutorial","submit","score","banner","clear","reset","unlock"];
+const REMOTE_CMDS=["ls","cd","cat","grep","awk","find","crontab","ss","netstat","ufw",
+  "sudo","exploit","harden","audit","tasks","hint","mission","missions","about","mode",
+  "score","whoami","id","hostname","pwd","ssh","scan","submit","exit","clear"];
+const HARDEN_ARGS=["sshd","firewall","userdel","suid","fail2ban"];
+function completionPool(){
+  // build the set of candidate tokens for the current context
+  const inHost=!!S.session.host;
+  let pool = inHost ? [...REMOTE_CMDS] : [...LOCAL_CMDS];
+  // hosts / IPs you can reference
+  try{ reachable().forEach(ip=>pool.push(ip)); }catch(e){}
+  // files in the current directory (when inside a host)
+  if(inHost){
+    try{
+      const fs=currentFS();
+      const [node]=resolvePath(fs,S.session.cwd,S.session.cwd);
+      if(node&&isDir(node)) Object.keys(node).forEach(k=>pool.push(k));
+    }catch(e){}
+    HARDEN_ARGS.forEach(a=>pool.push(a));
+  }
+  return [...new Set(pool)];
+}
+function tabComplete(){
+  const val=cmdIn.value;
+  const parts=val.split(/(\s+)/);           // keep separators
+  const lastTok=parts[parts.length-1];
+  if(!lastTok) return;
+  const matches=completionPool().filter(t=>t.startsWith(lastTok));
+  if(matches.length===0) return;
+  if(matches.length===1){
+    parts[parts.length-1]=matches[0];
+    cmdIn.value=parts.join("")+(cmdIn.value.endsWith(" ")?"":" ");
+  }else{
+    // common prefix completion + show options
+    let cp=matches[0];
+    for(const m of matches){ while(!m.startsWith(cp)) cp=cp.slice(0,-1); }
+    if(cp.length>lastTok.length){ parts[parts.length-1]=cp; cmdIn.value=parts.join(""); }
+    else { out("  "+matches.join("   "),"dim"); }
+  }
+}
+
+cmdIn.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){ run(); }
+  else if(e.key==="Tab"){ e.preventDefault(); tabComplete(); }
+  else if(e.key==="ArrowUp"){ if(hIdx<history.length-1){hIdx++;cmdIn.value=history[hIdx];} e.preventDefault(); }
+  else if(e.key==="ArrowDown"){ if(hIdx>0){hIdx--;cmdIn.value=history[hIdx];} else {hIdx=-1;cmdIn.value="";} e.preventDefault(); }
+});
+document.addEventListener("click",e=>{
+  // while the onboarding overlay is open, let its own inputs keep focus
+  const onb=document.getElementById("onboard");
+  if(onb && onb.classList.contains("show")) return;
+  cmdIn.focus();
+});
+function toggleDrawer(){ document.getElementById("mobMissions").classList.toggle("open"); }
+
+/* ================= ONBOARDING (email -> nickname -> password lesson) ===== */
+const NICKNAMES = [
+  "r00t_cause","null_byte","kernel_panic","seg_fault","packet_ghost",
+  "sudo_slayer","bit_flipper","shellshock","zero_cool","daemon_dave"
+];
+/* 8 passwords, each with a security verdict tied to the hardening lesson. */
+const PW_OPTIONS = [
+  { pw:"123456",            rate:"weak",   note:"The most common password on earth. Cracked instantly — it tops every breach list." },
+  { pw:"password",          rate:"weak",   note:"Second most common. A dictionary attack tries this first." },
+  { pw:"linux",             rate:"weak",   note:"A single dictionary word — and it's literally the topic. Guessable in seconds." },
+  { pw:"qwerty123",         rate:"weak",   note:"A keyboard pattern plus digits. Pattern crackers eat these for breakfast." },
+  { pw:"Summer2026!",       rate:"mid",    note:"Looks strong, but season+year+! is a known pattern. Better — still predictable." },
+  { pw:"Tr0ub4dor&3",       rate:"mid",    note:"Character substitution on a word. Decent, but modern crackers know l33t swaps." },
+  { pw:"correct-horse-battery-staple", rate:"strong", note:"A long passphrase of random words. Long + unusual = very hard to crack. This is the way." },
+  { pw:"7#kLm$92!qXvR",     rate:"strong", note:"14 random chars across all character classes. Excellent — a password manager makes these painless." }
+];
+
+const ob = {
+  root:  document.getElementById("onboard"),
+  stepEmail: document.getElementById("ob-email"),
+  stepNick:  document.getElementById("ob-nick"),
+  stepPw:    document.getElementById("ob-pw"),
+  emailInput:document.getElementById("ob-email-input"),
+  emailErr:  document.getElementById("ob-email-err"),
+  emailNext: document.getElementById("ob-email-next"),
+  nickGrid:  document.getElementById("ob-nick-grid"),
+  nickInput: document.getElementById("ob-nick-input"),
+  nickErr:   document.getElementById("ob-nick-err"),
+  nickNext:  document.getElementById("ob-nick-next"),
+  pwGrid:    document.getElementById("ob-pw-grid"),
+  pwVerdict: document.getElementById("ob-pw-verdict"),
+  pwStart:   document.getElementById("ob-pw-start")
+};
+let obNick = "";
+
+function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+function showStep(which){
+  [ob.stepEmail,ob.stepNick,ob.stepPw].forEach(s=>s.hidden=true);
+  which.hidden=false;
+}
+function startOnboarding(){
+  track("netrun_onboard_start", {});
+  ob.root.classList.add("show"); ob.root.setAttribute("aria-hidden","false");
+  showStep(ob.stepEmail);
+  focusSoon(ob.emailInput);
+}
+/* Focus an element as soon as the browser can (covers first-paint timing). */
+function focusSoon(el){
+  if(!el||!el.focus) return;
+  const go=()=>{ try{ el.focus(); el.select&&el.select(); }catch(e){} };
+  go();
+  if(typeof requestAnimationFrame==="function") requestAnimationFrame(go);
+  setTimeout(go,60);
+}
+/* --- step 1: email --- */
+function submitEmail(){
+  const val=ob.emailInput.value.trim();
+  if(!validEmail(val)){ ob.emailErr.textContent="Please enter a valid email address."; return; }
+  ob.emailErr.textContent="";
+  S.email=val; save();
+  track("netrun_email_captured", {});   // lead captured
+  buildNicknames();
+  showStep(ob.stepNick);
+  focusSoon(ob.nickInput);
+}
+ob.emailNext.addEventListener("click",submitEmail);
+ob.emailInput.addEventListener("keydown",e=>{ if(e.key==="Enter") submitEmail(); });
+
+/* --- step 2: nickname --- */
+function buildNicknames(){
+  ob.nickGrid.innerHTML="";
+  NICKNAMES.forEach(n=>{
+    const b=document.createElement("button");
+    b.className="ob-nick"; b.textContent=n; b.type="button";
+    b.addEventListener("click",()=>{
+      obNick=n; ob.nickInput.value="";
+      [...ob.nickGrid.children].forEach(c=>c.classList.remove("sel"));
+      b.classList.add("sel"); ob.nickErr.textContent="";
+    });
+    ob.nickGrid.appendChild(b);
+  });
+}
+ob.nickInput.addEventListener("input",()=>{
+  if(ob.nickInput.value.trim()){ obNick=ob.nickInput.value.trim();
+    [...ob.nickGrid.children].forEach(c=>c.classList.remove("sel")); }
+});
+function submitNick(){
+  const val=(ob.nickInput.value.trim()||obNick).trim();
+  if(!val){ ob.nickErr.textContent="Pick a handle or type your own."; return; }
+  S.nickname=val; save();
+  buildPasswords();
+  showStep(ob.stepPw);
+}
+ob.nickNext.addEventListener("click",submitNick);
+ob.nickInput.addEventListener("keydown",e=>{ if(e.key==="Enter") submitNick(); });
+
+/* --- step 3: password security lesson --- */
+function buildPasswords(){
+  ob.pwGrid.innerHTML=""; ob.pwVerdict.hidden=true; ob.pwStart.hidden=true;
+  PW_OPTIONS.forEach((o,i)=>{
+    const b=document.createElement("button");
+    b.className="ob-pw"; b.type="button";
+    b.innerHTML=`<span>${o.pw}</span><span class="pw-tag"></span>`;
+    b.addEventListener("click",()=>pickPassword(i,b));
+    ob.pwGrid.appendChild(b);
+  });
+}
+function pickPassword(i,btn){
+  const o=PW_OPTIONS[i];
+  S.pwChoice=i; save();
+  // reveal ratings on ALL options (the teaching moment)
+  [...ob.pwGrid.children].forEach((c,idx)=>{
+    const opt=PW_OPTIONS[idx];
+    c.classList.add(opt.rate);
+    c.querySelector(".pw-tag").textContent =
+      opt.rate==="strong"?"STRONG":opt.rate==="mid"?"OK-ISH":"WEAK";
+    c.disabled=true;
+  });
+  const good = o.rate==="strong";
+  const ok   = o.rate==="mid";
+  ob.pwVerdict.hidden=false;
+  ob.pwVerdict.className="ob-verdict "+(good?"good":ok?"":"bad");
+  ob.pwVerdict.innerHTML =
+    `<b>You picked:</b> ${o.pw} — <b>${good?"STRONG":ok?"OK-ISH":"WEAK"}</b><br>${o.note}` +
+    (good ? "<br><br>Good instinct. Now go find the boxes whose owners <em>didn't</em> choose like you."
+          : "<br><br>Lesson one: attackers win when passwords are weak. In this lab you'll exploit exactly that — then learn to fix it.");
+  ob.pwStart.hidden=false;
+  ob.pwStart.focus();
+}
+ob.pwStart.addEventListener("click",finishOnboarding);
+
+function finishOnboarding(){
+  S.onboarded=true; save();
+  track("netrun_onboard_complete", {pw_choice:S.pwChoice});
+  ob.root.classList.remove("show"); ob.root.setAttribute("aria-hidden","true");
+  // congratulations + straight into the tutorial for brand-new players
+  congratsScreen();
+  if(!S.tutorialDone && !Object.keys(S.solved).length){ startTutorial(); }
+  else { bootBanner(); }
+  cmdIn.focus();
+}
+function congratsScreen(){
+  screen.innerHTML="";
+  raw(`<div class="banner-line ok">═══ ACCESS GRANTED — WELCOME TO NETRUN ═══</div>`);
+  out(`Congratulations, ${S.nickname} — you're cleared into the lab.`,"ok");
+  out(`Operator: ${S.nickname}   ·   contact: ${S.email}`,"dim");
+  out("");
+}
+
+/* ---------- boot --------------------------------------------------- */
+renderMissions(); updateHUD();
+if(!S.onboarded){
+  // brand-new player: run onboarding first (email -> nickname -> password lesson)
+  startOnboarding();
+}else{
+  const firstRun = !S.tutorialDone && !Object.keys(S.solved).length;
+  if(firstRun){ startTutorial(); }
+  else{
+    bootBanner();
+    if(S.nickname) out(`Welcome back, ${S.nickname}.`,"ok");
+    if(Object.keys(S.solved).length){ out(`(resumed — ${Object.keys(S.solved).length}/${MISSIONS.length} missions solved, score ${S.score}, ${S.mode} mode)`,"dim"); }
+  }
+  cmdIn.focus();
+}
+</script>
+</body>
+</html>
