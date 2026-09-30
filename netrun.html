@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MOSHELL — NETRUN // SSH Infiltration Sim</title>
+<link rel="canonical" href="https://moshellinux.com/netrun.html">
 <!-- Google Analytics 4 (same property as the MOSHELL platform) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZT815QEJS"></script>
 <script>
@@ -289,6 +290,7 @@
         <button class="gh" onclick="run('help')">help</button>
         <button class="gh" onclick="run('missions')">missions</button>
         <button class="gh" onclick="hint()">hint</button>
+        <button class="gh" onclick="run('walkthrough')">walkthrough</button>
         <button class="gh" onclick="run('reset --soft')">reset run</button>
       </div>
     </div>
@@ -379,6 +381,8 @@ const GUMROAD_VERIFY_URL = "https://api.gumroad.com/v2/licenses/verify";
 // NOTE: confirm the store handle matches your live links (the product SLUGS fydlcl/odlbsr are correct).
 const BUY_URL_WORKBOOK = "https://moshell.gumroad.com/l/fydlcl"; // $17 Lab Workbook
 const BUY_URL_BUNDLE   = "https://moshell.gumroad.com/l/odlbsr"; // $37 Full Bundle / Pro
+// >>> PASTE the $5 NETRUN Walkthrough slug in place of PASTE_WALKTHROUGH_SLUG
+const BUY_URL_WALKTHROUGH = "https://moshell.gumroad.com/l/PASTE_WALKTHROUGH_SLUG"; // $5 NETRUN Walkthrough
 
 /* GA4 event helper — safe no-op if gtag isn't loaded (offline / tests). */
 function track(event, params){
@@ -750,6 +754,7 @@ function localCmd(cmd,args,A){
     case "ssh": return sshConnect(A);
     case "submit": return submitFlag(A);
     case "hint": return hint();
+    case "walkthrough": case "solution": return walkthroughInfo();
     case "score": out(`score: ${S.score}  rank: ${rankName()}`,"info"); return;
     case "banner": return bootBanner();
     case "about": return aboutGame();
@@ -808,6 +813,7 @@ function remoteCmd(cmd,args,A){
     case "scan": return scan(args[0]);  // scan from inside too
     case "submit": return submitFlag(A);
     case "hint": return hint();
+    case "walkthrough": case "solution": return walkthroughInfo();
     case "tasks": case "checklist": case "objectives": return showChecklist();
     case "mission": return showMission(parseInt(args[0])||S.activeMission);
     case "missions": return listMissions();
@@ -1427,6 +1433,23 @@ function paywall(){
   out("Already bought? Enter your license key:  unlock <your-key>","info");
 }
 
+/* ---------- Walkthrough pointer ------------------------------------ */
+function walkthroughInfo(){
+  track("netrun_walkthrough_view", {});
+  out("\n── NETRUN WALKTHROUGH ──","info");
+  out("Stuck for good? The full walkthrough solves every mission step by step,","");
+  out("attack and defense tracks, with the commands and why each one works.","");
+  out("Try 'hint' first. Hints are free in easy mode.","dim");
+  out("");
+  out("Get the walkthrough:","info");
+  raw(`<div class="chips" style="margin:6px 0">
+    <a class="cmdchip" href="${BUY_URL_WALKTHROUGH}" target="_blank" rel="noopener"
+       onclick="track('netrun_checkout_click',{tier:'walkthrough',value:5})">▸ NETRUN Walkthrough — $5</a>
+    <a class="cmdchip" href="${BUY_URL_BUNDLE}" target="_blank" rel="noopener"
+       onclick="track('netrun_checkout_click',{tier:'bundle',value:37})">▸ Included in MOSHELL Pro — $37</a>
+  </div>`);
+}
+
 /* ---------- Missions UI -------------------------------------------- */
 function missionUnlocked(m){
   // Attack track: linear
@@ -1650,7 +1673,7 @@ function setMode(m){
 function printHelp(local){
   if(local){
     out("NETRUN CONSOLE — commands:","info");
-    [["tutorial","2-min guided walkthrough (start here if new)"],
+    [["tutorial","2-min guided tutorial (start here if new)"],
      ["scan [ip]","recon reachable hosts (or one target) — shows ports & banners"],
      ["hosts","list hosts you can currently reach"],
      ["ssh user@host [pass]","log into a host by password"],
@@ -1660,6 +1683,7 @@ function printHelp(local){
      ["audit","security-audit findings board (defense track)"],
      ["unlock <key>","unlock the premium Defense track with a MOSHELL license"],
      ["hint","reveal the next hint for the active mission"],
+     ["walkthrough","where to get the full step-by-step NETRUN walkthrough"],
      ["mode [easy|normal]","difficulty: easy = free hints (default)"],
      ["about","how the game works & what it teaches"],
      ["submit NETRUN{...}","submit a defense-track flag"],
@@ -1736,9 +1760,9 @@ function winScreen(){
 /* ---------- input handling ----------------------------------------- */
 /* ---------- Tab completion ----------------------------------------- */
 const LOCAL_CMDS=["scan","hosts","ssh","missions","mission","tasks","audit","hint","mode",
-  "about","tutorial","submit","score","banner","clear","reset","unlock"];
+  "about","tutorial","submit","score","banner","clear","reset","unlock","walkthrough"];
 const REMOTE_CMDS=["ls","cd","cat","grep","awk","find","crontab","ss","netstat","ufw",
-  "sudo","exploit","harden","audit","tasks","hint","mission","missions","about","mode",
+  "sudo","exploit","harden","audit","tasks","hint","walkthrough","mission","missions","about","mode",
   "score","whoami","id","hostname","pwd","ssh","scan","submit","exit","clear"];
 const HARDEN_ARGS=["sshd","firewall","userdel","suid","fail2ban"];
 function completionPool(){
