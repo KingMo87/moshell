@@ -2,8 +2,8 @@
 
 > **Free interactive Linux learning platform** — from your first terminal command to servers, Docker, SSH, and security hardening.
 
-[![Live Platform](https://img.shields.io/badge/🌐_Live_Platform-Visit_Now-00e676?style=for-the-badge)](https://kingmo87.github.io/moshell/)
-[![Full Bundle](https://img.shields.io/badge/💰_Full_Bundle-$37-00e676?style=for-the-badge)](https://moshell.gumroad.com/l/odlbsr)
+[![Live Platform](https://img.shields.io/badge/🌐_Live_Platform-moshellinux.com-00e676?style=for-the-badge)](https://moshellinux.com)
+[![MOSHELL Pro](https://img.shields.io/badge/💰_MOSHELL_Pro-$37-00e676?style=for-the-badge)](https://moshell.gumroad.com/l/odlbsr)
 [![Workbook](https://img.shields.io/badge/📄_Lab_Workbook-$17-00cc6a?style=for-the-badge)](https://moshell.gumroad.com/l/fydlcl)
 
 ---
@@ -12,7 +12,7 @@
 
 **No account. No sign-up. Open in any browser:**
 
-👉 **[kingmo87.github.io/moshell/](https://kingmo87.github.io/moshell/)**
+👉 **[moshellinux.com](https://moshellinux.com)**
 
 ---
 
@@ -21,18 +21,27 @@
 ### Free Platform
 | Feature | Details |
 |---|---|
-| 📖 Lessons | 12 hands-on lessons — Beginner to Advanced |
-| ⚡ Commands | 65+ Linux commands explained with examples |
+| 📖 Lessons | 14 hands-on lessons, Beginner to Advanced (lessons 1–6 free, 7–14 premium) |
+| ⚡ Commands | 85+ Linux commands covered across lessons, cheatsheet, and sandbox |
 | 🧪 Sandbox | Interactive bash sandbox — run commands in the browser |
 | 📋 Cheatsheet | 6-tab command reference (Navigation, Files, Permissions, Processes, Networking, Text Tools) |
 | 🖥️ VM Guide | Step-by-step VirtualBox + Ubuntu Server setup |
-| 🔍 Filters | Filter lessons by track: Beginner · Networking · VM · Security |
+| 🔍 Filters | Filter lessons by Beginner · Intermediate · Advanced · Networking · Virtualization · Security |
+| 🏆 Badges | Earn progress badges as you complete lessons |
 
 ### Course Tracks
-- **Beginner** — Shell navigation, files, permissions, processes
-- **Intermediate** — Package management, networking, SSH, bash scripting
-- **Advanced** — VirtualBox networking, Nginx, logs, disk management
-- **Security** — SSH hardening, UFW, fail2ban, iptables, security auditing
+- **Beginner** — The shell & navigation, files & directories, reading & editing files
+- **Intermediate** — Permissions & ownership, processes, package management, networking & SSH, shell scripting & cron
+- **Advanced** — VirtualBox & VM networking, Nginx web server, logs & troubleshooting, disk & storage, Docker & Docker Compose
+- **Security** — Permissions, ownership & sudo, and using logs to troubleshoot. Deeper hardening (SSH hardening, UFW, fail2ban, iptables, security audits) is covered in the premium PDFs below.
+
+### Games
+| Game | Details |
+|---|---|
+| 🖥️ [NETRUN](https://moshellinux.com/netrun.html) | SSH hacking sim. Break into a network of servers through real misconfigurations (default creds, weak SSH, SUID, rogue cron), then switch sides and harden every box. Attack track is free; the Defense track unlocks with a MOSHELL license. |
+| 🎮 [Linux Trivia](https://moshellinux.com/quiz.html) | 100 questions from Lesson 01 to Docker, with rank badges. No login required. |
+
+Stuck in NETRUN? A full step-by-step walkthrough is included in MOSHELL Pro, or sold on its own for $5 at the [Gumroad store](https://moshell.gumroad.com).
 
 ---
 
@@ -50,8 +59,8 @@ Deep-dive PDF workbook that goes beyond the free platform:
 
 👉 [Get the Workbook](https://moshell.gumroad.com/l/fydlcl)
 
-### 🏆 Full Bundle — $37
-Everything in the workbook plus 6 advanced premium lessons:
+### 🏆 MOSHELL Pro — $37
+Everything in the workbook plus the Premium Lessons PDF (6 advanced topics) and the NETRUN walkthrough:
 - 25-point server hardening checklist
 - iptables raw firewall — DROP policies, NAT, port forwarding
 - Docker — images, containers, Dockerfile, Docker Compose
@@ -59,7 +68,7 @@ Everything in the workbook plus 6 advanced premium lessons:
 - Advanced cron + logrotate automation
 - Security audit lab — 10 real findings with fixes
 
-👉 [Get the Full Bundle](https://moshell.gumroad.com/l/odlbsr)
+👉 [Get MOSHELL Pro](https://moshell.gumroad.com/l/odlbsr)
 
 ---
 
@@ -68,16 +77,22 @@ Everything in the workbook plus 6 advanced premium lessons:
 Built with zero dependencies — pure HTML, CSS, and JavaScript.
 
 ```
-index.html    — Free interactive platform
-sales.html    — Product sales page
-sitemap.xml   — Google sitemap
+index.html             — Free interactive platform
+sales.html             — Product sales page
+netrun.html            — NETRUN SSH hacking sim
+quiz.html              — Linux Trivia game
+moshell-missions.js    — Lesson task verification
+moshell-rewards.js     — Progress badges
+moshell-analytics.js   — Analytics events
+sitemap.xml            — Google sitemap
+CNAME                  — Custom domain (moshellinux.com)
 ```
 
 - No frameworks
 - No build tools
 - No npm install
 - Opens directly in any browser
-- Hosted free on GitHub Pages
+- Hosted free on GitHub Pages at [moshellinux.com](https://moshellinux.com)
 
 ---
 
@@ -96,10 +111,11 @@ Setup guide included in the platform and workbook.
 
 ## 📊 Platform Stats
 
-- ✅ 12 complete lessons
-- ✅ 65+ commands covered
-- ✅ 3 learning tracks
+- ✅ 14 complete lessons (6 free)
+- ✅ 85+ Linux commands covered
+- ✅ 4 learning tracks
 - ✅ Interactive command sandbox
+- ✅ 2 browser games (NETRUN + Linux Trivia)
 - ✅ Works on desktop and mobile
 - ✅ No account or sign-up required
 
@@ -109,11 +125,13 @@ Setup guide included in the platform and workbook.
 
 | | |
 |---|---|
-| 🌐 Free Platform | [kingmo87.github.io/moshell/](https://kingmo87.github.io/moshell/) |
-| 💰 Sales Page | [kingmo87.github.io/moshell/sales.html](https://kingmo87.github.io/moshell/sales.html) |
+| 🌐 Free Platform | [moshellinux.com](https://moshellinux.com) |
+| 💰 Sales Page | [moshellinux.com/sales.html](https://moshellinux.com/sales.html) |
+| 🖥️ NETRUN | [moshellinux.com/netrun.html](https://moshellinux.com/netrun.html) |
+| 🎮 Linux Trivia | [moshellinux.com/quiz.html](https://moshellinux.com/quiz.html) |
 | 🛒 Gumroad Store | [moshell.gumroad.com](https://moshell.gumroad.com) |
 | 📄 Lab Workbook | [moshell.gumroad.com/l/fydlcl](https://moshell.gumroad.com/l/fydlcl) |
-| 🏆 Full Bundle | [moshell.gumroad.com/l/odlbsr](https://moshell.gumroad.com/l/odlbsr) |
+| 🏆 MOSHELL Pro | [moshell.gumroad.com/l/odlbsr](https://moshell.gumroad.com/l/odlbsr) |
 
 ---
 
