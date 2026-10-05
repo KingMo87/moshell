@@ -1405,7 +1405,8 @@ async function verifyLicense(key){
       const body=new URLSearchParams({product_id:pid, license_key:key, increment_uses_count:"false"});
       const res=await fetch(GUMROAD_VERIFY_URL,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
       const data=await res.json();
-      if(data && data.success){
+      const purchase=(data&&data.purchase)||{};
+      if(data && data.success && !purchase.refunded && !purchase.chargebacked && !purchase.disputed){
         S.licensed=true; S.licenseKey=key; save();
         track("netrun_unlock_success", {});   // conversion!
         out("  [+] License verified. DEFENSE track unlocked — welcome, blue team.","ok");
