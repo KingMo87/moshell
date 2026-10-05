@@ -1191,7 +1191,9 @@ async function verifyLicenseKey(key){
       body
     });
     const data = await res.json();
-    if(data && data.success){
+       const purchase = (data && data.purchase) || {};
+    const validPurchase = data && data.success && !purchase.refunded && !purchase.chargebacked && !purchase.disputed;
+    if(validPurchase){
       try{ localStorage.setItem(PRO_UNLOCK_KEY, '1'); }catch(e){}
       if(typeof gtag === 'function'){
         gtag('event','license_verified',{event_category:'ecommerce'});
