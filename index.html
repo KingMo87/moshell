@@ -1831,7 +1831,7 @@ const CMDS = {
     let out = args.join(' ').replace(/^["']|["']$/g,'');
     // Basic variable expansion for common vars
     out = out.replace(/\$HOME/g,'/home/student').replace(/\$USER/g,'student').replace(/\$HOSTNAME/g,'moshell').replace(/\$SHELL/g,'/bin/bash').replace(/\$PATH/g,'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin').replace(/\$PWD/g,cwd);
-    return out;
+   return escH(out);
   },
   clear: ()=> { document.getElementById('term-out').innerHTML=''; return null; },
   man: (args)=> args[0] ? `MAN: ${args[0].toUpperCase()}\n\nIn a real terminal, this opens the full manual.\nRun: <span style="color:var(--green)">man ${args[0]}</span> in your VM.\n\nTip: press <span style="color:var(--amber)">q</span> to quit man pages, <span style="color:var(--amber)">/</span> to search.` : 'What manual page do you want?',
@@ -2156,9 +2156,9 @@ function runCmd(raw){
     const dir = posArgs[0] || cwd;
     const entries = FS[dir] || FS[cwd] || [];
     if(flags.some(f=>/l/.test(f))){
-      result = entries.map(e=>{const isD=e.endsWith('/');return`${isD?'drwxr-xr-x':'-rw-r--r--'}  2 student student 4096 Jun  3 10:22 <span style="color:${isD?'var(--cyan)':'var(--text)'}">${e}</span>`;}).join('\n');
+      result = entries.map(e=>{const isD=e.endsWith('/');return`${isD?'drwxr-xr-x':'-rw-r--r--'}  2 student student 4096 Jun  3 10:22 <span style="color:${isD?'var(--cyan)':'var(--text)'}">${escH(e)}</span>`;}).join('\n');
     } else {
-      result = entries.map(e=>`<span style="color:${e.endsWith('/')?'var(--cyan)':'var(--text)'}">${e}</span>`).join('  ');
+            result = entries.map(e=>`<span style="color:${e.endsWith('/')?'var(--cyan)':'var(--text)'}">${escH(e)}</span>`).join('  ');
     }
     if(result === '' || result === null || result === undefined) result = `ls: cannot access '${posArgs[0]||cwd}': No such file or directory (simulated fs)`;
   } else if(trimmed.startsWith('sudo ')){
