@@ -2160,7 +2160,7 @@ function runCmd(raw){
     } else {
             result = entries.map(e=>`<span style="color:${e.endsWith('/')?'var(--cyan)':'var(--text)'}">${escH(e)}</span>`).join('  ');
     }
-    if(result === '' || result === null || result === undefined) result = `ls: cannot access '${posArgs[0]||cwd}': No such file or directory (simulated fs)`;
+    if(result === '' || result === null || result === undefined) result = `ls: cannot access '${escH(posArgs[0]||cwd)}': No such file or directory (simulated fs)`;
   } else if(trimmed.startsWith('sudo ')){
     const sub = trimmed.slice(5);
     if(CMDS[sub]||CMDS[sub.split(' ')[0]]){ result = runCmdSilent(sub); }
