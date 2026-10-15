@@ -13,236 +13,261 @@
   gtag('js', new Date());
   gtag('config', 'G-3ZT815QEJS');
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2313150f'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e8692e' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e8e1c9'/></svg>">
+<meta name="theme-color" content="#13150f">
 <style>
+  /* NETRUN — Field Manual chrome around an amber CRT terminal.
+     The terminal keeps the game's amber phosphor look; everything around it
+     (header, mission list, buttons, onboarding) matches the MOSHELL site. */
   :root{
+    /* terminal (CRT) */
     --amber:#ffb000;
-    --amber-dim:#c07d00;
-    --amber-glow:rgba(255,176,0,.35);
+    --amber-dim:#d39a2a;
+    --amber-glow:rgba(255,176,0,.30);
     --green:#3ddc84;
-    --red:#ff5a5a;
-    --cyan:#4fd6ff;
-    --bg:#0a0703;
-    --panel:#140d04;
-    --panel-line:#3a2a08;
-    --scan:rgba(255,176,0,.04);
+    --red:#ff6b5e;
+    --cyan:#6fd8ff;
+    --term-bg:#0c0803;
+    --term-line:#3a2a08;
+    --scan:rgba(255,176,0,.035);
+    /* site (Field Manual) */
+    --bg:#13150f;
+    --surface:#1d2018;
+    --surface2:#24281e;
+    --border:#353929;
+    --border2:#4a4f3c;
+    --text:#e8e1c9;
+    --text2:#bdb79e;
+    --text3:#8f8b75;
+    --signal:#e8692e;
+    --on-signal:#160d07;
+    --display:'Barlow Condensed','Arial Narrow',sans-serif;
+    --body:'Barlow','Helvetica Neue',Arial,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,"SFMono-Regular",Consolas,Menlo,monospace;
+    /* legacy names the game script still uses */
+    --panel:var(--surface);
+    --panel-line:var(--border2);
     box-sizing:border-box;
     padding-top:env(safe-area-inset-top,0px);
     padding-bottom:env(safe-area-inset-bottom,0px);
+    color-scheme:dark;
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
   body{
-    background:var(--bg);
-    color:var(--amber);
-    font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
-    font-size:14px;
-    line-height:1.5;
-    overflow:hidden;
-    -webkit-font-smoothing:none;
+    background:var(--bg);color:var(--text);
+    font-family:var(--body);font-size:16px;line-height:1.5;overflow:hidden;
   }
-  /* CRT scanlines + flicker */
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
-    background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,var(--scan) 3px,var(--scan) 3px);
-  }
-  body::after{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:51;
-    background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%);
-  }
-  @keyframes flicker{0%,100%{opacity:.97}50%{opacity:1}}
-  #crt{animation:flicker 4s infinite}
+  :focus-visible{outline:3px solid var(--signal);outline-offset:2px}
 
   .wrap{
     display:flex;flex-direction:column;height:100%;
-    max-width:1100px;margin:0 auto;padding:10px;
+    max-width:1440px;margin:0 auto;
+    padding:12px max(12px, env(safe-area-inset-right,0px)) 12px max(12px, env(safe-area-inset-left,0px));
   }
+
+  /* ── header ── */
   header.bar{
-    display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
-    border:1px solid var(--panel-line);
-    padding:8px 12px;background:var(--panel);
-    text-shadow:0 0 6px var(--amber-glow);
+    display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;
+    border:2px solid var(--border2);background:var(--surface);padding:10px 16px;
   }
-  .logo{font-weight:700;letter-spacing:2px}
-  .logo b{color:var(--amber)}
-  .tag{color:var(--amber-dim);font-size:12px}
-  .stats{margin-left:auto;display:flex;gap:16px;font-size:12px}
-  .stats span b{color:var(--green)}
+  .brand{display:flex;flex-direction:column;min-width:0}
+  .logo{font-family:var(--display);font-weight:700;font-size:1.9rem;line-height:1;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+  .logo b{color:var(--text)}
+  .logo span{color:var(--signal)}
+  .tag{font-family:var(--mono);font-size:.78rem;color:var(--text3);letter-spacing:.03em;margin-top:3px}
+  .stats{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--mono);font-size:.88rem;color:var(--text2)}
+  .stats span b{color:var(--text);font-weight:700}
+  .stats #flags{color:var(--signal)}
+  .hdr-links{margin-left:auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .hdr-link{display:inline-flex;align-items:center;min-height:42px;padding:0 12px;font-family:var(--body);font-weight:600;font-size:.88rem;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);text-decoration:none;border:2px solid transparent}
+  .hdr-link:hover{color:var(--text);border-color:var(--border2)}
+  .hdr-link.pro{background:var(--signal);color:var(--on-signal)}
+  .hdr-link.pro:hover{background:#ff8a52;border-color:transparent}
 
-  .main{display:flex;gap:10px;flex:1;min-height:0;margin-top:10px}
+  /* ── layout ── */
+  .main{display:flex;gap:12px;flex:1;min-height:0;margin-top:12px}
   .side{
-    width:240px;flex-shrink:0;border:1px solid var(--panel-line);
-    background:var(--panel);padding:10px;overflow:auto;
+    width:300px;flex-shrink:0;border:2px solid var(--border2);
+    background:var(--surface);padding:14px;overflow:auto;
   }
-  .side h3{margin:0 0 8px;font-size:11px;letter-spacing:2px;color:var(--amber-dim)}
+  .side h3,#mobMissions h3{margin:0 0 10px;font-family:var(--display);font-weight:700;font-size:1.35rem;letter-spacing:.05em;color:var(--text);text-transform:uppercase}
   .mission{
-    border:1px solid var(--panel-line);padding:8px;margin-bottom:8px;cursor:pointer;
-    font-size:12px;transition:background .1s;
+    border:2px solid var(--border);background:var(--bg);padding:10px 12px;margin-bottom:10px;cursor:pointer;
+    font-size:.95rem;color:var(--text);
   }
-  .mission:hover{background:#1d1305}
-  .mission.active{border-color:var(--amber);background:#201606}
-  .mission.done{opacity:.55}
-  .mission .mt{font-weight:700}
-  .mission .ms{color:var(--amber-dim);font-size:11px}
-  .badge{font-size:10px;padding:1px 5px;border:1px solid var(--panel-line)}
-  .badge.solved{color:var(--green);border-color:var(--green)}
-  .badge.locked{color:var(--red);border-color:var(--red)}
-  .badge.pro{color:#1a1200;background:var(--amber);border-color:var(--amber);font-weight:700}
+  .mission:hover{border-color:var(--text3)}
+  .mission.active{border-color:var(--signal);background:var(--surface2)}
+  .mission.done{opacity:.6}
+  .mission .mt{font-family:var(--body);font-weight:700;font-size:1.02rem;line-height:1.3;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+  .mission .ms{color:var(--text2);font-size:.9rem;margin-top:4px;line-height:1.45}
+  .side > div:last-child,#mobMissions > div:last-child{font-family:var(--mono)!important;font-size:.82rem!important;color:var(--text3)!important}
+  .badge{font-family:var(--mono);font-size:.72rem;font-weight:700;padding:1px 6px;border:1.5px solid var(--text3);color:var(--text2);letter-spacing:.03em}
+  .badge.solved{color:var(--on-signal);background:var(--green);border-color:var(--green)}
+  .badge.locked{color:var(--text3);border-style:dashed;border-color:var(--border2)}
+  .badge.pro{color:var(--on-signal);background:var(--signal);border-color:var(--signal)}
 
+  /* ── terminal (CRT look kept) ── */
   .term-col{flex:1;display:flex;flex-direction:column;min-width:0}
   #screen{
-    flex:1;border:1px solid var(--panel-line);background:#0c0803;
-    padding:12px;overflow-y:auto;overflow-x:hidden;
+    flex:1;border:2px solid var(--border2);border-bottom:none;
+    background:
+      repeating-linear-gradient(0deg,transparent 0,transparent 2px,var(--scan) 3px,var(--scan) 3px),
+      radial-gradient(ellipse at center,var(--term-bg) 60%,#060402 100%);
+    color:var(--amber);
+    font-family:var(--mono);font-size:16px;line-height:1.6;
+    padding:16px 18px;overflow-y:auto;overflow-x:hidden;
     text-shadow:0 0 4px var(--amber-glow);white-space:pre-wrap;word-break:break-word;
   }
-  #screen .p{color:var(--amber-dim)}         /* prompt echo */
+  #screen .p{color:var(--amber-dim)}
   #screen .ok{color:var(--green)}
   #screen .err{color:var(--red)}
   #screen .info{color:var(--cyan)}
   #screen .dim{color:var(--amber-dim)}
   #screen .flag{color:var(--green);font-weight:700}
   #screen .art{color:var(--amber);line-height:1.15}
-  #screen .banner-line{color:var(--amber);font-weight:700;letter-spacing:3px;
-    padding:4px 0 2px;border-bottom:1px solid var(--panel-line);margin-bottom:6px}
+  #screen .banner-line{color:var(--amber);font-weight:700;letter-spacing:.2em;
+    padding:4px 0 4px;border-bottom:1px solid var(--term-line);margin-bottom:8px}
   #screen .banner-line.ok{color:var(--green);border-color:var(--green)}
   #screen a{color:var(--cyan)}
 
   .inputline{
-    display:flex;align-items:center;border:1px solid var(--panel-line);
-    border-top:none;background:#0c0803;padding:6px 12px;
+    display:flex;align-items:center;border:2px solid var(--border2);
+    background:var(--term-bg);padding:8px 18px;min-height:52px;
   }
-  .prompt{color:var(--green);white-space:nowrap;margin-right:8px;text-shadow:0 0 4px var(--amber-glow)}
+  .prompt{color:var(--green);white-space:nowrap;margin-right:10px;font-family:var(--mono);font-size:16px;text-shadow:0 0 4px var(--amber-glow)}
   #cmd{
-    flex:1;background:transparent;border:none;outline:none;color:var(--amber);
-    font-family:inherit;font-size:14px;text-shadow:0 0 4px var(--amber-glow);caret-color:var(--amber);
+    flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--amber);
+    font-family:var(--mono);font-size:16px;text-shadow:0 0 4px var(--amber-glow);caret-color:var(--amber);
   }
-  .hintbar{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .hintbar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
   button.gh{
-    background:var(--panel);color:var(--amber-dim);border:1px solid var(--panel-line);
-    font-family:inherit;font-size:11px;padding:5px 10px;cursor:pointer;letter-spacing:1px;
+    min-height:42px;background:transparent;color:var(--text2);border:2px solid var(--border2);
+    font-family:var(--body);font-weight:600;font-size:.88rem;letter-spacing:.07em;text-transform:uppercase;
+    padding:0 14px;cursor:pointer;
   }
-  button.gh:hover{color:var(--amber);border-color:var(--amber)}
+  button.gh:hover{color:var(--text);border-color:var(--text2)}
 
-  @media (max-width:760px){
-    .side{display:none}
-    .main{margin-top:8px}
-    body{font-size:13px}
-  }
-  /* mobile mission drawer */
-  #mobMissions{display:none;border:1px solid var(--panel-line);background:var(--panel);
-    padding:8px;margin-top:8px;max-height:38vh;overflow:auto}
-  @media (max-width:760px){ #mobMissions.open{display:block} }
-  .drawer-toggle{display:none}
-  @media (max-width:760px){ .drawer-toggle{display:inline-block} }
-
-  @media (prefers-reduced-motion:reduce){
-    #crt{animation:none}
-  }
-  .cursor{display:inline-block;width:8px;height:15px;background:var(--amber);
-    vertical-align:text-bottom;animation:blink 1s step-end infinite}
-  @keyframes blink{50%{opacity:0}}
-  /* click-to-run command chips */
-  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+  /* click-to-run chips inside the terminal */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
   .cmdchip{
-    display:inline-block;border:1px solid var(--panel-line);background:#160f04;
-    color:var(--amber);font-family:inherit;font-size:12px;padding:4px 8px;cursor:pointer;
-    border-radius:2px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;
+    display:inline-flex;align-items:center;min-height:36px;border:1px solid var(--term-line);background:#160f04;
+    color:var(--amber);font-family:var(--mono);font-size:14px;padding:4px 10px;cursor:pointer;
+    white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;text-shadow:none;
   }
   .cmdchip:hover{border-color:var(--amber);background:#241a06}
   .cmdchip:active{background:#2f2208}
   a.cmdchip{text-decoration:none;color:var(--amber)}
-  a.cmdchip:hover{color:var(--amber)}
+  a.cmdchip.buy{background:var(--signal);border-color:var(--signal);color:var(--on-signal);font-weight:700}
+  a.cmdchip.buy:hover{background:#ff8a52;color:var(--on-signal)}
+  #screen a.cmdchip{color:var(--amber)}
+  #screen a.cmdchip.buy{color:var(--on-signal);text-shadow:none}
+  @media (max-width:860px){ #mobMissions{max-height:34vh} }
 
-  /* ===== Onboarding overlay ===== */
+  .cursor{display:inline-block;width:9px;height:17px;background:var(--amber);
+    vertical-align:text-bottom;animation:blink 1s step-end infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* mobile mission drawer */
+  #mobMissions{display:none;border:2px solid var(--border2);background:var(--surface);
+    padding:12px;margin-top:10px;max-height:42vh;overflow:auto}
+  .drawer-toggle{display:none}
+  @media (max-width:860px){
+    .side{display:none}
+    .main{margin-top:10px}
+    #mobMissions.open{display:block}
+    .drawer-toggle{display:inline-flex;align-items:center}
+    .logo{font-size:1.6rem}
+    .hdr-links{margin-left:0}
+    #screen,.prompt,#cmd{font-size:15px}
+  }
+  @media (max-width:520px){
+    header.bar{padding:10px 12px}
+    .tag{display:none}
+    .hdr-link{min-height:40px;padding:0 10px;font-size:.8rem}
+    button.gh{padding:0 11px;font-size:.8rem}
+  }
+
+  /* ===== Onboarding overlay (Field Manual style) ===== */
   .onboard{
     position:fixed;inset:0;z-index:100;display:none;
     align-items:center;justify-content:center;padding:16px;
-    background:radial-gradient(ellipse at center,#160f04 0%,#080502 80%);
-    overflow-y:auto;
+    background:var(--bg);overflow-y:auto;
   }
   .onboard.show{display:flex}
   .ob-card{
-    width:100%;max-width:560px;border:1px solid var(--amber);background:var(--panel);
-    padding:26px 24px;box-shadow:0 0 40px rgba(255,176,0,.15);
-    text-shadow:0 0 5px var(--amber-glow);margin:auto;
+    width:100%;max-width:640px;border:2px solid var(--border2);background:var(--surface);
+    padding:28px 26px;margin:auto;color:var(--text);
   }
-  .ob-logo{letter-spacing:2px;font-size:13px;color:var(--amber-dim);margin-bottom:18px}
-  .ob-logo b{color:var(--amber)}
-  .ob-step h2{margin:0 0 8px;font-size:20px;color:var(--amber)}
-  .ob-sub{margin:0 0 18px;color:var(--amber-dim);font-size:13px;line-height:1.6}
-  .ob-sub em{color:var(--amber);font-style:normal}
-  .ob-label{display:block;font-size:11px;letter-spacing:1px;color:var(--amber-dim);margin:14px 0 6px}
+  .ob-logo{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-family:var(--mono);font-size:.85rem;letter-spacing:.06em;color:var(--text2);margin-bottom:18px;text-transform:uppercase}
+  .ob-logo b{background:var(--signal);color:var(--on-signal);padding:3px 9px;font-weight:700}
+  .ob-step h2{margin:0 0 10px;font-family:var(--display);font-weight:700;font-size:2.2rem;line-height:1;text-transform:uppercase;color:var(--text)}
+  .ob-sub{margin:0 0 18px;color:var(--text2);font-size:1.05rem;line-height:1.6}
+  .ob-sub em{color:var(--text);font-style:normal;font-weight:700}
+  .ob-label{display:block;font-family:var(--mono);font-size:.8rem;letter-spacing:.05em;color:var(--text2);margin:16px 0 6px;text-transform:uppercase}
   .ob-input{
-    width:100%;background:#0c0803;border:1px solid var(--panel-line);color:var(--amber);
-    font-family:inherit;font-size:15px;padding:11px 12px;outline:none;
+    width:100%;min-height:50px;background:var(--bg);border:2px solid var(--border2);color:var(--text);
+    font-family:var(--mono);font-size:1rem;padding:0 12px;outline:none;
   }
-  .ob-input:focus{border-color:var(--amber);box-shadow:0 0 8px var(--amber-glow)}
+  .ob-input:focus{border-color:var(--signal)}
   .ob-btn{
-    margin-top:18px;width:100%;background:var(--amber);color:#1a1200;border:none;
-    font-family:inherit;font-size:15px;font-weight:700;letter-spacing:1px;
-    padding:12px;cursor:pointer;
+    margin-top:18px;width:100%;min-height:56px;background:var(--signal);color:var(--on-signal);border:none;
+    font-family:var(--body);font-size:1.05rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
   }
-  .ob-btn:hover{background:#ffc233}
-  .ob-btn:disabled{background:var(--panel-line);color:var(--amber-dim);cursor:not-allowed}
-  .ob-err{color:var(--red);font-size:12px;min-height:16px;margin-top:6px}
-  .ob-fine{color:var(--amber-dim);font-size:11px;margin-top:14px;line-height:1.5}
-  /* nickname grid */
-  .ob-nicks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .ob-btn:hover{background:#ff8a52}
+  .ob-btn:disabled{background:var(--border2);color:var(--text3);cursor:not-allowed}
+  .ob-err{color:var(--red);font-size:.95rem;min-height:20px;margin-top:6px}
+  .ob-fine{color:var(--text3);font-size:.9rem;margin-top:14px;line-height:1.5}
+  .ob-nicks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .ob-nick{
-    border:1px solid var(--panel-line);background:#0c0803;color:var(--amber);
-    font-family:inherit;font-size:13px;padding:10px 8px;cursor:pointer;text-align:left;
+    min-height:46px;border:2px solid var(--border);background:var(--bg);color:var(--text);
+    font-family:var(--mono);font-size:.95rem;padding:8px 10px;cursor:pointer;text-align:left;
   }
-  .ob-nick:hover{border-color:var(--amber)}
-  .ob-nick.sel{border-color:var(--amber);background:#241a06}
-  /* password grid */
-  .ob-pws{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .ob-nick:hover{border-color:var(--text3)}
+  .ob-nick.sel{border-color:var(--signal);background:var(--surface2)}
+  .ob-pws{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .ob-pw{
-    border:1px solid var(--panel-line);background:#0c0803;color:var(--amber);
-    font-family:inherit;font-size:14px;padding:12px 10px;cursor:pointer;text-align:left;
-    display:flex;justify-content:space-between;align-items:center;gap:8px;
+    min-height:52px;border:2px solid var(--border);background:var(--bg);color:var(--text);
+    font-family:var(--mono);font-size:.98rem;padding:10px 12px;cursor:pointer;text-align:left;
+    display:flex;justify-content:space-between;align-items:center;gap:8px;word-break:break-all;
   }
-  .ob-pw:hover{border-color:var(--amber)}
-  .ob-pw .pw-tag{font-size:10px;letter-spacing:1px;opacity:0}
-  .ob-pw.strong{border-color:var(--green)} .ob-pw.strong .pw-tag{color:var(--green);opacity:1}
-  .ob-pw.weak{border-color:var(--red)}     .ob-pw.weak .pw-tag{color:var(--red);opacity:1}
-  .ob-pw.mid{border-color:var(--amber)}    .ob-pw.mid .pw-tag{color:var(--amber);opacity:1}
+  .ob-pw:hover{border-color:var(--text3)}
+  .ob-pw .pw-tag{flex-shrink:0;font-size:.72rem;font-weight:700;letter-spacing:.05em;padding:1px 6px;opacity:0}
+  .ob-pw.strong{border-color:var(--green)} .ob-pw.strong .pw-tag{background:var(--green);color:var(--on-signal);opacity:1}
+  .ob-pw.weak{border-color:var(--red)}     .ob-pw.weak .pw-tag{background:var(--red);color:var(--on-signal);opacity:1}
+  .ob-pw.mid{border-color:var(--amber)}    .ob-pw.mid .pw-tag{background:var(--amber);color:var(--on-signal);opacity:1}
   .ob-pw:disabled{cursor:default}
   .ob-verdict{
-    margin-top:16px;border:1px solid var(--panel-line);padding:12px;font-size:13px;line-height:1.6;
-    background:#0c0803;
+    margin-top:16px;border:2px solid var(--border2);padding:14px;font-size:1rem;line-height:1.6;
+    background:var(--bg);color:var(--text2);
   }
   .ob-verdict.good{border-color:var(--green)}
   .ob-verdict.bad{border-color:var(--red)}
-  .ob-verdict b{color:var(--amber)}
-  @media (max-width:480px){
+  .ob-verdict b{color:var(--text)}
+  .ob-verdict em{color:var(--text);font-style:normal;font-weight:700}
+  @media (max-width:520px){
     .ob-nicks,.ob-pws{grid-template-columns:1fr}
-    .ob-card{padding:20px 16px}
+    .ob-card{padding:22px 16px}
+    .ob-step h2{font-size:1.9rem}
   }
+  @media (prefers-reduced-motion:reduce){ .cursor{animation:none} }
 </style>
 </head>
 <body>
 
-<!-- ===== ONBOARDING OVERLAY (email -> nickname -> password lesson) ===== -->
+<!-- ===== ONBOARDING OVERLAY (handle -> password lesson). No email, no sign-up. ===== -->
 <div id="onboard" class="onboard" aria-hidden="true">
   <div class="ob-card">
-    <div class="ob-logo"><b>MOSHELL</b> // NETRUN</div>
+    <div class="ob-logo"><b>NETRUN</b><span>MOSHELL security lab · no sign-up</span></div>
 
-    <!-- STEP 1: email -->
-    <section class="ob-step" id="ob-email">
-      <h2>Enter the lab</h2>
-      <p class="ob-sub">NETRUN is a hands-on Linux security lab. Drop your email to save
-        your progress and get follow-ups when new missions ship.</p>
-      <label class="ob-label" for="ob-email-input">Email</label>
-      <input id="ob-email-input" class="ob-input" type="email" inputmode="email"
-             autocomplete="email" placeholder="you@example.com" aria-label="email">
-      <div class="ob-err" id="ob-email-err"></div>
-      <button class="ob-btn" id="ob-email-next">Continue →</button>
-      <p class="ob-fine">Your email is stored on your device and used only for MOSHELL updates. No spam.</p>
-    </section>
 
-    <!-- STEP 2: nickname -->
-    <section class="ob-step" id="ob-nick" hidden>
+    <!-- STEP 1: nickname -->
+    <section class="ob-step" id="ob-nick">
       <h2>Pick your operator handle</h2>
-      <p class="ob-sub">This tags your score. Pick one — or type your own.</p>
+      <p class="ob-sub">NETRUN is a hands-on Linux security lab that runs in your browser. Your handle tags your score and is saved only on this device. Pick one or type your own.</p>
       <div class="ob-nicks" id="ob-nick-grid"></div>
       <label class="ob-label" for="ob-nick-input">…or make your own</label>
       <input id="ob-nick-input" class="ob-input" type="text" maxlength="20"
@@ -251,7 +276,7 @@
       <button class="ob-btn" id="ob-nick-next">Continue →</button>
     </section>
 
-    <!-- STEP 3: password security lesson -->
+    <!-- STEP 2: password security lesson -->
     <section class="ob-step" id="ob-pw" hidden>
       <h2>First lesson: choose a login password</h2>
       <p class="ob-sub">Every box in this lab was broken into because of a bad password or a
@@ -265,16 +290,20 @@
 
 <div id="crt" class="wrap">
   <header class="bar">
-    <div>
-      <div class="logo"><b>MOSHELL</b> // NETRUN</div>
-      <div class="tag">ssh infiltration &amp; privilege-escalation sim</div>
+    <div class="brand">
+      <div class="logo"><b>NETRUN</b> <span>//</span> MOSHELL</div>
+      <div class="tag">SSH infiltration &amp; privilege-escalation sim</div>
     </div>
     <div class="stats">
       <span>SCORE <b id="score">0</b></span>
       <span>FLAGS <b id="flags">0/6</b></span>
       <span>RANK <b id="rank">script kiddie</b></span>
     </div>
-    <button class="gh drawer-toggle" onclick="toggleDrawer()">MISSIONS</button>
+    <nav class="hdr-links" aria-label="MOSHELL">
+      <button class="gh drawer-toggle" onclick="toggleDrawer()">Missions</button>
+      <a class="hdr-link" href="index.html">Lessons</a>
+      <a class="hdr-link pro" href="sales.html" onclick="track('select_content',{content_type:'cta',item_id:'netrun_header_pro'})">Get Pro</a>
+    </nav>
   </header>
 
   <div class="main">
@@ -387,6 +416,20 @@ const BUY_URL_WALKTHROUGH = "https://moshell.gumroad.com/l/ohmtuq"; // $5 NETRUN
 /* GA4 event helper — safe no-op if gtag isn't loaded (offline / tests). */
 function track(event, params){
   try{ if(typeof gtag==="function") gtag("event", event, params||{}); }catch(e){}
+}
+/* Buy-link click: keeps the original netrun_checkout_click event and adds the
+   standard GA4 begin_checkout event used on index.html and sales.html, so
+   NETRUN sales show up in the same ecommerce reports. Links open in a new tab,
+   so the page stays open and the hit is not cut off. */
+const CHECKOUT_ITEMS = {
+  workbook:    {item_id:"fydlcl", item_name:"MOSHELL Lab Workbook", price:17},
+  bundle:      {item_id:"odlbsr", item_name:"MOSHELL Full Bundle",  price:37},
+  walkthrough: {item_id:"ohmtuq", item_name:"NETRUN Walkthrough",   price:5}
+};
+function checkout(tier){
+  const it=CHECKOUT_ITEMS[tier]; if(!it) return;
+  track("netrun_checkout_click",{tier:tier,value:it.price});
+  track("begin_checkout",{currency:"USD",value:it.price,items:[{item_id:it.item_id,item_name:it.item_name,price:it.price}],source:"netrun"});
 }
 
 /* ---------- The simulated network (the "server") ---------------------- */
@@ -610,7 +653,7 @@ function fresh(){
     tutorialDone:false,
     found:{},         // findingId (F01..) -> true  (audit board)
     fixed:{},         // fix key -> true            (harden progress)
-    onboarded:false,  // completed email + nickname + password lesson
+    onboarded:false,  // completed nickname + password lesson
     email:"",         // player's email (for follow-up)
     nickname:"",      // chosen handle
     pwChoice:null,    // which of the 8 passwords they picked (for the lesson)
@@ -1426,10 +1469,10 @@ function paywall(){
   out("");
   out("Any MOSHELL license unlocks it:","info");
   raw(`<div class="chips" style="margin:6px 0">
-    <a class="cmdchip" href="${BUY_URL_WORKBOOK}" target="_blank" rel="noopener"
-       onclick="track('netrun_checkout_click',{tier:'workbook',value:17})">▸ Lab Workbook — $17</a>
-    <a class="cmdchip" href="${BUY_URL_BUNDLE}" target="_blank" rel="noopener"
-       onclick="track('netrun_checkout_click',{tier:'bundle',value:37})">▸ Full Bundle / Pro — $37</a>
+    <a class="cmdchip buy" href="${BUY_URL_WORKBOOK}" target="_blank" rel="noopener"
+       onclick="checkout('workbook')">▸ Lab Workbook — $17</a>
+    <a class="cmdchip buy" href="${BUY_URL_BUNDLE}" target="_blank" rel="noopener"
+       onclick="checkout('bundle')">▸ Full Bundle / Pro — $37</a>
   </div>`);
   out("Already bought? Enter your license key:  unlock <your-key>","info");
 }
@@ -1444,10 +1487,10 @@ function walkthroughInfo(){
   out("");
   out("Get the walkthrough:","info");
   raw(`<div class="chips" style="margin:6px 0">
-    <a class="cmdchip" href="${BUY_URL_WALKTHROUGH}" target="_blank" rel="noopener"
-       onclick="track('netrun_checkout_click',{tier:'walkthrough',value:5})">▸ NETRUN Walkthrough — $5</a>
-    <a class="cmdchip" href="${BUY_URL_BUNDLE}" target="_blank" rel="noopener"
-       onclick="track('netrun_checkout_click',{tier:'bundle',value:37})">▸ Included in MOSHELL Pro — $37</a>
+    <a class="cmdchip buy" href="${BUY_URL_WALKTHROUGH}" target="_blank" rel="noopener"
+       onclick="checkout('walkthrough')">▸ NETRUN Walkthrough — $5</a>
+    <a class="cmdchip buy" href="${BUY_URL_BUNDLE}" target="_blank" rel="noopener"
+       onclick="checkout('bundle')">▸ Included in MOSHELL Pro — $37</a>
   </div>`);
 }
 
@@ -1478,7 +1521,7 @@ function renderMissions(){
                 : gated?'<span class="badge pro">PRO</span>'
                 : unlocked?`<span class="badge">${m.pts}pt</span>`
                 :'<span class="badge locked">LOCK</span>';
-    const sub = unlocked?esc(m.brief) : gated?"🔒 unlock with a MOSHELL license (tap for options)" : "complete previous missions to unlock";
+    const sub = unlocked?esc(m.brief) : gated?"Unlock with a MOSHELL license (tap for options)" : "complete previous missions to unlock";
     return `<div class="mission ${solved?"done":""} ${S.activeMission===m.id?"active":""}"
                 onclick="showMission(${m.id})">
       <div class="mt">${m.id}. ${esc(m.title)} ${badge}</div>
@@ -1816,7 +1859,7 @@ document.addEventListener("click",e=>{
 });
 function toggleDrawer(){ document.getElementById("mobMissions").classList.toggle("open"); }
 
-/* ================= ONBOARDING (email -> nickname -> password lesson) ===== */
+/* ================= ONBOARDING (nickname -> password lesson) ===== */
 const NICKNAMES = [
   "r00t_cause","null_byte","kernel_panic","seg_fault","packet_ghost",
   "sudo_slayer","bit_flipper","shellshock","zero_cool","daemon_dave"
@@ -1835,12 +1878,8 @@ const PW_OPTIONS = [
 
 const ob = {
   root:  document.getElementById("onboard"),
-  stepEmail: document.getElementById("ob-email"),
   stepNick:  document.getElementById("ob-nick"),
   stepPw:    document.getElementById("ob-pw"),
-  emailInput:document.getElementById("ob-email-input"),
-  emailErr:  document.getElementById("ob-email-err"),
-  emailNext: document.getElementById("ob-email-next"),
   nickGrid:  document.getElementById("ob-nick-grid"),
   nickInput: document.getElementById("ob-nick-input"),
   nickErr:   document.getElementById("ob-nick-err"),
@@ -1854,14 +1893,19 @@ let obNick = "";
 function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
 function showStep(which){
-  [ob.stepEmail,ob.stepNick,ob.stepPw].forEach(s=>s.hidden=true);
+  [ob.stepNick,ob.stepPw].forEach(s=>s.hidden=true);
   which.hidden=false;
 }
 function startOnboarding(){
   track("netrun_onboard_start", {});
   ob.root.classList.add("show"); ob.root.setAttribute("aria-hidden","false");
-  showStep(ob.stepEmail);
-  focusSoon(ob.emailInput);
+  buildNicknames();
+  // pre-select a random handle so "Continue" works with one click
+  const kids=[...ob.nickGrid.children];
+  const pick=kids[Math.floor(Math.random()*kids.length)];
+  if(pick){ pick.click(); }
+  showStep(ob.stepNick);
+  focusSoon(ob.nickNext);
 }
 /* Focus an element as soon as the browser can (covers first-paint timing). */
 function focusSoon(el){
@@ -1871,21 +1915,10 @@ function focusSoon(el){
   if(typeof requestAnimationFrame==="function") requestAnimationFrame(go);
   setTimeout(go,60);
 }
-/* --- step 1: email --- */
-function submitEmail(){
-  const val=ob.emailInput.value.trim();
-  if(!validEmail(val)){ ob.emailErr.textContent="Please enter a valid email address."; return; }
-  ob.emailErr.textContent="";
-  S.email=val; save();
-  track("netrun_email_captured", {});   // lead captured
-  buildNicknames();
-  showStep(ob.stepNick);
-  focusSoon(ob.nickInput);
-}
-ob.emailNext.addEventListener("click",submitEmail);
-ob.emailInput.addEventListener("keydown",e=>{ if(e.key==="Enter") submitEmail(); });
+/* Email step removed: the address was only ever saved in this browser,
+   never sent anywhere, so it blocked players without collecting anything. */
 
-/* --- step 2: nickname --- */
+/* --- step 1: nickname --- */
 function buildNicknames(){
   ob.nickGrid.innerHTML="";
   NICKNAMES.forEach(n=>{
@@ -1913,7 +1946,7 @@ function submitNick(){
 ob.nickNext.addEventListener("click",submitNick);
 ob.nickInput.addEventListener("keydown",e=>{ if(e.key==="Enter") submitNick(); });
 
-/* --- step 3: password security lesson --- */
+/* --- step 2: password security lesson --- */
 function buildPasswords(){
   ob.pwGrid.innerHTML=""; ob.pwVerdict.hidden=true; ob.pwStart.hidden=true;
   PW_OPTIONS.forEach((o,i)=>{
@@ -1962,14 +1995,14 @@ function congratsScreen(){
   screen.innerHTML="";
   raw(`<div class="banner-line ok">═══ ACCESS GRANTED — WELCOME TO NETRUN ═══</div>`);
   out(`Congratulations, ${S.nickname} — you're cleared into the lab.`,"ok");
-  out(`Operator: ${S.nickname}   ·   contact: ${S.email}`,"dim");
+  out(`Operator: ${S.nickname}`,"dim");
   out("");
 }
 
 /* ---------- boot --------------------------------------------------- */
 renderMissions(); updateHUD();
 if(!S.onboarded){
-  // brand-new player: run onboarding first (email -> nickname -> password lesson)
+  // brand-new player: run onboarding first (nickname -> password lesson)
   startOnboarding();
 }else{
   const firstRun = !S.tutorialDone && !Object.keys(S.solved).length;
