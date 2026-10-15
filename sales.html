@@ -2,15 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- ============================================================
-     MOSHELL — sales.html HEAD PATCH
-     Replace everything FROM <meta charset="UTF-8">
-     DOWN TO the closing </script> right before your <link rel="icon" ...>
-     line. Do NOT touch anything after that (favicon, fonts, <style>,
-     or the body/script below).
-     ============================================================ -->
-
-<meta charset="UTF-8">
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3ZT815QEJS"></script>
 <script>
@@ -27,7 +18,7 @@
 <meta name="description" content="Go from Linux beginner to sysadmin fundamentals — 18 hands-on labs in a browser sandbox, plus a downloadable workbook. Covers bash, networking, SSH, Docker, and server administration. Workbook $17 or MOSHELL Pro $37 one-time.">
 <meta name="author" content="MOSHELL Linux Platform">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#00ff87">
+<meta name="theme-color" content="#13150f">
 <link rel="canonical" href="https://moshellinux.com/sales.html">
 
 <!-- ---------- OPEN GRAPH ---------- -->
@@ -79,583 +70,310 @@
 }
 </script>
 
-<!-- ---------- everything below this line is UNCHANGED from your file ----------
-     <link rel="icon" href="data:image/svg+xml,...">
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue..." rel="stylesheet">
-     <style> ... </style>
-     </head>
-     <body> ... (nothing here changes)
------------------------------------------------------------------------------- -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2313150f'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e8692e' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e8e1c9'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* MOSHELL sales page — Field Manual Night (same system as index.html) */
 :root {
-  --black:   #060608;
-  --dark:    #0c0e12;
-  --card:    #111318;
-  --border:  #1e222c;
-  --border2: #2a3040;
-  --green:   #00ff87;
-  --green2:  #00cc6a;
-  --green3:  #003d20;
-  --amber:   #ffcc00;
-  --amber2:  #332800;
-  --red:     #ff3d3d;
-  --blue:    #4488ff;
-  --text:    #f0f2f5;
-  --text2:   #8892a4;
-  --text3:   #3d4555;
-  --display: 'Bebas Neue', sans-serif;
-  --body:    'DM Sans', sans-serif;
-  --mono:    'DM Mono', monospace;
+  --bg:       #13150f;
+  --bg2:      #191c14;
+  --bg3:      #0e100b;
+  --surface:  #1d2018;
+  --surface2: #24281e;
+  --border:   #353929;
+  --border2:  #4a4f3c;
+  --green:    #e8692e;
+  --green2:   #c9561f;
+  --green-bg: #2a1a10;
+  --amber:    #d9ab4f;
+  --amber-bg: #2a2312;
+  --red:      #ff8f70;
+  --blue:     #a9c9e6;
+  --text:     #e8e1c9;
+  --text2:    #bdb79e;
+  --text3:    #8f8b75;
+  --on-accent:#160d07;
+  --mono:     'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --body:     'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  --display:  'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --gut:      max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:    max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: dark;
 }
+@media (min-width: 760px) { :root { --gut: max(40px, env(safe-area-inset-left, 0px)); --gut-r: max(40px, env(safe-area-inset-right, 0px)); } }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  background:var(--black);
-  color:var(--text);
-  font-family:var(--body);
-  font-size:16px;
-  line-height:1.6;
-  overflow-x:hidden;
-}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--black)}
-::-webkit-scrollbar-thumb{background:var(--border2)}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2)}
 a{color:inherit;text-decoration:none}
+button{font-family:var(--body);cursor:pointer}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+strong{color:var(--text)}
 
-/* ── SCANLINES ── */
-body::after{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
-}
+/* NAV */
+nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:100;background:#0d0f0a;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem 1.2rem;padding:.55rem var(--gut-r) .55rem var(--gut)}
+.nav-logo{display:flex;align-items:baseline;gap:12px}
+.nav-logo b{font-family:var(--display);font-weight:700;font-size:1.9rem;letter-spacing:.06em;line-height:1}
+.nav-logo small{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.05em}
+.nav-right{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+.nav-link{display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
+.nav-link:hover{color:var(--text)}
+.nav-cta{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:var(--green);color:var(--on-accent);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase}
+.nav-cta:hover{background:#ff8a52}
 
-/* ── GLOW BG ── */
-.glow-bg{
-  position:fixed;top:-200px;left:50%;transform:translateX(-50%);
-  width:800px;height:600px;
-  background:radial-gradient(ellipse at center, rgba(0,255,135,.06) 0%, transparent 70%);
-  pointer-events:none;z-index:0;
-}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:58px;padding:0 26px;font-family:var(--body);font-weight:700;font-size:1.02rem;letter-spacing:.08em;text-transform:uppercase;text-align:center;border:none;cursor:pointer}
+.btn-g{background:var(--green);color:var(--on-accent)}
+.btn-g:hover{background:#ff8a52}
+.btn-o{background:transparent;color:var(--text);border:2px solid var(--text2)}
+.btn-o:hover{border-color:var(--text);background:var(--surface)}
+.btn-q{background:transparent;color:var(--text2);border:2px dashed var(--border2)}
+.btn-q:hover{color:var(--text);border-color:var(--text2)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:.9rem 2rem;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(6,6,8,.85);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-}
-.nav-logo{
-  font-family:var(--display);
-  font-size:1.3rem;letter-spacing:.08em;
-  color:var(--text);
-  display:flex;align-items:center;gap:10px;
-}
-.nav-logo .dot{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 8px var(--green);
-  animation:pulse 2s infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.nav-cta{
-  background:var(--green);color:#000;
-  font-family:var(--mono);font-size:.75rem;font-weight:500;
-  padding:8px 20px;border-radius:4px;
-  letter-spacing:.06em;
-  transition:.15s;border:none;cursor:pointer;
-}
-.nav-cta:hover{background:var(--green2);transform:translateY(-1px)}
+/* SHARED SECTION */
+.wrap{max-width:1320px;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r)}
+.section{padding-block:clamp(3.5rem,8vh,6rem)}
+hr.div{border:none;border-top:1px solid var(--border)}
+.stag{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--mono);font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:.9rem}
+.stag .sec{background:var(--green);color:var(--on-accent);padding:4px 10px;font-weight:600}
+.stitle{font-family:var(--display);font-weight:700;font-size:clamp(2.4rem,4.6vw,4.4rem);line-height:.95;text-transform:uppercase;text-wrap:balance}
+.ssub{margin-top:.9rem;font-size:1.15rem;color:var(--text2);max-width:40em}
+.sh{margin-bottom:2.25rem}
 
-/* ── HERO ── */
-.hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:8rem 2rem 5rem;
-  max-width:1000px;margin:0 auto;
-  position:relative;z-index:1;
-}
-.hero-kicker{
-  display:inline-flex;align-items:center;gap:10px;
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;
-  color:var(--green);margin-bottom:2rem;
-  border:1px solid var(--green3);
-  background:rgba(0,255,135,.04);
-  padding:6px 16px;border-radius:2px;
-  width:fit-content;
-}
-.hero h1{
-  font-family:var(--display);
-  font-size:clamp(4rem,11vw,9rem);
-  line-height:.92;
-  letter-spacing:.02em;
-  color:var(--text);
-  margin-bottom:2rem;
-}
-.hero h1 .outline{
-  -webkit-text-stroke:1px rgba(240,242,245,.3);
-  color:transparent;
-}
-.hero h1 .green{color:var(--green)}
-.hero-sub{
-  font-size:1.15rem;color:var(--text2);
-  max-width:520px;margin-bottom:3rem;
-  font-weight:300;line-height:1.7;
-}
-.hero-sub strong{color:var(--text);font-weight:500}
+/* HERO */
+.hero{padding-block:clamp(2.5rem,7vh,5rem) clamp(3rem,7vh,5rem)}
+.hero .wrap{display:flex;flex-wrap:wrap;gap:3rem 4rem;align-items:flex-end}
+.hero-main{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:1.5rem}
+.hero-prices{flex:1 1 380px;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(3.6rem,8vw,8rem);line-height:.9;text-transform:uppercase;text-wrap:balance}
+h1 .g{color:var(--green)}
+.hero-sub{font-size:clamp(1.1rem,1.4vw,1.3rem);color:var(--text2);max-width:36em}
+.price-card{display:flex;flex-direction:column;gap:.4rem;border:2px solid var(--border2);background:var(--surface);padding:1.3rem 1.2rem;color:var(--text);position:relative}
+.price-card:hover{border-color:var(--text2)}
+.price-card.featured{border-color:var(--green);background:var(--surface2)}
+.price-card.featured:hover{border-color:#ff8a52}
+.featured-badge{position:absolute;top:-2px;right:-2px;background:var(--green);color:var(--on-accent);font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:3px 9px}
+.pc-label{font-family:var(--mono);font-size:.85rem;letter-spacing:.06em;color:var(--text2)}
+.pc-price{font-family:var(--display);font-weight:700;font-size:4.2rem;line-height:.9}
+.pc-price span{font-size:.5em;vertical-align:top;margin-right:2px}
+.pc-desc{font-size:1rem;color:var(--text2)}
+.pc-go{margin-top:.5rem;font-weight:700;font-size:.92rem;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+@media (max-width:420px){.hero-prices{grid-template-columns:1fr}}
 
-/* ── PRICE CARDS ── */
-.price-row{
-  display:flex;gap:16px;flex-wrap:wrap;margin-bottom:2.5rem;
-}
-.price-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:1.25rem 1.5rem;
-  min-width:180px;
-  transition:.2s;
-  position:relative;
-  overflow:hidden;
-  cursor:pointer;
-  z-index:1;
-  isolation:isolate;
-  text-decoration:none;
-  display:block;
-}
-.price-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--green);opacity:0;transition:.2s;
-  pointer-events:none;
-}
-.price-card:hover{border-color:var(--border2);transform:translateY(-3px)}
-.price-card:hover::before{opacity:1}
-.price-card.featured{
-  border-color:var(--green);
-  background:linear-gradient(135deg,rgba(0,255,135,.06) 0%,var(--card) 60%);
-}
-.price-card.featured::before{opacity:1}
-.featured-badge{
-  display:inline-block;
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;
-  background:var(--green);color:#000;
-  padding:2px 7px;border-radius:2px;font-weight:500;
-  margin-bottom:.5rem;
-  pointer-events:none;
-}
-.pc-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;color:var(--text3);margin-bottom:.4rem}
-.pc-price{
-  font-family:var(--display);font-size:2.5rem;letter-spacing:.04em;
-  color:var(--text);line-height:1;margin-bottom:.3rem;
-}
-.pc-price span{font-size:1.2rem;color:var(--text2)}
-.pc-desc{font-size:.75rem;color:var(--text2)}
+/* FACTS STRIP */
+.facts{background:var(--bg2);border-block:1px solid var(--border)}
+.facts .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:0}
+.fact{padding:1.3rem 1.2rem;border-right:1px solid var(--border)}
+.fact:last-child{border-right:none}
+.fact b{display:block;font-family:var(--display);font-weight:700;font-size:2.6rem;line-height:1;color:var(--text)}
+.fact span{font-family:var(--mono);font-size:.82rem;letter-spacing:.04em;color:var(--text2);text-transform:uppercase}
 
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-big{
-  font-family:var(--mono);font-size:.82rem;font-weight:500;
-  padding:14px 32px;border-radius:4px;
-  letter-spacing:.06em;transition:.15s;
-  display:inline-flex;align-items:center;gap:8px;
-  border:none;cursor:pointer;
-}
-.btn-green{background:var(--green);color:#000}
-.btn-green:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,255,135,.25)}
-.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2)}
-.btn-ghost:hover{border-color:var(--text2);color:var(--text)}
+/* INSTRUCTOR NOTE */
+.note{display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;align-items:flex-start}
+.note-mark{flex-shrink:0;width:110px;height:110px;border:2px solid var(--border2);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.note-mark b{font-family:var(--display);font-size:2.3rem;letter-spacing:.06em;line-height:1}
+.note-mark span{font-family:var(--mono);font-size:.66rem;color:var(--text3);letter-spacing:.06em}
+.note-text{flex:1 1 420px;min-width:0;max-width:44em}
+.note-text h2{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1;text-transform:uppercase;margin-bottom:.8rem}
+.note-text p{font-size:1.1rem;color:var(--text2)}
 
-/* ── TICKER ── */
-.ticker-wrap{
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  background:var(--dark);
-  overflow:hidden;padding:.7rem 0;
-  position:relative;z-index:1;
-}
-.ticker{
-  display:flex;gap:0;
-  animation:ticker 25s linear infinite;
-  width:max-content;
-}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.ticker-item{
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
-  color:var(--text3);padding:0 2rem;white-space:nowrap;
-}
-.ticker-item .t-green{color:var(--green)}
-.ticker-item .t-amber{color:var(--amber)}
+/* REVIEWS */
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px}
+.review{border:2px solid var(--border2);background:var(--surface);padding:1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.review-stars{display:flex;gap:4px;color:var(--green)}
+.review-stars svg{width:18px;height:18px}
+.review p{font-size:1.05rem;line-height:1.65}
+.review small{font-family:var(--mono);font-size:.82rem;color:var(--text3);letter-spacing:.05em}
 
-/* ── WHAT YOU GET ── */
-.section{max-width:1000px;margin:0 auto;padding:6rem 2rem;position:relative;z-index:1}
-.section-eyebrow{
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;
-  color:var(--green);margin-bottom:1rem;
-  display:flex;align-items:center;gap:10px;
-}
-.section-eyebrow::before{content:'//';color:var(--text3)}
-.section-title{
-  font-family:var(--display);
-  font-size:clamp(2.5rem,5vw,4.5rem);
-  letter-spacing:.04em;line-height:.95;
-  color:var(--text);margin-bottom:1.5rem;
-}
-.section-sub{
-  font-size:1rem;color:var(--text2);
-  max-width:500px;margin-bottom:3rem;
-  font-weight:300;line-height:1.7;
-}
+/* PRODUCTS */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px}
+.product-card{border:2px solid var(--border2);background:var(--surface);padding:1.6rem 1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.product-card.hl{border-color:var(--green)}
+.pc-icon{width:56px;height:56px;background:var(--green);color:var(--on-accent);display:flex;align-items:center;justify-content:center}
+.pc-icon svg{width:30px;height:30px}
+.pc-icon.ghost{background:transparent;color:var(--text2);border:2px solid var(--border2)}
+.pc-title{font-family:var(--display);font-weight:700;font-size:1.8rem;line-height:1;text-transform:uppercase}
+.pc-body{font-size:1.04rem;color:var(--text2)}
+.pc-includes{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.pc-includes li{display:flex;gap:12px;font-size:1rem}
+.pc-includes li::before{content:"";flex-shrink:0;width:9px;height:9px;margin-top:.55em;background:var(--green)}
+.pc-tag{margin-top:auto;align-self:flex-start;font-family:var(--mono);font-size:.8rem;font-weight:600;letter-spacing:.06em;padding:4px 10px;border:2px solid var(--green);color:var(--green)}
+.pc-tag.amber{border-color:var(--amber);color:var(--amber)}
 
-/* ── PRODUCT GRID ── */
-.product-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:1px;
-  border:1px solid var(--border);
-  border-radius:8px;
-  overflow:hidden;
-  background:var(--border);
-}
-.product-card{
-  background:var(--card);
-  padding:2rem;
-  position:relative;
-  transition:.2s;
-}
-.product-card:hover{background:#13161d}
-.pc-icon{
-  font-size:2rem;margin-bottom:1.25rem;
-  width:52px;height:52px;
-  background:var(--green3);
-  border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-}
-.pc-title{
-  font-family:var(--display);font-size:1.6rem;
-  letter-spacing:.04em;color:var(--text);
-  margin-bottom:.5rem;
-}
-.pc-body{font-size:.85rem;color:var(--text2);line-height:1.7;margin-bottom:1.25rem}
-.pc-includes{list-style:none}
-.pc-includes li{
-  font-size:.78rem;color:var(--text2);
-  padding:4px 0;padding-left:1.1rem;
-  position:relative;border-bottom:1px solid var(--border);
-}
-.pc-includes li:last-child{border-bottom:none}
-.pc-includes li::before{content:'→';position:absolute;left:0;color:var(--green);font-size:.7rem}
-.pc-tag{
-  display:inline-block;margin-top:1rem;
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
-  background:var(--green3);color:var(--green);
-  border:1px solid rgba(0,255,135,.2);
-  padding:3px 10px;border-radius:2px;
-}
-.pc-tag.amber{background:var(--amber2);color:var(--amber);border-color:rgba(255,204,0,.2)}
-
-/* ── SOCIAL PROOF (add real testimonials here when you have them) ── */
-.stars{color:var(--amber);font-size:.75rem;margin-bottom:.5rem;letter-spacing:2px}
-
-/* ── CURRICULUM ── */
-.curriculum-list{
-  border:1px solid var(--border);border-radius:8px;overflow:hidden;
-}
+/* CURRICULUM */
+.curriculum-list{display:flex;flex-direction:column;border:2px solid var(--border2)}
 .curr-track{border-bottom:1px solid var(--border)}
 .curr-track:last-child{border-bottom:none}
-.curr-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.25rem 1.5rem;
-  background:var(--card);cursor:pointer;
-  transition:.2s;gap:1rem;
-}
-.curr-header:hover{background:#13161d}
-.curr-left{display:flex;align-items:center;gap:14px}
-.curr-num{
-  font-family:var(--display);font-size:1.8rem;
-  color:var(--green3);letter-spacing:.04em;min-width:36px;
-}
-.curr-title-wrap{}
-.curr-title{font-family:var(--body);font-size:.95rem;font-weight:600;color:var(--text)}
-.curr-subtitle{font-size:.73rem;color:var(--text2)}
+.curr-header{width:100%;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:1.1rem 1.3rem;background:var(--surface);border:none;color:var(--text);text-align:left}
+.curr-header:hover{background:var(--surface2)}
+.curr-left{display:flex;align-items:center;gap:18px;min-width:0}
+.curr-num{font-family:var(--display);font-weight:700;font-size:2.4rem;line-height:1;color:var(--green);min-width:2.2ch}
+.curr-title{font-family:var(--display);font-weight:700;font-size:1.55rem;line-height:1.05;text-transform:uppercase}
+.curr-subtitle{font-size:.98rem;color:var(--text2)}
 .curr-meta{display:flex;align-items:center;gap:12px}
-.curr-badge{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;
-  padding:3px 9px;border-radius:2px;
-}
-.cb-g{background:var(--green3);color:var(--green)}
-.cb-a{background:var(--amber2);color:var(--amber)}
-.cb-r{background:#200;color:var(--red)}
-.curr-lessons{font-family:var(--mono);font-size:.65rem;color:var(--text3);white-space:nowrap}
-.curr-body{
-  display:none;
-  padding:0 1.5rem 1.5rem;
-  background:var(--dark);
-  border-top:1px solid var(--border);
-}
+.curr-badge{font-family:var(--mono);font-size:.75rem;letter-spacing:.04em;padding:2px 8px;text-transform:uppercase}
+.cb-g{color:var(--text);border:1.5px solid var(--text3)}
+.cb-a{color:var(--amber);border:1.5px solid var(--amber)}
+.cb-r{color:var(--red);border:1.5px solid var(--red)}
+.curr-lessons{font-family:var(--mono);font-size:.85rem;color:var(--text2)}
+.curr-chev{width:28px;height:28px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600}
+.curr-body{display:none;background:var(--bg3);border-top:1px solid var(--border)}
 .curr-body.open{display:block}
-.curr-items{list-style:none;padding-top:1rem}
-.curr-items li{
-  font-size:.8rem;color:var(--text2);
-  padding:6px 0;
-  padding-left:1.25rem;
-  position:relative;
-  border-bottom:1px solid var(--border);
-}
+.curr-items{list-style:none;padding:1rem 1.3rem 1.2rem}
+.curr-items li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:1.02rem}
 .curr-items li:last-child{border-bottom:none}
-.curr-items li::before{content:'▸';position:absolute;left:0;color:var(--green);font-size:.65rem;top:8px}
-.curr-lock{color:var(--text3)}
-.curr-free{
-  font-family:var(--mono);font-size:.55rem;
-  background:var(--green3);color:var(--green);
-  padding:1px 6px;border-radius:2px;margin-left:6px;
-}
+.curr-free{flex-shrink:0;font-family:var(--mono);font-size:.75rem;font-weight:600;padding:2px 8px;background:var(--green);color:var(--on-accent)}
+.curr-lock{color:var(--text2)}
+.curr-lock::after{content:"PRO";flex-shrink:0;font-family:var(--mono);font-size:.75rem;font-weight:600;padding:2px 8px;border:1.5px dashed var(--border2);color:var(--text2)}
 
+/* TASK LIST */
+.tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.task{display:flex;gap:14px;align-items:flex-start;padding:1rem 1.1rem;border:2px solid var(--border);background:var(--surface);font-size:1.02rem}
+.task code{font-family:var(--mono);font-size:.82rem;color:var(--text3);flex-shrink:0;padding-top:.15em}
 
+/* PATH */
+.path{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}
+.step{border:2px solid var(--border2);background:var(--surface);padding:1.5rem;display:flex;flex-direction:column;gap:.6rem}
+.step.hl{border-color:var(--green)}
+.step-n{font-family:var(--mono);font-size:.85rem;letter-spacing:.06em;color:var(--green);text-transform:uppercase}
+.step h3{font-family:var(--display);font-weight:700;font-size:1.8rem;line-height:1;text-transform:uppercase}
+.step p{color:var(--text2)}
 
-/* ── FAQ ── */
-.faq-list{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--border)}
-.faq-item{background:var(--card)}
-.faq-q{
-  padding:1.25rem 1.5rem;cursor:pointer;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:.9rem;font-weight:500;color:var(--text);
-  transition:.2s;gap:1rem;
-}
-.faq-q:hover{background:#13161d}
-.faq-icon{
-  font-family:var(--mono);font-size:.9rem;
-  color:var(--green);flex-shrink:0;transition:.3s;
-}
-.faq-a{
-  display:none;padding:0 1.5rem 1.25rem;
-  font-size:.83rem;color:var(--text2);line-height:1.75;
-  border-top:1px solid var(--border);padding-top:1rem;
-}
+/* CHECKLIST */
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:.7rem 2rem;max-width:960px}
+.check{display:flex;gap:12px;align-items:center;font-size:1.05rem}
+.check i{flex-shrink:0;width:24px;height:24px;background:var(--green);color:var(--on-accent);display:flex;align-items:center;justify-content:center}
+.check i svg{width:16px;height:16px}
+
+/* PRICING TABLE */
+.pricing-table{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;max-width:900px}
+.pt-card{border:2px solid var(--border2);background:var(--surface);padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:1rem}
+.pt-card.best{border-color:var(--green);background:var(--surface2)}
+.pt-name{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.9rem;letter-spacing:.06em;color:var(--text2)}
+.pt-name em{font-style:normal;background:var(--green);color:var(--on-accent);padding:1px 8px}
+.pt-price{font-family:var(--display);font-weight:700;font-size:5rem;line-height:.85}
+.pt-price sub{font-size:.45em;vertical-align:top;margin-right:2px}
+.pt-price small{font-family:var(--body);font-weight:500;font-size:1rem;color:var(--text2);margin-left:6px}
+.pt-tagline{color:var(--text2);font-size:1.04rem}
+.pt-features{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.pt-features li{display:flex;gap:12px;align-items:baseline;font-size:1.02rem}
+.pt-features li::before{content:"";flex-shrink:0;width:9px;height:9px;background:var(--green);transform:translateY(-1px)}
+.pt-features li.no{color:var(--text3);text-decoration:line-through}
+.pt-features li.no::before{background:transparent;border:1.5px solid var(--text3)}
+.pt-card .btn{margin-top:auto}
+.reassure{display:flex;flex-wrap:wrap;gap:.6rem 2rem;margin-top:1.6rem;font-family:var(--mono);font-size:.9rem;color:var(--text2)}
+
+/* FAQ */
+.faq-list{border:2px solid var(--border2);max-width:960px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:1.1rem 1.3rem;min-height:60px;background:var(--surface);border:none;color:var(--text);font-size:1.12rem;font-weight:600;text-align:left}
+.faq-q:hover{background:var(--surface2)}
+.faq-icon{flex-shrink:0;width:30px;height:30px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1.1rem}
+.faq-a{display:none;padding:1rem 1.3rem 1.3rem;background:var(--bg3);color:var(--text2);font-size:1.05rem;line-height:1.7;border-top:1px solid var(--border)}
 .faq-a.open{display:block}
 
-/* ── FINAL CTA ── */
-.final-cta{
-  background:linear-gradient(135deg,rgba(0,255,135,.06) 0%,transparent 60%);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  padding:6rem 2rem;text-align:center;
-  position:relative;z-index:1;
-}
-.final-cta h2{
-  font-family:var(--display);
-  font-size:clamp(3rem,8vw,7rem);
-  letter-spacing:.04em;line-height:.9;
-  color:var(--text);margin-bottom:1.5rem;
-}
-.final-cta h2 .g{color:var(--green)}
-.final-cta p{font-size:1rem;color:var(--text2);max-width:460px;margin:0 auto 2.5rem;font-weight:300}
-.final-cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+/* FINAL */
+.final .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem 3rem}
+.final h2{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,5vw,4.8rem);line-height:.92;text-transform:uppercase;max-width:12em}
+.final h2 .g{color:var(--green)}
+.final p{color:var(--text2);font-size:1.12rem;max-width:34em;margin-top:.8rem}
 
-/* ── GUMROAD GUIDE ── */
-
-
-/* ── PRICING TABLE ── */
-.pricing-table{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:1rem;margin-top:2rem;
-}
-.pt-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:8px;padding:1.75rem;
-  position:relative;overflow:hidden;transition:.2s;
-}
-.pt-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-.pt-card.best{border-color:var(--green)}
-.pt-card.best::after{
-  content:'BEST VALUE';
-  position:absolute;top:14px;right:-20px;
-  font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;
-  background:var(--green);color:#000;
-  padding:4px 28px;transform:rotate(45deg);
-  font-weight:600;
-}
-.pt-name{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;color:var(--text3);margin-bottom:.5rem}
-.pt-price{
-  font-family:var(--display);font-size:3rem;letter-spacing:.04em;
-  color:var(--text);line-height:1;margin-bottom:.25rem;
-}
-.pt-price sub{font-size:1.2rem;color:var(--text2)}
-.pt-tagline{font-size:.78rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.5}
-.pt-features{list-style:none;margin-bottom:1.5rem}
-.pt-features li{
-  font-size:.78rem;color:var(--text2);
-  padding:5px 0;padding-left:1.2rem;
-  border-bottom:1px solid var(--border);
-  position:relative;
-}
-.pt-features li:last-child{border-bottom:none}
-.pt-features li::before{content:'✓';position:absolute;left:0;color:var(--green);font-size:.7rem}
-.pt-features li.no{color:var(--text3)}
-.pt-features li.no::before{content:'–';color:var(--text3)}
-.pt-btn{
-  width:100%;padding:11px;border-radius:4px;
-  font-family:var(--mono);font-size:.72rem;font-weight:500;
-  letter-spacing:.06em;border:none;cursor:pointer;transition:.15s;
-}
-.pt-btn-g{background:var(--green);color:#000}
-.pt-btn-g:hover{background:var(--green2)}
-.pt-btn-o{background:transparent;color:var(--text2);border:1px solid var(--border2)}
-.pt-btn-o:hover{border-color:var(--text2);color:var(--text)}
-
-/* ── DIVIDERS ── */
-hr.div{border:none;border-top:1px solid var(--border);margin:0}
-
-/* ── FOOTER ── */
-footer{
-  padding:2rem;text-align:center;
-  font-family:var(--mono);font-size:.65rem;color:var(--text3);
-  letter-spacing:.08em;position:relative;z-index:1;
-}
-footer .fg{color:var(--green)}
-
-/* ── RESPONSIVE ── */
-@media(max-width:700px){
-  nav{padding:.75rem 1rem}
-  .hero{padding:7rem 1rem 4rem}
-  .section{padding:4rem 1rem}
-  
-  .price-card{min-width:140px;padding:1rem 1.1rem}
-  .pc-price{font-size:2rem}
-  
-}
-
-/* ── ANIMATIONS ── */
-.fade-up{
-  opacity:0;transform:translateY(24px);
-  transition:opacity .6s ease, transform .6s ease;
-}
-.fade-up.visible{opacity:1;transform:translateY(0)}
+footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.5rem var(--gut-r) calc(1.5rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
+footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
+.fade-up{opacity:1}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
-<div class="glow-bg"></div>
-
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <div class="dot"></div>
-    MOSHELL
+  <a class="nav-logo" href="https://moshellinux.com/"><b>MOSHELL</b><small>LINUX TRAINING MANUAL</small></a>
+  <div class="nav-right">
+    <a class="nav-link" href="https://moshellinux.com/">Free lessons</a>
+    <a class="nav-link" href="#faq">FAQ</a>
+    <a href="#pricing" class="nav-cta">Get access</a>
   </div>
-  <a href="#pricing" class="nav-cta">GET ACCESS →</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-kicker">🚀 JUST LAUNCHED — BE ONE OF THE FIRST TO LEARN WITH MOSHELL</div>
-  <h1>
-    STOP<br>
-    <span class="outline">GOOGLING</span><br>
-    LINUX.<br>
-    <span class="green">LEARN IT.</span>
-  </h1>
-  <p class="hero-sub">
-    A hands-on Linux &amp; sysadmin training system — from your <strong>first terminal command</strong> to running real servers, configuring VMs, and locking down networks. 18 labs across 4 tracks, built for people who want to <strong>actually understand</strong> what's happening, not just follow along.
-  </p>
-
-  <div class="price-row">
-    <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" class="price-card" style="pointer-events:auto;cursor:pointer;">
-      <div class="pc-label">STARTER</div>
-      <div class="pc-price"><span>$</span>17</div>
-      <div class="pc-desc">PDF Workbook</div>
-    </a>
-    <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="price-card featured" style="pointer-events:auto;cursor:pointer;">
-      <div class="featured-badge">POPULAR</div>
-      <div class="pc-label">MOSHELL PRO</div>
-      <div class="pc-price"><span>$</span>37</div>
-      <div class="pc-desc">Full training system</div>
-    </a>
-  </div>
-
-  <div class="hero-btns">
-    <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.78rem;font-weight:700;padding:14px 28px;border-radius:8px;background:#00e676;color:#000;text-decoration:none;border:none;cursor:pointer;letter-spacing:.04em;">UNLOCK MOSHELL PRO — $37 →</a>
-    <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.78rem;font-weight:700;padding:14px 28px;border-radius:8px;background:transparent;color:#00e676;text-decoration:none;border:2px solid #00c853;cursor:pointer;letter-spacing:.04em;">GET WORKBOOK — $17 →</a>
-    <a href="https://moshellinux.com/" target="_blank" class="btn-big btn-ghost">FREE PREVIEW ↗</a>
+  <div class="wrap">
+    <div class="hero-main">
+      <div class="stag"><span class="sec">MOSHELL PRO</span><span>One-time payment · Lifetime access</span></div>
+      <h1>Stop googling Linux. <span class="g">Learn it.</span></h1>
+      <p class="hero-sub">A hands-on Linux and sysadmin training system, from your <strong>first terminal command</strong> to running real servers, configuring VMs and locking down networks. 18+ labs across 4 tracks, built for people who want to <strong>actually understand</strong> what is happening, not just follow along.</p>
+      <div class="btn-row">
+        <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" rel="noopener" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="btn btn-g">Get MOSHELL Pro — $37</a>
+        <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" rel="noopener" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" class="btn btn-o">Get the workbook — $17</a>
+        <a href="https://moshellinux.com/" class="btn btn-q">Try it free first</a>
+      </div>
+    </div>
+    <div class="hero-prices">
+      <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" rel="noopener" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" class="price-card">
+        <span class="pc-label">STARTER</span>
+        <span class="pc-price"><span>$</span>17</span>
+        <span class="pc-desc">PDF Lab Workbook</span>
+        <span class="pc-go">Buy on Gumroad →</span>
+      </a>
+      <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" rel="noopener" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="price-card featured">
+        <span class="featured-badge">POPULAR</span>
+        <span class="pc-label">MOSHELL PRO</span>
+        <span class="pc-price"><span>$</span>37</span>
+        <span class="pc-desc">The full training system</span>
+        <span class="pc-go">Buy on Gumroad →</span>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker">
-    <span class="ticker-item">🐧 <span class="t-green">14 LESSONS</span></span>
-    <span class="ticker-item">⚡ <span class="t-amber">LIFETIME ACCESS</span></span>
-    <span class="ticker-item">🖥️ <span class="t-green">VIRTUALBOX LABS</span></span>
-    <span class="ticker-item">🔒 <span class="t-amber">LINUX SECURITY TRACK</span></span>
-    <span class="ticker-item">📄 <span class="t-green">PDF WORKBOOK INCLUDED</span></span>
-    <span class="ticker-item">🌐 <span class="t-amber">NETWORKING & SSH</span></span>
-    <span class="ticker-item">💰 <span class="t-green">TWO PRODUCTS AVAILABLE</span></span>
-    <span class="ticker-item">🚀 <span class="t-amber">FROM ZERO TO SYSADMIN</span></span>
-    <!-- duplicate for seamless loop -->
-    <span class="ticker-item">🐧 <span class="t-green">14 LESSONS</span></span>
-    <span class="ticker-item">⚡ <span class="t-amber">LIFETIME ACCESS</span></span>
-    <span class="ticker-item">🖥️ <span class="t-green">VIRTUALBOX LABS</span></span>
-    <span class="ticker-item">🔒 <span class="t-amber">LINUX SECURITY TRACK</span></span>
-    <span class="ticker-item">📄 <span class="t-green">PDF WORKBOOK INCLUDED</span></span>
-    <span class="ticker-item">🌐 <span class="t-amber">NETWORKING & SSH</span></span>
-    <span class="ticker-item">💰 <span class="t-green">TWO PRODUCTS AVAILABLE</span></span>
-    <span class="ticker-item">🚀 <span class="t-amber">FROM ZERO TO SYSADMIN</span></span>
+<!-- FACTS -->
+<div class="facts">
+  <div class="wrap">
+    <div class="fact"><b>14</b><span>Lessons, 6 free forever</span></div>
+    <div class="fact"><b>18+</b><span>Hands-on labs across 4 tracks</span></div>
+    <div class="fact"><b>$37</b><span>One time, lifetime access</span></div>
+    <div class="fact"><b>0</b><span>Installs needed to start</span></div>
   </div>
 </div>
 
-<!-- SOCIAL PROOF BAR -->
-<div style="background:var(--dark);border-bottom:1px solid var(--border);padding:1.5rem 2rem;text-align:center">
-  <div style="max-width:700px;margin:0 auto;display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap">
-    <div>
-      <div style="font-family:var(--display);font-size:2rem;color:var(--green);letter-spacing:.04em">18</div>
-      <div style="font-family:var(--mono);font-size:.62rem;color:var(--text3);letter-spacing:.08em">HANDS-ON LABS ACROSS 4 TRACKS</div>
+<!-- INSTRUCTOR NOTE -->
+<section class="section">
+  <div class="wrap">
+    <div class="note">
+      <div class="note-mark" aria-hidden="true"><b>FAB</b><span>INSTRUCTOR</span></div>
+      <div class="note-text">
+        <h2>Built by a Linux instructor, not a content mill.</h2>
+        <p>MOSHELL comes from real Linux and cybersecurity teaching, not from compiling tutorials found online. Every lesson is built terminal-first: if you cannot do it in the shell, you do not know it yet. That is the same idea behind every lab in this bundle.</p>
+      </div>
     </div>
-    <div>
-      <div style="font-family:var(--display);font-size:2rem;color:var(--green);letter-spacing:.04em">100%</div>
-      <div style="font-family:var(--mono);font-size:.62rem;color:var(--text3);letter-spacing:.08em">FREE TO TRY — NO SIGN-UP</div>
-    </div>
-    <div>
-      <div style="font-family:var(--display);font-size:2rem;color:var(--green);letter-spacing:.04em">$37</div>
-      <div style="font-family:var(--mono);font-size:.62rem;color:var(--text3);letter-spacing:.08em">ONE-TIME PAYMENT, LIFETIME ACCESS</div>
-    </div>
-    <div>
-      <div style="font-family:var(--display);font-size:2rem;color:var(--green);letter-spacing:.04em">0</div>
-      <div style="font-family:var(--mono);font-size:.62rem;color:var(--text3);letter-spacing:.08em">INSTALLS REQUIRED TO START</div>
-    </div>
-  </div>
-</div>
-
-<hr class="div">
-
-<!-- CREDIBILITY -->
-<section class="section fade-up">
-  <div style="max-width:640px;margin:0 auto;text-align:center">
-    <div style="font-size:2rem;margin-bottom:.8rem">🐧</div>
-    <h2 style="font-family:var(--display);font-size:1.4rem;letter-spacing:.02em;margin-bottom:.8rem">BUILT BY A LINUX INSTRUCTOR, NOT A CONTENT MILL</h2>
-    <p style="color:var(--text2);font-size:.9rem;line-height:1.7">MOSHELL comes from real Linux and cybersecurity instruction experience — not from compiling tutorials found online. Every lesson is built terminal-first: if you can't do it in the shell, you don't know it yet. That's the same philosophy behind every lab in this bundle.</p>
   </div>
 </section>
 
 <hr class="div">
 
-<!-- TESTIMONIALS -->
-<section class="section fade-up">
-  <div class="section-eyebrow">FROM ACTUAL BUYERS</div>
-  <h2 class="section-title">WHAT STUDENTS<br>ARE SAYING.</h2>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:1.5rem">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem">
-      <div style="color:var(--green);font-size:.85rem;letter-spacing:.1em;margin-bottom:.7rem">★★★★★</div>
-      <p style="color:var(--text2);font-size:.88rem;line-height:1.7;margin-bottom:1rem">"This is a great resource for anyone looking to learn Linux from the ground up and build practical system administration skills. The lessons are well organized, easy to follow, and the lab workbook makes it much easier to practice what you learn instead of just reading about it. I especially appreciate the step-by-step approach, which makes the material approachable even for someone who is still developing their Linux skills. Overall, MOSHELL provides a solid combination of instruction and hands-on practice. I would definitely recommend this bundle to beginners or anyone looking to strengthen their Linux and sysadmin knowledge. Great value and a very useful learning resource!"</p>
-      <div style="font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.05em">— K.D., VERIFIED BUYER</div>
+<!-- REVIEWS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">FROM BUYERS</span><span>Verified reviews</span></div>
+      <h2 class="stitle">What students are saying.</h2>
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem">
-      <div style="color:var(--green);font-size:.85rem;letter-spacing:.1em;margin-bottom:.7rem">★★★★★</div>
-      <p style="color:var(--text2);font-size:.88rem;line-height:1.7;margin-bottom:1rem">"The instructional approach is excellent, making the content easy to learn and follow."</p>
-      <div style="font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.05em">— C.S., VERIFIED BUYER</div>
+    <div class="reviews">
+      <div class="review">
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg></div>
+        <p>"This is a great resource for anyone looking to learn Linux from the ground up and build practical system administration skills. The lessons are well organized, easy to follow, and the lab workbook makes it much easier to practice what you learn instead of just reading about it. I especially appreciate the step-by-step approach, which makes the material approachable even for someone who is still developing their Linux skills. Overall, MOSHELL provides a solid combination of instruction and hands-on practice. I would definitely recommend this bundle to beginners or anyone looking to strengthen their Linux and sysadmin knowledge. Great value and a very useful learning resource!"</p>
+        <small>K.D., VERIFIED BUYER</small>
+      </div>
+      <div class="review">
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg></div>
+        <p>"The instructional approach is excellent, making the content easy to learn and follow."</p>
+        <small>C.S., VERIFIED BUYER</small>
+      </div>
     </div>
   </div>
 </section>
@@ -663,56 +381,57 @@ footer .fg{color:var(--green)}
 <hr class="div">
 
 <!-- WHAT YOU GET -->
-<section class="section fade-up">
-  <div class="section-eyebrow">WHAT YOU GET</div>
-  <h2 class="section-title">THREE PRODUCTS.<br>ONE PRICE.</h2>
-  <p class="section-sub">MOSHELL Pro includes all three. The Lab Workbook is also sold on its own for $17. No drip content, no confusion.</p>
-
-  <div class="product-grid">
-    <div class="product-card">
-      <div class="pc-icon">📄</div>
-      <div class="pc-title">PDF LAB WORKBOOK</div>
-      <p class="pc-body">A printable workbook that goes beyond the free platform — deep-dive commands, entirely new topics, and real-world labs built for your VirtualBox VM.</p>
-      <ul class="pc-includes">
-        <li>User & group management (accounts, sudo, service users)</li>
-        <li>systemd deep dive — build your own service units</li>
-        <li>Advanced text processing (grep, awk, sed pipe chains)</li>
-        <li>Production bash scripting & backup automation</li>
-        <li>Networking beyond the basics (nmap, SSH tunneling)</li>
-        <li>fail2ban — automatic attack blocking</li>
-      </ul>
-      <span class="pc-tag">$17 STANDALONE</span>
+<section class="section">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">WHAT YOU GET</span><span>Three products, one price</span></div>
+      <h2 class="stitle">Three products. One price.</h2>
+      <p class="ssub">MOSHELL Pro includes all three. The Lab Workbook is also sold on its own for $17. No drip content and no confusion.</p>
     </div>
-
-    <div class="product-card">
-      <div class="pc-icon">🎓</div>
-      <div class="pc-title">FULL COURSE BUNDLE</div>
-      <p class="pc-body">All 14 lessons with full content, code examples, exercises, and the interactive web platform students can access anywhere.</p>
-      <ul class="pc-includes">
-        <li>Beginner → Advanced track</li>
-        <li>Homelab, VirtualBox & Docker track</li>
-        <li>Networking & SSH track</li>
-        <li>Security & permissions track</li>
-        <li>Interactive command sandbox</li>
-        <li>Lifetime access link to share</li>
-      </ul>
-      <span class="pc-tag amber">INCLUDED IN BUNDLE</span>
-    </div>
-
-    <div class="product-card">
-      <div class="pc-icon">🔐</div>
-      <div class="pc-title">PREMIUM LESSONS</div>
-      <p class="pc-body">Advanced content not on the free site — deep-dives into security hardening, network sniffing, firewall rules, and server administration.</p>
-      <ul class="pc-includes">
-        <li>UFW & iptables firewall setup</li>
-        <li>SSH hardening & key management</li>
-        <li>tcpdump & Wireshark basics</li>
-        <li>Nginx + SSL full server deploy</li>
-        <li>Cron automation scripts</li>
-        <li>Disk & LVM management lab</li>
-        <li>NETRUN walkthrough: every mission solved step by step</li>
-      </ul>
-      <span class="pc-tag">BUNDLE EXCLUSIVE</span>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4"/><path d="M9 11h7M9 15h7M9 19h4"/></svg></div>
+        <div class="pc-title">PDF Lab Workbook</div>
+        <p class="pc-body">A printable workbook that goes beyond the free platform: deep-dive commands, new topics and real-world labs built for your VirtualBox VM.</p>
+        <ul class="pc-includes">
+          <li>User and group management (accounts, sudo, service users)</li>
+          <li>systemd deep dive: build your own service units</li>
+          <li>Advanced text processing (grep, awk, sed pipe chains)</li>
+          <li>Production bash scripting and backup automation</li>
+          <li>Networking beyond the basics (nmap, SSH tunneling)</li>
+          <li>fail2ban: automatic attack blocking</li>
+        </ul>
+        <span class="pc-tag">$17 STANDALONE</span>
+      </div>
+      <div class="product-card">
+        <div class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="2" y="4" width="20" height="16"/><path d="M6 9l3 3-3 3"/><path d="M11 15h6"/></svg></div>
+        <div class="pc-title">Full Course</div>
+        <p class="pc-body">All 14 lessons with full content, code examples, exercises and the interactive web platform you can open anywhere.</p>
+        <ul class="pc-includes">
+          <li>Beginner to advanced track</li>
+          <li>Homelab, VirtualBox and Docker track</li>
+          <li>Networking and SSH track</li>
+          <li>Security and permissions track</li>
+          <li>Interactive command sandbox</li>
+          <li>Lifetime access</li>
+        </ul>
+        <span class="pc-tag amber">INCLUDED IN PRO</span>
+      </div>
+      <div class="product-card">
+        <div class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="4" y="11" width="16" height="11"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><path d="M12 15v3"/></svg></div>
+        <div class="pc-title">Premium Lessons</div>
+        <p class="pc-body">Advanced content that is not on the free site: security hardening, network sniffing, firewall rules and server administration.</p>
+        <ul class="pc-includes">
+          <li>UFW and iptables firewall setup</li>
+          <li>SSH hardening and key management</li>
+          <li>tcpdump and Wireshark basics</li>
+          <li>Nginx and SSL full server deploy</li>
+          <li>Cron automation scripts</li>
+          <li>Disk and LVM management lab</li>
+          <li>NETRUN walkthrough: every mission solved step by step</li>
+        </ul>
+        <span class="pc-tag">PRO ONLY</span>
+      </div>
     </div>
   </div>
 </section>
@@ -720,107 +439,41 @@ footer .fg{color:var(--green)}
 <hr class="div">
 
 <!-- CURRICULUM -->
-<section class="section fade-up">
-  <div class="section-eyebrow">CURRICULUM</div>
-  <h2 class="section-title">WHAT YOU'LL<br>ACTUALLY LEARN</h2>
-  <p class="section-sub">Click any track to expand. Free lessons marked — everything else is in the bundle.</p>
-
-  <div class="curriculum-list">
-    <div class="curr-track">
-      <div class="curr-header" onclick="toggleCurr(this)">
-        <div class="curr-left">
-          <div class="curr-num">01</div>
-          <div class="curr-title-wrap">
-            <div class="curr-title">Beginner Track — Shell & Files</div>
-            <div class="curr-subtitle">Zero to confident in the terminal</div>
-          </div>
-        </div>
-        <div class="curr-meta">
-          <span class="curr-badge cb-g">BEGINNER</span>
-          <span class="curr-lessons">4 lessons</span>
-        </div>
-      </div>
-      <div class="curr-body">
-        <ul class="curr-items">
-          <li>The shell, Bash, navigation (cd, ls, pwd)<span class="curr-free">FREE</span></li>
-          <li>Files & directories (touch, mkdir, cp, mv, rm)<span class="curr-free">FREE</span></li>
-          <li>Reading & editing files (cat, less, pipes, redirects)<span class="curr-free">FREE</span></li>
-          <li class="curr-lock">🔒 Text processing deep-dive (grep, awk, sed, sort)</li>
-        </ul>
-      </div>
+<section class="section">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">CURRICULUM</span><span>4 tracks</span></div>
+      <h2 class="stitle">What you will actually learn.</h2>
+      <p class="ssub">Click a track to open it. Free labs are marked. Everything else unlocks with MOSHELL Pro.</p>
     </div>
-
-    <div class="curr-track">
-      <div class="curr-header" onclick="toggleCurr(this)">
-        <div class="curr-left">
-          <div class="curr-num">02</div>
-          <div class="curr-title-wrap">
-            <div class="curr-title">Intermediate Track — System Control</div>
-            <div class="curr-subtitle">Permissions, processes, packages</div>
-          </div>
-        </div>
-        <div class="curr-meta">
-          <span class="curr-badge cb-a">INTERMEDIATE</span>
-          <span class="curr-lessons">4 lessons</span>
-        </div>
+    <div class="curriculum-list">
+      <div class="curr-track">
+        <button type="button" class="curr-header" aria-expanded="false" onclick="toggleCurr(this)">
+          <span class="curr-left"><span class="curr-num">01</span><span><span class="curr-title">Beginner Track — Shell and Files</span><br><span class="curr-subtitle">Zero to confident in the terminal</span></span></span>
+          <span class="curr-meta"><span class="curr-badge cb-g">BEGINNER</span><span class="curr-lessons">4 labs</span><span class="curr-chev" aria-hidden="true">+</span></span>
+        </button>
+        <div class="curr-body"><ul class="curr-items"><li>The shell, Bash, navigation (cd, ls, pwd)<span class="curr-free">FREE</span></li><li>Files and directories (touch, mkdir, cp, mv, rm)<span class="curr-free">FREE</span></li><li>Reading and editing files (cat, less, pipes, redirects)<span class="curr-free">FREE</span></li><li class="curr-lock">Text processing deep dive (grep, awk, sed, sort)</li></ul></div>
       </div>
-      <div class="curr-body">
-        <ul class="curr-items">
-          <li>Permissions & ownership (chmod, chown, sudo)<span class="curr-free">FREE</span></li>
-          <li>Processes & system monitoring (ps, top, kill, htop)<span class="curr-free">FREE</span></li>
-          <li class="curr-lock">🔒 Package management deep-dive (apt, dpkg, snap)</li>
-          <li class="curr-lock">🔒 Shell scripting & cron automation</li>
-        </ul>
+      <div class="curr-track">
+        <button type="button" class="curr-header" aria-expanded="false" onclick="toggleCurr(this)">
+          <span class="curr-left"><span class="curr-num">02</span><span><span class="curr-title">Intermediate Track — System Control</span><br><span class="curr-subtitle">Permissions, processes, packages</span></span></span>
+          <span class="curr-meta"><span class="curr-badge cb-a">INTERMEDIATE</span><span class="curr-lessons">4 labs</span><span class="curr-chev" aria-hidden="true">+</span></span>
+        </button>
+        <div class="curr-body"><ul class="curr-items"><li>Permissions and ownership (chmod, chown, sudo)<span class="curr-free">FREE</span></li><li>Processes and system monitoring (ps, top, kill, htop)<span class="curr-free">FREE</span></li><li class="curr-lock">Package management deep dive (apt, dpkg, snap)</li><li class="curr-lock">Shell scripting and cron automation</li></ul></div>
       </div>
-    </div>
-
-    <div class="curr-track">
-      <div class="curr-header" onclick="toggleCurr(this)">
-        <div class="curr-left">
-          <div class="curr-num">03</div>
-          <div class="curr-title-wrap">
-            <div class="curr-title">Homelab Track — VMs & Containers</div>
-            <div class="curr-subtitle">VirtualBox, networking modes, snapshots, Docker</div>
-          </div>
-        </div>
-        <div class="curr-meta">
-          <span class="curr-badge cb-r">ADVANCED</span>
-          <span class="curr-lessons">5 lessons</span>
-        </div>
+      <div class="curr-track">
+        <button type="button" class="curr-header" aria-expanded="false" onclick="toggleCurr(this)">
+          <span class="curr-left"><span class="curr-num">03</span><span><span class="curr-title">Homelab Track — VMs and Containers</span><br><span class="curr-subtitle">VirtualBox, networking modes, snapshots, Docker</span></span></span>
+          <span class="curr-meta"><span class="curr-badge cb-r">ADVANCED</span><span class="curr-lessons">5 labs</span><span class="curr-chev" aria-hidden="true">+</span></span>
+        </button>
+        <div class="curr-body"><ul class="curr-items"><li class="curr-lock">VirtualBox setup and snapshot workflow</li><li class="curr-lock">NAT vs Bridged vs Host-Only networking</li><li class="curr-lock">Multi-VM lab setup and promiscuous mode</li><li class="curr-lock">Docker fundamentals (images, containers, volumes)</li><li class="curr-lock">Deploying multi-container apps with Docker Compose</li></ul></div>
       </div>
-      <div class="curr-body">
-        <ul class="curr-items">
-          <li class="curr-lock">🔒 VirtualBox setup & snapshot workflow</li>
-          <li class="curr-lock">🔒 NAT vs Bridged vs Host-Only networking</li>
-          <li class="curr-lock">🔒 Multi-VM lab setup & promiscuous mode</li>
-          <li class="curr-lock">🔒 Docker fundamentals (images, containers, volumes)</li>
-          <li class="curr-lock">🔒 Deploying multi-container apps with Docker Compose</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="curr-track">
-      <div class="curr-header" onclick="toggleCurr(this)">
-        <div class="curr-left">
-          <div class="curr-num">04</div>
-          <div class="curr-title-wrap">
-            <div class="curr-title">Security & Networking Track</div>
-            <div class="curr-subtitle">SSH, firewalls, servers, hardening</div>
-          </div>
-        </div>
-        <div class="curr-meta">
-          <span class="curr-badge cb-r">ADVANCED</span>
-          <span class="curr-lessons">5 lessons</span>
-        </div>
-      </div>
-      <div class="curr-body">
-        <ul class="curr-items">
-          <li class="curr-lock">🔒 Networking basics (ip, ss, dig, ping, SSH keys)</li>
-          <li class="curr-lock">🔒 Nginx web server + SSL with Let's Encrypt</li>
-          <li class="curr-lock">🔒 UFW firewall rules & iptables intro</li>
-          <li class="curr-lock">🔒 Logs & troubleshooting (journalctl, grep, lsof)</li>
-          <li class="curr-lock">🔒 Disk & LVM storage management</li>
-        </ul>
+      <div class="curr-track">
+        <button type="button" class="curr-header" aria-expanded="false" onclick="toggleCurr(this)">
+          <span class="curr-left"><span class="curr-num">04</span><span><span class="curr-title">Security and Networking Track</span><br><span class="curr-subtitle">SSH, firewalls, servers, hardening</span></span></span>
+          <span class="curr-meta"><span class="curr-badge cb-r">ADVANCED</span><span class="curr-lessons">5 labs</span><span class="curr-chev" aria-hidden="true">+</span></span>
+        </button>
+        <div class="curr-body"><ul class="curr-items"><li class="curr-lock">Networking basics (ip, ss, dig, ping, SSH keys)</li><li class="curr-lock">Nginx web server and SSL with Let&#x27;s Encrypt</li><li class="curr-lock">UFW firewall rules and iptables intro</li><li class="curr-lock">Logs and troubleshooting (journalctl, grep, lsof)</li><li class="curr-lock">Disk and LVM storage management</li></ul></div>
       </div>
     </div>
   </div>
@@ -828,189 +481,175 @@ footer .fg{color:var(--green)}
 
 <hr class="div">
 
-<!-- WHAT YOU'LL ACTUALLY DO -->
-<section class="section fade-up">
-  <div class="section-eyebrow">NOT JUST THEORY</div>
-  <h2 class="section-title">WHAT YOU'LL<br>ACTUALLY DO.</h2>
-  <p class="section-sub">Every lesson ends in a hands-on task — not a quiz, not a video to watch. Real commands, real output, real mistakes to fix.</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1.5rem">
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">🗂️ Create, permission, and clean up a real file tree from scratch</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">🔐 Fix broken file permissions and ownership issues</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">⚙️ Write and schedule a Bash script with cron</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">🖥️ Build a multi-VM homelab with the right networking mode</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">🔑 Set up SSH key-based authentication and port forwarding</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">🌐 Deploy Nginx with a firewall and diagnose why it isn't working</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">🕵️ Trace a failed login through logs and journalctl</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">💽 Partition, format, and mount a second disk with fstab</div>
-    <div style="padding:1rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text2)">🐳 Deploy a multi-container app with Docker Compose</div>
+<!-- WHAT YOU WILL DO -->
+<section class="section">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">NOT JUST THEORY</span><span>Hands-on tasks</span></div>
+      <h2 class="stitle">What you will actually do.</h2>
+      <p class="ssub">Every lesson ends in a hands-on task, not a quiz or a video to watch. Real commands, real output and real mistakes to fix.</p>
+    </div>
+    <div class="tasks">
+      <div class="task"><code>01</code><span>Create, permission and clean up a real file tree from scratch</span></div>
+      <div class="task"><code>02</code><span>Fix broken file permissions and ownership issues</span></div>
+      <div class="task"><code>03</code><span>Write and schedule a Bash script with cron</span></div>
+      <div class="task"><code>04</code><span>Build a multi-VM homelab with the right networking mode</span></div>
+      <div class="task"><code>05</code><span>Set up SSH key-based authentication and port forwarding</span></div>
+      <div class="task"><code>06</code><span>Deploy Nginx with a firewall and diagnose why it is not working</span></div>
+      <div class="task"><code>07</code><span>Trace a failed login through logs and journalctl</span></div>
+      <div class="task"><code>08</code><span>Partition, format and mount a second disk with fstab</span></div>
+      <div class="task"><code>09</code><span>Deploy a multi-container app with Docker Compose</span></div>
+    </div>
   </div>
 </section>
 
 <hr class="div">
 
 <!-- FREE VS PRO -->
-<section class="section fade-up" id="free-vs-pro">
-  <div class="section-eyebrow">FREE VS PRO</div>
-  <h2 class="section-title">WHY PEOPLE<br>UPGRADE.</h2>
-  <p class="section-sub">The free platform teaches you the terminal itself. Pro takes you the rest of the way — from typing commands to running real infrastructure.</p>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:1rem">
-    <div class="product-card">
-      <div class="pc-icon">🆓</div>
-      <div class="pc-title">FREE PLATFORM</div>
-      <p class="pc-body">Everything you need to get fluent in the terminal — shell navigation, file operations, permissions, processes. No sign-up, works in any browser, yours forever.</p>
-      <ul class="pc-includes">
-        <li>Lessons 1–6, permanently free</li>
-        <li>Full interactive command sandbox</li>
-        <li>Command cheatsheet access</li>
-      </ul>
+<section class="section" id="free-vs-pro">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">FREE VS PRO</span><span>Why people upgrade</span></div>
+      <h2 class="stitle">Why people upgrade.</h2>
+      <p class="ssub">The free platform teaches you the terminal itself. Pro takes you the rest of the way, from typing commands to running real infrastructure.</p>
     </div>
-    <div class="product-card" style="border-color:var(--green2)">
-      <div class="pc-icon">🚀</div>
-      <div class="pc-title">MOSHELL PRO — $37 ONCE</div>
-      <p class="pc-body">Everything in Free, plus the tracks that turn "I know some commands" into "I can run a server." This is where the actual sysadmin skills live.</p>
-      <ul class="pc-includes">
-        <li>Homelab, VirtualBox & Docker track (VMs, snapshots, containers, Compose)</li>
-        <li>Networking & SSH track (keys, tunnels, diagnostics)</li>
-        <li>Security track (firewalls, hardening, log analysis)</li>
-        <li>Downloadable PDF workbook & cheatsheets</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<hr class="div">
-
-<!-- CONVERSION PATH -->
-<section class="section fade-up">
-  <div class="section-eyebrow">THE PATH</div>
-  <h2 class="section-title">FREE → PRO →<br>REAL SKILLS.</h2>
-  <div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin-top:1rem">
-    <div style="flex:1;min-width:200px;text-align:center;padding:1.5rem;border:1px solid var(--border);border-radius:8px">
-      <div style="font-size:1.8rem">🆓</div>
-      <div style="font-family:var(--mono);font-size:.7rem;color:var(--green);letter-spacing:.06em;margin:.5rem 0">STEP 1 — FREE</div>
-      <p style="font-size:.85rem;color:var(--text2)">Learn the terminal itself. No cost, no install, no risk.</p>
-    </div>
-    <div style="flex:1;min-width:200px;text-align:center;padding:1.5rem;border:1px solid var(--green2);border-radius:8px">
-      <div style="font-size:1.8rem">🚀</div>
-      <div style="font-family:var(--mono);font-size:.7rem;color:var(--green);letter-spacing:.06em;margin:.5rem 0">STEP 2 — PRO ($37)</div>
-      <p style="font-size:.85rem;color:var(--text2)">Unlock VMs, networking, and security — the parts that make you dangerous.</p>
-    </div>
-    <div style="flex:1;min-width:200px;text-align:center;padding:1.5rem;border:1px solid var(--border);border-radius:8px">
-      <div style="font-size:1.8rem">🎯</div>
-      <div style="font-family:var(--mono);font-size:.7rem;color:var(--green);letter-spacing:.06em;margin:.5rem 0">OUTCOME</div>
-      <p style="font-size:.85rem;color:var(--text2)">Real Linux sysadmin fundamentals — ready for a homelab, a resume line, or CompTIA Linux+/RHCSA prep.</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="pc-icon ghost" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 7l5 5-5 5"/><path d="M12 18h8"/></svg></div>
+        <div class="pc-title">Free platform</div>
+        <p class="pc-body">Everything you need to get fluent in the terminal: shell navigation, file operations, permissions and processes. No sign-up, works in any browser, yours forever.</p>
+        <ul class="pc-includes">
+          <li>Lessons 1–6, permanently free</li>
+          <li>Full interactive command sandbox</li>
+          <li>Command cheatsheet</li>
+        </ul>
+        <a href="https://moshellinux.com/" class="btn btn-o" style="margin-top:auto">Start Lesson 01</a>
+      </div>
+      <div class="product-card hl">
+        <div class="pc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="3" y="4" width="18" height="12"/><path d="M8 20h8M12 16v4"/><path d="M7 9l2 2-2 2M11 13h4"/></svg></div>
+        <div class="pc-title">MOSHELL Pro — $37 once</div>
+        <p class="pc-body">Everything in Free, plus the tracks that turn "I know some commands" into "I can run a server." This is where the sysadmin skills live.</p>
+        <ul class="pc-includes">
+          <li>Homelab, VirtualBox and Docker track (VMs, snapshots, containers, Compose)</li>
+          <li>Networking and SSH track (keys, tunnels, diagnostics)</li>
+          <li>Security track (firewalls, hardening, log analysis)</li>
+          <li>Downloadable PDF workbook and cheatsheets</li>
+        </ul>
+        <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" rel="noopener" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="btn btn-g" style="margin-top:auto">Get MOSHELL Pro</a>
+      </div>
     </div>
   </div>
 </section>
 
 <hr class="div">
 
-<!-- WHAT'S INCLUDED -->
-<section class="section fade-up">
-  <div class="section-eyebrow">NO GUESSWORK</div>
-  <h2 class="section-title">EXACTLY WHAT<br>$37 BUYS YOU.</h2>
-  <p class="section-sub">Not "a bundle." Here's precisely what unlocks the moment you buy. (14 lesson pages, 18+ labs total — some lessons cover more than one hands-on topic.)</p>
+<!-- PATH -->
+<section class="section">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">THE PATH</span><span>Free, then Pro, then real skills</span></div>
+      <h2 class="stitle">Free → Pro → Real skills.</h2>
+    </div>
+    <div class="path">
+      <div class="step"><span class="step-n">Step 1 · Free</span><h3>Learn the terminal</h3><p>No cost, no install and no risk.</p></div>
+      <div class="step hl"><span class="step-n">Step 2 · Pro, $37</span><h3>Run real systems</h3><p>Unlock VMs, networking and security, the parts that make you dangerous.</p></div>
+      <div class="step"><span class="step-n">Outcome</span><h3>Sysadmin fundamentals</h3><p>Ready for a homelab, a resume line, or CompTIA Linux+ and RHCSA prep.</p></div>
+    </div>
+  </div>
+</section>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem 1.5rem;margin-top:1.5rem;max-width:800px">
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> All 14 lessons — 18+ hands-on labs total</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> Networking & SSH</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> Bash scripting</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> Docker & Compose</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> Nginx web server</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> Security & firewalls</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> Log troubleshooting</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> VM & homelab exercises</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> PDF Workbook + Premium Lessons</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> Future lesson updates, free</div>
-    <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)"><span style="color:var(--green)">✓</span> One-time payment, lifetime access</div>
+<hr class="div">
+
+<!-- WHAT $37 BUYS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">NO GUESSWORK</span><span>Exactly what unlocks</span></div>
+      <h2 class="stitle">Exactly what $37 buys you.</h2>
+      <p class="ssub">Here is precisely what unlocks the moment you buy: 14 lesson pages and 18+ labs in total, since some lessons cover more than one hands-on topic.</p>
+    </div>
+    <div class="checks">
+      <div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>All 14 lessons, 18+ hands-on labs</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>Networking and SSH</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>Bash scripting</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>Docker and Compose</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>Nginx web server</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>Security and firewalls</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>Log troubleshooting</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>VM and homelab exercises</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>PDF Workbook and Premium Lessons</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>Future lesson updates, free</div><div class="check"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg></i>One-time payment, lifetime access</div>
+    </div>
   </div>
 </section>
 
 <hr class="div">
 
 <!-- PRICING -->
-<section class="section fade-up" id="pricing">
-  <div class="section-eyebrow">PRICING</div>
-  <h2 class="section-title">ONE PAYMENT.<br>LIFETIME ACCESS.</h2>
-  <p class="section-sub">No subscriptions required for the bundle. Pay once, keep forever. Share with your whole class.</p>
-
-  <div class="pricing-table">
-    <div class="pt-card">
-      <div class="pt-name">STARTER</div>
-      <div class="pt-price"><sub>$</sub>17</div>
-      <p class="pt-tagline">PDF workbook + cheatsheets. Pay what you want — $17 minimum.</p>
-      <ul class="pt-features">
-        <li>PDF Lab Workbook (14 pages)</li>
-        <li>Command cheatsheet (55+ cmds)</li>
-        <li>6 deep-dive topics, 20+ labs</li>
-        <li>Fill-in reference cheatsheets</li>
-        <li class="no">Interactive web platform</li>
-        <li class="no">Premium locked lessons</li>
-      </ul>
-      <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" style="display:block;width:100%;padding:11px;border-radius:4px;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.06em;background:transparent;color:#8892a4;border:1px solid #2a3040;text-decoration:none;text-align:center;cursor:pointer;box-sizing:border-box;">GET WORKBOOK →</a>
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">PRICING</span><span>One payment</span></div>
+      <h2 class="stitle">One payment. Lifetime access.</h2>
+      <p class="ssub">No subscription. Pay once and keep it.</p>
     </div>
-
-    <div class="pt-card best">
-      <div class="pt-name">MOSHELL PRO</div>
-      <div style="display:inline-flex;align-items:center;gap:6px;background:var(--amber2);color:var(--amber);font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;padding:3px 10px;border-radius:4px;margin-bottom:.6rem;font-weight:600">💳 ONE-TIME PAYMENT — NO SUBSCRIPTION</div>
-      <div class="pt-price"><sub>$</sub>37</div>
-      <p class="pt-tagline">The full training system: every track, every lab, the workbook, and lifetime access. Pay once, use it forever.</p>
-      <ul class="pt-features">
-        <li>14 lessons — 18+ hands-on labs</li>
-        <li>Interactive web platform access</li>
-        <li>All premium locked lessons</li>
-        <li>PDF Lab Workbook (14 pages)</li>
-        <li>Command cheatsheet (55+ cmds)</li>
-        <li>Fill-in reference cheatsheets</li>
-      </ul>
-      <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" style="display:block;width:100%;padding:11px;border-radius:4px;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.06em;background:#00e676;color:#000;border:none;text-decoration:none;text-align:center;cursor:pointer;box-sizing:border-box;">UNLOCK MOSHELL PRO →</a>
+    <div class="pricing-table">
+      <div class="pt-card">
+        <div class="pt-name"><span>STARTER</span></div>
+        <div class="pt-price"><sub>$</sub>17<small>minimum</small></div>
+        <p class="pt-tagline">PDF workbook and cheatsheets. Pay what you want, $17 minimum.</p>
+        <ul class="pt-features">
+          <li>PDF Lab Workbook (14 pages)</li>
+          <li>Command cheatsheet (55+ commands)</li>
+          <li>6 deep-dive topics, 20+ labs</li>
+          <li>Fill-in reference cheatsheets</li>
+          <li class="no">Interactive web platform</li>
+          <li class="no">Premium locked lessons</li>
+        </ul>
+        <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" rel="noopener" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" class="btn btn-o">Get the workbook</a>
+      </div>
+      <div class="pt-card best">
+        <div class="pt-name"><span>MOSHELL PRO</span><em>ONE-TIME · NO SUBSCRIPTION</em></div>
+        <div class="pt-price"><sub>$</sub>37<small>once</small></div>
+        <p class="pt-tagline">The full training system: every track, every lab, the workbook and lifetime access.</p>
+        <ul class="pt-features">
+          <li>14 lessons, 18+ hands-on labs</li>
+          <li>Interactive web platform access</li>
+          <li>All premium locked lessons</li>
+          <li>PDF Lab Workbook (14 pages)</li>
+          <li>Command cheatsheet (55+ commands)</li>
+          <li>Fill-in reference cheatsheets</li>
+        </ul>
+        <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" rel="noopener" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="btn btn-g">Get MOSHELL Pro</a>
+      </div>
     </div>
-  </div>
-
-  <div style="display:flex;justify-content:center;gap:1.8rem;flex-wrap:wrap;margin-top:2rem;font-family:var(--mono);font-size:.72rem;color:var(--text2)">
-    <span>✓ One-time payment</span>
-    <span>✓ Instant access via Gumroad</span>
-    <span>✓ No subscription</span>
-    <span>✓ No recurring fees</span>
+    <div class="reassure"><span>✓ One-time payment</span><span>✓ Instant access through Gumroad</span><span>✓ No subscription</span><span>✓ No recurring fees</span></div>
   </div>
 </section>
 
 <hr class="div">
 
 <!-- FAQ -->
-<section class="section fade-up">
-  <div class="section-eyebrow">FAQ</div>
-  <h2 class="section-title">QUESTIONS.</h2>
-  <div style="margin-bottom:2rem"></div>
-  <div class="faq-list">
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Do I need any experience to start? <span class="faq-icon">+</span></div>
-      <div class="faq-a">Zero experience needed. The beginner track starts from what a terminal even is and builds up from there. If you can open a browser, you can start Lesson 01.</div>
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="sh">
+      <div class="stag"><span class="sec">FAQ</span><span>Before you buy</span></div>
+      <h2 class="stitle">Questions.</h2>
     </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">What do I need installed? <span class="faq-icon">+</span></div>
-      <div class="faq-a">VirtualBox (free) and Ubuntu Server (free). The full setup guide is included — it takes about 20 minutes. You can also use the browser sandbox on the platform to practice commands before setting up a VM.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Does buying unlock the interactive lessons too, not just the PDF? <span class="faq-icon">+</span></div>
-      <div class="faq-a">Yes. After purchase, Gumroad emails you a license key — enter it once on the platform (there's a "Have a license key?" link in the nav) and lessons 7–12 unlock right in the browser sandbox, not just in the PDF.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Can I share access with my class? <span class="faq-icon">+</span></div>
-      <div class="faq-a">The free web platform link (moshellinux.com) is freely shareable with anyone — it's public. Your license key and the PDF workbook are tied to your purchase and shouldn't be shared, but contact for classroom or group licensing.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">What Linux distro do you use? <span class="faq-icon">+</span></div>
-      <div class="faq-a">Ubuntu Server LTS — it's the most widely used Linux distro for servers, has the best documentation, and everything you learn transfers directly to Debian, Kali, and other distros.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Is this enough to get a job in IT? <span class="faq-icon">+</span></div>
-      <div class="faq-a">This gives you the foundational Linux skills that every sysadmin, DevOps, cloud, and security role requires. Combined with a certification like CompTIA Linux+ or RHCSA, this content directly prepares you for those exams.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">How do I get access after purchase? <span class="faq-icon">+</span></div>
-      <div class="faq-a">Instantly via Gumroad — you'll get an email with your download links and license key the second payment is confirmed. Enter the license key on the platform to unlock the interactive lessons. No account setup, no waiting.</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Do I need any experience to start? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">No experience needed. The beginner track starts from what a terminal is and builds up from there. If you can open a browser, you can start Lesson 01.</div>
+      </div><div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What do I need installed? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">Nothing to start: the browser sandbox runs every lesson. For the VM labs you will use VirtualBox (free) and Ubuntu Server (free). The full setup guide is included and takes about 20 minutes.</div>
+      </div><div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Does buying unlock the interactive lessons too, not just the PDF? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">Yes. After purchase, Gumroad emails you a license key. Enter it once on the platform with the &quot;Have a license key?&quot; link in the menu, and lessons 7–14 unlock right in the browser, not just in the PDF.</div>
+      </div><div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Can I share access with my class? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">The free platform at moshellinux.com is public, so share that link with anyone. Your license key and the PDF workbook are tied to your purchase and should not be shared. Get in touch for classroom or group licensing.</div>
+      </div><div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What Linux distro do you use? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">Ubuntu Server LTS. It is the most widely used Linux distro for servers, has the best documentation, and everything you learn transfers directly to Debian, Kali and other distros.</div>
+      </div><div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Is this enough to get a job in IT? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">It gives you the foundational Linux skills that sysadmin, DevOps, cloud and security roles require. Combined with a certification like CompTIA Linux+ or RHCSA, this content prepares you for those exams.</div>
+      </div><div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How do I get access after purchase? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">Instantly through Gumroad. You get an email with your download links and license key as soon as payment is confirmed. Enter the license key on the platform to unlock the interactive lessons. No account setup and no waiting.</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1018,20 +657,23 @@ footer .fg{color:var(--green)}
 <hr class="div">
 
 <!-- FINAL CTA -->
-<div class="final-cta fade-up">
-  <h2>READY TO<br>LEARN <span class="g">LINUX?</span></h2>
-  <p>Stop watching, start doing. One-time payment, lifetime access. Starting at $17 — or go all-in with MOSHELL Pro for $37.</p>
-  <div class="final-cta-btns">
-    <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.78rem;font-weight:700;padding:14px 28px;border-radius:8px;background:#00e676;color:#000;text-decoration:none;border:none;cursor:pointer;letter-spacing:.04em;">UNLOCK MOSHELL PRO — $37 →</a>
-    <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.78rem;font-weight:700;padding:14px 28px;border-radius:8px;background:transparent;color:#00e676;text-decoration:none;border:2px solid #00c853;cursor:pointer;letter-spacing:.04em;">GET WORKBOOK — $17 →</a>
-    <a href="https://moshellinux.com/" target="_blank" class="btn-big btn-ghost">TRY FREE FIRST ↗</a>
+<section class="section final">
+  <div class="wrap">
+    <div>
+      <h2>Ready to learn <span class="g">Linux?</span></h2>
+      <p>Stop watching, start doing. One-time payment and lifetime access. Start at $17, or go all in with MOSHELL Pro for $37.</p>
+    </div>
+    <div class="btn-row">
+      <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" rel="noopener" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="btn btn-g">Get MOSHELL Pro — $37</a>
+      <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" rel="noopener" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" class="btn btn-o">Get the workbook — $17</a>
+      <a href="https://moshellinux.com/" class="btn btn-q">Try it free first</a>
+    </div>
   </div>
-</div>
-
-<hr class="div">
+</section>
 
 <footer>
-  <p>🐧 <span class="fg">MOSHELL</span> · <a href="https://moshellinux.com/" style="color:var(--blue)">FREE PLATFORM ↗</a> · POWERED BY GUMROAD</p>
+  <p>MOSHELL · <a href="https://moshellinux.com/">Free platform</a></p>
+  <p>Payments handled by Gumroad</p>
 </footer>
 
 <script>
@@ -1040,7 +682,8 @@ function toggleCurr(header){
   const body = header.nextElementSibling;
   const isOpen = body.classList.contains('open');
   document.querySelectorAll('.curr-body').forEach(b=>b.classList.remove('open'));
-  if(!isOpen) body.classList.add('open');
+  document.querySelectorAll('.curr-header').forEach(h=>{h.setAttribute('aria-expanded','false');const c=h.querySelector('.curr-chev');if(c)c.textContent='+';});
+  if(!isOpen){ body.classList.add('open'); header.setAttribute('aria-expanded','true'); const c=header.querySelector('.curr-chev'); if(c) c.textContent='−'; }
 }
 
 // FAQ accordion
@@ -1049,15 +692,10 @@ function toggleFaq(q){
   const icon = q.querySelector('.faq-icon');
   const isOpen = a.classList.contains('open');
   document.querySelectorAll('.faq-a').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(x=>x.setAttribute('aria-expanded','false'));
   document.querySelectorAll('.faq-icon').forEach(x=>x.textContent='+');
-  if(!isOpen){ a.classList.add('open'); icon.textContent='−'; }
+  if(!isOpen){ a.classList.add('open'); q.setAttribute('aria-expanded','true'); icon.textContent='−'; }
 }
-
-// Scroll fade-in
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-},{threshold:.1});
-document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
