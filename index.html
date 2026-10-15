@@ -18,7 +18,7 @@
 <meta name="keywords" content="linux sandbox, browser based linux, interactive linux tutorial, learn linux online, linux terminal simulator, learn linux, linux course, linux tutorial, linux for beginners, bash scripting, ubuntu tutorial, sysadmin course, linux commands, virtualbox linux, homelab linux, linux security, ssh tutorial, docker linux, free linux course, linux workbook">
 <meta name="author" content="MOSHELL Linux Platform">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#00e676">
+<meta name="theme-color" content="#13150f">
 
 <!-- ---------- OPEN GRAPH ---------- -->
 <meta property="og:type" content="website">
@@ -59,513 +59,363 @@
 }
 </script>
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2313150f'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e8692e' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e8e1c9'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* MOSHELL — Field Manual Night.
+   Variable NAMES are kept from the old theme because the page script and the
+   external scripts write inline styles like var(--green); only the values changed.
+   --green is now the signal orange accent. */
 :root {
-  --bg:       #080c10;
-  --bg2:      #0d1117;
-  --bg3:      #111820;
-  --surface:  #141c24;
-  --surface2: #1a2433;
-  --border:   #1e2d3d;
-  --border2:  #253444;
-  --green:    #39d353;
-  --green2:   #2ea043;
-  --green-bg: #0a1f10;
-  --cyan:     #58c8e3;
-  --cyan-bg:  #071e26;
-  --amber:    #f0a84a;
-  --amber-bg: #1f1508;
-  --red:      #ff6b6b;
-  --red-bg:   #200a0a;
-  --purple:   #bc8cff;
-  --purple-bg:#160d23;
-  --blue:     #4da3ff;
-  --blue-bg:  #071428;
-  --text:     #e2e8f0;
-  --text2:    #8b9ab0;
-  --text3:    #4a5568;
-  --mono:     'IBM Plex Mono', monospace;
-  --sans:     'Space Grotesk', sans-serif;
-  --r:        8px;
-  --rl:       14px;
+  --bg:       #13150f;
+  --bg2:      #191c14;
+  --bg3:      #0e100b;
+  --surface:  #1d2018;
+  --surface2: #24281e;
+  --border:   #353929;
+  --border2:  #4a4f3c;
+  --green:    #e8692e;
+  --green2:   #c9561f;
+  --green-bg: #2a1a10;
+  --cyan:     #a9c9e6;
+  --cyan-bg:  #18212a;
+  --amber:    #d9ab4f;
+  --amber-bg: #2a2312;
+  --red:      #ff8f70;
+  --red-bg:   #2c1612;
+  --purple:   #cbbd8f;
+  --purple-bg:#26231a;
+  --blue:     #a9c9e6;
+  --blue-bg:  #18212a;
+  --text:     #e8e1c9;
+  --text2:    #bdb79e;
+  --text3:    #8f8b75;
+  --on-accent:#160d07;
+  --mono:     'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --sans:     'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  --display:  'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --r:        2px;
+  --rl:       2px;
+  --gut:      max(16px, env(safe-area-inset-left, 0px));
+  --gut-r:    max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: dark;
 }
+@media (min-width: 760px) { :root { --gut: max(40px, env(safe-area-inset-left, 0px)); --gut-r: max(40px, env(safe-area-inset-right, 0px)); } }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:14px;line-height:1.7;overflow-x:hidden}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2)}
 a{color:inherit;text-decoration:none}
-button{cursor:pointer;font-family:var(--mono)}
-
-/* ═══ GRID BG ═══ */
-body::before{
-  content:'';position:fixed;inset:0;
-  background-image:
-    linear-gradient(rgba(57,211,83,.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(57,211,83,.03) 1px,transparent 1px);
-  background-size:40px 40px;
-  pointer-events:none;z-index:0
-}
+button{cursor:pointer;font-family:var(--sans)}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+code{font-family:var(--mono)}
 
 /* ═══ NAV ═══ */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
-  min-height:58px;
-  background:rgb(8,12,16);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;
-  padding:.6rem 2rem;
-  gap:.6rem 1rem;
-  transform:translateZ(0);
-  backface-visibility:hidden;
-  will-change:transform;
+  min-height:64px;background:#0d0f0a;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  padding:.5rem var(--gut-r) .5rem var(--gut);gap:.4rem 1.4rem;
 }
-.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:700;font-size:.95rem;color:var(--text)}
-.nav-logo-icon{width:32px;height:32px;background:var(--green-bg);border:1px solid var(--green2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-.nav-logo span{color:var(--green)}
-.nav-links{display:flex;gap:1.5rem;list-style:none}
-.nav-links a{font-size:.72rem;letter-spacing:.07em;color:var(--text2);transition:color .2s}
-.nav-links a:hover{color:var(--green)}
-.nav-badge{background:var(--green-bg);color:var(--green);border:1px solid var(--green2);padding:5px 14px;border-radius:var(--r);font-size:.7rem;font-weight:700;letter-spacing:.06em;transition:background .2s}
-.nav-badge:hover{background:#0f2e18}
-.nav-buy{background:var(--green);color:#000;padding:6px 16px;border-radius:var(--r);font-size:.7rem;font-weight:700;letter-spacing:.06em;transition:.15s;border:none;cursor:pointer}
-.nav-buy:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(57,211,83,.3)}
-.badge-tracker-pill{display:inline-flex;align-items:center;gap:5px;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);padding:5px 12px;border-radius:var(--r);font-size:.7rem;font-weight:700;letter-spacing:.04em;font-family:var(--mono);cursor:pointer;transition:background .2s,transform .15s;white-space:nowrap}
-.badge-tracker-pill:hover{background:#241a08;transform:translateY(-1px)}
-@media(max-width:520px){.nav-links{gap:1rem}.nav-links a{font-size:.65rem}.badge-tracker-pill{font-size:.65rem;padding:4px 10px}}
-.nav-netrun{display:inline-flex;align-items:center;gap:5px;color:var(--amber)!important;font-weight:700}
-.nav-netrun:hover{color:var(--amber)!important}
-.nav-netrun-new{font-size:.55rem;letter-spacing:.08em;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);padding:1px 5px;border-radius:3px;animation:netrunGlow 2.4s ease-in-out infinite}
-@keyframes netrunGlow{0%,100%{box-shadow:0 0 0 rgba(240,168,74,0)}50%{box-shadow:0 0 8px rgba(240,168,74,.5)}}
-@media(prefers-reduced-motion:reduce){.nav-netrun-new{animation:none}}
+.nav-logo{display:flex;align-items:baseline;gap:12px;color:var(--text)}
+.nav-logo b{font-family:var(--display);font-weight:700;font-size:1.9rem;letter-spacing:.06em;line-height:1}
+.nav-logo small{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.05em}
+.nav-links{display:flex;flex-wrap:wrap;gap:0 1.4rem;list-style:none}
+.nav-links a{display:flex;align-items:center;min-height:44px;font-size:.95rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.nav-key{background:none;border:0;color:var(--text3);font-size:.9rem;text-decoration:underline;text-underline-offset:3px;min-height:44px}
+.nav-key:hover{color:var(--text)}
+.nav-badge{display:inline-flex;align-items:center;min-height:44px;border:2px solid var(--text2);color:var(--text);padding:0 14px;font-size:.88rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.nav-badge:hover{border-color:var(--text)}
+.nav-buy{display:inline-flex;align-items:center;min-height:44px;background:var(--green);color:var(--on-accent);padding:0 16px;font-size:.88rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none}
+.nav-buy:hover{background:#ff8a52}
+.badge-tracker-pill{display:inline-flex;align-items:center;gap:6px;min-height:44px;background:transparent;color:var(--amber);border:2px solid var(--amber);padding:0 12px;font-family:var(--mono);font-size:.85rem;font-weight:600;white-space:nowrap}
+.badge-tracker-pill:hover{background:var(--amber-bg)}
+.nav-netrun{display:inline-flex;align-items:center;gap:6px}
+.nav-netrun-new{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--on-accent);background:var(--amber);padding:1px 5px}
+
+@media (max-width: 900px){
+  nav{position:relative;padding-top:max(.5rem, env(safe-area-inset-top, 0px))}
+  .nav-links{gap:0 1rem}
+  .nav-links a{font-size:.85rem}
+  #progress-bar{top:0!important;position:fixed}
+  .hero{padding-top:clamp(2rem,5vh,3rem)}
+}
+/* ═══ SHARED BUTTONS ═══ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:58px;padding:0 26px;font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;text-decoration:none;text-align:center}
+.btn-g{background:var(--green);color:var(--on-accent)}
+.btn-g:hover{background:#ff8a52}
+.btn-o{background:transparent;color:var(--text);border:2px solid var(--text2)}
+.btn-o:hover{border-color:var(--text);background:var(--surface)}
 
 /* ═══ HERO ═══ */
-.hero{
-  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-  padding:7rem 2rem 3rem;
-  max-width:1100px;margin:0 auto;position:relative;z-index:1;
-}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--green-bg);border:1px solid var(--green2);
-  color:var(--green);font-size:.68rem;letter-spacing:.14em;
-  padding:5px 14px;border-radius:100px;margin-bottom:1.75rem;
-}
-.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-.hero-layout{display:grid;grid-template-columns:1fr 480px;gap:4rem;align-items:center}
-.hero h1{
-  font-family:var(--sans);font-size:clamp(2.2rem,4.5vw,3.8rem);
-  font-weight:700;line-height:1.08;letter-spacing:-.02em;
-  color:var(--text);margin-bottom:1.25rem;
-}
+.hero{padding:calc(64px + clamp(2.5rem,7vh,5rem)) var(--gut-r) clamp(3rem,7vh,5rem) var(--gut);max-width:1480px;margin:0 auto}
+.hero-layout{display:flex;flex-wrap:wrap;gap:3rem 4rem;align-items:flex-start}
+.hero-main{flex:999 1 500px;min-width:0;display:flex;flex-direction:column;gap:1.5rem}
+.hero-side{flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.kicker{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--mono);font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2)}
+.kicker .sec{background:var(--green);color:var(--on-accent);padding:4px 10px;font-weight:600}
+.hero h1{font-family:var(--display);font-size:clamp(3.4rem,7vw,7rem);font-weight:700;line-height:.92;text-transform:uppercase;text-wrap:balance;color:var(--text)}
 .hero h1 .accent{color:var(--green)}
-.hero h1 .dim{color:var(--text2);font-weight:300}
-.hero-sub{
-  font-family:var(--sans);font-size:1rem;color:var(--text2);
-  max-width:440px;margin-bottom:2rem;line-height:1.65;font-weight:400;
-}
-.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
-.pill{font-size:.65rem;padding:4px 10px;border-radius:4px;letter-spacing:.05em;font-weight:500}
-.pill-g{background:var(--green-bg);color:var(--green);border:1px solid #1a4a2044}
-.pill-c{background:var(--cyan-bg);color:var(--cyan);border:1px solid #1a3a4a44}
-.pill-a{background:var(--amber-bg);color:var(--amber);border:1px solid #3a2a0a44}
-.pill-p{background:var(--purple-bg);color:var(--purple);border:1px solid #2a1a4a44}
-.hero-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
-.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.78rem;font-weight:700;padding:11px 22px;border-radius:var(--r);transition:.15s;border:none;text-decoration:none}
-.btn-g{background:var(--green);color:#000}
-.btn-g:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(57,211,83,.3)}
-.btn-o{background:transparent;color:var(--text2);border:1px solid var(--border2)}
-.btn-o:hover{border-color:var(--text2);color:var(--text)}
+.hero-sub{font-size:clamp(1.1rem,1.4vw,1.3rem);color:var(--text2);max-width:34em}
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:.92rem;color:var(--text2)}
+.hero-facts b{color:var(--text);font-weight:600}
+.hero-proof{font-size:1rem;color:var(--text2)}
+.hero-proof a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+.hero-terminal{background:var(--bg3);border:2px solid var(--border2)}
+.hero-side-link{font-family:var(--mono);font-size:.92rem;color:var(--text2);text-decoration:underline;text-underline-offset:3px;align-self:flex-start;min-height:44px;display:inline-flex;align-items:center}
+.hero-side-link:hover{color:var(--text)}
 
-/* ═══ HERO TERMINAL ═══ */
-.hero-terminal{
-  background:var(--surface);
-  border:1px solid var(--border2);
-  border-radius:var(--rl);
-  overflow:hidden;
-  box-shadow:0 24px 64px rgba(0,0,0,.6),0 0 0 1px rgba(57,211,83,.05);
-  position:relative;
-}
-.tbar{
-  background:var(--bg3);
-  padding:10px 16px;
-  display:flex;align-items:center;gap:7px;
-  border-bottom:1px solid var(--border);
-}
-.dot{width:12px;height:12px;border-radius:50%}
-.dr{background:#ff5f57}.dy{background:#ffbd2e}.dg{background:#28c840}
-.tbar-title{margin-left:6px;font-size:.68rem;color:var(--text3);letter-spacing:.07em}
-.tbody{padding:1.1rem 1.4rem;font-size:.76rem;line-height:2}
+/* terminal chrome shared by hero and sandbox */
+.tbar{background:var(--surface);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid var(--border2)}
+.dot{display:none}
+.tbar-title{font-family:var(--mono);font-size:.85rem;color:var(--text2)}
+.tbar-tag{font-family:var(--mono);font-size:.75rem;color:var(--text3);letter-spacing:.05em}
+.tbody{padding:1.1rem 1.3rem;font-family:var(--mono);font-size:.95rem;line-height:1.85;min-height:300px;max-height:360px;overflow:hidden}
 .p{color:var(--green)} .c{color:var(--text)} .o{color:var(--text2)}
 .fl{color:var(--amber)} .pa{color:var(--cyan)} .hi{color:var(--purple)}
 .cmt{color:var(--text3)}
-.blink{display:inline-block;width:7px;height:13px;background:var(--green);vertical-align:middle;margin-left:1px;animation:blink 1s step-end infinite}
+.blink{display:inline-block;width:8px;height:15px;background:var(--green);vertical-align:middle;margin-left:1px;animation:blink 1s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .typed-line{overflow:hidden;white-space:nowrap;border-right:2px solid var(--green)}
+@media(prefers-reduced-motion:reduce){.blink{animation:none}}
 
-@media(max-width:900px){.hero-layout{grid-template-columns:1fr}.hero-terminal{display:none}.hero{min-height:auto;padding:6rem 1.25rem 2.5rem}}
-.hero-proof{font-family:var(--mono);font-size:.72rem;color:var(--text2);margin:.9rem 0 1.75rem;letter-spacing:.02em}
-.hero-proof b{color:var(--green);font-weight:700}
+/* ═══ STATS (kept for scripts; static numbers) ═══ */
+.stats{display:none}
+.count-up{display:inline-block}
 
-/* ═══ STATS ═══ */
-.stats{
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  background:var(--bg2);
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  position:relative;z-index:1;
-}
-.stat{
-  padding:1.75rem 2rem;
-  border-right:1px solid var(--border);
-  text-align:center;
-  transition:background .2s;
-}
-.stat:last-child{border-right:none}
-.stat:hover{background:var(--bg3)}
-.stat-n{font-family:var(--sans);font-size:2.4rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums}
-.stat-l{font-size:.65rem;letter-spacing:.12em;color:var(--text3);text-transform:uppercase}
-@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}.stat:nth-child(3){border-right:1px solid var(--border)}}
-
-/* ═══ PROGRESS ═══ */
-#progress-bar{
-  position:fixed;top:58px;left:0;right:0;height:2px;
-  background:var(--border);z-index:199;
-  transform:translateZ(0);
-}
+/* ═══ SCROLL PROGRESS ═══ */
+#progress-bar{position:fixed;top:64px;left:0;right:0;height:3px;background:transparent;z-index:199}
 #progress-fill{height:100%;width:0%;background:var(--green);transition:width .1s}
 
 /* ═══ SECTIONS ═══ */
-.section{max-width:1100px;margin:0 auto;padding:5rem 2rem;position:relative;z-index:1}
-.stag{font-size:.65rem;letter-spacing:.18em;color:var(--green);text-transform:uppercase;margin-bottom:.6rem;display:flex;align-items:center;gap:8px}
-.stag::before{content:'';width:20px;height:1px;background:var(--green);display:inline-block}
-.stitle{font-family:var(--sans);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:.6rem}
-.ssub{font-family:var(--sans);font-size:.95rem;color:var(--text2);max-width:520px;font-weight:400;line-height:1.6}
-.sh{margin-bottom:2.5rem}
+.section{max-width:1480px;margin:0 auto;padding:clamp(3.5rem,8vh,6rem) var(--gut-r) clamp(3.5rem,8vh,6rem) var(--gut);position:relative}
+.stag{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--mono);font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:.9rem}
+.stag .sec{background:var(--green);color:var(--on-accent);padding:4px 10px;font-weight:600}
+.stitle{font-family:var(--display);font-size:clamp(2.4rem,4.4vw,4.2rem);font-weight:700;line-height:.95;text-transform:uppercase;text-wrap:balance;color:var(--text);margin-bottom:.8rem}
+.ssub{font-size:1.15rem;color:var(--text2);max-width:38em}
+.sh{margin-bottom:2.25rem}
 hr.div{border:none;border-top:1px solid var(--border);margin:0}
 
-/* ═══ LESSON TRACK ═══ */
-.track-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
-.filter-btn{
-  font-size:.68rem;padding:6px 14px;border-radius:var(--r);
-  border:1px solid var(--border2);background:transparent;
-  color:var(--text2);letter-spacing:.05em;
-  transition:.2s;
-}
-.filter-btn.active,.filter-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
-
-.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
-
-.lesson-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--rl);
-  padding:1.4rem;
-  cursor:pointer;
-  transition:.2s;
-  position:relative;
-  overflow:hidden;
-  display:flex;flex-direction:column;gap:.75rem;
-}
-.lesson-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-.lesson-card.done{border-left:3px solid var(--green)}
-.lesson-card.active-lesson{border-color:var(--green);box-shadow:0 0 0 1px var(--green-bg) inset}
-
-.lcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.lnum{font-size:.62rem;color:var(--text3);letter-spacing:.1em}
-.ldiff{font-size:.6rem;padding:2px 8px;border-radius:4px;font-weight:500}
-.d-b{background:var(--green-bg);color:var(--green);border:1px solid #1a4a2033}
-.d-i{background:var(--amber-bg);color:var(--amber);border:1px solid #3a2a0a33}
-.d-a{background:var(--red-bg);color:var(--red);border:1px solid #3a0a0a33}
-.ltitle{font-family:var(--sans);font-size:.95rem;font-weight:700;color:var(--text)}
-.ldesc{font-size:.73rem;color:var(--text2);line-height:1.6}
-.ltags{display:flex;gap:5px;flex-wrap:wrap}
-.ltag{font-size:.6rem;padding:2px 7px;border-radius:3px}
-.tg{background:var(--green-bg);color:var(--green)}
-.tc{background:var(--cyan-bg);color:var(--cyan)}
-.ta{background:var(--amber-bg);color:var(--amber)}
-.tp{background:var(--purple-bg);color:var(--purple)}
-.tr{background:var(--red-bg);color:var(--red)}
-
-.lcard-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
-.lprog-wrap{flex:1;height:3px;background:var(--border);border-radius:2px;margin-right:10px}
-.lprog-fill{height:100%;border-radius:2px;background:var(--green);transition:width .4s}
-.lcheck{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;transition:.2s;color:transparent}
-.lesson-card.done .lcheck{background:var(--green-bg);border-color:var(--green);color:var(--green)}
-.l-open-btn{font-size:.65rem;color:var(--cyan);opacity:0;transition:.2s}
-.lesson-card:hover .l-open-btn{opacity:1}
-.lesson-card.locked{position:relative;opacity:.72}
-.lesson-card.locked:hover{opacity:.92}
+/* ═══ LESSON LIBRARY ═══ */
+#lesson-progress-indicator{display:flex;align-items:center;gap:14px 18px;margin-bottom:1.6rem;flex-wrap:wrap}
+.lp-count{font-family:var(--mono);font-size:1rem;color:var(--text2);white-space:nowrap}
+.lp-count b{color:var(--green)}
+.lp-rail{flex:1;min-width:140px;max-width:420px;height:12px;background:var(--bg3);border:1px solid var(--border2)}
+#lesson-progress-fill{height:100%;width:0%;background:var(--green);transition:width .3s ease}
+.track-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.8rem}
+.filter-btn{min-height:44px;font-family:var(--sans);font-size:.95rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:0 16px;border:2px solid var(--border2);background:transparent;color:var(--text2)}
+.filter-btn:hover{border-color:var(--text2);color:var(--text)}
+.filter-btn.active{border-color:var(--green);background:var(--green);color:var(--on-accent)}
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px}
+.lesson-card{background:var(--surface);border:2px solid var(--border2);padding:1.3rem 1.3rem 1.1rem;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:.7rem;color:var(--text)}
+.lesson-card:hover{border-color:var(--text2)}
+.lesson-card.done{border-color:var(--green)}
+.lesson-card.locked{background:transparent;border-style:dashed}
+.lesson-card.locked:hover{border-color:var(--text2)}
+.lcard-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .lcard-top-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.lock-badge{
-  background:var(--amber-bg);color:var(--amber);
-  border:1px solid var(--amber);
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;
-  padding:3px 9px;border-radius:4px;font-weight:500;
-  display:inline-flex;align-items:center;gap:4px;
-  white-space:nowrap;
-}
-.modal-locked{
-  text-align:center;padding:2.5rem 1.5rem;
-}
-.modal-locked .lock-icon{font-size:2.5rem;margin-bottom:1rem}
-.modal-locked h3{font-family:var(--sans);font-size:1.2rem;color:var(--text);margin-bottom:.6rem}
-.modal-locked p{color:var(--text2);font-size:.85rem;max-width:380px;margin:0 auto 1.5rem;line-height:1.7}
-.modal-locked .preview-box{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
-  padding:1rem 1.2rem;margin:0 auto 1.5rem;max-width:420px;text-align:left;
-}
-.modal-locked .preview-box .pv-title{font-size:.7rem;letter-spacing:.06em;color:var(--text3);margin-bottom:.5rem;font-family:var(--mono)}
-.modal-locked .preview-box ul{list-style:none;padding:0;margin:0}
-.modal-locked .preview-box li{font-size:.78rem;color:var(--text2);padding:3px 0;padding-left:1.1rem;position:relative}
-.modal-locked .preview-box li::before{content:'→';position:absolute;left:0;color:var(--green)}
-.unlock-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--green);color:#000;font-weight:700;
-  font-family:var(--mono);font-size:.8rem;
-  padding:12px 28px;border-radius:var(--r);
-  text-decoration:none;transition:.15s;
-}
-.unlock-btn:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(57,211,83,.3)}
+.lnum{font-family:var(--display);font-weight:700;font-size:1.15rem;letter-spacing:.06em;color:var(--text2)}
+.ldiff{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;padding:2px 8px;text-transform:uppercase}
+.d-b{color:var(--text);border:1.5px solid var(--text3)}
+.d-i{color:var(--amber);border:1.5px solid var(--amber)}
+.d-a{color:var(--red);border:1.5px solid var(--red)}
+.ltitle{font-family:var(--display);font-size:1.6rem;font-weight:700;line-height:1.05;text-transform:uppercase;color:var(--text)}
+.ldesc{font-size:1rem;color:var(--text2);line-height:1.5}
+.ltags{display:flex;gap:6px;flex-wrap:wrap}
+.ltag{font-family:var(--mono);font-size:.75rem;padding:1px 8px;border:1px solid var(--border2);color:var(--text2)}
+.tg,.tc,.ta,.tp,.tr{background:transparent}
+.lcard-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:.3rem}
+.lprog-wrap{flex:1;height:8px;background:var(--bg3);border:1px solid var(--border)}
+.lprog-fill{height:100%;background:var(--green);transition:width .4s}
+.lcheck{width:28px;height:28px;border:2.5px solid var(--text3);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0;color:transparent}
+.lesson-card.done .lcheck{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.lesson-card.locked .lcheck{border-style:dashed}
+.l-open-btn{font-size:.85rem;color:var(--text2)}
+.lock-badge{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:2px 8px;background:var(--amber);color:var(--on-accent);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 
-/* ═══ LICENSE KEY MODAL ═══ */
-#license-modal{
-  position:fixed;inset:0;z-index:600;
-  background:rgba(8,12,16,.95);
-  backdrop-filter:blur(8px);
-  display:none;
-  align-items:center;justify-content:center;
-  padding:1rem;
-}
-#license-modal.open{display:flex}
-#license-key-input:focus{outline:none;border-color:var(--green2)}
+/* ═══ GAMES ═══ */
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
+.game-card{border:2px solid var(--border2);background:var(--surface);padding:1.6rem;display:flex;flex-direction:column;gap:.8rem;color:var(--text)}
+.game-card:hover{border-color:var(--green)}
+.game-meta{font-family:var(--mono);font-size:.85rem;letter-spacing:.05em;color:var(--text3);text-transform:uppercase}
+.game-title{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,3vw,2.8rem);line-height:1;text-transform:uppercase}
+.game-desc{color:var(--text2);font-size:1.05rem}
+.game-go{margin-top:auto;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
 
-/* ═══ LESSON MODAL ═══ */
-#lesson-modal{
-  position:fixed;inset:0;z-index:500;
-  background:rgba(8,12,16,.95);
-  backdrop-filter:blur(8px);
-  display:none;
-  align-items:center;justify-content:center;
-  padding:1rem;
-}
-#lesson-modal.open{display:flex}
-.modal-box{
-  background:var(--bg2);
-  border:1px solid var(--border2);
-  border-radius:var(--rl);
-  width:100%;max-width:800px;
-  max-height:88vh;
-  overflow-y:auto;
-  position:relative;
-}
-.modal-header{
-  position:sticky;top:0;
-  background:var(--bg2);
-  border-bottom:1px solid var(--border);
-  padding:1.25rem 1.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  z-index:10;
-}
-.modal-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--text)}
-.modal-close{
-  background:var(--surface);border:1px solid var(--border2);
-  color:var(--text2);width:32px;height:32px;border-radius:6px;
-  font-size:1rem;display:flex;align-items:center;justify-content:center;
-  transition:.2s;
-}
-.modal-close:hover{color:var(--text);border-color:var(--text2)}
-.modal-body{padding:1.5rem}
-.modal-body h3{font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--green);margin:1.5rem 0 .75rem;display:flex;align-items:center;gap:8px}
-.modal-body h3::before{content:'#';color:var(--text3)}
-.modal-body p{font-size:.8rem;color:var(--text2);line-height:1.75;margin-bottom:.75rem}
+/* ═══ PRICING ═══ */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;align-items:stretch}
+.plan{border:2px solid var(--border2);background:var(--surface);padding:1.7rem 1.5rem;display:flex;flex-direction:column;gap:1rem}
+.plan.main{border-color:var(--green);background:var(--surface2)}
+.plan-name{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2)}
+.plan-name em{font-style:normal;background:var(--green);color:var(--on-accent);padding:1px 8px}
+.plan-price{font-family:var(--display);font-weight:700;font-size:4.4rem;line-height:.9;color:var(--text)}
+.plan-price small{font-family:var(--sans);font-weight:500;font-size:1rem;color:var(--text2);margin-left:6px}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.plan li{display:flex;gap:12px;font-size:1.02rem}
+.plan li::before{content:"";flex-shrink:0;width:9px;height:9px;margin-top:.55em;background:var(--green)}
+.plan .btn{margin-top:auto}
+.fine{margin-top:1rem;color:var(--text3);font-size:.95rem}
+.fine button{background:none;border:0;color:var(--text2);text-decoration:underline;text-underline-offset:3px;font-size:inherit}
+
+/* ═══ LESSON + LICENSE MODALS ═══ */
+#license-modal,#lesson-modal{position:fixed;inset:0;background:rgba(10,11,8,.94);display:none;align-items:center;justify-content:center;padding:1rem}
+#license-modal{z-index:600}
+#lesson-modal{z-index:500}
+#license-modal.open,#lesson-modal.open{display:flex}
+#license-key-input:focus{outline:none;border-color:var(--green)}
+.modal-box{background:var(--bg2);border:2px solid var(--border2);width:100%;max-width:860px;max-height:88vh;overflow-y:auto;position:relative}
+.modal-header{position:sticky;top:0;background:var(--bg2);border-bottom:2px solid var(--border2);padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:10}
+.modal-title{font-family:var(--display);font-size:1.7rem;font-weight:700;text-transform:uppercase;line-height:1.05;color:var(--text)}
+.modal-close{background:transparent;border:2px solid var(--border2);color:var(--text);width:44px;height:44px;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-close:hover{border-color:var(--text)}
+.modal-body{padding:1.5rem;font-size:1.05rem}
+.modal-body h3{font-family:var(--display);font-size:1.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--text);margin:1.6rem 0 .7rem;display:flex;align-items:center;gap:10px}
+.modal-body h3::before{content:'';width:12px;height:12px;background:var(--green);flex-shrink:0}
+.modal-body p{font-size:1.05rem;color:var(--text2);line-height:1.7;margin-bottom:.8rem}
 .modal-body ul{list-style:none;margin-bottom:1rem}
-.modal-body ul li{font-size:.78rem;color:var(--text2);padding:4px 0;padding-left:1rem;position:relative;line-height:1.6}
-.modal-body ul li::before{content:'›';position:absolute;left:0;color:var(--green)}
-.modal-code{
-  background:var(--surface);
-  border:1px solid var(--border2);
-  border-radius:var(--r);
-  margin:1rem 0;overflow:hidden;
-}
-.modal-code-bar{
-  background:var(--bg3);padding:8px 14px;
-  border-bottom:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;
-}
-.modal-code-label{font-size:.65rem;color:var(--text3);letter-spacing:.07em}
-.copy-btn{
-  font-size:.62rem;color:var(--cyan);background:none;border:none;
-  padding:2px 8px;border-radius:4px;transition:.2s;letter-spacing:.05em;
-}
-.copy-btn:hover{background:var(--cyan-bg)}
-.modal-code pre{padding:1rem 1.25rem;font-size:.77rem;line-height:1.8;overflow-x:auto;color:var(--text)}
+.modal-body ul li{font-size:1.02rem;color:var(--text2);padding:4px 0 4px 1.2rem;position:relative;line-height:1.6}
+.modal-body ul li::before{content:'›';position:absolute;left:0;color:var(--green);font-weight:700}
+.modal-body code{color:var(--green);background:var(--bg3);padding:1px 6px;font-size:.92em}
+.modal-code{background:var(--bg3);border:2px solid var(--border2);margin:1rem 0;overflow:hidden}
+.modal-code-bar{background:var(--surface);padding:8px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-code-label{font-family:var(--mono);font-size:.78rem;color:var(--text3);letter-spacing:.05em}
+.copy-btn{font-family:var(--mono);font-size:.8rem;color:var(--text);background:none;border:1.5px solid var(--border2);padding:4px 10px;min-height:32px}
+.copy-btn:hover{border-color:var(--text)}
+.modal-code pre{padding:1rem 1.25rem;font-family:var(--mono);font-size:.92rem;line-height:1.75;overflow-x:auto;color:var(--text)}
 .modal-code pre .kw{color:var(--amber)} .modal-code pre .st{color:var(--green)}
 .modal-code pre .cm{color:var(--text3)} .modal-code pre .cmd{color:var(--cyan)}
-.modal-footer{
-  padding:1.25rem 1.5rem;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
-}
-.mark-btn{
-  background:var(--green-bg);border:1px solid var(--green2);
-  color:var(--green);font-family:var(--mono);font-size:.73rem;
-  padding:9px 20px;border-radius:var(--r);transition:.2s;font-weight:700;
-}
-.mark-btn:hover{background:#0f2e18}
-.mark-btn.marked{background:var(--green);color:#000}
+.modal-footer{padding:1.1rem 1.5rem;border-top:2px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.mark-btn{min-height:48px;background:transparent;border:2px solid var(--green);color:var(--green);font-size:1rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:0 20px}
+.mark-btn:hover{background:var(--green-bg)}
+.mark-btn.marked{background:var(--green);color:var(--on-accent)}
 .nav-lesson-btns{display:flex;gap:8px}
-.nl-btn{
-  background:var(--surface);border:1px solid var(--border2);
-  color:var(--text2);font-family:var(--mono);font-size:.7rem;
-  padding:8px 16px;border-radius:var(--r);transition:.2s;
-}
-.nl-btn:hover{border-color:var(--text2);color:var(--text)}
+.nl-btn{min-height:48px;background:transparent;border:2px solid var(--border2);color:var(--text);font-size:1rem;font-weight:600;padding:0 18px}
+.nl-btn:hover{border-color:var(--text)}
+.modal-locked{text-align:center;padding:2.5rem 1.5rem}
+.modal-locked .lock-icon{display:flex;justify-content:center;margin-bottom:1rem;color:var(--amber)}
+.modal-locked .lock-icon svg{width:44px;height:44px}
+.modal-locked h3{justify-content:center;font-size:1.8rem;margin-bottom:.6rem}
+.modal-locked h3::before{display:none}
+.modal-locked p{color:var(--text2);font-size:1.05rem;max-width:420px;margin:0 auto 1.5rem;line-height:1.7}
+.modal-locked .preview-box{background:var(--surface);border:2px solid var(--border2);padding:1rem 1.2rem;margin:0 auto 1.5rem;max-width:460px;text-align:left}
+.modal-locked .preview-box .pv-title{font-family:var(--mono);font-size:.82rem;letter-spacing:.05em;color:var(--text3);margin-bottom:.5rem}
+.modal-locked .preview-box ul{list-style:none;padding:0;margin:0}
+.modal-locked .preview-box li{font-size:1rem;color:var(--text2);padding:3px 0 3px 1.2rem;position:relative}
+.modal-locked .preview-box li::before{content:'›';position:absolute;left:0;color:var(--green)}
+.unlock-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;background:var(--green);color:var(--on-accent);font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;padding:0 26px;text-decoration:none;border:none}
+.unlock-btn:hover{background:#ff8a52}
+.license-icon{display:flex;justify-content:center;color:var(--amber);margin-bottom:.6rem}
+.license-icon svg{width:40px;height:40px}
+#license-modal-box h3{font-family:var(--display);font-size:1.8rem;text-transform:uppercase;margin:0 0 .5rem;color:var(--text)}
+#license-key-input{width:100%;padding:12px;border:2px solid var(--border2);background:var(--bg3);color:var(--text);font-family:var(--mono);font-size:.95rem;margin-bottom:.9rem}
 
 /* ═══ CHEATSHEET ═══ */
-.cheat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
-.ctabs{display:flex;overflow-x:auto;background:var(--bg3);border-bottom:1px solid var(--border)}
-.ctab{
-  padding:11px 18px;font-size:.7rem;letter-spacing:.06em;
-  color:var(--text3);border:none;background:none;
-  border-bottom:2px solid transparent;white-space:nowrap;
-  border-right:1px solid var(--border);transition:.2s;
-}
-.ctab.on{color:var(--green);border-bottom-color:var(--green);background:var(--surface)}
+.cheat-box{background:var(--surface);border:2px solid var(--border2);overflow:hidden}
+.ctabs{display:flex;overflow-x:auto;background:var(--bg3);border-bottom:2px solid var(--border2)}
+.ctab{min-height:48px;padding:0 18px;font-family:var(--sans);font-size:.95rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);border:none;background:none;border-bottom:3px solid transparent;white-space:nowrap;border-right:1px solid var(--border)}
+.ctab.on{color:var(--text);border-bottom-color:var(--green);background:var(--surface)}
 .ctab:hover:not(.on){color:var(--text2)}
-.cpanel{display:none;padding:1.25rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.cpanel{display:none;padding:1.3rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1.2rem}
 .cpanel.on{display:grid}
-.cgroup-title{font-size:.62rem;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;margin-bottom:.6rem;padding-bottom:5px;border-bottom:1px solid var(--border)}
-.crow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);gap:10px}
+.cgroup-title{font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:.6rem;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.crow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:10px}
 .crow:last-child{border-bottom:none}
-.ccmd{font-size:.73rem;color:var(--green);flex-shrink:0;cursor:pointer;transition:.2s}
-.ccmd:hover{color:var(--cyan)}
-.cdesc{font-size:.67rem;color:var(--text2);text-align:right}
-.cheat-tip{font-size:.65rem;color:var(--text3);padding:.75rem 1.25rem;border-top:1px solid var(--border);font-style:italic}
+.ccmd{font-family:var(--mono);font-size:.95rem;color:var(--green);flex-shrink:0;cursor:pointer}
+.ccmd:hover{color:#ff8a52;text-decoration:underline}
+.cdesc{font-size:.92rem;color:var(--text2);text-align:right}
+.cheat-tip{font-size:.95rem;color:var(--text2);padding:.8rem 1.3rem;border-top:1px solid var(--border)}
 
 /* ═══ SANDBOX ═══ */
-#sandbox-wrap{
-  background:var(--surface);
-  border:1px solid var(--border2);
-  border-radius:var(--rl);
-  overflow:hidden;
-  box-shadow:0 16px 48px rgba(0,0,0,.4);
-}
-#term-out{
-  padding:1.1rem 1.4rem;
-  font-size:.76rem;line-height:2;
-  min-height:260px;max-height:420px;
-  overflow-y:auto;
-}
-.irow{
-  display:flex;align-items:center;gap:8px;
-  padding:9px 1.4rem;
-  border-top:1px solid var(--border);
-  background:var(--bg3);
-}
-.irow .ip{color:var(--green);font-size:.76rem;white-space:nowrap}
-#ti{
-  flex:1;background:none;border:none;outline:none;
-  color:var(--text);font-family:var(--mono);font-size:.76rem;
-  caret-color:var(--green);
-}
-.hist-nav{font-size:.62rem;color:var(--text3);padding:0 4px}
-
+#sandbox-wrap{background:var(--bg3);border:2px solid var(--border2);overflow:hidden}
+#term-out{padding:1.1rem 1.3rem;font-family:var(--mono);font-size:.95rem;line-height:1.8;min-height:280px;max-height:460px;overflow-y:auto;color:var(--text)}
+.irow{display:flex;align-items:center;gap:10px;padding:8px 1.3rem;border-top:2px solid var(--border2);background:var(--surface)}
+.irow .ip{font-family:var(--mono);color:var(--green);font-size:.95rem;white-space:nowrap}
+#ti{flex:1;min-width:0;min-height:44px;background:none;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:.95rem;caret-color:var(--green)}
+#ti::placeholder{color:var(--text3)}
+.hist-nav{font-family:var(--mono);font-size:.8rem;color:var(--text3);padding:0 4px;white-space:nowrap}
 .sandbox-quickbtns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
-.qbtn{
-  font-size:.65rem;padding:5px 12px;border-radius:var(--r);
-  background:var(--bg3);border:1px solid var(--border2);
-  color:var(--text2);transition:.2s;
-}
-.qbtn:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.qbtn{min-height:40px;font-family:var(--mono);font-size:.88rem;padding:0 12px;background:transparent;border:1.5px solid var(--border2);color:var(--text2)}
+.qbtn:hover{border-color:var(--green);color:var(--text)}
+@media(max-width:560px){.hist-nav{display:none}}
 
 /* ═══ VM SETUP ═══ */
-.setup-steps{border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
-.vstep{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border);background:var(--surface);transition:.2s}
+.setup-steps{border:2px solid var(--border2)}
+.vstep{display:grid;grid-template-columns:64px 1fr;border-bottom:1px solid var(--border);background:var(--surface)}
 .vstep:last-child{border-bottom:none}
-.vstep:hover{background:var(--surface2)}
-.vnum{
-  background:var(--bg3);border-right:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--sans);font-size:1.4rem;font-weight:700;color:var(--green);
-}
-.vcontent{padding:1.2rem 1.4rem}
-.vtitle{font-family:var(--sans);font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:4px}
-.vbody{font-size:.75rem;color:var(--text2);line-height:1.7}
-.vbody code{color:var(--green);background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:.73rem}
-.vbody a{color:var(--cyan)}
-.vbody a:hover{text-decoration:underline}
+.vnum{background:var(--bg3);border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:2rem;font-weight:700;color:var(--green)}
+.vcontent{padding:1.1rem 1.3rem;min-width:0}
+.vtitle{font-family:var(--display);font-size:1.4rem;font-weight:700;text-transform:uppercase;color:var(--text);margin-bottom:4px}
+.vbody{font-size:1.02rem;color:var(--text2);line-height:1.65}
+.vbody code{color:var(--green);background:var(--bg3);padding:1px 6px;font-size:.9em}
+.vbody a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
+.vbody strong{color:var(--text)}
+.gh-deploy-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:var(--on-accent);font-size:1rem;font-weight:700;padding:10px 20px;border:none;margin-top:.75rem}
 
-
-
-.gh-deploy-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--green);color:#000;
-  font-family:var(--mono);font-size:.75rem;font-weight:700;
-  padding:10px 20px;border-radius:var(--r);border:none;
-  transition:.15s;text-decoration:none;margin-top:.75rem;
-}
-.gh-deploy-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(57,211,83,.3)}
+/* ═══ REVIEWS ═══ */
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px}
+.review{border:2px solid var(--border2);background:var(--surface);padding:1.5rem;display:flex;flex-direction:column;gap:.9rem}
+.review-stars{display:flex;gap:4px;color:var(--green)}
+.review-stars svg{width:18px;height:18px}
+.review p{color:var(--text);font-size:1.05rem;line-height:1.65}
+.review small{font-family:var(--mono);font-size:.82rem;color:var(--text3);letter-spacing:.05em}
 
 /* ═══ ABOUT ═══ */
-.about-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--rl);
-  padding:2rem;
-  display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start;
-}
-@media(max-width:600px){.about-card{grid-template-columns:1fr}}
-.avatar{
-  width:120px;height:120px;border-radius:var(--rl);
-  background:var(--bg3);border:1px solid var(--border2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;font-size:2.8rem;position:relative;overflow:hidden;
-}
-.avatar::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(57,211,83,.12) 0%,transparent 70%);
-}
-.avatar-tag{font-size:.58rem;color:var(--green);letter-spacing:.1em;z-index:1}
-.aname{font-family:var(--sans);font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:4px}
-.arole{font-size:.7rem;color:var(--green);letter-spacing:.1em;margin-bottom:1rem}
-.abio{font-size:.78rem;color:var(--text2);line-height:1.8;margin-bottom:.75rem}
-.askills{display:flex;gap:6px;flex-wrap:wrap;margin-top:1rem}
+.about-card{display:flex;flex-wrap:wrap;gap:2rem 3rem;align-items:flex-start}
+.avatar{flex-shrink:0;width:132px;height:132px;background:var(--surface);border:2px solid var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.avatar b{font-family:var(--display);font-size:2.6rem;letter-spacing:.06em;line-height:1;color:var(--text)}
+.avatar-tag{font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.08em}
+.about-text{flex:1 1 460px;min-width:0;max-width:46em}
+.aname{font-family:var(--display);font-size:2.2rem;font-weight:700;text-transform:uppercase;color:var(--text);line-height:1}
+.arole{font-family:var(--mono);font-size:.88rem;color:var(--green);letter-spacing:.06em;margin:.4rem 0 1rem}
+.abio{font-size:1.08rem;color:var(--text2);line-height:1.7;margin-bottom:.9rem}
+.abio code{color:var(--green)}
+.askills{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+.pill{font-family:var(--mono);font-size:.8rem;padding:3px 10px;border:1.5px solid var(--border2);color:var(--text2);background:transparent}
+.pill-g,.pill-c,.pill-a,.pill-p{background:transparent}
 
-/* ═══ TOAST ═══ */
-#toast{
-  position:fixed;bottom:2rem;right:2rem;
-  background:var(--green);color:#000;
-  font-family:var(--mono);font-size:.72rem;font-weight:700;
-  padding:10px 18px;border-radius:var(--r);
-  z-index:999;opacity:0;transform:translateY(8px);
-  transition:.3s;pointer-events:none;
-}
+/* ═══ FINAL CALL ═══ */
+.final{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem 3rem}
+.final .stitle{margin:0;max-width:14em}
+
+/* ═══ TOAST + COMPLETE FX ═══ */
+#toast{position:fixed;bottom:calc(1.5rem + env(safe-area-inset-bottom, 0px));right:calc(1.5rem + env(safe-area-inset-right, 0px));background:var(--green);color:var(--on-accent);font-weight:700;font-size:1rem;padding:12px 18px;z-index:999;opacity:0;transform:translateY(8px);transition:.3s;pointer-events:none}
 #toast.show{opacity:1;transform:translateY(0)}
-/* ═══ LESSON COMPLETE EFFECT ═══ */
 #complete-fx{position:fixed;inset:0;pointer-events:none;z-index:998;overflow:hidden}
-.fx-particle{position:absolute;width:6px;height:6px;background:var(--green);border-radius:1px;opacity:0;box-shadow:0 0 6px var(--green)}
+.fx-particle{position:absolute;width:8px;height:8px;background:var(--green);opacity:0}
 @keyframes fx-burst{0%{opacity:1;transform:translate(0,0) scale(1) rotate(0deg)}100%{opacity:0;transform:var(--fx-end) scale(.3) rotate(180deg)}}
-.fx-line{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--green2);border-radius:var(--r);padding:12px 22px;font-family:var(--mono);font-size:.8rem;color:var(--green);white-space:nowrap;overflow:hidden;z-index:999;opacity:0;box-shadow:0 8px 32px rgba(57,211,83,.2);transition:opacity .3s ease, transform .3s ease}
+.fx-line{position:fixed;bottom:calc(2rem + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:2px solid var(--green);padding:12px 22px;font-family:var(--mono);font-size:1rem;color:var(--text);white-space:nowrap;overflow:hidden;z-index:999;opacity:0;transition:opacity .3s ease, transform .3s ease;max-width:calc(100vw - 32px)}
 .fx-line.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.fx-line .fx-cursor{display:inline-block;width:7px;height:13px;background:var(--green);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
+.fx-line .fx-cursor{display:inline-block;width:8px;height:15px;background:var(--green);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
+
 /* ═══ FOOTER ═══ */
-footer{
-  border-top:1px solid var(--border);background:var(--bg2);
-  padding:1.75rem 2rem;text-align:center;
-  font-size:.65rem;color:var(--text3);letter-spacing:.08em;
-  position:relative;z-index:1;
-}
-footer .fg{color:var(--green)}
+footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.6rem var(--gut-r) calc(1.6rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
+footer .fg{color:var(--text)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#toast,.fx-line,#progress-fill,.lprog-fill,#lesson-progress-fill{transition:none}}
 
-/* ═══ COUNTER ANIMATION ═══ */
-.count-up{display:inline-block}
-
+/* ═══ VERIFIED PRACTICE PANEL (moshell-missions.js) — larger, square, on-theme ═══ */
+body #ms-panel{margin-top:16px;border:2px solid var(--border2);padding:1.4rem 1.4rem 1.2rem;background:var(--surface)}
+body #ms-panel h3{font-family:var(--display);font-size:1.6rem;font-weight:700;letter-spacing:.03em;color:var(--text);text-transform:uppercase}
+body #ms-sub{font-size:1.02rem;color:var(--text2);margin:.4rem 0 0}
+body #ms-bar{height:12px;background:var(--bg3);border:1px solid var(--border2);margin:1rem 0 1.1rem}
+body #ms-bar i{background:var(--green)}
+body .ms-task{border:2px solid var(--border);padding:.9rem 1rem;margin-bottom:.7rem}
+body .ms-h{gap:.8rem;font-family:var(--sans);font-weight:600;font-size:1.1rem;color:var(--text)}
+body .ms-box{width:28px;height:28px;border:2.5px solid var(--text2);font-size:1rem;font-weight:700;color:var(--on-accent)}
+body .ms-desc{font-size:1rem;color:var(--text2);margin:.5rem 0 0}
+body .ms-hbtn{font-size:.95rem;color:var(--text2);min-height:36px;margin-top:.3rem}
+body .ms-hint{font-family:var(--mono);font-size:.95rem;border-left:3px solid var(--amber);padding-left:.8rem}
+body .ms-task[data-state=active]{border-color:var(--amber)}
+body .ms-task[data-state=active] .ms-h::after,body .ms-task[data-state=locked] .ms-h::after{font-family:var(--mono);font-size:.75rem}
+body .ms-task[data-state=done]{border-color:var(--green)}
+body .ms-task[data-state=done] .ms-h{color:var(--text)}
+body .ms-task[data-state=locked]{opacity:.55}
+body #ms-done{border:2px solid var(--green);background:var(--green-bg);padding:1rem;color:var(--text);font-size:1.02rem}
+body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2);font-size:1rem}
 </style>
 </head>
 <body>
@@ -575,85 +425,84 @@ footer .fg{color:var(--green)}
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <div class="nav-logo-icon">🐧</div>
-    Mo<span>Shell</span>
-  </div>
+  <a class="nav-logo" href="#top" aria-label="MOSHELL home"><b>MOSHELL</b><small>LINUX TRAINING MANUAL</small></a>
   <ul class="nav-links">
     <li><a href="#lessons">Lessons</a></li>
-    <li><a href="#cheatsheet">Reference</a></li>
     <li><a href="#sandbox">Sandbox</a></li>
     <li><a href="netrun.html" class="nav-netrun">NETRUN <span class="nav-netrun-new">NEW</span></a></li>
+    <li><a href="#cheatsheet">Reference</a></li>
     <li><a href="#setup">VM Setup</a></li>
     <li><a href="#about">About</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <button type="button" class="badge-tracker-pill" onclick="showBadgeCollection()" title="View your earned badges">🏆 <span class="badge-tracker-count">0</span>/5</button>
-    <a href="#lessons" class="nav-badge">START LEARNING →</a>
-    <button type="button" onclick="openLicenseModal()" style="background:none;border:none;color:var(--text3);font-family:var(--mono);font-size:.68rem;cursor:pointer;text-decoration:underline;text-underline-offset:2px">Have a license key?</button>
-    <a href="sales.html" class="nav-buy" id="nav-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'nav_get_full_access'},'sales.html')">💰 UNLOCK MOSHELL PRO</a>
+  <div class="nav-actions">
+    <button type="button" class="badge-tracker-pill" onclick="showBadgeCollection()" title="View your earned badges">Badges <span class="badge-tracker-count">0</span>/5</button>
+    <button type="button" class="nav-key" onclick="openLicenseModal()">Have a license key?</button>
+    <a href="sales.html" class="nav-buy" id="nav-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'nav_get_full_access'},'sales.html')">Get MOSHELL Pro</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-badge"><span class="pulse"></span> LIVE PLATFORM · MOSHELL LINUX</div>
+<div class="hero" id="top">
   <div class="hero-layout">
-    <div>
-      <h1>Stop Watching<br><span class="accent">Linux Tutorials.</span><br><span class="dim">Start Using Linux.</span></h1>
-      <p class="hero-sub">A real Linux terminal sandbox for the file system, networking, virtualization, and server administration — no VM, no sign-up, no risk to your machine. Just click a lesson and start typing.</p>
-      <div class="hero-pills">
-        <span class="pill pill-g">Beginner Friendly</span>
-        <span class="pill pill-c">Homelab &amp; VMs</span>
-        <span class="pill pill-a">Networking</span>
-        <span class="pill pill-p">Security</span>
-      </div>
+    <div class="hero-main">
+      <div class="kicker"><span class="sec">SECTION 01</span><span>Hands-on · No VM · No sign-up</span></div>
+      <h1>Stop watching Linux tutorials. <span class="accent">Start using Linux.</span></h1>
+      <p class="hero-sub">A Linux terminal sandbox for the file system, networking, virtualization and server administration. No VM, no sign-up and no risk to your machine. Open a lesson and start typing.</p>
       <div class="hero-btns">
-        <a href="#lessons" class="btn btn-g" onclick="trackCta('hero_start_lesson')">▶ Start Lesson 01 — Free</a>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
-          <a href="sales.html" class="btn btn-o" id="hero-buy-cta" style="border-color:var(--green2);color:var(--green);" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_get_bundle'},'sales.html')">🚀 Unlock MOSHELL Pro — $37</a>
-          <span style="font-family:var(--mono);font-size:.68rem;color:var(--text3);">No account needed to try it right now</span>
-        </div>
+        <a href="#lessons" class="btn btn-g" onclick="try{trackCta('hero_start_lesson')}catch(e){} if(typeof openLesson==='function'){openLesson(1);return false;}">Start Lesson 01 — Free</a>
+        <a href="sales.html" class="btn btn-o" id="hero-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_get_bundle'},'sales.html')">MOSHELL Pro — $37</a>
       </div>
-      <p style="font-family:var(--mono);font-size:.8rem;color:var(--text2);line-height:1.6;max-width:520px;margin-top:.9rem">Go beyond the free lessons. Build real Linux administrator skills through 18+ hands-on labs covering servers, networking, security, Bash, Docker, Nginx, and troubleshooting.</p>
-      <p class="hero-proof">🔥 <b>Lessons 1–6 are free, forever.</b> <a href="#setup" style="color:var(--text2);text-decoration:underline;">Prefer a real VM? Set one up here →</a></p>
+      <div class="hero-facts"><span><b>6</b> lessons free forever</span><span><b>18+</b> hands-on labs in Pro</span><span><b>85+</b> commands covered</span><span><b>0</b> installs</span></div>
+      <p class="hero-proof">No account needed to try it. <a href="#setup">Prefer a real VM? Set one up here.</a></p>
     </div>
-    <div class="hero-terminal">
-      <div class="tbar">
-        <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
-        <span class="tbar-title">student@moshell:~$</span>
+    <div class="hero-side">
+      <div class="hero-terminal">
+        <div class="tbar"><span class="tbar-title">student@moshell:~$</span><span class="tbar-tag">LIVE PREVIEW</span></div>
+        <div class="tbody" id="hero-term"></div>
       </div>
-      <div class="tbody" id="hero-term"></div>
+      <a href="#sandbox" class="hero-side-link">Type your own commands in the sandbox below</a>
     </div>
   </div>
 </div>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat"><div class="stat-n count-up" data-target="6" data-plus="1">0</div><div class="stat-l">Free Lessons</div></div>
-  <div class="stat"><div class="stat-n count-up" data-target="18" data-plus="1">0</div><div class="stat-l">Hands-on Labs</div></div>
-  <div class="stat"><div class="stat-n count-up" data-target="85" data-plus="1">0</div><div class="stat-l">Linux Commands Covered</div></div>
-  <div class="stat"><div class="stat-n count-up" data-target="4">0</div><div class="stat-l">Learning Tracks</div></div>
-</div>
+<!-- STATS (kept empty and hidden; numbers now live in the hero) -->
+<div class="stats" aria-hidden="true"></div>
+
+<hr class="div">
+
+<!-- SANDBOX (moved up so visitors can type right away) -->
+<section class="section" id="sandbox">
+  <div class="sh">
+    <div class="stag"><span class="sec">SECTION 02</span><span>Try it now</span></div>
+    <h2 class="stitle">Type your first command.</h2>
+    <p class="ssub">This is a simulated shell running in your browser. Type <code>help</code> to see what it knows, or click a command below.</p>
+  </div>
+  <div class="sandbox-quickbtns" id="quick-btns"></div>
+  <div id="sandbox-wrap">
+    <div class="tbar"><span class="tbar-title">student@moshell:~$</span><span class="tbar-tag">SIMULATED SHELL</span></div>
+    <div id="term-out"></div>
+    <div class="irow">
+      <span class="ip">student@moshell:~$</span>
+      <input type="text" id="ti" placeholder="type a command, try help" autocomplete="off" spellcheck="false" aria-label="Type a Linux command">
+      <span class="hist-nav">↑↓ history</span>
+    </div>
+  </div>
+</section>
 
 <hr class="div">
 
 <!-- LESSONS -->
 <section class="section" id="lessons">
   <div class="sh">
-    <div class="stag">curriculum</div>
-    <h2 class="stitle">Lesson Library</h2>
-    <p class="ssub">Click any lesson to open it. Your progress is saved in your browser automatically.</p>
+    <div class="stag"><span class="sec">SECTION 03</span><span>The course</span></div>
+    <h2 class="stitle">Fourteen lessons. Six are free.</h2>
+    <p class="ssub">Click a lesson to open it. Your progress is saved in this browser automatically. Finish lessons 1, 3, 6, 9 and 14 to earn the five badges.</p>
   </div>
 
-  <div id="lesson-progress-indicator" style="display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap">
-    <span style="font-family:var(--mono);font-size:.78rem;color:var(--text2);white-space:nowrap">
-      <span id="lesson-progress-count" style="color:var(--green);font-weight:700">0</span>/<span id="lesson-progress-total">14</span> lessons done
-    </span>
-    <div style="flex:1;min-width:120px;max-width:280px;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
-      <div id="lesson-progress-fill" style="height:100%;width:0%;background:var(--green);border-radius:3px;transition:width .3s ease"></div>
-    </div>
-    <button type="button" class="badge-tracker-pill" onclick="showBadgeCollection()" title="View your earned badges">🏆 <span class="badge-tracker-count">0</span>/5 badges</button>
+  <div id="lesson-progress-indicator">
+    <span class="lp-count"><b id="lesson-progress-count">0</b>/<span id="lesson-progress-total">14</span> lessons done</span>
+    <div class="lp-rail"><div id="lesson-progress-fill"></div></div>
+    <button type="button" class="badge-tracker-pill" onclick="showBadgeCollection()" title="View your earned badges">Badges <span class="badge-tracker-count">0</span>/5</button>
   </div>
 
   <div class="track-filters">
@@ -667,43 +516,76 @@ footer .fg{color:var(--green)}
   </div>
 
   <div class="lessons-grid" id="lessons-grid"></div>
+</section>
 
-  <a href="quiz.html"
-     class="lesson-card active-lesson"
-     style="text-decoration:none; color:inherit; margin-top:1rem; display:flex;">
-    <div class="lcard-top">
-      <span class="lnum">BONUS</span>
-      <span class="ldiff d-b">NEW</span>
-    </div>
-    <div class="ltitle">🎮 Linux Trivia Challenge</div>
-    <div class="ldesc">100 questions covering everything from Lesson 01 to Docker. Earn rank badges as you play — no login required.</div>
-    <div class="ltags">
-      <span class="ltag tg">quiz</span>
-      <span class="ltag tc">badges</span>
-    </div>
-       <div class="lcard-footer">
-      <span style="font-size:.68rem; color:var(--cyan); letter-spacing:.04em;">Play now →</span>
-    </div>
-  </a>
+<hr class="div">
 
-  <a href="netrun.html"
-     class="lesson-card active-lesson"
-     style="text-decoration:none; color:inherit; margin-top:1rem; display:flex; border-color:var(--amber); box-shadow:0 0 0 1px var(--amber-bg) inset;">
-    <div class="lcard-top">
-      <span class="lnum">BONUS</span>
-      <span class="ldiff d-a">HACKING GAME</span>
+<!-- GAMES -->
+<section class="section" id="games">
+  <div class="sh">
+    <div class="stag"><span class="sec">SECTION 04</span><span>Practice that feels like play</span></div>
+    <h2 class="stitle">Two games. No login.</h2>
+  </div>
+  <div class="games-grid">
+    <a href="netrun.html" class="game-card">
+      <span class="game-meta">SSH hacking simulator</span>
+      <span class="game-title">NETRUN</span>
+      <span class="game-desc">Break into a network of servers through real misconfigurations: default credentials, weak SSH, SUID binaries and a rogue cron job. Then switch sides and harden every box. Two tracks, mission based. A full walkthrough is included in MOSHELL Pro, or $5 on its own.</span>
+      <span class="game-go">Start hacking →</span>
+    </a>
+    <a href="quiz.html" class="game-card">
+      <span class="game-meta">Linux trivia challenge</span>
+      <span class="game-title">100 Questions</span>
+      <span class="game-desc">Everything from Lesson 01 to Docker. Earn rank badges as you play and see how much stuck.</span>
+      <span class="game-go">Play now →</span>
+    </a>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="sh">
+    <div class="stag"><span class="sec">SECTION 05</span><span>Pricing</span></div>
+    <h2 class="stitle">Pay once. Keep it.</h2>
+    <p class="ssub">No subscription and no account. Your Gumroad receipt includes a license key that unlocks everything in your browser.</p>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name"><span>Free</span></div>
+      <div class="plan-price">$0</div>
+      <ul>
+        <li>Lessons 01–06 in the browser sandbox</li>
+        <li>Command cheatsheet and VM setup guide</li>
+        <li>NETRUN and the trivia challenge</li>
+        <li>Progress and badges saved in your browser</li>
+      </ul>
+      <a href="#lessons" class="btn btn-o" onclick="if(typeof openLesson==='function'){openLesson(1);return false;}">Start Lesson 01</a>
     </div>
-    <div class="ltitle">🖥️ NETRUN — Break In &amp; Harden</div>
-    <div class="ldesc">A hands-on SSH hacking sim. Break into a network of servers by exploiting real misconfigurations — default creds, weak SSH, SUID, rogue cron — then switch sides and harden every box. Two tracks, mission-based, no login to start. Stuck? A full walkthrough is included in MOSHELL Pro, or $5 on its own.</div>
-    <div class="ltags">
-      <span class="ltag ta">ssh</span>
-      <span class="ltag tr">exploitation</span>
-      <span class="ltag tp">hardening</span>
+    <div class="plan main">
+      <div class="plan-name"><span>MOSHELL Pro</span><em>Most complete</em></div>
+      <div class="plan-price">$37<small>one time</small></div>
+      <ul>
+        <li>All 14 lessons, including Docker and Docker Compose</li>
+        <li>18+ hands-on labs: servers, networking, security, Bash, Nginx and troubleshooting</li>
+        <li>The Lab Workbook and Premium Lessons PDFs</li>
+        <li>The full NETRUN walkthrough</li>
+      </ul>
+      <a href="sales.html" class="btn btn-g" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'pricing_get_pro'},'sales.html')">Get MOSHELL Pro</a>
     </div>
-    <div class="lcard-footer">
-      <span style="font-size:.68rem; color:var(--amber); letter-spacing:.04em;">Start hacking →</span>
+    <div class="plan">
+      <div class="plan-name"><span>Lab Workbook</span></div>
+      <div class="plan-price">$17<small>PDF</small></div>
+      <ul>
+        <li>14-page workbook covering 6 standalone topics</li>
+        <li>For practice on your own VM</li>
+        <li>Included in MOSHELL Pro</li>
+      </ul>
+      <a href="sales.html" class="btn btn-o" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'pricing_get_workbook'},'sales.html')">Get the workbook</a>
     </div>
-  </a>
+  </div>
+  <p class="fine">Already bought it? <button type="button" onclick="openLicenseModal()">Enter your license key</button> to unlock Pro in this browser.</p>
 </section>
 
 <hr class="div">
@@ -711,38 +593,14 @@ footer .fg{color:var(--green)}
 <!-- CHEATSHEET -->
 <section class="section" id="cheatsheet">
   <div class="sh">
-    <div class="stag">reference</div>
+    <div class="stag"><span class="sec">REFERENCE</span><span>Command cheatsheet</span></div>
     <h2 class="stitle">Command Cheatsheet</h2>
-    <p class="ssub">Click any command to paste it into the sandbox below.</p>
+    <p class="ssub">Click any command to paste it into the sandbox.</p>
   </div>
   <div class="cheat-box">
     <div class="ctabs" id="ctabs"></div>
     <div id="cpanels"></div>
-    <div class="cheat-tip">💡 Tip: Click any green command to load it into the sandbox. Use Tab for autocomplete in a real terminal.</div>
-  </div>
-</section>
-
-<hr class="div">
-
-<!-- SANDBOX -->
-<section class="section" id="sandbox">
-  <div class="sh">
-    <div class="stag">practice</div>
-    <h2 class="stitle">Interactive Sandbox</h2>
-    <p class="ssub">Simulate Linux commands right in your browser. Great for learning syntax before touching a real terminal.</p>
-  </div>
-  <div class="sandbox-quickbtns" id="quick-btns"></div>
-  <div id="sandbox-wrap">
-    <div class="tbar">
-      <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
-      <span class="tbar-title">student@moshell:~$ (simulated shell)</span>
-    </div>
-    <div id="term-out"></div>
-    <div class="irow">
-      <span class="ip">student@moshell:~$</span>
-      <input type="text" id="ti" placeholder="type a command… (try 'help')" autocomplete="off" spellcheck="false">
-      <span class="hist-nav">↑↓ history</span>
-    </div>
+    <div class="cheat-tip">Tip: click any orange command to load it into the sandbox. Use Tab for autocomplete in a real terminal.</div>
   </div>
 </section>
 
@@ -751,39 +609,39 @@ footer .fg{color:var(--green)}
 <!-- VM SETUP -->
 <section class="section" id="setup">
   <div class="sh">
-    <div class="stag">getting started</div>
+    <div class="stag"><span class="sec">REFERENCE</span><span>Getting started</span></div>
     <h2 class="stitle">Set Up Your Linux VM</h2>
-    <p class="ssub">Recommended setup for following all MOSHELL lessons. Uses VirtualBox + Ubuntu Server — free and beginner-friendly.</p>
+    <p class="ssub">The recommended setup for following every MOSHELL lesson. It uses VirtualBox and Ubuntu Server, both free and beginner friendly.</p>
   </div>
   <div class="setup-steps">
-    <div class="vstep"><div class="vnum">1</div><div class="vcontent"><div class="vtitle">Download VirtualBox</div><div class="vbody">Get the latest VirtualBox from <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">virtualbox.org ↗</a>. Free, works on Windows, macOS, and Linux. Install with default settings — no customization needed.</div></div></div>
-    <div class="vstep"><div class="vnum">2</div><div class="vcontent"><div class="vtitle">Download Ubuntu Server ISO</div><div class="vbody">Get Ubuntu Server LTS from <a href="https://ubuntu.com/download/server" target="_blank">ubuntu.com ↗</a>. Use <strong>Server edition</strong>, not Desktop — it's lighter and forces you to work in the CLI, which is how real servers operate.</div></div></div>
+    <div class="vstep"><div class="vnum">1</div><div class="vcontent"><div class="vtitle">Download VirtualBox</div><div class="vbody">Get the latest VirtualBox from <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener">virtualbox.org</a>. It is free and works on Windows, macOS and Linux. Install with the default settings.</div></div></div>
+    <div class="vstep"><div class="vnum">2</div><div class="vcontent"><div class="vtitle">Download Ubuntu Server ISO</div><div class="vbody">Get Ubuntu Server LTS from <a href="https://ubuntu.com/download/server" target="_blank" rel="noopener">ubuntu.com</a>. Use the <strong>Server edition</strong>, not Desktop. It is lighter and makes you work in the CLI, which is how real servers operate.</div></div></div>
     <div class="vstep"><div class="vnum">3</div><div class="vcontent"><div class="vtitle">Create the VM</div><div class="vbody">In VirtualBox: <code>New</code> → name it <code>moshell-lab</code> → Linux / Ubuntu 64-bit. Assign at least <code>2048 MB RAM</code> and a <code>20 GB</code> virtual disk. Leave everything else as default.</div></div></div>
-    <div class="vstep"><div class="vnum">4</div><div class="vcontent"><div class="vtitle">Attach ISO and Install</div><div class="vbody">Settings → Storage → attach the <code>.iso</code> as virtual CD. Boot and follow the Ubuntu installer. Accept defaults. When asked about partitioning, choose <code>Use an Entire Disk</code>.</div></div></div>
-    <div class="vstep"><div class="vnum">5</div><div class="vcontent"><div class="vtitle">Configure Network Adapter</div><div class="vbody"><strong>NAT</strong> — default, gives internet access. <strong>Bridged</strong> — VM gets its own IP on your LAN. <strong>Host-Only</strong> — isolated network between host and VM. For multi-VM labs, use Host-Only or Internal Network. See Lesson 09 for a full breakdown.</div></div></div>
-    <div class="vstep"><div class="vnum">6</div><div class="vcontent"><div class="vtitle">Take a Snapshot</div><div class="vbody">Before anything else: <code>Machine → Take Snapshot</code>, name it <code>clean-install</code>. Always snapshot before destructive exercises. Breaking your VM is part of learning — just restore and try again.</div></div></div>
-    <div class="vstep"><div class="vnum">7</div><div class="vcontent"><div class="vtitle">First Commands to Run</div><div class="vbody">After first boot: <code>sudo apt update && sudo apt upgrade -y</code> to update packages. Then <code>ip a</code> to confirm networking. You're ready to start Lesson 01.</div></div></div>
+    <div class="vstep"><div class="vnum">4</div><div class="vcontent"><div class="vtitle">Attach ISO and Install</div><div class="vbody">Settings → Storage → attach the <code>.iso</code> as a virtual CD. Boot and follow the Ubuntu installer. Accept the defaults. When asked about partitioning, choose <code>Use an Entire Disk</code>.</div></div></div>
+    <div class="vstep"><div class="vnum">5</div><div class="vcontent"><div class="vtitle">Configure Network Adapter</div><div class="vbody"><strong>NAT</strong> is the default and gives internet access. <strong>Bridged</strong> gives the VM its own IP on your LAN. <strong>Host-Only</strong> is an isolated network between host and VM. For multi-VM labs, use Host-Only or Internal Network. Lesson 09 covers this in full.</div></div></div>
+    <div class="vstep"><div class="vnum">6</div><div class="vcontent"><div class="vtitle">Take a Snapshot</div><div class="vbody">Before anything else: <code>Machine → Take Snapshot</code>, named <code>clean-install</code>. Always snapshot before destructive exercises. Breaking your VM is part of learning. Restore it and try again.</div></div></div>
+    <div class="vstep"><div class="vnum">7</div><div class="vcontent"><div class="vtitle">First Commands to Run</div><div class="vbody">After the first boot, run <code>sudo apt update && sudo apt upgrade -y</code> to update packages. Then run <code>ip a</code> to confirm networking. You are ready to start Lesson 01.</div></div></div>
   </div>
 </section>
 
 <hr class="div">
 
 <!-- TESTIMONIALS -->
-<section class="section">
+<section class="section" id="reviews">
   <div class="sh">
-    <div class="stag">from actual buyers</div>
+    <div class="stag"><span class="sec">FROM BUYERS</span><span>Verified reviews</span></div>
     <h2 class="stitle">What Students Are Saying</h2>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:1rem">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem">
-      <div style="color:var(--green);font-size:.85rem;letter-spacing:.1em;margin-bottom:.7rem">★★★★★</div>
-      <p style="color:var(--text2);font-size:.88rem;line-height:1.7;margin-bottom:1rem">"This is a great resource for anyone looking to learn Linux from the ground up and build practical system administration skills. The lessons are well organized, easy to follow, and the lab workbook makes it much easier to practice what you learn instead of just reading about it. I especially appreciate the step-by-step approach, which makes the material approachable even for someone who is still developing their Linux skills. Overall, MOSHELL provides a solid combination of instruction and hands-on practice. I would definitely recommend this bundle to beginners or anyone looking to strengthen their Linux and sysadmin knowledge. Great value and a very useful learning resource!"</p>
-      <div style="font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.05em">— K.D., VERIFIED BUYER</div>
+  <div class="reviews">
+    <div class="review">
+      <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg></div>
+      <p>"This is a great resource for anyone looking to learn Linux from the ground up and build practical system administration skills. The lessons are well organized, easy to follow, and the lab workbook makes it much easier to practice what you learn instead of just reading about it. I especially appreciate the step-by-step approach, which makes the material approachable even for someone who is still developing their Linux skills. Overall, MOSHELL provides a solid combination of instruction and hands-on practice. I would definitely recommend this bundle to beginners or anyone looking to strengthen their Linux and sysadmin knowledge. Great value and a very useful learning resource!"</p>
+      <small>K.D., VERIFIED BUYER</small>
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem">
-      <div style="color:var(--green);font-size:.85rem;letter-spacing:.1em;margin-bottom:.7rem">★★★★★</div>
-      <p style="color:var(--text2);font-size:.88rem;line-height:1.7;margin-bottom:1rem">"The instructional approach is excellent, making the content easy to learn and follow."</p>
-      <div style="font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.05em">— C.S., VERIFIED BUYER</div>
+    <div class="review">
+      <div class="review-stars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1l2.1 4.6 5 .5-3.8 3.4 1.1 5L8 12l-4.4 2.5 1.1-5L.9 6.1l5-.5z"/></svg></div>
+      <p>"The instructional approach is excellent, making the content easy to learn and follow."</p>
+      <small>C.S., VERIFIED BUYER</small>
     </div>
   </div>
 </section>
@@ -793,18 +651,18 @@ footer .fg{color:var(--green)}
 <!-- ABOUT -->
 <section class="section" id="about">
   <div class="sh">
-    <div class="stag">instructor</div>
-    <h2 class="stitle">About MOSHELL</h2>
+    <div class="stag"><span class="sec">INSTRUCTOR</span><span>About MOSHELL</span></div>
+    <h2 class="stitle">Built in a real classroom.</h2>
   </div>
   <div class="about-card">
-    <div class="avatar">🐧<span class="avatar-tag">FAB</span></div>
-    <div>
+    <div class="avatar" aria-hidden="true"><b>FAB</b><span class="avatar-tag">KINGMO87</span></div>
+    <div class="about-text">
       <div class="aname">Fab (KingMo87)</div>
-      <div class="arole">// LINUX &amp; CYBERSECURITY INSTRUCTOR</div>
+      <div class="arole">LINUX &amp; CYBERSECURITY INSTRUCTOR</div>
       <p class="abio">I built MOSHELL out of my own classroom experience, teaching Linux and cybersecurity fundamentals. I have developed a full course curriculum covering bash scripting, networking, systemd, and security tooling, with hands-on labs and quizzes, not just tutorials compiled from other sites. Like most developers today, I use AI tools as part of my workflow, but every lesson is written, tested, and refined by me.</p>
-      <p class="abio">MOSHELL teaches real Linux system administration — the terminal skills sysadmins, DevOps engineers, and security analysts use every day. It is built around a terminal-first philosophy: if you cannot do it in the shell, you do not really know it yet. I am hoping to help people learn it a more approachable way through this platform.</p>
-      <p class="abio">The lessons cover everything from your first <code style="color:var(--green);font-size:.75rem">ls</code> command all the way to deploying servers, configuring VMs, hardening networks, and automating with bash scripts. Each track is self-contained, hands-on, and built on the same commands used in production environments.</p>
-      <p class="abio">I am a solo developer building this on nights and weekends — no team, no funding, just direct feedback from students who use it. The best way to learn Linux is to break it, restore the snapshot, and break it differently. That is what the VM is for.</p>
+      <p class="abio">MOSHELL teaches real Linux system administration: the terminal skills sysadmins, DevOps engineers, and security analysts use every day. It is built around a terminal-first philosophy. If you cannot do it in the shell, you do not really know it yet. I am hoping to help people learn it in a more approachable way through this platform.</p>
+      <p class="abio">The lessons cover everything from your first <code>ls</code> command all the way to deploying servers, configuring VMs, hardening networks, and automating with bash scripts. Each track is self-contained, hands-on, and built on the same commands used in production environments.</p>
+      <p class="abio">I am a solo developer building this on nights and weekends, with no team and no funding, just direct feedback from students who use it. The best way to learn Linux is to break it, restore the snapshot, and break it differently. That is what the VM is for.</p>
       <div class="askills">
         <span class="pill pill-g">Ubuntu</span>
         <span class="pill pill-g">Bash Scripting</span>
@@ -819,9 +677,22 @@ footer .fg{color:var(--green)}
   </div>
 </section>
 
+<hr class="div">
+
+<!-- FINAL CALL -->
+<section class="section">
+  <div class="final">
+    <h2 class="stitle">Your first command is five seconds away.</h2>
+    <div class="hero-btns">
+      <a href="#lessons" class="btn btn-g" onclick="try{trackCta('final_start_lesson')}catch(e){} if(typeof openLesson==='function'){openLesson(1);return false;}">Start Lesson 01 — Free</a>
+      <a href="sales.html" class="btn btn-o" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'final_get_pro'},'sales.html')">MOSHELL Pro — $37</a>
+    </div>
+  </div>
+</section>
+
 <footer>
-  <p>🐧 <span class="fg">MOSHELL</span> · hosted free on GitHub Pages · no ads, no sign-up required</p>
-  <p style="margin-top:5px;font-size:.6rem">Share this link with your students — it works in any browser, no account required</p>
+  <p><span class="fg">MOSHELL</span> · moshellinux.com · no ads, no sign-up required</p>
+  <p>Share this link with your students. It works in any browser, with no account required.</p>
 </footer>
 
 <!-- LESSON MODAL -->
@@ -829,7 +700,7 @@ footer .fg{color:var(--green)}
   <div class="modal-box" id="modal-box">
     <div class="modal-header">
       <div class="modal-title" id="modal-title">Lesson</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close lesson">✕</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
     <div class="modal-footer">
@@ -844,15 +715,16 @@ footer .fg{color:var(--green)}
 
 <!-- LICENSE KEY MODAL -->
 <div id="license-modal">
-  <div class="modal-box" id="license-modal-box" style="max-width:420px;padding:2rem;text-align:center">
-    <button class="modal-close" onclick="closeLicenseModal()" style="position:absolute;top:14px;right:14px">✕</button>
-    <div style="font-size:2rem;margin-bottom:.5rem">🔑</div>
-    <h3 style="margin:0 0 .5rem">Enter Your License Key</h3>
-    <p style="color:var(--text2);font-size:.85rem;line-height:1.6;margin-bottom:1.2rem">Purchased MOSHELL Pro? Your license key was in the Gumroad receipt email. Paste it below to unlock every lesson in this browser.</p>
-    <input type="text" id="license-key-input" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX" style="width:100%;box-sizing:border-box;padding:11px 12px;border-radius:6px;border:1px solid var(--border2);background:var(--bg);color:var(--text);font-family:var(--mono);font-size:.8rem;margin-bottom:.9rem">
-    <div id="license-status" style="font-size:.78rem;min-height:1.2rem;margin-bottom:.8rem"></div>
-    <button class="unlock-btn" id="license-submit-btn" style="width:100%;border:none;cursor:pointer" onclick="submitLicenseKey()">Unlock MOSHELL Pro →</button>
-    <p style="font-size:.72rem;color:var(--text3);margin-top:1rem">Haven't purchased yet? <a href="sales.html" style="color:var(--green)">See MOSHELL Pro →</a></p>
+  <div class="modal-box" id="license-modal-box" style="max-width:440px;padding:2rem;text-align:center">
+    <button class="modal-close" onclick="closeLicenseModal()" style="position:absolute;top:14px;right:14px" aria-label="Close">✕</button>
+    <div class="license-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/></svg></div>
+    <h3>Enter Your License Key</h3>
+    <p style="color:var(--text2);font-size:1rem;line-height:1.6;margin-bottom:1.2rem">Purchased MOSHELL Pro? Your license key is in the Gumroad receipt email. Paste it below to unlock every lesson in this browser.</p>
+    <label for="license-key-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">License key</label>
+    <input type="text" id="license-key-input" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX">
+    <div id="license-status" style="font-size:.95rem;min-height:1.3rem;margin-bottom:.8rem"></div>
+    <button class="unlock-btn" id="license-submit-btn" style="width:100%;cursor:pointer" onclick="submitLicenseKey()">Unlock MOSHELL Pro →</button>
+    <p style="font-size:.92rem;color:var(--text3);margin-top:1rem">Have not purchased yet? <a href="sales.html" style="color:var(--green);text-decoration:underline">See MOSHELL Pro →</a></p>
   </div>
 </div>
 
@@ -1224,7 +1096,7 @@ function renderLessons(filter='all'){
         <span class="lnum">LESSON ${l.num}</span>
         <div class="lcard-top-right">
           <span class="ldiff ${dc}">${dl}</span>
-          ${locked ? '<span class="lock-badge">🔒 PRO</span>' : ''}
+          ${locked ? '<span class="lock-badge">PRO</span>' : ''}
         </div>
       </div>
       <div class="ltitle">${l.title}</div>
@@ -1262,15 +1134,15 @@ async function openLesson(id){
     const previewItems = (l.preview && l.preview.items) || [];
     mb.innerHTML = `
       <div class="modal-locked">
-        <div class="lock-icon">🔒</div>
+        <div class="lock-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
         <h3>This lesson is part of MOSHELL Pro</h3>
         <p>${l.preview ? l.preview.intro : ''}</p>
         <div class="preview-box">
           <div class="pv-title">PREVIEW — WHAT YOU'LL LEARN</div>
           <ul>${previewItems.map(i=>`<li>${i.split(' — ')[0]}</li>`).join('')}</ul>
         </div>
-        <a href="sales.html" class="unlock-btn">🏆 Unlock MOSHELL Pro — $37 →</a>
-        <button type="button" class="unlock-btn" style="background:transparent;border:1px solid var(--green2);color:var(--green);margin-top:.6rem;cursor:pointer" onclick="openLicenseModal()">🔑 Already purchased? Enter license key</button>
+        <a href="sales.html" class="unlock-btn">Unlock MOSHELL Pro — $37 →</a>
+        <button type="button" class="unlock-btn" style="background:transparent;border:1px solid var(--green2);color:var(--green);margin-top:.6rem;cursor:pointer" onclick="openLicenseModal()">Already purchased? Enter your license key</button>
       </div>`;
     document.getElementById('lesson-modal').classList.add('open');
     document.body.style.overflow='hidden';
@@ -1307,7 +1179,7 @@ async function openLesson(id){
     <pre>${syntaxHL(l.content.code)}</pre>
   </div>`;
   if(l.content.exercise){
-    html += `<h3>Exercise</h3><p style="background:var(--green-bg);border:1px solid var(--green2);border-radius:var(--r);padding:.9rem 1rem;color:var(--text2)">🎯 ${l.content.exercise}</p>`;
+    html += `<h3>Exercise</h3><p style="background:var(--green-bg);border:1px solid var(--green2);border-radius:var(--r);padding:.9rem 1rem;color:var(--text2)">${l.content.exercise}</p>`;
   }
   mb.innerHTML = html;
   document.getElementById('lesson-modal').classList.add('open');
