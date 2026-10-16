@@ -77,16 +77,16 @@ const BADGE_PRODUCT_SLUGS = {
   if (document.getElementById('moshell-rewards-style')) return;
   const css = `
     .rw-overlay{position:fixed;inset:0;background:rgba(10,11,8,.94);display:flex;align-items:center;justify-content:center;padding:1.25rem}
-    .rw-box{position:relative;background:var(--surface2);border:2px solid var(--border2);padding:2.2rem 2rem 2rem;width:100%;max-width:420px;text-align:center;animation:rwUp .35s ease-out}
+    .rw-box{position:relative;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:2.2rem 2rem 2rem;width:100%;max-width:420px;text-align:center;animation:rwUp .35s ease-out}
     .rw-box.wide{max-width:560px;text-align:left}
-    .rw-mark{width:96px;height:96px;margin:0 auto 1.1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--green);color:var(--on-accent, #160d07)}
+    .rw-mark{width:96px;height:96px;margin:0 auto 1.1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--green);color:var(--on-accent, #062012);border-radius:16px}
     .rw-mark svg{width:44px;height:44px}
     .rw-mark small{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;font-weight:600;line-height:1}
     .rw-mark.off{background:transparent;color:var(--text3);border:2px dashed var(--border2)}
     .rw-kicker{font-family:var(--mono);font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:.35rem}
-    .rw-name{font-family:var(--display, var(--sans));font-weight:700;font-size:2rem;line-height:1;text-transform:uppercase;color:var(--text);margin-bottom:.8rem}
+    .rw-name{font-family:var(--display, var(--sans));font-weight:650;font-size:1.5rem;line-height:1.2;color:var(--text);margin-bottom:.8rem}
     .rw-desc{color:var(--text2);font-size:1.05rem;line-height:1.6;margin:0 0 1.4rem}
-    .rw-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;background:var(--green);color:var(--on-accent, #160d07);border:none;font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;width:100%}
+    .rw-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;background:var(--green);color:var(--on-accent, #12110f);border:none;font-family:var(--sans);font-weight:600;font-size:1rem;cursor:pointer;width:100%}
     .rw-btn:hover{filter:brightness(1.1)}
     .rw-ghost{display:inline-flex;align-items:center;justify-content:center;min-height:48px;width:100%;margin-top:10px;background:transparent;border:2px solid var(--border2);color:var(--text2);font-family:var(--sans);font-size:1rem;cursor:pointer}
     .rw-ghost:hover{border-color:var(--text);color:var(--text)}
@@ -96,7 +96,7 @@ const BADGE_PRODUCT_SLUGS = {
     .rw-input:focus{border-color:var(--green)}
     .rw-form{display:flex;flex-direction:column;gap:10px}
     .rw-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:1.4rem;padding-right:52px}
-    .rw-head h3{font-family:var(--display, var(--sans));font-weight:700;font-size:2rem;text-transform:uppercase;color:var(--text);line-height:1;margin:0}
+    .rw-head h3{font-family:var(--display, var(--sans));font-weight:650;font-size:1.4rem;color:var(--text);line-height:1.2;margin:0}
     .rw-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
     @media (max-width:520px){.rw-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
     .rw-cell{text-align:center}
@@ -263,6 +263,16 @@ window.updateBadgeTracker = function() {
     document.querySelectorAll('.badge-tracker-count').forEach(function(el) {
       el.textContent = count;
     });
+    const rack = document.getElementById('badge-rack');
+    if (rack) {
+      rack.innerHTML = Object.keys(BADGES).map(function (id) {
+        const b = BADGES[id];
+        const on = !!earned[id];
+        return '<div class="badge-slot' + (on ? ' on' : '') + '">' +
+          '<b>' + b.name + '</b>L' + id +
+          '</div>';
+      }).join('');
+    }
   } catch (e) {
     console.error('[moshell-rewards] badge tracker update failed', e);
   }

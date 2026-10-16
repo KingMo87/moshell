@@ -18,7 +18,7 @@
 <meta name="description" content="Go from Linux beginner to sysadmin fundamentals — 18 hands-on labs in a browser sandbox, plus a downloadable workbook. Covers bash, networking, SSH, Docker, and server administration. Workbook $17 or MOSHELL Pro $37 one-time.">
 <meta name="author" content="MOSHELL Linux Platform">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#13150f">
+<meta name="theme-color" content="#1a1916">
 <link rel="canonical" href="https://moshellinux.com/sales.html">
 
 <!-- ---------- OPEN GRAPH ---------- -->
@@ -70,34 +70,36 @@
 }
 </script>
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2313150f'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e8692e' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e8e1c9'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a1916'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e2b657' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e6e0d4'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
 <style>
-/* MOSHELL sales page — Field Manual Night (same system as index.html) */
+/* MOSHELL sales page — charcoal lab (same tokens as index.html) */
 :root {
-  --bg:       #13150f;
-  --bg2:      #191c14;
-  --bg3:      #0e100b;
-  --surface:  #1d2018;
-  --surface2: #24281e;
-  --border:   #353929;
-  --border2:  #4a4f3c;
-  --green:    #e8692e;
-  --green2:   #c9561f;
-  --green-bg: #2a1a10;
-  --amber:    #d9ab4f;
+  --bg:       #101218;
+  --bg2:      #161920;
+  --bg3:      #0b0d11;
+  --surface:  #1a1e26;
+  --surface2: #222733;
+  --border:   #2c3340;
+  --border2:  #3c4554;
+  --green:    #e2b657;
+  --green2:   #c99a3a;
+  --green-bg: #2a2210;
+  --amber:    #e0b56a;
   --amber-bg: #2a2312;
-  --red:      #ff8f70;
-  --blue:     #a9c9e6;
-  --text:     #e8e1c9;
-  --text2:    #bdb79e;
-  --text3:    #8f8b75;
-  --on-accent:#160d07;
-  --mono:     'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
-  --body:     'Barlow', 'Helvetica Neue', Arial, sans-serif;
-  --display:  'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --red:      #e08b76;
+  --blue:     #8ec4d4;
+  --text:     #f2eee6;
+  --text2:    #b8c0cc;
+  --text3:    #7d8694;
+  --on-accent:#0b0d11;
+  --mono:     'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --body:     'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  --display:  'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --r:        10px;
+  --rl:       16px;
   --gut:      max(16px, env(safe-area-inset-left, 0px));
   --gut-r:    max(16px, env(safe-area-inset-right, 0px));
   color-scheme: dark;
@@ -105,7 +107,9 @@
 @media (min-width: 760px) { :root { --gut: max(40px, env(safe-area-inset-left, 0px)); --gut-r: max(40px, env(safe-area-inset-right, 0px)); } }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+body{background:
+  radial-gradient(900px 520px at 88% -12%, rgba(226,182,87,.10), transparent 55%),
+  var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2)}
 a{color:inherit;text-decoration:none}
 button{font-family:var(--body);cursor:pointer}
@@ -113,20 +117,20 @@ button{font-family:var(--body);cursor:pointer}
 strong{color:var(--text)}
 
 /* NAV */
-nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:100;background:#0d0f0a;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem 1.2rem;padding:.55rem var(--gut-r) .55rem var(--gut)}
-.nav-logo{display:flex;align-items:baseline;gap:12px}
-.nav-logo b{font-family:var(--display);font-weight:700;font-size:1.9rem;letter-spacing:.06em;line-height:1}
-.nav-logo small{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.05em}
+nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:100;background:rgba(16,18,24,.8);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem 1.2rem;padding:.5rem var(--gut-r) .5rem var(--gut)}
+.nav-logo{display:flex;align-items:baseline;gap:10px}
+.nav-logo b{font-family:var(--display);font-weight:650;font-size:1.25rem;letter-spacing:-.02em;line-height:1}
+.nav-logo small{font-family:var(--body);font-size:.8rem;color:var(--text3)}
 .nav-right{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
-.nav-link{display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
+.nav-link{display:inline-flex;align-items:center;min-height:40px;font-size:.95rem;color:var(--text2)}
 .nav-link:hover{color:var(--text)}
-.nav-cta{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:var(--green);color:var(--on-accent);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase}
-.nav-cta:hover{background:#ff8a52}
+.nav-cta{display:inline-flex;align-items:center;min-height:38px;padding:0 16px;background:var(--green);color:var(--on-accent);font-weight:700;font-size:.88rem;border-radius:999px}
+.nav-cta:hover{background:var(--green2)}
 
 /* BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:58px;padding:0 26px;font-family:var(--body);font-weight:700;font-size:1.02rem;letter-spacing:.08em;text-transform:uppercase;text-align:center;border:none;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;font-family:var(--body);font-weight:650;font-size:.98rem;text-align:center;border:none;cursor:pointer;border-radius:999px}
 .btn-g{background:var(--green);color:var(--on-accent)}
-.btn-g:hover{background:#ff8a52}
+.btn-g:hover{background:var(--green2)}
 .btn-o{background:transparent;color:var(--text);border:2px solid var(--text2)}
 .btn-o:hover{border-color:var(--text);background:var(--surface)}
 .btn-q{background:transparent;color:var(--text2);border:2px dashed var(--border2)}
@@ -137,9 +141,9 @@ nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:100;background:#0d
 .wrap{max-width:1320px;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r)}
 .section{padding-block:clamp(3.5rem,8vh,6rem)}
 hr.div{border:none;border-top:1px solid var(--border)}
-.stag{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--mono);font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:.9rem}
-.stag .sec{background:var(--green);color:var(--on-accent);padding:4px 10px;font-weight:600}
-.stitle{font-family:var(--display);font-weight:700;font-size:clamp(2.4rem,4.6vw,4.4rem);line-height:.95;text-transform:uppercase;text-wrap:balance}
+.stag{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-family:var(--mono);font-size:.78rem;color:var(--text3);margin-bottom:.4rem}
+.stag .sec{background:none;color:var(--text3);padding:0;font-weight:400}
+.stitle{font-family:var(--display);font-weight:650;font-size:clamp(1.55rem,2.8vw,2.1rem);line-height:1.2}
 .ssub{margin-top:.9rem;font-size:1.15rem;color:var(--text2);max-width:40em}
 .sh{margin-bottom:2.25rem}
 
@@ -148,16 +152,16 @@ hr.div{border:none;border-top:1px solid var(--border)}
 .hero .wrap{display:flex;flex-wrap:wrap;gap:3rem 4rem;align-items:flex-end}
 .hero-main{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:1.5rem}
 .hero-prices{flex:1 1 380px;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(3.6rem,8vw,8rem);line-height:.9;text-transform:uppercase;text-wrap:balance}
+h1{font-family:var(--display);font-weight:650;font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.08;letter-spacing:-.03em}
 h1 .g{color:var(--green)}
 .hero-sub{font-size:clamp(1.1rem,1.4vw,1.3rem);color:var(--text2);max-width:36em}
-.price-card{display:flex;flex-direction:column;gap:.4rem;border:2px solid var(--border2);background:var(--surface);padding:1.3rem 1.2rem;color:var(--text);position:relative}
+.price-card{display:flex;flex-direction:column;gap:.4rem;border:1px solid var(--border2);background:var(--surface);padding:1.3rem 1.2rem;color:var(--text);position:relative;border-radius:var(--rl)}
 .price-card:hover{border-color:var(--text2)}
 .price-card.featured{border-color:var(--green);background:var(--surface2)}
-.price-card.featured:hover{border-color:#ff8a52}
+.price-card.featured:hover{border-color:var(--green2)}
 .featured-badge{position:absolute;top:-2px;right:-2px;background:var(--green);color:var(--on-accent);font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:3px 9px}
 .pc-label{font-family:var(--mono);font-size:.85rem;letter-spacing:.06em;color:var(--text2)}
-.pc-price{font-family:var(--display);font-weight:700;font-size:4.2rem;line-height:.9}
+.pc-price{font-family:var(--mono);font-weight:500;font-size:2.4rem;line-height:1.1}
 .pc-price span{font-size:.5em;vertical-align:top;margin-right:2px}
 .pc-desc{font-size:1rem;color:var(--text2)}
 .pc-go{margin-top:.5rem;font-weight:700;font-size:.92rem;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
@@ -249,12 +253,12 @@ h1 .g{color:var(--green)}
 .check i svg{width:16px;height:16px}
 
 /* PRICING TABLE */
-.pricing-table{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;max-width:900px}
+.pricing-table{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px;max-width:1100px}
 .pt-card{border:2px solid var(--border2);background:var(--surface);padding:1.8rem 1.6rem;display:flex;flex-direction:column;gap:1rem}
 .pt-card.best{border-color:var(--green);background:var(--surface2)}
 .pt-name{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.9rem;letter-spacing:.06em;color:var(--text2)}
 .pt-name em{font-style:normal;background:var(--green);color:var(--on-accent);padding:1px 8px}
-.pt-price{font-family:var(--display);font-weight:700;font-size:5rem;line-height:.85}
+.pt-price{font-family:var(--mono);font-weight:500;font-size:2.6rem;line-height:1.1}
 .pt-price sub{font-size:.45em;vertical-align:top;margin-right:2px}
 .pt-price small{font-family:var(--body);font-weight:500;font-size:1rem;color:var(--text2);margin-left:6px}
 .pt-tagline{color:var(--text2);font-size:1.04rem}
@@ -278,13 +282,15 @@ h1 .g{color:var(--green)}
 
 /* FINAL */
 .final .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem 3rem}
-.final h2{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,5vw,4.8rem);line-height:.92;text-transform:uppercase;max-width:12em}
+.final h2{font-family:var(--display);font-weight:650;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.2;max-width:16em}
 .final h2 .g{color:var(--green)}
 .final p{color:var(--text2);font-size:1.12rem;max-width:34em;margin-top:.8rem}
 
 footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.5rem var(--gut-r) calc(1.5rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
 footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
 .fade-up{opacity:1}
+.btn,.nav-cta,.price-card,.review,.product-card,.step,.task,.pt-card,.faq-list,.curriculum-list,.note-mark,.pc-icon,.check i{border-radius:var(--r)}
+.featured-badge,.curr-free,.pt-name em{border-radius:99px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -292,11 +298,12 @@ footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="https://moshellinux.com/"><b>MOSHELL</b><small>LINUX TRAINING MANUAL</small></a>
+  <a class="nav-logo" href="https://moshellinux.com/"><b>Moshell</b><small>linux lab</small></a>
   <div class="nav-right">
     <a class="nav-link" href="https://moshellinux.com/">Free lessons</a>
     <a class="nav-link" href="#faq">FAQ</a>
-    <a href="#pricing" class="nav-cta">Get access</a>
+    <a class="nav-link" href="index.html#pricing">Free vs Pro</a>
+    <a href="#pricing" class="nav-cta">Pricing</a>
   </div>
 </nav>
 
@@ -304,9 +311,9 @@ footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
 <section class="hero">
   <div class="wrap">
     <div class="hero-main">
-      <div class="stag"><span class="sec">MOSHELL PRO</span><span>One-time payment · Lifetime access</span></div>
-      <h1>Stop googling Linux. <span class="g">Learn it.</span></h1>
-      <p class="hero-sub">A hands-on Linux and sysadmin training system, from your <strong>first terminal command</strong> to running real servers, configuring VMs and locking down networks. 18+ labs across 4 tracks, built for people who want to <strong>actually understand</strong> what is happening, not just follow along.</p>
+      <p class="stag">One payment. License key is in the Gumroad email.</p>
+      <h1>The rest of the course, plus the PDFs.</h1>
+      <p class="hero-sub">Free gets you lessons 1–6 in the browser. Pro unlocks 7–14, the workbook, and the NETRUN walkthrough. I sell this as a one-time thing because I hate subscriptions too.</p>
       <div class="btn-row">
         <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" rel="noopener" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="btn btn-g">Get MOSHELL Pro — $37</a>
         <a href="https://moshell.gumroad.com/l/fydlcl" target="_blank" rel="noopener" onclick="trackCta('buy_click_fydlcl',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:17.0,items:[{item_id:'fydlcl',item_name:'MOSHELL Lab Workbook',price:17.0}]});}" class="btn btn-o">Get the workbook — $17</a>
@@ -586,6 +593,19 @@ footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
     </div>
     <div class="pricing-table">
       <div class="pt-card">
+        <div class="pt-name"><span>FREE PLATFORM</span></div>
+        <div class="pt-price"><sub>$</sub>0<small>forever</small></div>
+        <p class="pt-tagline">Start in the browser. No account and no install.</p>
+        <ul class="pt-features">
+          <li>Lessons 01–06 in the sandbox</li>
+          <li>Command cheatsheet and VM guide</li>
+          <li>NETRUN attack track + trivia</li>
+          <li class="no">Lessons 07–14 unlocked</li>
+          <li class="no">Defense track + PDFs</li>
+        </ul>
+        <a href="index.html" class="btn btn-o">Start Lesson 01</a>
+      </div>
+      <div class="pt-card">
         <div class="pt-name"><span>STARTER</span></div>
         <div class="pt-price"><sub>$</sub>17<small>minimum</small></div>
         <p class="pt-tagline">PDF workbook and cheatsheets. Pay what you want, $17 minimum.</p>
@@ -615,6 +635,7 @@ footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
       </div>
     </div>
     <div class="reassure"><span>✓ One-time payment</span><span>✓ Instant access through Gumroad</span><span>✓ No subscription</span><span>✓ No recurring fees</span></div>
+    <p class="ssub" style="margin-top:1.2rem">Already purchased? Open the <a href="index.html" style="color:var(--green);text-decoration:underline">free platform</a> and use <strong>Have a license key?</strong> to unlock lessons 7–14 in this browser. No extra account.</p>
   </div>
 </section>
 
@@ -660,8 +681,8 @@ footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
 <section class="section final">
   <div class="wrap">
     <div>
-      <h2>Ready to learn <span class="g">Linux?</span></h2>
-      <p>Stop watching, start doing. One-time payment and lifetime access. Start at $17, or go all in with MOSHELL Pro for $37.</p>
+      <h2>If the free lessons helped, Pro is the rest of the stack.</h2>
+      <p>$17 for the workbook, $37 for Pro. Same Gumroad checkout either way.</p>
     </div>
     <div class="btn-row">
       <a href="https://moshell.gumroad.com/l/odlbsr" target="_blank" rel="noopener" onclick="trackCta('buy_click_odlbsr',{event_category:'ecommerce'});if(typeof gtag==='function'){gtag('event','begin_checkout',{currency:'USD',value:37.0,items:[{item_id:'odlbsr',item_name:'MOSHELL Full Bundle',price:37.0}]});}" class="btn btn-g">Get MOSHELL Pro — $37</a>
