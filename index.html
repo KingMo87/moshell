@@ -18,7 +18,7 @@
 <meta name="keywords" content="linux sandbox, browser based linux, interactive linux tutorial, learn linux online, linux terminal simulator, learn linux, linux course, linux tutorial, linux for beginners, bash scripting, ubuntu tutorial, sysadmin course, linux commands, virtualbox linux, homelab linux, linux security, ssh tutorial, docker linux, free linux course, linux workbook">
 <meta name="author" content="MOSHELL Linux Platform">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#13150f">
+<meta name="theme-color" content="#101218">
 
 <!-- ---------- OPEN GRAPH ---------- -->
 <meta property="og:type" content="website">
@@ -59,45 +59,44 @@
 }
 </script>
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2313150f'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e8692e' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e8e1c9'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a1916'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e2b657' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e6e0d4'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
 <style>
-/* MOSHELL — Field Manual Night.
-   Variable NAMES are kept from the old theme because the page script and the
-   external scripts write inline styles like var(--green); only the values changed.
-   --green is now the signal orange accent. */
+/* MOSHELL — workshop notes, not a SaaS landing page.
+   Variable NAMES stay (--green etc.) because scripts set inline styles. */
 :root {
-  --bg:       #13150f;
-  --bg2:      #191c14;
-  --bg3:      #0e100b;
-  --surface:  #1d2018;
-  --surface2: #24281e;
-  --border:   #353929;
-  --border2:  #4a4f3c;
-  --green:    #e8692e;
-  --green2:   #c9561f;
-  --green-bg: #2a1a10;
-  --cyan:     #a9c9e6;
-  --cyan-bg:  #18212a;
-  --amber:    #d9ab4f;
+  --bg:       #101218;
+  --bg2:      #161920;
+  --bg3:      #0b0d11;
+  --surface:  #1a1e26;
+  --surface2: #222733;
+  --border:   #2c3340;
+  --border2:  #3c4554;
+  --green:    #e2b657;
+  --green2:   #c99a3a;
+  --green-bg: #2a2210;
+  --cyan:     #8ec4d4;
+  --cyan-bg:  #152228;
+  --amber:    #e0b56a;
   --amber-bg: #2a2312;
-  --red:      #ff8f70;
+  --red:      #e08b76;
   --red-bg:   #2c1612;
-  --purple:   #cbbd8f;
-  --purple-bg:#26231a;
-  --blue:     #a9c9e6;
-  --blue-bg:  #18212a;
-  --text:     #e8e1c9;
-  --text2:    #bdb79e;
-  --text3:    #8f8b75;
-  --on-accent:#160d07;
-  --mono:     'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
-  --sans:     'Barlow', 'Helvetica Neue', Arial, sans-serif;
-  --display:  'Barlow Condensed', 'Arial Narrow', sans-serif;
-  --r:        2px;
-  --rl:       2px;
+  --purple:   #c4b5e0;
+  --purple-bg:#1e1a28;
+  --blue:     #8ec4d4;
+  --blue-bg:  #152228;
+  --text:     #f2eee6;
+  --text2:    #b8c0cc;
+  --text3:    #7d8694;
+  --on-accent:#0b0d11;
+  --mono:     'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --sans:     'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  --display:  'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --r:        10px;
+  --rl:       16px;
+  --glow:     0 24px 64px rgba(0,0,0,.32);
   --gut:      max(16px, env(safe-area-inset-left, 0px));
   --gut-r:    max(16px, env(safe-area-inset-right, 0px));
   color-scheme: dark;
@@ -105,7 +104,10 @@
 @media (min-width: 760px) { :root { --gut: max(40px, env(safe-area-inset-left, 0px)); --gut-r: max(40px, env(safe-area-inset-right, 0px)); } }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;overflow-x:hidden}
+body{background:
+  radial-gradient(900px 520px at 88% -12%, rgba(226,182,87,.10), transparent 55%),
+  radial-gradient(700px 380px at 0% 8%, rgba(142,196,212,.05), transparent 46%),
+  var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;overflow-x:hidden}
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2)}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;font-family:var(--sans)}
@@ -113,68 +115,89 @@ button{cursor:pointer;font-family:var(--sans)}
 code{font-family:var(--mono)}
 
 /* ═══ NAV ═══ */
+.skip-link{position:absolute;left:12px;top:-48px;z-index:400;background:var(--green);color:var(--on-accent);padding:10px 14px;font-weight:700;border-radius:var(--r)}
+.skip-link:focus{top:12px}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
-  min-height:64px;background:#0d0f0a;border-bottom:1px solid var(--border);
+  min-height:60px;background:rgba(16,18,24,.78);border-bottom:1px solid var(--border);
+  backdrop-filter:saturate(140%) blur(18px);-webkit-backdrop-filter:saturate(140%) blur(18px);
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
-  padding:.5rem var(--gut-r) .5rem var(--gut);gap:.4rem 1.4rem;
+  padding:.45rem var(--gut-r) .45rem var(--gut);gap:.3rem 1.2rem;
 }
-.nav-logo{display:flex;align-items:baseline;gap:12px;color:var(--text)}
-.nav-logo b{font-family:var(--display);font-weight:700;font-size:1.9rem;letter-spacing:.06em;line-height:1}
-.nav-logo small{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.05em}
-.nav-links{display:flex;flex-wrap:wrap;gap:0 1.4rem;list-style:none}
-.nav-links a{display:flex;align-items:center;min-height:44px;font-size:.95rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
+.nav-logo{display:flex;align-items:baseline;gap:10px;color:var(--text)}
+.nav-logo b{font-family:var(--display);font-weight:650;font-size:1.25rem;letter-spacing:-.02em;line-height:1}
+.nav-logo small{font-family:var(--mono);font-size:.72rem;color:var(--text3)}
+.nav-links{display:flex;flex-wrap:wrap;gap:0 1.15rem;list-style:none}
+.nav-links a{display:flex;align-items:center;min-height:40px;font-size:.92rem;font-weight:500;color:var(--text2)}
 .nav-links a:hover{color:var(--text)}
 .nav-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
-.nav-key{background:none;border:0;color:var(--text3);font-size:.9rem;text-decoration:underline;text-underline-offset:3px;min-height:44px}
+.nav-key{background:none;border:0;color:var(--text3);font-size:.88rem;text-decoration:underline;text-underline-offset:3px;min-height:40px}
 .nav-key:hover{color:var(--text)}
-.nav-badge{display:inline-flex;align-items:center;min-height:44px;border:2px solid var(--text2);color:var(--text);padding:0 14px;font-size:.88rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.nav-badge{display:inline-flex;align-items:center;min-height:40px;border:1px solid var(--text2);color:var(--text);padding:0 12px;font-size:.9rem}
 .nav-badge:hover{border-color:var(--text)}
-.nav-buy{display:inline-flex;align-items:center;min-height:44px;background:var(--green);color:var(--on-accent);padding:0 16px;font-size:.88rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none}
-.nav-buy:hover{background:#ff8a52}
-.badge-tracker-pill{display:inline-flex;align-items:center;gap:6px;min-height:44px;background:transparent;color:var(--amber);border:2px solid var(--amber);padding:0 12px;font-family:var(--mono);font-size:.85rem;font-weight:600;white-space:nowrap}
+.nav-buy{display:inline-flex;align-items:center;min-height:38px;background:var(--green);color:var(--on-accent);padding:0 16px;font-size:.88rem;font-weight:700;border:none;border-radius:999px}
+.nav-buy:hover{background:var(--green2)}
+.badge-tracker-pill{display:inline-flex;align-items:center;gap:6px;min-height:38px;background:transparent;color:var(--text2);border:1px solid var(--border2);padding:0 12px;font-family:var(--mono);font-size:.78rem;white-space:nowrap;border-radius:999px}
 .badge-tracker-pill:hover{background:var(--amber-bg)}
 .nav-netrun{display:inline-flex;align-items:center;gap:6px}
-.nav-netrun-new{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--on-accent);background:var(--amber);padding:1px 5px}
+.nav-netrun-new{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--on-accent);background:var(--amber);padding:1px 5px}
+.nav-toggle{display:none;min-height:44px;min-width:44px;align-items:center;justify-content:center;background:transparent;border:2px solid var(--border2);color:var(--text);font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;border-radius:var(--r)}
+.nav-toggle:hover{border-color:var(--text)}
+.nav-drawer{display:contents}
 
-@media (max-width: 900px){
-  nav{position:relative;padding-top:max(.5rem, env(safe-area-inset-top, 0px))}
-  .nav-links{gap:0 1rem}
-  .nav-links a{font-size:.85rem}
-  #progress-bar{top:0!important;position:fixed}
-  .hero{padding-top:clamp(2rem,5vh,3rem)}
+@media (max-width: 980px){
+  nav{position:fixed;top:0;flex-wrap:nowrap;padding-top:max(.5rem, env(safe-area-inset-top, 0px))}
+  .nav-toggle{display:inline-flex}
+  .nav-drawer{
+    display:none;position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:4px;
+    background:rgba(8,10,14,.96);border-bottom:1px solid var(--border);
+    padding:.75rem var(--gut-r) 1rem var(--gut);backdrop-filter:blur(16px);
+  }
+  nav.is-open .nav-drawer{display:flex}
+  .nav-links{flex-direction:column;gap:0}
+  .nav-actions{flex-direction:column;align-items:stretch;padding-top:.4rem}
+  #progress-bar{top:64px}
 }
 /* ═══ SHARED BUTTONS ═══ */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:58px;padding:0 26px;font-family:var(--sans);font-size:1.05rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;text-decoration:none;text-align:center}
-.btn-g{background:var(--green);color:var(--on-accent)}
-.btn-g:hover{background:#ff8a52}
-.btn-o{background:transparent;color:var(--text);border:2px solid var(--text2)}
-.btn-o:hover{border-color:var(--text);background:var(--surface)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;font-family:var(--sans);font-size:.98rem;font-weight:650;border:none;text-decoration:none;text-align:center;border-radius:999px}
+.btn-g{background:var(--green);color:var(--on-accent);box-shadow:0 8px 24px rgba(226,182,87,.18)}
+.btn-g:hover{background:var(--green2)}
+.btn-o{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-o:hover{border-color:var(--text3);background:var(--surface)}
 
 /* ═══ HERO ═══ */
-.hero{padding:calc(64px + clamp(2.5rem,7vh,5rem)) var(--gut-r) clamp(3rem,7vh,5rem) var(--gut);max-width:1480px;margin:0 auto}
-.hero-layout{display:flex;flex-wrap:wrap;gap:3rem 4rem;align-items:flex-start}
-.hero-main{flex:999 1 500px;min-width:0;display:flex;flex-direction:column;gap:1.5rem}
-.hero-side{flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:12px}
-.kicker{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--mono);font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2)}
-.kicker .sec{background:var(--green);color:var(--on-accent);padding:4px 10px;font-weight:600}
-.hero h1{font-family:var(--display);font-size:clamp(2.8rem,5vw,5rem);font-weight:700;line-height:.92;text-transform:uppercase;text-wrap:balance;color:var(--text)}
-.hero h1 .accent{color:var(--green)}
-.hero-sub{font-size:clamp(1.1rem,1.4vw,1.3rem);color:var(--text2);max-width:34em}
+.hero{padding:calc(72px + 2.4rem) var(--gut-r) 2rem var(--gut);max-width:1240px;margin:0 auto}
+.hero-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,1.08fr);gap:2.4rem 3rem;align-items:start}
+@media (max-width:960px){.hero-layout{grid-template-columns:minmax(0,1fr)}}
+.hero-main{display:flex;flex-direction:column;gap:1.15rem;padding-top:.4rem}
+.hero-lab{margin:0;padding:0;max-width:none}
+.hero-lab .sh{display:none}
+.hero-lab #term-out{min-height:240px;max-height:380px}
+.hero-side{display:none}
+.kicker{font-family:var(--mono);font-size:.78rem;color:var(--green);letter-spacing:.04em}
+.kicker .sec{background:none;color:var(--green);padding:0;font-weight:400}
+.hero h1{font-family:var(--display);font-size:clamp(2.35rem,4.6vw,3.5rem);font-weight:650;line-height:1.08;letter-spacing:-.03em;color:var(--text);text-wrap:pretty}
+.hero h1 .accent{color:inherit}
+.hero-sub{font-size:1.12rem;color:var(--text2);max-width:36em;line-height:1.65}
 .hero-btns{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .hero-facts{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:.92rem;color:var(--text2)}
 .hero-facts b{color:var(--text);font-weight:600}
 .hero-proof{font-size:1rem;color:var(--text2)}
 .hero-proof a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
-.hero-terminal{background:var(--bg3);border:2px solid var(--border2)}
+.hero-terminal{display:none}
+.term-scan{display:none}
+.term-status{display:none}
 .hero-side-link{font-family:var(--mono);font-size:.92rem;color:var(--text2);text-decoration:underline;text-underline-offset:3px;align-self:flex-start;min-height:44px;display:inline-flex;align-items:center}
 .hero-side-link:hover{color:var(--text)}
 
 /* terminal chrome shared by hero and sandbox */
-.tbar{background:var(--surface);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid var(--border2)}
+.tbar{background:rgba(255,255,255,.03);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border)}
+.dots{display:none}
 .dot{display:none}
-.tbar-title{font-family:var(--mono);font-size:.85rem;color:var(--text2)}
-.tbar-tag{font-family:var(--mono);font-size:.75rem;color:var(--text3);letter-spacing:.05em}
+.tbar-title{font-family:var(--mono);font-size:.8rem;color:var(--text2)}
+.tbar-tag{font-family:var(--mono);font-size:.75rem;color:var(--text3)}
 .tbody{padding:1.1rem 1.3rem;font-family:var(--mono);font-size:.95rem;line-height:1.85;min-height:300px;max-height:360px;overflow:hidden}
 .p{color:var(--green)} .c{color:var(--text)} .o{color:var(--text2)}
 .fl{color:var(--amber)} .pa{color:var(--cyan)} .hi{color:var(--purple)}
@@ -193,10 +216,10 @@ nav{
 #progress-fill{height:100%;width:0%;background:var(--green);transition:width .1s}
 
 /* ═══ SECTIONS ═══ */
-.section{max-width:1480px;margin:0 auto;padding:clamp(3.5rem,8vh,6rem) var(--gut-r) clamp(3.5rem,8vh,6rem) var(--gut);position:relative}
-.stag{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--mono);font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:.9rem}
-.stag .sec{background:var(--green);color:var(--on-accent);padding:4px 10px;font-weight:600}
-.stitle{font-family:var(--display);font-size:clamp(2.4rem,4.4vw,4.2rem);font-weight:700;line-height:.95;text-transform:uppercase;text-wrap:balance;color:var(--text);margin-bottom:.8rem}
+.section{max-width:1240px;margin:0 auto;padding:3.2rem var(--gut-r) 3.4rem var(--gut);position:relative}
+.stag{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-family:var(--mono);font-size:.78rem;color:var(--text3);margin-bottom:.45rem}
+.stag .sec{background:none;color:var(--text3);padding:0;font-weight:400}
+.stitle{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:650;line-height:1.15;letter-spacing:-.03em;color:var(--text);margin-bottom:.5rem}
 .ssub{font-size:1.15rem;color:var(--text2);max-width:38em}
 .sh{margin-bottom:2.25rem}
 hr.div{border:none;border-top:1px solid var(--border);margin:0}
@@ -205,60 +228,76 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 #lesson-progress-indicator{display:flex;align-items:center;gap:14px 18px;margin-bottom:1.6rem;flex-wrap:wrap}
 .lp-count{font-family:var(--mono);font-size:1rem;color:var(--text2);white-space:nowrap}
 .lp-count b{color:var(--green)}
-.lp-rail{flex:1;min-width:140px;max-width:420px;height:12px;background:var(--bg3);border:1px solid var(--border2)}
-#lesson-progress-fill{height:100%;width:0%;background:var(--green);transition:width .3s ease}
+.lp-rail{flex:1;min-width:140px;max-width:420px;height:10px;background:var(--bg3);border:1px solid var(--border2);border-radius:99px;overflow:hidden}
+#lesson-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--green2),var(--green));transition:width .3s ease}
 .track-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.8rem}
-.filter-btn{min-height:44px;font-family:var(--sans);font-size:.95rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:0 16px;border:2px solid var(--border2);background:transparent;color:var(--text2)}
+.filter-btn{min-height:38px;font-family:var(--sans);font-size:.9rem;padding:0 14px;border:1px solid var(--border2);background:transparent;color:var(--text2);border-radius:999px}
 .filter-btn:hover{border-color:var(--text2);color:var(--text)}
 .filter-btn.active{border-color:var(--green);background:var(--green);color:var(--on-accent)}
-.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px}
-.lesson-card{background:var(--surface);border:2px solid var(--border2);padding:1.3rem 1.3rem 1.1rem;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:.7rem;color:var(--text)}
-.lesson-card:hover{border-color:var(--text2)}
-.lesson-card.done{border-color:var(--green)}
+#lessons-grid{display:flex;flex-direction:column;gap:2.2rem}
+.path-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.path-head h3{font-family:var(--display);font-size:1.15rem;font-weight:650;color:var(--text)}
+.path-head span{font-family:var(--mono);font-size:.8rem;color:var(--text3)}
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:16px}
+.badge-rack{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:0 0 1.4rem}
+.badge-slot{display:flex;flex-direction:column;align-items:center;gap:6px;padding:.7rem .4rem;border:1px dashed var(--border2);border-radius:var(--r);background:var(--surface);text-align:center;color:var(--text3);font-family:var(--mono);font-size:.68rem}
+.badge-slot.on{border-style:solid;border-color:rgba(226,182,87,.55);color:var(--on-accent);background:var(--green)}
+.badge-slot b{display:block;font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.02em;color:inherit}
+@media (max-width:620px){.badge-rack{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.lesson-card{background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 42%), var(--surface);border:1px solid var(--border);padding:1.2rem 1.2rem 1rem;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:.5rem;color:var(--text);border-radius:var(--rl);transition:border-color .2s ease, box-shadow .2s ease}
+.lesson-card:hover{border-color:rgba(226,182,87,.45);box-shadow:var(--glow)}
+.lesson-card.done{border-color:var(--green2);background:var(--surface)}
 .lesson-card.locked{background:transparent;border-style:dashed}
-.lesson-card.locked:hover{border-color:var(--text2)}
+.lesson-card.locked:hover{border-color:var(--amber);transform:none;box-shadow:none}
 .lcard-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .lcard-top-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .lnum{font-family:var(--display);font-weight:700;font-size:1.15rem;letter-spacing:.06em;color:var(--text2)}
-.ldiff{font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;padding:2px 8px;text-transform:uppercase}
+.ldiff{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;padding:2px 8px;text-transform:uppercase}
 .d-b{color:var(--text);border:1.5px solid var(--text3)}
 .d-i{color:var(--amber);border:1.5px solid var(--amber)}
 .d-a{color:var(--red);border:1.5px solid var(--red)}
-.ltitle{font-family:var(--display);font-size:1.6rem;font-weight:700;line-height:1.05;text-transform:uppercase;color:var(--text)}
+.ltitle{font-family:var(--display);font-size:1.28rem;font-weight:650;line-height:1.25;letter-spacing:-.02em;color:var(--text)}
 .ldesc{font-size:1rem;color:var(--text2);line-height:1.5}
 .ltags{display:flex;gap:6px;flex-wrap:wrap}
-.ltag{font-family:var(--mono);font-size:.8rem;padding:1px 8px;border:1px solid var(--border2);color:var(--text2)}
+.ltag{font-family:var(--mono);font-size:.75rem;padding:1px 8px;border:1px solid var(--border2);color:var(--text2)}
 .tg,.tc,.ta,.tp,.tr{background:transparent}
 .lcard-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:.3rem}
-.lprog-wrap{flex:1;height:8px;background:var(--bg3);border:1px solid var(--border)}
+.lprog-wrap{flex:1;height:8px;background:var(--bg3);border:1px solid var(--border);border-radius:99px;overflow:hidden}
 .lprog-fill{height:100%;background:var(--green);transition:width .4s}
-.lcheck{width:28px;height:28px;border:2.5px solid var(--text3);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0;color:transparent}
+.lcheck{width:28px;height:28px;border:2px solid var(--text3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex-shrink:0;color:transparent}
 .lesson-card.done .lcheck{background:var(--green);border-color:var(--green);color:var(--on-accent)}
 .lesson-card.locked .lcheck{border-style:dashed}
-.l-open-btn{font-size:.85rem;color:var(--text2)}
-.lock-badge{font-family:var(--mono);font-size:.8rem;font-weight:600;letter-spacing:.06em;padding:2px 8px;background:var(--amber);color:var(--on-accent);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.l-open-btn{font-size:.82rem;color:var(--green);font-family:var(--mono);letter-spacing:.04em}
+.lock-badge{font-family:var(--mono);font-size:.72rem;padding:1px 6px;border:1px solid var(--border2);color:var(--text3);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 
 /* ═══ GAMES ═══ */
 .games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
-.game-card{border:2px solid var(--border2);background:var(--surface);padding:1.6rem;display:flex;flex-direction:column;gap:.8rem;color:var(--text)}
-.game-card:hover{border-color:var(--green)}
-.game-meta{font-family:var(--mono);font-size:.85rem;letter-spacing:.05em;color:var(--text3);text-transform:uppercase}
-.game-title{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,3vw,2.8rem);line-height:1;text-transform:uppercase}
-.game-desc{color:var(--text2);font-size:1.05rem}
-.game-go{margin-top:auto;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+.game-card{border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,.03), var(--surface));padding:1.5rem;display:flex;flex-direction:column;gap:.55rem;color:var(--text);border-radius:var(--rl);transition:border-color .2s ease, box-shadow .2s ease}
+.game-card:hover{border-color:rgba(226,182,87,.4);box-shadow:var(--glow)}
+.game-meta{font-family:var(--mono);font-size:.78rem;color:var(--text3)}
+.game-title{font-family:var(--display);font-weight:650;font-size:1.7rem;line-height:1.15;letter-spacing:-.03em}
+.game-desc{color:var(--text2);font-size:1rem}
+.game-go{margin-top:auto;font-weight:600;color:var(--green)}
 
 /* ═══ PRICING ═══ */
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;align-items:stretch}
-.plan{border:2px solid var(--border2);background:var(--surface);padding:1.7rem 1.5rem;display:flex;flex-direction:column;gap:1rem}
-.plan.main{border-color:var(--green);background:var(--surface2)}
-.plan-name{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text2)}
-.plan-name em{font-style:normal;background:var(--green);color:var(--on-accent);padding:1px 8px}
-.plan-price{font-family:var(--display);font-weight:700;font-size:4.4rem;line-height:.9;color:var(--text)}
+.plan{border:1px solid var(--border);background:var(--surface);padding:1.5rem 1.4rem;display:flex;flex-direction:column;gap:.85rem;border-radius:var(--rl)}
+.plan.main{border-color:rgba(226,182,87,.45);background:linear-gradient(180deg, rgba(226,182,87,.08), var(--surface));box-shadow:var(--glow)}
+.plan-name{display:flex;justify-content:space-between;gap:10px;font-family:var(--sans);font-size:.95rem;color:var(--text2)}
+.plan-name em{font-style:normal;color:var(--on-accent);background:var(--green);border-radius:999px;padding:1px 8px;font-size:.75rem;font-weight:700}
+.plan-price{font-family:var(--display);font-weight:650;font-size:3rem;line-height:1;letter-spacing:-.04em;color:var(--text)}
 .plan-price small{font-family:var(--sans);font-weight:500;font-size:1rem;color:var(--text2);margin-left:6px}
 .plan ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
 .plan li{display:flex;gap:12px;font-size:1.02rem}
 .plan li::before{content:"";flex-shrink:0;width:9px;height:9px;margin-top:.55em;background:var(--green)}
 .plan .btn{margin-top:auto}
+.plan-compare{margin-top:1.6rem;overflow-x:auto;border:1px solid var(--border2);border-radius:var(--rl);background:var(--surface)}
+.plan-compare table{width:100%;border-collapse:collapse;font-size:.95rem}
+.plan-compare th,.plan-compare td{padding:.75rem 1rem;border-bottom:1px solid var(--border);text-align:left}
+.plan-compare th{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);background:var(--bg3)}
+.plan-compare td:nth-child(2),.plan-compare td:nth-child(3){font-family:var(--mono);color:var(--text2)}
+.plan-compare tr:last-child td{border-bottom:none}
+.plan-compare .yes{color:var(--green)}
 .fine{margin-top:1rem;color:var(--text3);font-size:.95rem}
 .fine button{background:none;border:0;color:var(--text2);text-decoration:underline;text-underline-offset:3px;font-size:inherit}
 
@@ -268,13 +307,13 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 #lesson-modal{z-index:500}
 #license-modal.open,#lesson-modal.open{display:flex}
 #license-key-input:focus{outline:none;border-color:var(--green)}
-.modal-box{background:var(--bg2);border:2px solid var(--border2);width:100%;max-width:860px;max-height:88vh;overflow-y:auto;position:relative}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);width:100%;max-width:860px;max-height:88vh;overflow-y:auto;position:relative;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .modal-header{position:sticky;top:0;background:var(--bg2);border-bottom:2px solid var(--border2);padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:10}
-.modal-title{font-family:var(--display);font-size:1.7rem;font-weight:700;text-transform:uppercase;line-height:1.05;color:var(--text)}
+.modal-title{font-family:var(--display);font-size:1.35rem;font-weight:650;line-height:1.2;color:var(--text)}
 .modal-close{background:transparent;border:2px solid var(--border2);color:var(--text);width:44px;height:44px;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .modal-close:hover{border-color:var(--text)}
 .modal-body{padding:1.5rem;font-size:1.05rem}
-.modal-body h3{font-family:var(--display);font-size:1.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--text);margin:1.6rem 0 .7rem;display:flex;align-items:center;gap:10px}
+.modal-body h3{font-family:var(--display);font-size:1.2rem;font-weight:650;color:var(--text);margin:1.4rem 0 .5rem;display:flex;align-items:center;gap:10px}
 .modal-body h3::before{content:'';width:12px;height:12px;background:var(--green);flex-shrink:0}
 .modal-body p{font-size:1.05rem;color:var(--text2);line-height:1.7;margin-bottom:.8rem}
 .modal-body ul{list-style:none;margin-bottom:1rem}
@@ -290,7 +329,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .modal-code pre .kw{color:var(--amber)} .modal-code pre .st{color:var(--green)}
 .modal-code pre .cm{color:var(--text3)} .modal-code pre .cmd{color:var(--cyan)}
 .modal-footer{padding:1.1rem 1.5rem;border-top:2px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.mark-btn{min-height:48px;background:transparent;border:2px solid var(--green);color:var(--green);font-size:1rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:0 20px}
+.mark-btn{min-height:42px;background:transparent;border:1px solid var(--green);color:var(--green);font-size:.95rem;font-weight:600;padding:0 16px}
 .mark-btn:hover{background:var(--green-bg)}
 .mark-btn.marked{background:var(--green);color:var(--on-accent)}
 .nav-lesson-btns{display:flex;gap:8px}
@@ -307,17 +346,17 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .modal-locked .preview-box ul{list-style:none;padding:0;margin:0}
 .modal-locked .preview-box li{font-size:1rem;color:var(--text2);padding:3px 0 3px 1.2rem;position:relative}
 .modal-locked .preview-box li::before{content:'›';position:absolute;left:0;color:var(--green)}
-.unlock-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;background:var(--green);color:var(--on-accent);font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;padding:0 26px;text-decoration:none;border:none}
-.unlock-btn:hover{background:#ff8a52}
+.unlock-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;background:var(--green);color:var(--on-accent);font-family:var(--sans);font-weight:600;font-size:1rem;padding:0 16px;text-decoration:none;border:none}
+.unlock-btn:hover{background:var(--green2)}
 .license-icon{display:flex;justify-content:center;color:var(--amber);margin-bottom:.6rem}
 .license-icon svg{width:40px;height:40px}
-#license-modal-box h3{font-family:var(--display);font-size:1.8rem;text-transform:uppercase;margin:0 0 .5rem;color:var(--text)}
+#license-modal-box h3{font-family:var(--display);font-size:1.4rem;margin:0 0 .5rem;color:var(--text)}
 #license-key-input{width:100%;padding:12px;border:2px solid var(--border2);background:var(--bg3);color:var(--text);font-family:var(--mono);font-size:.95rem;margin-bottom:.9rem}
 
 /* ═══ CHEATSHEET ═══ */
 .cheat-box{background:var(--surface);border:2px solid var(--border2);overflow:hidden}
 .ctabs{display:flex;overflow-x:auto;background:var(--bg3);border-bottom:2px solid var(--border2)}
-.ctab{min-height:48px;padding:0 18px;font-family:var(--sans);font-size:.95rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);border:none;background:none;border-bottom:3px solid transparent;white-space:nowrap;border-right:1px solid var(--border)}
+.ctab{min-height:40px;padding:0 14px;font-family:var(--sans);font-size:.9rem;color:var(--text3);border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;border-right:1px solid var(--border)}
 .ctab.on{color:var(--text);border-bottom-color:var(--green);background:var(--surface)}
 .ctab:hover:not(.on){color:var(--text2)}
 .cpanel{display:none;padding:1.3rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1.2rem}
@@ -326,12 +365,12 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .crow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:10px}
 .crow:last-child{border-bottom:none}
 .ccmd{font-family:var(--mono);font-size:.95rem;color:var(--green);flex-shrink:0;cursor:pointer}
-.ccmd:hover{color:#ff8a52;text-decoration:underline}
+.ccmd:hover{color:#efc97a;text-decoration:underline}
 .cdesc{font-size:.92rem;color:var(--text2);text-align:right}
 .cheat-tip{font-size:.95rem;color:var(--text2);padding:.8rem 1.3rem;border-top:1px solid var(--border)}
 
 /* ═══ SANDBOX ═══ */
-#sandbox-wrap{background:var(--bg3);border:2px solid var(--border2);overflow:hidden}
+#sandbox-wrap{position:relative;background:var(--bg3);border:1px solid rgba(226,182,87,.28);overflow:hidden;border-radius:var(--rl);box-shadow:var(--glow)}
 #term-out{padding:1.1rem 1.3rem;font-family:var(--mono);font-size:.95rem;line-height:1.8;min-height:280px;max-height:460px;overflow-y:auto;color:var(--text)}
 .irow{display:flex;align-items:center;gap:10px;padding:8px 1.3rem;border-top:2px solid var(--border2);background:var(--surface)}
 .irow .ip{font-family:var(--mono);color:var(--green);font-size:.95rem;white-space:nowrap}
@@ -339,7 +378,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 #ti::placeholder{color:var(--text3)}
 .hist-nav{font-family:var(--mono);font-size:.8rem;color:var(--text3);padding:0 4px;white-space:nowrap}
 .sandbox-quickbtns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
-.qbtn{min-height:40px;font-family:var(--mono);font-size:.88rem;padding:0 12px;background:transparent;border:1.5px solid var(--border2);color:var(--text2)}
+.qbtn{min-height:34px;font-family:var(--mono);font-size:.78rem;padding:0 11px;background:rgba(255,255,255,.03);border:1px solid var(--border2);color:var(--text2);border-radius:999px}
 .qbtn:hover{border-color:var(--green);color:var(--text)}
 @media(max-width:560px){.hist-nav{display:none}}
 
@@ -349,7 +388,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .vstep:last-child{border-bottom:none}
 .vnum{background:var(--bg3);border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:2rem;font-weight:700;color:var(--green)}
 .vcontent{padding:1.1rem 1.3rem;min-width:0}
-.vtitle{font-family:var(--display);font-size:1.4rem;font-weight:700;text-transform:uppercase;color:var(--text);margin-bottom:4px}
+.vtitle{font-family:var(--display);font-size:1.15rem;font-weight:650;color:var(--text);margin-bottom:4px}
 .vbody{font-size:1.02rem;color:var(--text2);line-height:1.65}
 .vbody code{color:var(--green);background:var(--bg3);padding:1px 6px;font-size:.9em}
 .vbody a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
@@ -370,7 +409,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .avatar b{font-family:var(--display);font-size:2.6rem;letter-spacing:.06em;line-height:1;color:var(--text)}
 .avatar-tag{font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.08em}
 .about-text{flex:1 1 460px;min-width:0;max-width:46em}
-.aname{font-family:var(--display);font-size:2.2rem;font-weight:700;text-transform:uppercase;color:var(--text);line-height:1}
+.aname{font-family:var(--display);font-size:1.6rem;font-weight:650;color:var(--text);line-height:1.2}
 .arole{font-family:var(--mono);font-size:.88rem;color:var(--green);letter-spacing:.06em;margin:.4rem 0 1rem}
 .abio{font-size:1.08rem;color:var(--text2);line-height:1.7;margin-bottom:.9rem}
 .abio code{color:var(--green)}
@@ -395,11 +434,14 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 /* ═══ FOOTER ═══ */
 footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.6rem var(--gut-r) calc(1.6rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
 footer .fg{color:var(--text)}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#toast,.fx-line,#progress-fill,.lprog-fill,#lesson-progress-fill{transition:none}}
+.unlock-btn,.mark-btn,.nl-btn,.modal-close{border-radius:var(--r)}
+.qbtn,.cheat-box,.review,.setup-steps,.about-card .avatar,.badge-slot,.plan-compare{border-radius:var(--r)}
+.cheat-box,.setup-steps,.review{overflow:hidden}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#toast,.fx-line,#progress-fill,.lprog-fill,#lesson-progress-fill,.lesson-card,.game-card{transition:none}.lesson-card:hover,.game-card:hover{transform:none}}
 
 /* ═══ VERIFIED PRACTICE PANEL (moshell-missions.js) — larger, square, on-theme ═══ */
-body #ms-panel{margin-top:16px;border:2px solid var(--border2);padding:1.4rem 1.4rem 1.2rem;background:var(--surface)}
-body #ms-panel h3{font-family:var(--display);font-size:1.6rem;font-weight:700;letter-spacing:.03em;color:var(--text);text-transform:uppercase}
+body #ms-panel{margin-top:16px;border:1px solid var(--border2);padding:1.3rem 1.3rem 1.1rem;background:var(--surface);border-radius:var(--rl)}
+body #ms-panel h3{font-family:var(--display);font-size:1.2rem;font-weight:650;color:var(--text);text-transform:none}
 body #ms-sub{font-size:1.02rem;color:var(--text2);margin:.4rem 0 0}
 body #ms-bar{height:12px;background:var(--bg3);border:1px solid var(--border2);margin:1rem 0 1.1rem}
 body #ms-bar i{background:var(--green)}
@@ -419,84 +461,74 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 </style>
 </head>
 <body>
+<a class="skip-link" href="#sandbox">Skip to sandbox</a>
 
 <!-- PROGRESS BAR -->
 <div id="progress-bar"><div id="progress-fill"></div></div>
 
 <!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#top" aria-label="MOSHELL home"><b>MOSHELL</b><small>LINUX TRAINING MANUAL</small></a>
+<nav id="site-nav">
+  <a class="nav-logo" href="#top" aria-label="MOSHELL home"><b>Moshell</b><small>linux lab</small></a>
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer">Menu</button>
+  <div class="nav-drawer" id="nav-drawer">
   <ul class="nav-links">
     <li><a href="#lessons">Lessons</a></li>
     <li><a href="#sandbox">Sandbox</a></li>
     <li><a href="netrun.html" class="nav-netrun">NETRUN <span class="nav-netrun-new">NEW</span></a></li>
+    <li><a href="quiz.html">Trivia</a></li>
     <li><a href="#cheatsheet">Reference</a></li>
+    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#setup">VM Setup</a></li>
     <li><a href="#about">About</a></li>
   </ul>
   <div class="nav-actions">
     <button type="button" class="badge-tracker-pill" onclick="showBadgeCollection()" title="View your earned badges">Badges <span class="badge-tracker-count">0</span>/5</button>
     <button type="button" class="nav-key" onclick="openLicenseModal()">Have a license key?</button>
-    <a href="sales.html" class="nav-buy" id="nav-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'nav_get_full_access'},'sales.html')">Get MOSHELL Pro</a>
+    <a href="sales.html" class="nav-buy" id="nav-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'nav_get_full_access'},'sales.html')">Pro — $37</a>
+  </div>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO + live sandbox -->
 <div class="hero" id="top">
   <div class="hero-layout">
     <div class="hero-main">
-      <div class="kicker"><span class="sec">SECTION 01</span><span>Hands-on · No VM · No sign-up</span></div>
-      <h1>Stop watching Linux tutorials. <span class="accent">Start using Linux.</span></h1>
-      <p class="hero-sub">A Linux terminal sandbox for the file system, networking, virtualization and server administration. No VM, no sign-up and no risk to your machine. Open a lesson and start typing.</p>
+      <p class="kicker">Browser lab · no install</p>
+      <h1>Linux practice that lives in this tab.</h1>
+      <p class="hero-sub">I built MOSHELL because pausing a YouTube tutorial to copy commands is a terrible way to learn a shell. Six lessons are free. The rest unlocks with a license key from Gumroad.</p>
       <div class="hero-btns">
-        <a href="#lessons" class="btn btn-g" onclick="try{trackCta('hero_start_lesson')}catch(e){} if(typeof openLesson==='function'){openLesson(1);return false;}">Start Lesson 01 — Free</a>
-        <a href="sales.html" class="btn btn-o" id="hero-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_get_bundle'},'sales.html')">MOSHELL Pro — $37</a>
+        <a href="#sandbox" class="btn btn-g" onclick="try{trackCta('hero_start_lesson')}catch(e){} document.getElementById('ti').focus(); return false;">Open the shell</a>
+        <a href="#lessons" class="btn btn-o" onclick="try{trackCta('hero_open_lessons')}catch(e){}">Browse lessons</a>
+        <a href="sales.html" class="btn btn-o" id="hero-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_get_bundle'},'sales.html')">Pro — $37</a>
       </div>
-      <div class="hero-facts"><span><b>6</b> lessons free forever</span><span><b>18+</b> hands-on labs in Pro</span><span><b>85+</b> commands covered</span><span><b>0</b> installs</span></div>
-      <p class="hero-proof">No account needed to try it. <a href="#setup">Prefer a real VM? Set one up here.</a></p>
+      <p class="hero-proof">Prefer a real VM? <a href="#setup">VirtualBox notes</a></p>
     </div>
-    <div class="hero-side">
-      <div class="hero-terminal">
-        <div class="tbar"><span class="tbar-title">student@moshell:~$</span><span class="tbar-tag">LIVE PREVIEW</span></div>
-        <div class="tbody" id="hero-term"></div>
+    <section class="hero-lab" id="sandbox">
+      <div class="sandbox-quickbtns" id="quick-btns"></div>
+      <div id="sandbox-wrap">
+        <div class="tbar"><span class="tbar-title">student@moshell:~</span><span class="tbar-tag">live sandbox</span></div>
+        <div id="term-out"></div>
+        <div class="irow">
+          <span class="ip">student@moshell:~$</span>
+          <input type="text" id="ti" placeholder="try help" autocomplete="off" spellcheck="false" aria-label="Type a Linux command">
+          <span class="hist-nav">↑↓ history</span>
+        </div>
       </div>
-      <a href="#sandbox" class="hero-side-link">Type your own commands in the sandbox below</a>
-    </div>
+    </section>
   </div>
 </div>
+<div id="hero-term" hidden></div>
 
 <!-- STATS (kept empty and hidden; numbers now live in the hero) -->
 <div class="stats" aria-hidden="true"></div>
 
 <hr class="div">
 
-<!-- SANDBOX (moved up so visitors can type right away) -->
-<section class="section" id="sandbox">
-  <div class="sh">
-    <div class="stag"><span class="sec">SECTION 02</span><span>Try it now</span></div>
-    <h2 class="stitle">Type your first command.</h2>
-    <p class="ssub">This is a simulated shell running in your browser. Type <code>help</code> to see what it knows, or click a command below.</p>
-  </div>
-  <div class="sandbox-quickbtns" id="quick-btns"></div>
-  <div id="sandbox-wrap">
-    <div class="tbar"><span class="tbar-title">student@moshell:~$</span><span class="tbar-tag">SIMULATED SHELL</span></div>
-    <div id="term-out"></div>
-    <div class="irow">
-      <span class="ip">student@moshell:~$</span>
-      <input type="text" id="ti" placeholder="type a command, try help" autocomplete="off" spellcheck="false" aria-label="Type a Linux command">
-      <span class="hist-nav">↑↓ history</span>
-    </div>
-  </div>
-</section>
-
-<hr class="div">
-
 <!-- LESSONS -->
 <section class="section" id="lessons">
   <div class="sh">
-    <div class="stag"><span class="sec">SECTION 03</span><span>The course</span></div>
-    <h2 class="stitle">Fourteen lessons. Six are free.</h2>
-    <p class="ssub">Click a lesson to open it. Your progress is saved in this browser automatically. Finish lessons 1, 3, 6, 9 and 14 to earn the five badges.</p>
+    <h2 class="stitle">Lessons</h2>
+    <p class="ssub">Fourteen of them. 1–6 are free. Progress stays in this browser. Badges drop at 1, 3, 6, 9 and 14.</p>
   </div>
 
   <div id="lesson-progress-indicator">
@@ -504,6 +536,7 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
     <div class="lp-rail"><div id="lesson-progress-fill"></div></div>
     <button type="button" class="badge-tracker-pill" onclick="showBadgeCollection()" title="View your earned badges">Badges <span class="badge-tracker-count">0</span>/5</button>
   </div>
+  <div class="badge-rack" id="badge-rack" aria-label="Achievement badges"></div>
 
   <div class="track-filters">
     <button class="filter-btn active" onclick="filterLessons('all',this)">All Lessons</button>
@@ -515,7 +548,7 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
     <button class="filter-btn" onclick="filterLessons('security',this)">Security</button>
   </div>
 
-  <div class="lessons-grid" id="lessons-grid"></div>
+  <div id="lessons-grid"></div>
 </section>
 
 <hr class="div">
@@ -523,21 +556,20 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 <!-- GAMES -->
 <section class="section" id="games">
   <div class="sh">
-    <div class="stag"><span class="sec">SECTION 04</span><span>Practice that feels like play</span></div>
-    <h2 class="stitle">Two games. No login.</h2>
+    <h2 class="stitle">Two extra things</h2>
   </div>
   <div class="games-grid">
     <a href="netrun.html" class="game-card">
       <span class="game-meta">SSH hacking simulator</span>
       <span class="game-title">NETRUN</span>
       <span class="game-desc">Break into a network of servers through real misconfigurations: default credentials, weak SSH, SUID binaries and a rogue cron job. Then switch sides and harden every box. Two tracks, mission based. A full walkthrough is included in MOSHELL Pro, or $5 on its own.</span>
-      <span class="game-go">Start hacking →</span>
+      <span class="game-go">Open NETRUN</span>
     </a>
     <a href="quiz.html" class="game-card">
       <span class="game-meta">Linux trivia challenge</span>
       <span class="game-title">100 Questions</span>
       <span class="game-desc">Everything from Lesson 01 to Docker. Earn rank badges as you play and see how much stuck.</span>
-      <span class="game-go">Play now →</span>
+      <span class="game-go">Open the quiz</span>
     </a>
   </div>
 </section>
@@ -547,9 +579,8 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 <!-- PRICING -->
 <section class="section" id="pricing">
   <div class="sh">
-    <div class="stag"><span class="sec">SECTION 05</span><span>Pricing</span></div>
-    <h2 class="stitle">Pay once. Keep it.</h2>
-    <p class="ssub">No subscription and no account. Your Gumroad receipt includes a license key that unlocks everything in your browser.</p>
+    <h2 class="stitle">What it costs</h2>
+    <p class="ssub">One payment on Gumroad. The receipt has a license key — paste it here to unlock lessons 7–14 in this browser.</p>
   </div>
   <div class="plans">
     <div class="plan">
@@ -564,7 +595,7 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
       <a href="#lessons" class="btn btn-o" onclick="if(typeof openLesson==='function'){openLesson(1);return false;}">Start Lesson 01</a>
     </div>
     <div class="plan main">
-      <div class="plan-name"><span>MOSHELL Pro</span><em>Most complete</em></div>
+      <div class="plan-name"><span>MOSHELL Pro</span><em>includes the PDFs</em></div>
       <div class="plan-price">$37<small>one time</small></div>
       <ul>
         <li>All 14 lessons, including Docker and Docker Compose</li>
@@ -585,6 +616,21 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
       <a href="sales.html" class="btn btn-o" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'pricing_get_workbook'},'sales.html')">Get the workbook</a>
     </div>
   </div>
+  <div class="plan-compare">
+    <table>
+      <caption class="visually-hidden">What is included in Free versus MOSHELL Pro</caption>
+      <thead>
+        <tr><th>Included</th><th>Free</th><th>MOSHELL Pro</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Browser sandbox and lessons 01–06</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td>Cheatsheet, trivia, NETRUN attack track</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td>Lessons 07–14 in the browser</td><td>Locked</td><td class="yes">Unlocked with license</td></tr>
+        <tr><td>NETRUN defense track</td><td>Locked</td><td class="yes">Unlocked with license</td></tr>
+        <tr><td>Lab workbook + premium PDFs</td><td>—</td><td class="yes">Included</td></tr>
+      </tbody>
+    </table>
+  </div>
   <p class="fine">Already bought it? <button type="button" onclick="openLicenseModal()">Enter your license key</button> to unlock Pro in this browser.</p>
 </section>
 
@@ -593,14 +639,13 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 <!-- CHEATSHEET -->
 <section class="section" id="cheatsheet">
   <div class="sh">
-    <div class="stag"><span class="sec">REFERENCE</span><span>Command cheatsheet</span></div>
-    <h2 class="stitle">Command Cheatsheet</h2>
+    <h2 class="stitle">Command cheatsheet</h2>
     <p class="ssub">Click any command to paste it into the sandbox.</p>
   </div>
   <div class="cheat-box">
     <div class="ctabs" id="ctabs"></div>
     <div id="cpanels"></div>
-    <div class="cheat-tip">Tip: click any orange command to load it into the sandbox. Use Tab for autocomplete in a real terminal.</div>
+    <div class="cheat-tip">Tip: click any green command to load it into the sandbox. Use Tab for autocomplete in a real terminal.</div>
   </div>
 </section>
 
@@ -609,8 +654,7 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 <!-- VM SETUP -->
 <section class="section" id="setup">
   <div class="sh">
-    <div class="stag"><span class="sec">REFERENCE</span><span>Getting started</span></div>
-    <h2 class="stitle">Set Up Your Linux VM</h2>
+    <h2 class="stitle">VirtualBox notes</h2>
     <p class="ssub">The recommended setup for following every MOSHELL lesson. It uses VirtualBox and Ubuntu Server, both free and beginner friendly.</p>
   </div>
   <div class="setup-steps">
@@ -629,8 +673,7 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 <!-- TESTIMONIALS -->
 <section class="section" id="reviews">
   <div class="sh">
-    <div class="stag"><span class="sec">FROM BUYERS</span><span>Verified reviews</span></div>
-    <h2 class="stitle">What Students Are Saying</h2>
+    <h2 class="stitle">From people who bought it</h2>
   </div>
   <div class="reviews">
     <div class="review">
@@ -651,8 +694,7 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 <!-- ABOUT -->
 <section class="section" id="about">
   <div class="sh">
-    <div class="stag"><span class="sec">INSTRUCTOR</span><span>About MOSHELL</span></div>
-    <h2 class="stitle">Built in a real classroom.</h2>
+    <h2 class="stitle">Who’s behind this</h2>
   </div>
   <div class="about-card">
     <div class="avatar" aria-hidden="true"><b>FAB</b><span class="avatar-tag">KINGMO87</span></div>
@@ -682,17 +724,17 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 <!-- FINAL CALL -->
 <section class="section">
   <div class="final">
-    <h2 class="stitle">Your first command is five seconds away.</h2>
+    <h2 class="stitle">If you only do one thing, open Lesson 01.</h2>
     <div class="hero-btns">
-      <a href="#lessons" class="btn btn-g" onclick="try{trackCta('final_start_lesson')}catch(e){} if(typeof openLesson==='function'){openLesson(1);return false;}">Start Lesson 01 — Free</a>
-      <a href="sales.html" class="btn btn-o" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'final_get_pro'},'sales.html')">MOSHELL Pro — $37</a>
+      <a href="#lessons" class="btn btn-g" onclick="try{trackCta('final_start_lesson')}catch(e){} if(typeof openLesson==='function'){openLesson(1);return false;}">Open Lesson 01</a>
+      <a href="sales.html" class="btn btn-o" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'final_get_pro'},'sales.html')">Pro — $37</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <p><span class="fg">MOSHELL</span> · moshellinux.com · no ads, no sign-up required</p>
-  <p>Share this link with your students. It works in any browser, with no account required.</p>
+  <p><span class="fg">moshell</span> · moshellinux.com</p>
+  <p>Send the link. It runs in a browser.</p>
 </footer>
 
 <!-- LESSON MODAL -->
@@ -718,12 +760,12 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
   <div class="modal-box" id="license-modal-box" style="max-width:440px;padding:2rem;text-align:center">
     <button class="modal-close" onclick="closeLicenseModal()" style="position:absolute;top:14px;right:14px" aria-label="Close">✕</button>
     <div class="license-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/></svg></div>
-    <h3>Enter Your License Key</h3>
+    <h3>License key</h3>
     <p style="color:var(--text2);font-size:1rem;line-height:1.6;margin-bottom:1.2rem">Purchased MOSHELL Pro? Your license key is in the Gumroad receipt email. Paste it below to unlock every lesson in this browser.</p>
     <label for="license-key-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">License key</label>
     <input type="text" id="license-key-input" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX">
     <div id="license-status" style="font-size:.95rem;min-height:1.3rem;margin-bottom:.8rem"></div>
-    <button class="unlock-btn" id="license-submit-btn" style="width:100%;cursor:pointer" onclick="submitLicenseKey()">Unlock MOSHELL Pro →</button>
+    <button class="unlock-btn" id="license-submit-btn" style="width:100%;cursor:pointer" onclick="submitLicenseKey()">Unlock Pro</button>
     <p style="font-size:.92rem;color:var(--text3);margin-top:1rem">Have not purchased yet? <a href="sales.html" style="color:var(--green);text-decoration:underline">See MOSHELL Pro →</a></p>
   </div>
 </div>
@@ -1081,17 +1123,21 @@ async function verifyLicenseKey(key){
   }
 }
 
-function renderLessons(filter='all'){
-  const grid = document.getElementById('lessons-grid');
-  grid.innerHTML = '';
-  LESSONS.filter(l => filter==='all' || l.cats.includes(filter)).forEach(l => {
-    const done = !!progress[l.id];
-    const locked = isLocked(l.id);
-    const el = document.createElement('div');
-    el.className = 'lesson-card' + (done ? ' done' : '') + (locked ? ' locked' : '');
-    el.onclick = () => openLesson(l.id);
-    const [dc,dl] = DIFFMAP[l.diff].split(' ');
-    el.innerHTML = `
+function lessonCard(l){
+  const done = !!progress[l.id];
+  const locked = isLocked(l.id);
+  const el = document.createElement('div');
+  el.className = 'lesson-card' + (done ? ' done' : '') + (locked ? ' locked' : '');
+  el.setAttribute('role', 'button');
+  el.tabIndex = 0;
+  el.setAttribute('aria-label', (locked ? 'Pro lesson. ' : '') + 'Lesson ' + l.num + ': ' + l.title);
+  const open = () => openLesson(l.id);
+  el.onclick = open;
+  el.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); }
+  });
+  const [dc,dl] = DIFFMAP[l.diff].split(' ');
+  el.innerHTML = `
       <div class="lcard-top">
         <span class="lnum">LESSON ${l.num}</span>
         <div class="lcard-top-right">
@@ -1104,10 +1150,44 @@ function renderLessons(filter='all'){
       <div class="ltags">${l.tags.map(t=>{const[c,n]=t.split(':');return`<span class="ltag ${TAGMAP[c]||'tg'}">${n}</span>`}).join('')}</div>
       <div class="lcard-footer">
         <div class="lprog-wrap"><div class="lprog-fill" style="width:${done?'100':'0'}%"></div></div>
+        <span class="l-open-btn">${locked ? 'Unlock with Pro' : done ? 'Review' : 'Open lab'}</span>
         <div class="lcheck">${locked ? '' : (done?'✓':'')}</div>
       </div>`;
-    grid.appendChild(el);
-  });
+  return el;
+}
+
+const LESSON_PATHS = [
+  {id:'beginner', label:'Beginner path', note:'Lessons 01–03 · free forever', match:l => l.diff==='beginner'},
+  {id:'intermediate', label:'Administrator path', note:'Lessons 04–08 · 04–06 free, 07–08 Pro', match:l => l.diff==='intermediate'},
+  {id:'advanced', label:'Advanced & labs path', note:'Lessons 09–14 · MOSHELL Pro', match:l => l.diff==='advanced'}
+];
+
+function renderLessons(filter='all'){
+  const grid = document.getElementById('lessons-grid');
+  grid.innerHTML = '';
+  const list = LESSONS.filter(l => filter==='all' || l.cats.includes(filter));
+  if(filter === 'all'){
+    LESSON_PATHS.forEach(path => {
+      const items = list.filter(path.match);
+      if(!items.length) return;
+      const block = document.createElement('div');
+      block.className = 'path-block';
+      const head = document.createElement('div');
+      head.className = 'path-head';
+      head.innerHTML = `<h3>${path.label}</h3><span>${path.note}</span>`;
+      const inner = document.createElement('div');
+      inner.className = 'lessons-grid';
+      items.forEach(l => inner.appendChild(lessonCard(l)));
+      block.appendChild(head);
+      block.appendChild(inner);
+      grid.appendChild(block);
+    });
+    return;
+  }
+  const inner = document.createElement('div');
+  inner.className = 'lessons-grid';
+  list.forEach(l => inner.appendChild(lessonCard(l)));
+  grid.appendChild(inner);
 }
 
 function filterLessons(f, btn){
@@ -2118,21 +2198,31 @@ const heroLines = [
   {type:'out', text:'<span style="color:var(--purple)">Welcome to MOSHELL</span>'},
 ];
 
+function paintHeroLine(el, l){
+  const d = document.createElement('div');
+  if(l.type==='cmd'){
+    d.innerHTML = `<span style="color:var(--green)">student@moshell:~$</span> <span style="color:var(--text)">${l.text}</span>`;
+  } else {
+    d.innerHTML = `<span style="color:var(--text2)">${l.text}</span>`;
+  }
+  el.appendChild(d);
+}
+
 function animateHero(){
   const el = document.getElementById('hero-term');
+  if(!el || el.hidden) return;
   el.innerHTML='';
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){
+    heroLines.forEach(l => paintHeroLine(el, l));
+    return;
+  }
   let i=0;
   function next(){
     if(i>=heroLines.length){ setTimeout(()=>{el.innerHTML=''; i=0; next();},3000); return; }
-    const l = heroLines[i++];
-    const d = document.createElement('div');
-    if(l.type==='cmd'){
-      d.innerHTML = `<span style="color:var(--green)">student@moshell:~$</span> <span style="color:var(--text)">${l.text}</span>`;
-    } else {
-      d.innerHTML = `<span style="color:var(--text2)">${l.text}</span>`;
-    }
-    el.appendChild(d);
+    paintHeroLine(el, heroLines[i++]);
     el.scrollTop=el.scrollHeight;
+    const l = heroLines[i-1];
     setTimeout(next, l.type==='cmd'?600:200);
   }
   next();
@@ -2260,8 +2350,8 @@ function updateProUI(){
   const heroCta = document.getElementById('hero-buy-cta');
 
   if(unlocked){
-    if(navCta){ navCta.textContent = '✓ PRO UNLOCKED'; navCta.href = '#lessons'; navCta.onclick = null; }
-    if(heroCta){ heroCta.textContent = '✓ MOSHELL Pro Unlocked'; heroCta.href = '#lessons'; heroCta.onclick = null; }
+    if(navCta){ navCta.textContent = 'Pro unlocked'; navCta.href = '#lessons'; navCta.onclick = null; }
+    if(heroCta){ heroCta.textContent = 'Pro is on'; heroCta.href = '#lessons'; heroCta.onclick = null; }
   }
 }
 
@@ -2291,6 +2381,18 @@ function repositionForBanner(){
 // ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
+(function setupMobileNav(){
+  const nav = document.getElementById('site-nav');
+  const btn = document.getElementById('nav-toggle');
+  if(!nav || !btn) return;
+  const close = () => { nav.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); btn.textContent='Menu'; };
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? 'Close' : 'Menu';
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+})();
 renderLessons();
 renderCheatsheet();
 renderQuickBtns();

@@ -15,15 +15,15 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2313150f'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e8692e' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e8e1c9'/></svg>">
-<meta name="theme-color" content="#13150f">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230c0e12'/><path d='M22 30l22 20-22 20' fill='none' stroke='%23e2b657' stroke-width='10'/><rect x='50' y='64' width='30' height='9' fill='%23e8edf4'/></svg>">
+<meta name="theme-color" content="#0c0e12">
 <style>
   /* NETRUN — Field Manual chrome around an amber CRT terminal.
      The terminal keeps the game's amber phosphor look; everything around it
      (header, mission list, buttons, onboarding) matches the MOSHELL site. */
   :root{
-    /* terminal (CRT) */
+    /* terminal (CRT) — keep amber phosphor for the game itself */
     --amber:#ffb000;
     --amber-dim:#d39a2a;
     --amber-glow:rgba(255,176,0,.30);
@@ -33,20 +33,20 @@
     --term-bg:#0c0803;
     --term-line:#3a2a08;
     --scan:rgba(255,176,0,.035);
-    /* site (Field Manual) */
-    --bg:#13150f;
-    --surface:#1d2018;
-    --surface2:#24281e;
-    --border:#353929;
-    --border2:#4a4f3c;
-    --text:#e8e1c9;
-    --text2:#bdb79e;
-    --text3:#8f8b75;
-    --signal:#e8692e;
-    --on-signal:#160d07;
-    --display:'Barlow Condensed','Arial Narrow',sans-serif;
-    --body:'Barlow','Helvetica Neue',Arial,sans-serif;
-    --mono:'JetBrains Mono',ui-monospace,"SFMono-Regular",Consolas,Menlo,monospace;
+    /* site chrome (charcoal lab) */
+    --bg:#101218;
+    --surface:#1a1e26;
+    --surface2:#222733;
+    --border:#2c3340;
+    --border2:#3c4554;
+    --text:#f2eee6;
+    --text2:#b8c0cc;
+    --text3:#7d8694;
+    --signal:#e2b657;
+    --on-signal:#0b0d11;
+    --display:'Source Serif 4',Georgia,'Times New Roman',serif;
+    --body:'Source Sans 3','Segoe UI',Arial,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,"SFMono-Regular",Consolas,Menlo,monospace;
     /* legacy names the game script still uses */
     --panel:var(--surface);
     --panel-line:var(--border2);
@@ -72,7 +72,7 @@
   /* ── header ── */
   header.bar{
     display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;
-    border:2px solid var(--border2);background:var(--surface);padding:10px 16px;
+    border:1px solid var(--border2);background:var(--surface);padding:10px 16px;border-radius:10px;
   }
   .brand{display:flex;flex-direction:column;min-width:0}
   .logo{font-family:var(--display);font-weight:700;font-size:1.9rem;line-height:1;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
@@ -86,7 +86,7 @@
   .hdr-link{display:inline-flex;align-items:center;min-height:42px;padding:0 12px;font-family:var(--body);font-weight:600;font-size:.88rem;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);text-decoration:none;border:2px solid transparent}
   .hdr-link:hover{color:var(--text);border-color:var(--border2)}
   .hdr-link.pro{background:var(--signal);color:var(--on-signal)}
-  .hdr-link.pro:hover{background:#ff8a52;border-color:transparent}
+  .hdr-link.pro:hover{background:var(--green2, #c99a3a);border-color:transparent}
 
   /* ── layout ── */
   .main{display:flex;gap:12px;flex:1;min-height:0;margin-top:12px}
@@ -162,7 +162,7 @@
   .cmdchip:active{background:#2f2208}
   a.cmdchip{text-decoration:none;color:var(--amber)}
   a.cmdchip.buy{background:var(--signal);border-color:var(--signal);color:var(--on-signal);font-weight:700}
-  a.cmdchip.buy:hover{background:#ff8a52;color:var(--on-signal)}
+  a.cmdchip.buy:hover{background:#c99a3a;color:var(--on-signal)}
   #screen a.cmdchip{color:var(--amber)}
   #screen a.cmdchip.buy{color:var(--on-signal);text-shadow:none}
   @media (max-width:860px){ #mobMissions{max-height:34vh} }
@@ -217,7 +217,7 @@
     margin-top:18px;width:100%;min-height:56px;background:var(--signal);color:var(--on-signal);border:none;
     font-family:var(--body);font-size:1.05rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
   }
-  .ob-btn:hover{background:#ff8a52}
+  .ob-btn:hover{background:#c99a3a}
   .ob-btn:disabled{background:var(--border2);color:var(--text3);cursor:not-allowed}
   .ob-err{color:var(--red);font-size:.95rem;min-height:20px;margin-top:6px}
   .ob-fine{color:var(--text3);font-size:.9rem;margin-top:14px;line-height:1.5}
@@ -302,6 +302,7 @@
     <nav class="hdr-links" aria-label="MOSHELL">
       <button class="gh drawer-toggle" onclick="toggleDrawer()">Missions</button>
       <a class="hdr-link" href="index.html">Lessons</a>
+      <a class="hdr-link" href="quiz.html">Trivia</a>
       <a class="hdr-link pro" href="sales.html" onclick="track('select_content',{content_type:'cta',item_id:'netrun_header_pro'})">Get Pro</a>
     </nav>
   </header>

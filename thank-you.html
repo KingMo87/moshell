@@ -13,24 +13,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thank You — MOSHELL</title>
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1a1916">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080c10; --surface:#141c24; --surface2:#1a2433;
-  --border2:#253444; --green:#39d353; --green2:#2ea043; --green-bg:#0a1f10;
-  --text:#e2e8f0; --text2:#8b9ab0; --text3:#4a5568;
-  --mono:'IBM Plex Mono',monospace; --sans:'Space Grotesk',sans-serif;
+  --bg:#101218; --surface:#1a1e26; --surface2:#222733;
+  --border2:#3c4554; --green:#e2b657; --green2:#c99a3a; --green-bg:#2a2210;
+  --text:#f2eee6; --text2:#b8c0cc; --text3:#7d8694;
+  --on-accent:#0b0d11;
+  --mono:'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --sans:'Source Sans 3', 'Segoe UI', Arial, sans-serif;
 }
 *{box-sizing:border-box}
 body{
-  margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+  margin:0; background:var(--bg);
+  color:var(--text); font-family:var(--sans);
   min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem;
 }
 .card{
   max-width:480px; width:100%; background:var(--surface); border:1px solid var(--border2);
-  border-radius:14px; padding:2.5rem; text-align:center;
+  border-radius:2px; padding:2rem; text-align:left;
 }
-.icon{font-size:3rem; margin-bottom:1rem}
-h1{font-size:1.4rem; margin:0 0 .5rem}
+.icon{
+  width:56px; height:56px; margin:0 auto 1.1rem; border-radius:12px;
+  background:var(--green); color:var(--on-accent);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono); font-weight:700; font-size:1.2rem;
+}
+h1{font-size:1.6rem; margin:0 0 .5rem}
 p{color:var(--text2); line-height:1.6; font-size:.95rem}
 .detail{
   font-family:var(--mono); font-size:.72rem; color:var(--text3);
@@ -38,9 +50,9 @@ p{color:var(--text2); line-height:1.6; font-size:.95rem}
   padding:.75rem 1rem; margin:1.5rem 0; text-align:left; word-break:break-all;
 }
 .btn{
-  display:inline-flex; align-items:center; gap:6px; font-family:var(--mono);
-  font-size:.8rem; font-weight:700; padding:12px 26px; border-radius:8px;
-  background:var(--green); color:#000; text-decoration:none; margin-top:.5rem;
+  display:inline-flex; align-items:center; gap:6px; font-family:var(--sans);
+  font-size:.9rem; font-weight:700; letter-spacing:.04em; padding:12px 26px; border-radius:10px;
+  background:var(--green); color:var(--on-accent); text-decoration:none; margin-top:.5rem;
 }
 .btn:hover{background:var(--green2)}
 .note{font-size:.75rem; color:var(--text3); margin-top:1.5rem}
@@ -49,11 +61,11 @@ p{color:var(--text2); line-height:1.6; font-size:.95rem}
 <body>
 
 <div class="card">
-  <div class="icon">🐧</div>
+  <div class="icon" aria-hidden="true">&gt;_</div>
   <h1 id="title">Thank you for your purchase!</h1>
-  <p id="subtitle">Your receipt and download links have been emailed to you by Gumroad. You can also jump straight back into the platform below.</p>
+  <p id="subtitle">Your receipt, PDFs, and license key are in the Gumroad email. Paste the key on the platform with “Have a license key?” to unlock lessons 7–14 in this browser.</p>
   <div class="detail" id="detail" style="display:none"></div>
-  <a href="https://kingmo87.github.io/moshell/" class="btn">▶ Go to MOSHELL →</a>
+  <a href="https://moshellinux.com/" class="btn">Go to MOSHELL →</a>
   <p class="note">Didn't get the email? Check spam, or reach out and we'll sort it out.</p>
 </div>
 
@@ -68,8 +80,9 @@ p{color:var(--text2); line-height:1.6; font-size:.95rem}
 
    Setup required in Gumroad (per product → Content → "Custom Delivery" /
    receipt redirect URL): set it to
-     https://kingmo87.github.io/moshell/thank-you.html
+     https://moshellinux.com/thank-you.html
    for both the Lab Workbook (fydlcl) and Full Bundle (odlbsr) products.
+   (The previous GitHub Pages URL still works if Gumroad still points there.)
    ──────────────────────────────────────────────────────────────────── */
 (function () {
   try {
@@ -123,7 +136,7 @@ p{color:var(--text2); line-height:1.6; font-size:.95rem}
     localStorage.setItem(dedupeKey, '1');
 
     // Personalize the confirmation copy.
-    document.getElementById('title').textContent = 'You\'re in! 🎉';
+    document.getElementById('title').textContent = 'You\'re in!';
     const detailEl = document.getElementById('detail');
     detailEl.style.display = 'block';
     detailEl.textContent = productName + '  ·  $' + value.toFixed(2) + ' ' + currency + '  ·  order ' + saleId;
