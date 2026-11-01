@@ -125,9 +125,10 @@ nav{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
   padding:.45rem var(--gut-r) .45rem var(--gut);gap:.3rem 1.2rem;
 }
-.nav-logo{display:flex;align-items:baseline;gap:10px;color:var(--text)}
-.nav-logo b{font-family:var(--display);font-weight:650;font-size:1.25rem;letter-spacing:-.02em;line-height:1}
-.nav-logo small{font-family:var(--mono);font-size:.72rem;color:var(--text3)}
+.nav-logo{display:flex;align-items:baseline;gap:.32em;color:var(--text)}
+.nav-logo b,.nav-logo small{font-family:var(--display);font-weight:650;font-size:1.85rem;letter-spacing:-.03em;line-height:1;color:var(--text)}
+.nav-spot{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:999px;border:2px solid var(--green);background:var(--green-bg);color:var(--green)!important;font-weight:700;letter-spacing:.04em;box-shadow:0 0 0 3px rgba(226,182,87,.16)}
+.nav-links a.nav-spot:hover{background:var(--green);color:var(--on-accent)!important}
 .nav-links{display:flex;flex-wrap:wrap;gap:0 1.15rem;list-style:none}
 .nav-links a{display:flex;align-items:center;min-height:40px;font-size:.92rem;font-weight:500;color:var(--text2)}
 .nav-links a:hover{color:var(--text)}
@@ -156,6 +157,7 @@ nav{
     padding:.75rem var(--gut-r) 1rem var(--gut);backdrop-filter:blur(16px);
   }
   nav.is-open .nav-drawer{display:flex}
+  .nav-logo b,.nav-logo small{font-size:1.45rem}
   .nav-links{flex-direction:column;gap:0}
   .nav-actions{flex-direction:column;align-items:stretch;padding-top:.4rem}
   #progress-bar{top:64px}
@@ -176,7 +178,17 @@ nav{
 .hero-lab .sh{display:none}
 .hero-lab #term-out{min-height:240px;max-height:380px}
 .hero-side{display:none}
+.hero-brand{display:flex;flex-direction:column;align-items:flex-start;gap:.04em;margin:0;font-family:var(--display);font-weight:650;font-size:clamp(2.8rem,4.2vw,4.6rem);line-height:.9;letter-spacing:-.035em;color:var(--text)}
+.hero-brand span{font-size:1em;font-weight:inherit;letter-spacing:inherit;line-height:inherit}
+.hero-prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hp{display:flex;flex-direction:column;gap:2px;padding:.75rem .8rem;border:2px solid var(--green);border-radius:14px;background:linear-gradient(180deg,rgba(226,182,87,.2),rgba(226,182,87,.05) 46%,var(--surface));box-shadow:0 0 0 3px rgba(226,182,87,.14);color:var(--text)}
+.hp-name{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+.hp-amt{font-family:var(--display);font-weight:650;font-size:clamp(1.7rem,2.2vw,2.35rem);line-height:1;letter-spacing:-.04em}
+.hp-note{font-size:.82rem;color:var(--text2)}
+.hp-hot{background:var(--green);color:var(--on-accent);border-color:#f3d48a;box-shadow:0 0 0 3px rgba(226,182,87,.28)}
+.hp-hot .hp-name,.hp-hot .hp-note{color:rgba(11,13,17,.72)}
 .kicker{font-family:var(--mono);font-size:.78rem;color:var(--green);letter-spacing:.04em}
+@media(max-width:640px){.hero-brand{flex-direction:row;flex-wrap:wrap;gap:.28em;font-size:clamp(1.85rem,8.5vw,2.5rem)}}
 .kicker .sec{background:none;color:var(--green);padding:0;font-weight:400}
 .hero h1{font-family:var(--display);font-size:clamp(2.35rem,4.6vw,3.5rem);font-weight:650;line-height:1.08;letter-spacing:-.03em;color:var(--text);text-wrap:pretty}
 .hero h1 .accent{color:inherit}
@@ -274,6 +286,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
 .game-card{border:1px solid var(--border);background:linear-gradient(180deg, rgba(255,255,255,.03), var(--surface));padding:1.5rem;display:flex;flex-direction:column;gap:.55rem;color:var(--text);border-radius:var(--rl);transition:border-color .2s ease, box-shadow .2s ease}
 .game-card:hover{border-color:rgba(226,182,87,.4);box-shadow:var(--glow)}
+.game-card.game-hot{border:2px solid var(--green);background:linear-gradient(180deg,rgba(226,182,87,.2),rgba(226,182,87,.05) 42%,var(--surface));box-shadow:0 0 0 4px rgba(226,182,87,.14),var(--glow)}
+.game-card.game-hot .game-title{font-size:2.15rem}
+.game-price{display:inline-flex;align-items:center;margin-right:.45rem;padding:.05rem .6rem;border-radius:999px;background:var(--green);color:var(--on-accent);font-family:var(--display);font-weight:650;font-size:1.15rem}
 .game-meta{font-family:var(--mono);font-size:.78rem;color:var(--text3)}
 .game-title{font-family:var(--display);font-weight:650;font-size:1.7rem;line-height:1.15;letter-spacing:-.03em}
 .game-desc{color:var(--text2);font-size:1rem}
@@ -468,14 +483,14 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 
 <!-- NAV -->
 <nav id="site-nav">
-  <a class="nav-logo" href="#top" aria-label="MOSHELL home"><b>Moshell</b><small>linux lab</small></a>
+  <a class="nav-logo" href="#top" aria-label="MOSHELL LINUX home"><b>MOSHELL</b><small>LINUX</small></a>
   <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-drawer">Menu</button>
   <div class="nav-drawer" id="nav-drawer">
   <ul class="nav-links">
     <li><a href="#lessons">Lessons</a></li>
     <li><a href="#sandbox">Sandbox</a></li>
-    <li><a href="netrun.html" class="nav-netrun">NETRUN <span class="nav-netrun-new">NEW</span></a></li>
-    <li><a href="quiz.html">Trivia</a></li>
+    <li><a href="netrun.html" class="nav-spot">NETRUN</a></li>
+    <li><a href="quiz.html" class="nav-spot">Trivia</a></li>
     <li><a href="#cheatsheet">Reference</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#setup">VM Setup</a></li>
@@ -494,7 +509,19 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
   <div class="hero-layout">
     <div class="hero-main">
       <p class="kicker">Browser lab · no install</p>
+      <p class="hero-brand" aria-label="MOSHELL LINUX"><span>MOSHELL</span><span>LINUX</span></p>
       <h1>Linux practice that lives in this tab.</h1>
+      <div class="hero-prices" aria-label="Prices">
+        <a class="hp" href="#lessons" onclick="if(typeof openLesson==='function'){openLesson(1);return false;}">
+          <span class="hp-name">Free</span><span class="hp-amt">$0</span><span class="hp-note">forever</span>
+        </a>
+        <a class="hp" href="sales.html" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_workbook'},'sales.html')">
+          <span class="hp-name">Workbook</span><span class="hp-amt">$17</span><span class="hp-note">PDF</span>
+        </a>
+        <a class="hp hp-hot" href="sales.html" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_pro'},'sales.html')">
+          <span class="hp-name">Pro</span><span class="hp-amt">$37</span><span class="hp-note">one time</span>
+        </a>
+      </div>
       <p class="hero-sub">I built MOSHELL because pausing a YouTube tutorial to copy commands is a terrible way to learn a shell. Six lessons are free. The rest unlocks with a license key from Gumroad.</p>
       <div class="hero-btns">
         <a href="#sandbox" class="btn btn-g" onclick="try{trackCta('hero_start_lesson')}catch(e){} document.getElementById('ti').focus(); return false;">Open the shell</a>
@@ -524,6 +551,30 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 
 <hr class="div">
 
+<!-- GAMES -->
+<section class="section" id="games">
+  <div class="sh">
+    <h2 class="stitle">NETRUN and trivia</h2>
+    <p class="ssub">Both are highlighted because they are part of the free lab. The NETRUN walkthrough is $5 on its own, or included in Pro.</p>
+  </div>
+  <div class="games-grid">
+    <a href="netrun.html" class="game-card game-hot">
+      <span class="game-meta">SSH hacking simulator · highlighted</span>
+      <span class="game-title">NETRUN</span>
+      <span class="game-desc">Break into a network of servers through real misconfigurations: default credentials, weak SSH, SUID binaries and a rogue cron job. Then switch sides and harden every box. Two tracks, mission based. A full walkthrough is included in MOSHELL Pro, or $5 on its own.</span>
+      <span class="game-go"><span class="game-price">$5</span>Open NETRUN</span>
+    </a>
+    <a href="quiz.html" class="game-card game-hot">
+      <span class="game-meta">Linux trivia challenge · highlighted</span>
+      <span class="game-title">Trivia</span>
+      <span class="game-desc">100 questions, everything from Lesson 01 to Docker. Earn rank badges as you play and see how much stuck.</span>
+      <span class="game-go"><span class="game-price">$0</span>Open the quiz</span>
+    </a>
+  </div>
+</section>
+
+<hr class="div">
+
 <!-- LESSONS -->
 <section class="section" id="lessons">
   <div class="sh">
@@ -549,29 +600,6 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
   </div>
 
   <div id="lessons-grid"></div>
-</section>
-
-<hr class="div">
-
-<!-- GAMES -->
-<section class="section" id="games">
-  <div class="sh">
-    <h2 class="stitle">Two extra things</h2>
-  </div>
-  <div class="games-grid">
-    <a href="netrun.html" class="game-card">
-      <span class="game-meta">SSH hacking simulator</span>
-      <span class="game-title">NETRUN</span>
-      <span class="game-desc">Break into a network of servers through real misconfigurations: default credentials, weak SSH, SUID binaries and a rogue cron job. Then switch sides and harden every box. Two tracks, mission based. A full walkthrough is included in MOSHELL Pro, or $5 on its own.</span>
-      <span class="game-go">Open NETRUN</span>
-    </a>
-    <a href="quiz.html" class="game-card">
-      <span class="game-meta">Linux trivia challenge</span>
-      <span class="game-title">100 Questions</span>
-      <span class="game-desc">Everything from Lesson 01 to Docker. Earn rank badges as you play and see how much stuck.</span>
-      <span class="game-go">Open the quiz</span>
-    </a>
-  </div>
 </section>
 
 <hr class="div">
@@ -733,7 +761,7 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 </section>
 
 <footer>
-  <p><span class="fg">moshell</span> · moshellinux.com</p>
+  <p><span class="nav-logo"><b>MOSHELL</b><small>LINUX</small></span> · moshellinux.com</p>
   <p>Send the link. It runs in a browser.</p>
 </footer>
 
