@@ -285,8 +285,9 @@ h1 .g{color:var(--green)}
 .final h2 .g{color:var(--green)}
 .final p{color:var(--text2);font-size:1.12rem;max-width:34em;margin-top:.8rem}
 
-footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.5rem var(--gut-r) calc(1.5rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
+footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.5rem var(--gut-r) calc(1.5rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
 footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
+.foot-links{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;align-items:center}
 .fade-up{opacity:1}
 .btn,.nav-cta,.price-card,.review,.product-card,.step,.task,.pt-card,.faq-list,.curriculum-list,.note-mark,.pc-icon,.check i{border-radius:var(--r)}
 .featured-badge,.curr-free,.pt-name em{border-radius:99px}
@@ -692,8 +693,15 @@ footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
 </section>
 
 <footer>
-  <p>MOSHELL · <a href="https://moshellinux.com/">Free platform</a></p>
-  <p>Payments handled by Gumroad</p>
+  <div>
+    <p><span class="nav-logo"><b>MOSHELL</b><small>LINUX</small></span> · <a href="https://moshellinux.com/">Free platform</a></p>
+    <p>Payments handled by Gumroad.</p>
+    <p>© 2026 MOSHELL Linux. All rights reserved.</p>
+  </div>
+  <p class="foot-links">
+    <a href="user-agreement.html">User Agreement</a>
+    <a href="privacy.html">Privacy Notice</a>
+  </p>
 </footer>
 
 <script>

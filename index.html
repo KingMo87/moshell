@@ -477,8 +477,10 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 .fx-line .fx-cursor{display:inline-block;width:8px;height:15px;background:var(--green);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
 
 /* ═══ FOOTER ═══ */
-footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.6rem var(--gut-r) calc(1.6rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
+footer{border-top:1px solid var(--border);background:var(--bg3);padding:1.6rem var(--gut-r) calc(1.6rem + env(safe-area-inset-bottom, 0px)) var(--gut);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;font-family:var(--mono);font-size:.85rem;color:var(--text3)}
 footer .fg{color:var(--text)}
+footer a{color:var(--text2);text-decoration:underline;text-underline-offset:3px}
+.foot-links{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;align-items:center}
 .unlock-btn,.mark-btn,.nl-btn,.modal-close{border-radius:var(--r)}
 .qbtn,.cheat-box,.review,.setup-steps,.about-card .avatar,.badge-slot,.plan-compare{border-radius:var(--r)}
 .cheat-box,.setup-steps,.review{overflow:hidden}
@@ -815,8 +817,15 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 </section>
 
 <footer>
-  <p><span class="nav-logo"><b>MOSHELL</b><small>LINUX</small></span> · moshellinux.com</p>
-  <p>Send the link. It runs in a browser.</p>
+  <div>
+    <p><span class="nav-logo"><b>MOSHELL</b><small>LINUX</small></span> · moshellinux.com</p>
+    <p>Send the link. It runs in a browser.</p>
+    <p>© 2026 MOSHELL Linux. All rights reserved.</p>
+  </div>
+  <p class="foot-links">
+    <a href="user-agreement.html">User Agreement</a>
+    <a href="privacy.html">Privacy Notice</a>
+  </p>
 </footer>
 
 <!-- LESSON MODAL -->
