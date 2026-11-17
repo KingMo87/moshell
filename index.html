@@ -179,7 +179,7 @@ nav{
 .hero-lab #term-out{min-height:240px;max-height:380px}
 .hero-side{display:none}
 .hero{padding:calc(76px + 1.2rem) var(--gut-r) 1.4rem var(--gut);max-width:1180px}
-.hero-layout{grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:1.3rem 1.5rem}
+.hero-layout{grid-template-columns:minmax(0,1fr);gap:1.4rem}
 .hero-main{gap:.9rem}
 .hero-brand{display:flex;flex-direction:column;align-items:flex-start;gap:.04em;margin:0;font-family:var(--display);font-weight:650;letter-spacing:-.035em;color:var(--text)}
 .hero-brand span{font-size:1em;font-weight:inherit;letter-spacing:inherit;line-height:inherit}
@@ -198,7 +198,7 @@ nav{
 .hp-hot .btn{background:#0b0d11;color:#f2eee6}
 .hp-hot .btn:hover{background:#161920}
 .hp-short{display:none}
-.hero-spots{display:grid;gap:14px}
+.hero-spots{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .spot{display:flex;flex-direction:column;gap:.7rem;min-height:15.5rem;padding:1.25rem 1.3rem;border:2px solid var(--green);border-radius:16px;background:linear-gradient(180deg,rgba(226,182,87,.2),rgba(226,182,87,.05) 46%,var(--surface));box-shadow:0 0 0 4px rgba(226,182,87,.14),0 18px 40px rgba(0,0,0,.28);color:var(--text)}
 .spot:hover{border-color:#f3d48a}
 .spot-kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
@@ -259,6 +259,8 @@ nav{
 
 /* ═══ SECTIONS ═══ */
 .section{max-width:1240px;margin:0 auto;padding:3.2rem var(--gut-r) 3.4rem var(--gut);position:relative}
+.hero .section.hero-lab{margin:0;padding:0;max-width:none}
+#sandbox.hero-lab #term-out{min-height:190px;max-height:300px}
 .stag{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-family:var(--mono);font-size:.78rem;color:var(--text3);margin-bottom:.45rem}
 .stag .sec{background:none;color:var(--text3);padding:0;font-weight:400}
 .stitle{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:650;line-height:1.15;letter-spacing:-.03em;color:var(--text);margin-bottom:.5rem}
@@ -543,49 +545,26 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
       <p class="kicker">Browser lab · no install</p>
       <h1 class="hero-brand"><span>MOSHELL</span><span>LINUX</span></h1>
       <p class="hero-line">Linux practice that lives in this tab.</p>
-      <p class="hero-sub">The Gumroad receipt has a license key. Paste it on the lab to unlock lessons 7–14 in the browser.</p>
-      <div>
-        <p class="prices-kicker">Prices, from the start</p>
-        <div class="hero-prices" aria-label="Prices">
-          <article class="hp">
-            <span class="hp-name">Free</span>
-            <span class="hp-amt">$0</span>
-            <span class="hp-note">forever</span>
-            <ul>
-              <li>Lessons 01–06 in the browser sandbox</li>
-              <li>Command cheatsheet and VM setup guide</li>
-              <li>NETRUN and the trivia challenge</li>
-            </ul>
-            <a href="#lessons" class="btn btn-g" onclick="if(typeof openLesson==='function'){openLesson(1);return false;}"><span class="hp-long">Start Lesson 01</span><span class="hp-short">Start</span></a>
-          </article>
-          <article class="hp">
-            <span class="hp-name">Lab Workbook</span>
-            <span class="hp-amt">$17</span>
-            <span class="hp-note">PDF</span>
-            <ul>
-              <li>Printable labs for your own VM</li>
-              <li>Users, systemd, grep, awk, sed, fail2ban</li>
-              <li>Included if you buy Pro</li>
-            </ul>
-            <a href="sales.html" class="btn btn-g" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_workbook'},'sales.html')"><span class="hp-long">Get the workbook</span><span class="hp-short">Buy PDF</span></a>
-          </article>
-          <article class="hp hp-hot">
-            <span class="hp-name">MOSHELL Pro</span>
-            <span class="hp-amt">$37</span>
-            <span class="hp-note">one time</span>
-            <ul>
-              <li>All 14 lessons, including Docker</li>
-              <li>Workbook and premium lesson PDFs</li>
-              <li>The full NETRUN walkthrough</li>
-            </ul>
-            <a href="sales.html" class="btn" id="hero-buy-cta" onclick="return trackAndGo('select_content',{content_type:'cta',item_id:'hero_pro'},'sales.html')"><span class="hp-long">Get MOSHELL Pro</span><span class="hp-short">Buy Pro</span></a>
-          </article>
-        </div>
-      </div>
       <div class="hero-btns">
-        <a href="#sandbox" class="btn btn-g" onclick="try{trackCta('hero_start_lesson')}catch(e){} document.getElementById('sandbox').scrollIntoView({behavior:'smooth'}); document.getElementById('ti').focus(); return false;">Open the shell</a>
+        <a href="#lessons" class="btn btn-g" onclick="try{trackCta('hero_start_lesson')}catch(e){} if(typeof openLesson==='function'){openLesson(1);return false;}">Start Lesson 01</a>
         <a href="#lessons" class="btn btn-o" onclick="try{trackCta('hero_open_lessons')}catch(e){}">Browse lessons</a>
       </div>
+      <section class="section hero-lab" id="sandbox">
+        <div class="sh">
+          <h2 class="stitle">Sandbox</h2>
+          <p class="ssub">Type a Linux command. It runs in this browser.</p>
+        </div>
+        <div class="sandbox-quickbtns" id="quick-btns"></div>
+        <div id="sandbox-wrap">
+          <div class="tbar"><span class="tbar-title">student@moshell:~</span><span class="tbar-tag">live sandbox</span></div>
+          <div id="term-out"></div>
+          <div class="irow">
+            <span class="ip">student@moshell:~$</span>
+            <input type="text" id="ti" placeholder="try help" autocomplete="off" spellcheck="false" aria-label="Type a Linux command">
+            <span class="hist-nav">↑↓ history</span>
+          </div>
+        </div>
+      </section>
       <p class="hero-proof">Prefer a real VM? <a href="#setup">VirtualBox notes</a></p>
     </div>
     <div class="hero-spots">
@@ -608,26 +587,6 @@ body #ms-reset{min-height:48px;border:2px solid var(--border2);color:var(--text2
 
 <!-- STATS (kept empty and hidden; numbers now live in the hero) -->
 <div class="stats" aria-hidden="true"></div>
-
-<hr class="div">
-
-<!-- SANDBOX -->
-<section class="section" id="sandbox">
-  <div class="sh">
-    <h2 class="stitle">Sandbox</h2>
-    <p class="ssub">Type a Linux command. It runs in this browser.</p>
-  </div>
-  <div class="sandbox-quickbtns" id="quick-btns"></div>
-  <div id="sandbox-wrap">
-    <div class="tbar"><span class="tbar-title">student@moshell:~</span><span class="tbar-tag">live sandbox</span></div>
-    <div id="term-out"></div>
-    <div class="irow">
-      <span class="ip">student@moshell:~$</span>
-      <input type="text" id="ti" placeholder="try help" autocomplete="off" spellcheck="false" aria-label="Type a Linux command">
-      <span class="hist-nav">↑↓ history</span>
-    </div>
-  </div>
-</section>
 
 <hr class="div">
 
